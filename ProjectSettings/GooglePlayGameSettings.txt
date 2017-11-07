@@ -1,0 +1,8 @@
+lastUpgrade=00942
+proj.pluginVersion=0.9.42
+ios.ClientId=967380709050-ckn6tedc70o1itdgi5ah6j2490dlo5ts.apps.googleusercontent.com
+ios.BundleId=com.Wiz.Ouch
+proj.ConstantsClassName=Test
+ios.ResourceData=%23define+CLIENT_ID+%40%22967380709050-ckn6tedc70o1itdgi5ah6j2490dlo5ts.apps.googleusercontent.com%22%0a%23define+BUNDLE_ID+%40%22com.Wiz.Ouch%22%0a%23define+ACH_SCORE+%40%22CgkIut2I45McEAIQAQ%22%0a%23define+LEAD_SCORE_LEADERBOARD+%40%22CgkIut2I45McEAIQAg%22
+and.ClientId=
+ios.SetupDone=true
