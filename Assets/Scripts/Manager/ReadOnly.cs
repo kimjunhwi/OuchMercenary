@@ -49,7 +49,15 @@ namespace ReadOnlys
 		E_WAIT = 0,
 		E_WALK,
 		E_TARGET_MOVE,
+		E_TARGET_CHARACTER_MOVE,
 		E_ATTACK,
+	}
+
+	public enum E_SKILL_TYPE
+	{
+		E_BASIC = 0,
+		E_PASSIVE,
+		E_ACTIVE,
 	}
 
 
@@ -93,6 +101,8 @@ namespace ReadOnlys
 		public float m_fCritical_Rating;	//크리 확률
 		public float m_fCritical_Damage;	//크리 데미지
 
+		public int m_nBatchIndex;			//배치 인덱스 
+
 		public CharacterStats(CharacterStats _charic)
 		{
 			m_nIndex = _charic.m_nIndex;
@@ -121,6 +131,7 @@ namespace ReadOnlys
 			m_fDodge = _charic.m_fDodge;
 			m_fCritical_Rating = _charic.m_fCritical_Rating;
 			m_fCritical_Damage = _charic.m_fCritical_Damage;
+			m_nBatchIndex = _charic.m_nBatchIndex;
 		}
 
 		public CharacterStats()

@@ -242,7 +242,11 @@
      <Compile Include="Assets\GooglePlayGames\Platforms\PlayGamesClientFactory.cs" />
      <Compile Include="Assets\GooglePlayGames\Platforms\TokenClient.cs" />
      <Compile Include="Assets\GooglePlayGames\PluginVersion.cs" />
+     <Compile Include="Assets\Scripts\Character\Archer.cs" />
      <Compile Include="Assets\Scripts\Character\Character.cs" />
+     <Compile Include="Assets\Scripts\Character\Commander.cs" />
+     <Compile Include="Assets\Scripts\Character\Enemy_Archer.cs" />
+     <Compile Include="Assets\Scripts\Character\Enemy_Warrior.cs" />
      <Compile Include="Assets\Scripts\Character\Warrior.cs" />
      <Compile Include="Assets\Scripts\Manager\CharacterManager.cs" />
      <Compile Include="Assets\Scripts\Manager\FadingManager.cs" />

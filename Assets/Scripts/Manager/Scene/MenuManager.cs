@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 //메뉴 씬을 관리 하는 매니저
 public class MenuManager : MonoBehaviour {
 
-	Button BattleScneButton;
+	public Button BattleScneButton;
 
 	void Awake()
 	{

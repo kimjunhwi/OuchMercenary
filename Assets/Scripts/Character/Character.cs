@@ -5,6 +5,7 @@ using ReadOnlys;
 
 public class Character : MonoBehaviour {
 
+	public bool bIsMode = true;	//공격 모드 인지 수비 모드 인지 
 	protected bool m_bIsFront ;
 	protected bool m_bIsDead = false;
 
@@ -12,6 +13,8 @@ public class Character : MonoBehaviour {
 
 	protected float m_fMaxHp;
 	protected float m_fCurrentHp;
+
+	protected Vector3 m_VecFirstPosition;
 
 
 	public Character targetCharacter = null;		//공격하려는 오브젝트
@@ -40,10 +43,13 @@ public class Character : MonoBehaviour {
 
 	protected virtual void Update(){ }
 
-	protected virtual void Setup(CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager, E_Type _E_TYPE, int _nBatchIndex= 0){ }
+	//캐릭터에 대한 초기화 및 배치를 함
+	public virtual void Setup(CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager, E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0){ }
 
-	protected virtual void CheckCharacterState(E_CHARACTER_STATE _E_STATE){ }
+	//액션이 변경이 됐을때 초기화를 진행
+	public virtual void CheckCharacterState(E_CHARACTER_STATE _E_STATE){ }
 
+	//FSM머신 처리
 	protected virtual IEnumerator CharacterAction (){ yield return null; }
 
 	public void TakeDamage(float _fDamage)
@@ -52,6 +58,11 @@ public class Character : MonoBehaviour {
 
 		if (m_fCurrentHp <= 0)
 			m_bIsDead = true;
+	}
+
+	public void SortingLayer(int _nIndex)
+	{
+		spriteRender.sortingOrder = _nIndex;
 	}
 
 	public bool IsDead() { return m_bIsDead;}

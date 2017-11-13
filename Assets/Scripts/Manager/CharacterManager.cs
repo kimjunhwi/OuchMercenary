@@ -5,22 +5,31 @@ using ReadOnlys;
 
 public class CharacterManager : MonoBehaviour {
 
+
+	IComparer compare = new SortunityLayerCompare();
 	public ArrayList ARRAY_CHARIC = new ArrayList();
 
-	public void Charic_add(Character _character)
+	int nSortingIndex = 0;
+
+	public void Add(Character _character)
 	{
 		ARRAY_CHARIC.Add(_character);
 	}
 
 	//remove
-	public void Charic_remove(Character _charic)
+	public void Remove(Character _charic)
 	{        
 		//Destroy(_charic.kGo);
 		ARRAY_CHARIC.Remove(_charic);
 	}    
-	public void Charic_remove_all()
+	public void Remove_all()
 	{
 		ARRAY_CHARIC.Clear();
+	}
+
+	public void Update()
+	{
+		
 	}
 
 	public class SortunitClass
@@ -46,6 +55,22 @@ public class CharacterManager : MonoBehaviour {
 				v = x.m_value2.CompareTo(y.m_value2);   //m_value 이 같을땐 	m_value2.
 			return v;
 		}
+	}
+
+	public class SortunityLayerCompare : IComparer
+	{
+		public int Compare(object x, object y)
+		{
+			return Compare((Character)x, (Character)y);
+		}
+		public int Compare(Character x, Character y)
+		{
+			//return x.m_value.CompareTo( y.m_value ); // 작은 순서대로 정렬.
+			//return y.m_value.CompareTo( x.m_value ); // 큰 순서대로 정렬.
+
+			return x.transform.position.y.CompareTo(y.transform.position.y);
+		}
+
 	}
 
 	// 필요한 캐릭터를 반환 ------------------------------------------ 20170413
@@ -78,5 +103,36 @@ public class CharacterManager : MonoBehaviour {
 		}
 
 		return TargetArray;
+	}
+
+	// 플레이어 캐릭터들의 (공격 or 수비) 모드를 바꾼다. ------------------------------------------ 
+	public void PlayerCharacterChangeMode()
+	{
+		foreach (Character kCharic in ARRAY_CHARIC)
+		{
+			if (kCharic.E_CHARIC_TYPE == E_Type.E_Enemy) continue; //적 제외.
+
+			//현재 활성화 중인 상태의 반대로 넣어줌
+			kCharic.bIsMode = (kCharic.bIsMode) ? false : true; 
+
+			kCharic.CheckCharacterState (E_CHARACTER_STATE.E_TARGET_MOVE);
+		}
+	}
+
+	// 캐릭터의 레이어를 정렬한다 y축이 낮을수록 앞으로 ------------------------------------------ 
+	public void SortingCharacterLayer()
+	{
+		if (ARRAY_CHARIC.Count != 0) 
+		{
+			//높은것을 정렬retur
+			ARRAY_CHARIC.Sort(compare);
+
+			nSortingIndex = ARRAY_CHARIC.Count;
+
+			foreach (Character kCharic in ARRAY_CHARIC) 
+			{
+				kCharic.SortingLayer (nSortingIndex--);
+			}
+		}
 	}
 }
