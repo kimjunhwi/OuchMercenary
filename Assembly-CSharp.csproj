@@ -262,6 +262,9 @@
      <Compile Include="Assets\Scripts\Manager\SimpleObjectPool.cs" />
      <Compile Include="Assets\Scripts\Manager\SkillManager.cs" />
      <Compile Include="Assets\Scripts\Player\Player.cs" />
+     <Compile Include="Assets\Scripts\Projectile\Arrow.cs" />
+     <Compile Include="Assets\Scripts\Projectile\Projectile.cs" />
+     <Compile Include="Assets\Scripts\Skill\BasicSkill.cs" />
      <Compile Include="Assets\Scripts\Window\CWindow.cs" />
      <Compile Include="Assets\Scripts\Window\CWindowCheck.cs" />
      <Compile Include="Assets\Scripts\Window\CWindowNotice.cs" />

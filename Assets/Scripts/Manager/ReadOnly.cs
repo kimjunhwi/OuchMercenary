@@ -51,6 +51,7 @@ namespace ReadOnlys
 		E_TARGET_MOVE,
 		E_TARGET_CHARACTER_MOVE,
 		E_ATTACK,
+		E_DEAD,
 	}
 
 	public enum E_SKILL_TYPE
@@ -64,6 +65,7 @@ namespace ReadOnlys
 	#region Class 
 
 
+[System.Serializable]
 	public class CharacterStats{
 
 		public int m_nIndex;				//인덱스
@@ -88,7 +90,7 @@ namespace ReadOnlys
 		public float m_fAttack_Range;		//공격 사거리 
 		public float m_fAttack_Area;		//공격 범위
 
-		public int m_nTargetNumber;			//대상 개수
+		public int m_nMaxTargetNumber;			//대상 개수
 		public int m_nAttack_Priority;		//공격 우선 순위
 
 		public float m_fAttackSpeed;		//공격 속도
@@ -102,6 +104,10 @@ namespace ReadOnlys
 		public float m_fCritical_Damage;	//크리 데미지
 
 		public int m_nBatchIndex;			//배치 인덱스 
+
+		public BasicSkill basicSkill;
+
+		public List<ActiveSkill> activeSkill = new List<ActiveSkill>();
 
 		public CharacterStats(CharacterStats _charic)
 		{
@@ -122,7 +128,7 @@ namespace ReadOnlys
 			m_fMagic_Rating = _charic.m_fMagic_Rating;
 			m_fAttack_Range = _charic.m_fAttack_Range;
 			m_fAttack_Area = _charic.m_fAttack_Area;
-			m_nTargetNumber = _charic.m_nTargetNumber;
+			m_nMaxTargetNumber = _charic.m_nMaxTargetNumber;
 			m_nAttack_Priority = _charic.m_nAttack_Priority;
 			m_fAttackSpeed = _charic.m_fAttackSpeed;
 			m_fMoveSpeed = _charic.m_fMoveSpeed;
@@ -138,6 +144,71 @@ namespace ReadOnlys
 		{
 
 		}
+	}
+
+	[System.Serializable]
+	public class ActiveSkill
+	{
+		public int m_nIndex;
+		public string m_strName;
+		public int m_nCharacterIndex;
+		public string m_strAttackType;
+		public int m_nSkillClass;
+		public int m_nTier;
+		public string m_strJob;
+		public int m_nAttribute;						//공격 속성
+		public int m_nAttackType;						//공격 타입
+		public int m_nActivePriority;					//공격 우선 순위
+		public float m_fAttack_ActvieRating;			//공격시 발동 확률
+		public float m_fCriticalAttack_ActiveRating;	//크리티컬 공격시 발동 확률
+		public int m_nAttackCount_ActiveRating;			//n번 공격시 발동 확률
+		public float m_fDodgy_ActiveRating;				//회피시 발동 확률
+		public float m_fHit_ActiveRating;				//데미지를 받았을때 발동 확률
+		public float m_fCoolTime;				//쿨타임
+		public float m_fCastSpeed;				//캐스팅 속도
+		public float m_fPhysicalMagnification;  //물리 공격 배율
+		public float m_fMagicMagnification;		//마법 공격 배율
+		public int m_nAttackNumber;				//공격 횟수
+		public float m_fAttackRange;			//공격 범위
+		public float m_fAttackArea;				//공격 스킬 범위
+		public string m_strSkillTarget;			//스킬 타겟 (적 or 자신)
+		public int m_nMaxTargetNumber; 			//최대 공격 개수
+		public string m_strAttackPriority;
+		public float m_fDuration;				//지속시간
+		public string m_strExplanation; 			//설명
+		public bool m_bIsActive;				//활성화 할 수 있는가
+
+		public ActiveSkill(int _nIndex,string _strName,int _nCharacterIndex,string _strAttackType , int _nSkillClass,int _nTier,string _strJob,
+							int _nAttribute,int _nAttackType, int _nActivePriority,float _fAttack_ActiveRating,float _fCriticalAttack_ActiveRating,
+							int _nAttackCount_ActiveRating,float _fDodgy_ActiveRating,float _fHit_ActiveRating,float _fCoolTime,float _fCastTime,
+							float _fPhysicalMagnification,float _fMagicMagnification,int _nAttackNumber,float _fAttackRange,float _fAttackArea, 
+							string _strSkillTarget,int _nMaxTargetNumber,string _strAttackPriority, float _fDuration,string _strExplanation,bool _bIsActive)
+		{
+			m_nIndex = _nIndex;
+			m_strName = _strName;
+			m_nCharacterIndex = _nCharacterIndex;
+			m_strAttackType = _strAttackType;
+			m_nSkillClass = _nSkillClass;
+			m_nTier = _nTier;
+			m_strJob = _strJob;
+			m_nAttribute = _nAttribute;
+			m_nAttackType = _nAttackType;
+			m_nActivePriority = _nActivePriority;
+			m_fAttack_ActvieRating = _fAttack_ActiveRating;
+			m_fCriticalAttack_ActiveRating = _fCriticalAttack_ActiveRating;
+			m_nAttackCount_ActiveRating = _nAttackCount_ActiveRating;
+			m_fDodgy_ActiveRating = _fDodgy_ActiveRating;
+			m_fHit_ActiveRating = _fHit_ActiveRating;
+			m_fCoolTime = _fCoolTime;
+			m_fCastSpeed = _fCastTime;
+			m_strSkillTarget = _strSkillTarget;
+			m_nMaxTargetNumber = _nMaxTargetNumber;
+			m_strAttackPriority = _strAttackPriority;
+			m_fDuration = _fDuration;
+			m_strExplanation = _strExplanation;
+			m_bIsActive = _bIsActive;
+		}
+
 	}
 
 	#endregion

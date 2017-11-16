@@ -27,7 +27,7 @@ public class Player : MonoBehaviour {
 		_charic.m_fMagic_Rating = 5;
 		_charic.m_fAttack_Range = 1;
 		_charic.m_fAttack_Area = 0;
-		_charic.m_nTargetNumber = 0;
+		_charic.m_nMaxTargetNumber = 0;
 		_charic.m_nAttack_Priority = 0;
 		_charic.m_fAttackSpeed = 1.0f;
 		_charic.m_fMoveSpeed = 1;
@@ -57,7 +57,7 @@ public class Player : MonoBehaviour {
 		_charic.m_fMagic_Rating = 5;
 		_charic.m_fAttack_Range = 5;
 		_charic.m_fAttack_Area = 0;
-		_charic.m_nTargetNumber = 0;
+		_charic.m_nMaxTargetNumber = 0;
 		_charic.m_nAttack_Priority = 0;
 		_charic.m_fAttackSpeed = 1.0f;
 		_charic.m_fMoveSpeed = 1;
@@ -87,7 +87,7 @@ public class Player : MonoBehaviour {
 		_charic.m_fMagic_Rating = 5;
 		_charic.m_fAttack_Range = 5;
 		_charic.m_fAttack_Area = 0;
-		_charic.m_nTargetNumber = 0;
+		_charic.m_nMaxTargetNumber = 0;
 		_charic.m_nAttack_Priority = 0;
 		_charic.m_fAttackSpeed = 1.0f;
 		_charic.m_fMoveSpeed = 1;

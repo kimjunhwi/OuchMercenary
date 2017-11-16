@@ -9,6 +9,8 @@ public class Character : MonoBehaviour {
 	protected bool m_bIsFront ;
 	protected bool m_bIsDead = false;
 
+	protected int m_nAttackCount = 0;
+
 	protected float m_fAttackTime = 0.0f;
 
 	protected float m_fMaxHp;
@@ -28,15 +30,25 @@ public class Character : MonoBehaviour {
 	protected CharacterStats charicStats = null;						//캐릭터에 관한 정보 
 	protected CharacterManager characterManager;						//배치된 캐릭터들을 관리
 	protected SkillManager skillManager;					
-
-
 	//LIST<SkillData>
+
+	//캐릭터가 죽운뒤 투명도를 위함
+	protected Color alphaColor;
 
 	protected virtual void Awake()
 	{
 		animator = GetComponent<Animator> ();
 
 		spriteRender = GetComponent<SpriteRenderer> ();
+	}
+
+	protected virtual void OnEnable()
+	{
+		m_nAttackCount = 0;
+
+		alphaColor = new Color(255,255,255,255);
+
+		spriteRender.color = alphaColor;
 	}
 
 	protected virtual void Start() { }
@@ -56,8 +68,12 @@ public class Character : MonoBehaviour {
 	{
 		m_fCurrentHp -= _fDamage;
 
-		if (m_fCurrentHp <= 0)
+		if (m_fCurrentHp <= 0 && m_bIsDead == false)
+		{
 			m_bIsDead = true;
+
+			CheckCharacterState(E_CHARACTER_STATE.E_DEAD);
+		}
 	}
 
 	public void SortingLayer(int _nIndex)

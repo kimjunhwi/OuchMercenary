@@ -5,10 +5,13 @@ using ReadOnlys;
 
 public class Archer : Character {
 
+	SimpleObjectPool arrowPool;
+
 	protected override void Awake ()
 	{
 		base.Awake ();
 
+		arrowPool = GameObject.Find("ArrowObjectPool").GetComponent<SimpleObjectPool>();
 	}
 
 	public override void Setup (CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager, E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
@@ -22,6 +25,13 @@ public class Archer : Character {
 		gameObject.transform.position = m_VecFirstPosition;
 
 		charicStats = new CharacterStats (_charic);
+
+		//임시 베이직 스킬을 부여함 ---------------------------------------------------
+		charicStats.basicSkill = new BasicSkill(2,1002,"a","attack",0,1,"archer",1,1,100,100,"enemy",1,1,"close","p_attack rating의 100%로 공격");
+
+		ActiveSkill active = new ActiveSkill(2,"ChargingShot",1002,"attack",2,1,"archer",1,2,0,0,0,5,0,0,0,0,120,120,1,5,3,"enemy",1,"close",0," 5회 공격시 마다 적 1명에게 p_AttackRating 150%의 피해를 입힌다",false);
+
+		charicStats.activeSkill.Add(active);
 
 		animator.runtimeAnimatorController = ObjectCashing.Instance.LoadAnimationController ("Animation/" + charicStats.m_strJob);
 
@@ -37,6 +47,11 @@ public class Archer : Character {
 	protected override void Update ()
 	{
 		StartCoroutine(this.CharacterAction());
+	}
+
+	protected override void OnEnable()
+	{
+		base.OnEnable();
 	}
 
 	public override void CheckCharacterState(E_CHARACTER_STATE _E_STATE)
@@ -101,6 +116,13 @@ public class Archer : Character {
 		case E_CHARACTER_STATE.E_ATTACK:
 			{
 				animator.SetTrigger ("Idle");
+			}
+			break;
+			case E_CHARACTER_STATE.E_DEAD:
+			{
+				spriteRender.flipX = false;
+
+				animator.SetBool("Dead",true);
 			}
 			break;
 		}
@@ -257,8 +279,22 @@ public class Archer : Character {
 
 					animator.SetTrigger ("Attack");
 
+					GameObject Arrow = arrowPool.GetObject();
+
+					Projectile projectile = Arrow.GetComponent<Projectile> ();
+
+					StartCoroutine(projectile.Shoot(arrowPool,transform.position,targetCharacter.transform.position,1.0f));
+
 					Debug.Log ("Attack");
 				}
+			}
+			break;
+
+			case E_CHARACTER_STATE.E_DEAD:
+			{
+				alphaColor.a = Mathf.Lerp(spriteRender.color.a,0,1 * Time.deltaTime);
+
+				spriteRender.color = alphaColor;
 			}
 			break;
 		}

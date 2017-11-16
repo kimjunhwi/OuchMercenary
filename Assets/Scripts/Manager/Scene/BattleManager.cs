@@ -70,9 +70,9 @@ public class BattleManager : MonoBehaviour {
 			characterManager.Add (charic);
 		}
 
-		for (int nIndex = 0; nIndex < 7; nIndex++) 
+		for (int nIndex = 0; nIndex < 1; nIndex++) 
 		{
-			CharacterStats characterStats = player.LIST_HERO [nIndex % 2];
+			CharacterStats characterStats = player.LIST_HERO [1];
 
 			GameObject characterObject = characterPool.GetObject ();
 

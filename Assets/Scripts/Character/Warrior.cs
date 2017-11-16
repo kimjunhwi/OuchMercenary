@@ -12,6 +12,11 @@ public class Warrior : Character {
 
 	}
 
+	protected override void OnEnable()
+	{
+		base.OnEnable();
+	}
+
 	public override void Setup (CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager, E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
 	{
 		skillManager = _skillManager;
@@ -23,6 +28,9 @@ public class Warrior : Character {
 		gameObject.transform.position = m_VecFirstPosition;
 
 		charicStats = new CharacterStats (_charic);
+
+		//임시 베이직 스킬을 부여함 ---------------------------------------------------
+		charicStats.basicSkill = new BasicSkill(1,1001,"a","attack",0,1,"warrior",1,1,100,100,"enemy",1,1,"close","p_attack rating의 100%로 공격");
 
 		animator.runtimeAnimatorController = ObjectCashing.Instance.LoadAnimationController("Animation/" + charicStats.m_strJob);
 
@@ -108,7 +116,16 @@ public class Warrior : Character {
 					
 			}
 			break;
+			case E_CHARACTER_STATE.E_DEAD:
+			{
+				spriteRender.flipX = false;
+
+				animator.SetBool("Dead",true);
+			}
+			break;
 		}
+
+		
 	}
 
 	protected override IEnumerator CharacterAction()
@@ -279,6 +296,18 @@ public class Warrior : Character {
 					animator.SetTrigger ("Attack");
 
 					Debug.Log ("Attack");
+				}
+			}
+			break;
+		case E_CHARACTER_STATE.E_DEAD:
+			{
+				alphaColor.a = Mathf.Lerp(spriteRender.color.a,0,1 * Time.deltaTime);
+
+				spriteRender.color = alphaColor;
+
+				if(spriteRender.color.a == 0.0f)
+				{
+					
 				}
 			}
 			break;

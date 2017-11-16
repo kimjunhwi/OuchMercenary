@@ -36,6 +36,11 @@ public class Enemy_Warrior : Character {
 		StartCoroutine(this.CharacterAction());
 	}
 
+	protected override void OnEnable()
+	{
+		base.OnEnable();
+	}
+
 	public override void CheckCharacterState(E_CHARACTER_STATE _E_STATE)
 	{
 		if (E_CHARIC_STATE == _E_STATE)
@@ -79,6 +84,13 @@ public class Enemy_Warrior : Character {
 			{
 				animator.SetTrigger ("Idle");
 
+			}
+			break;
+			case E_CHARACTER_STATE.E_DEAD:
+			{
+				spriteRender.flipX = true;
+
+				animator.SetBool("Dead",true);
 			}
 			break;
 		}
@@ -171,6 +183,14 @@ public class Enemy_Warrior : Character {
 
 					Debug.Log ("Attack");
 				}
+			}
+			break;
+
+			case E_CHARACTER_STATE.E_DEAD:
+			{
+				alphaColor.a = Mathf.Lerp(spriteRender.color.a,0,1 * Time.deltaTime);
+
+				spriteRender.color = alphaColor;
 			}
 			break;
 		}

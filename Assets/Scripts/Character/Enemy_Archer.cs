@@ -5,10 +5,13 @@ using ReadOnlys;
 
 public class Enemy_Archer : Character {
 
+	SimpleObjectPool arrowPool;
+
 	protected override void Awake ()
 	{
 		base.Awake ();
 
+		arrowPool = GameObject.Find("ArrowObjectPool").GetComponent<SimpleObjectPool>();
 	}
 
 	public override void Setup (CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager, E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
@@ -39,6 +42,11 @@ public class Enemy_Archer : Character {
 	protected override void Update ()
 	{
 		StartCoroutine(this.CharacterAction());
+	}
+
+	protected override void OnEnable()
+	{
+		base.OnEnable();
 	}
 
 	public override void CheckCharacterState(E_CHARACTER_STATE _E_STATE)
@@ -84,6 +92,14 @@ public class Enemy_Archer : Character {
 			{
 				animator.SetTrigger ("Idle");
 
+			}
+			break;
+
+		case E_CHARACTER_STATE.E_DEAD:
+			{
+				spriteRender.flipX = true;
+
+				animator.SetBool("Dead",true);
 			}
 			break;
 		}
@@ -174,8 +190,22 @@ public class Enemy_Archer : Character {
 
 					animator.SetTrigger ("Attack");
 
+					GameObject Arrow = arrowPool.GetObject();
+
+					Projectile projectile = Arrow.GetComponent<Projectile> ();
+
+					StartCoroutine(projectile.Shoot(arrowPool,transform.position,targetCharacter.transform.position,1.0f));
+
 					Debug.Log ("Attack");
 				}
+			}
+			break;
+
+			case E_CHARACTER_STATE.E_DEAD:
+			{
+				alphaColor.a = Mathf.Lerp(spriteRender.color.a,0,1 * Time.deltaTime);
+
+				spriteRender.color = alphaColor;
 			}
 			break;
 		}
