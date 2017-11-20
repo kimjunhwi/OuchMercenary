@@ -18,7 +18,6 @@ public class Character : MonoBehaviour {
 
 	protected Vector3 m_VecFirstPosition;
 
-
 	public Character targetCharacter = null;		//공격하려는 오브젝트
 
 	public E_Type E_CHARIC_TYPE = E_Type.E_None;						//0,플레이어 캐릭,적 캐릭 
@@ -31,6 +30,7 @@ public class Character : MonoBehaviour {
 	protected CharacterManager characterManager;						//배치된 캐릭터들을 관리
 	protected SkillManager skillManager;					
 	//LIST<SkillData>
+	protected ActiveSkill activeSkill = null;
 
 	//캐릭터가 죽운뒤 투명도를 위함
 	protected Color alphaColor;

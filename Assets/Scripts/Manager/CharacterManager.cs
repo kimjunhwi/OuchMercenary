@@ -14,6 +14,8 @@ public class CharacterManager : MonoBehaviour {
 	public void Add(Character _character)
 	{
 		ARRAY_CHARIC.Add(_character);
+
+
 	}
 
 	//remove
@@ -68,12 +70,11 @@ public class CharacterManager : MonoBehaviour {
 			//return x.m_value.CompareTo( y.m_value ); // 작은 순서대로 정렬.
 			//return y.m_value.CompareTo( x.m_value ); // 큰 순서대로 정렬.
 
-			return x.transform.position.y.CompareTo(y.transform.position.y);
+			return x.transform.position.y.CompareTo (y.transform.position.y);
 		}
-
 	}
 
-	// 필요한 캐릭터를 반환 ------------------------------------------ 20170413
+	// 필요한 캐릭터를 반환 ------------------------------------------
 	public ArrayList FindTarget(Character _charic, float _fDistance)
 	{
 		ArrayList TargetArray = new ArrayList();

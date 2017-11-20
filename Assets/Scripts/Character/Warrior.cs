@@ -29,10 +29,6 @@ public class Warrior : Character {
 
 		charicStats = new CharacterStats (_charic);
 
-		
-
-
-
 		animator.runtimeAnimatorController = ObjectCashing.Instance.LoadAnimationController("Animation/" + charicStats.m_strJob);
 
 		if (_E_TYPE == E_Type.E_Enemy) 
@@ -41,8 +37,6 @@ public class Warrior : Character {
 
 			spriteRender.flipX = true;
 		}
-
-
 	}
 
 
@@ -280,23 +274,49 @@ public class Warrior : Character {
 
 						break;
 					}
-
-					//현재 활성화 된 캐릭터들 중에서 공격 범위 안에 들어온 리스트 들을 반환 
-					ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
-
-					//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
-					if (targetLists.Count > 0) {
-						//제일 가까운 캐릭터를 반환한다.
-						targetCharacter = (Character)targetLists [0];
-					}
 				}
 
 				if (m_fAttackTime >= charicStats.m_fAttackSpeed) {
 					m_fAttackTime = 0.0f;
 
-					animator.SetTrigger ("Attack");
 
-					Debug.Log ("Attack");
+					activeSkill = null;
+
+					for (int nIndex = 0; nIndex < charicStats.activeSkill.Count; nIndex++) 
+					{
+						bool bIsActive = false;
+
+						if (Random.Range (0, 100) < charicStats.activeSkill [nIndex].m_fAttack_ActvieRating ||
+						    Random.Range (0, 100) < charicStats.activeSkill [nIndex].m_fCriticalAttack_ActiveRating) 
+						{
+							bIsActive = true;
+						} 
+						else if (charicStats.activeSkill [nIndex].m_nAttackCount_ActiveRating != 0 &&
+						         charicStats.activeSkill [nIndex].m_nAttackCount_ActiveRating < m_nAttackCount) 
+						{
+							bIsActive = true;
+						}
+
+						if(bIsActive)
+							activeSkill = charicStats.activeSkill [nIndex];
+
+					}
+
+					if (activeSkill == null) {
+						
+						//현재 활성화 된 캐릭터들 중에서 공격 범위 안에 들어온 리스트 들을 반환 
+						ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
+
+						//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
+						if (targetLists.Count > 0) {
+							//제일 가까운 캐릭터를 반환한다.
+							targetCharacter = (Character)targetLists [0];
+						}
+					} 
+					else 
+					{
+
+					}
 				}
 			}
 			break;
