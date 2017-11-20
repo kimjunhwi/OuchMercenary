@@ -1,7 +1,7 @@
 ﻿<Properties StartupConfiguration="{ABDB6780-48B2-7F58-4D2D-FA17B93C1C71}|" StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workbench ActiveDocument="../Downloads/ProjectM/Assets/Scripts/Skill.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Projectile/Arrow.cs">
     <Files>
-      <File FileName="Assets/Scripts/Character/Character.cs" Line="15" Column="31" />
+      <File FileName="Assets/Scripts/Character/Character.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Manager/GameManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Manager/ReadOnly.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Player/Player.cs" Line="1" Column="1" />
@@ -20,7 +20,8 @@
       <File FileName="Assets/Scripts/Projectile/Projectile.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Manager/FadingManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Skill/BasicSkill.cs" Line="1" Column="1" />
-      <File FileName="../Downloads/ProjectM/Assets/Scripts/Skill.cs" Line="19" Column="5" />
+      <File FileName="../Downloads/ProjectM/Assets/Scripts/Skill.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Projectile/Arrow.cs" Line="40" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
@@ -28,7 +29,7 @@
     <BreakpointStore>
       <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/Warrior.cs" line="184" column="1" />
       <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Manager/CharacterManager.cs" line="35" column="31" />
-      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Projectile/Projectile.cs" line="15" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Projectile/Arrow.cs" line="37" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.OuchMercenary PreferredExecutionTarget="Unity.Editor" />

@@ -70,9 +70,9 @@ public class BattleManager : MonoBehaviour {
 			characterManager.Add (charic);
 		}
 
-		for (int nIndex = 0; nIndex < 1; nIndex++) 
+		for (int nIndex = 0; nIndex < 2; nIndex++) 
 		{
-			CharacterStats characterStats = player.LIST_HERO [1];
+			CharacterStats characterStats = player.LIST_HERO [nIndex % 2];
 
 			GameObject characterObject = characterPool.GetObject ();
 
@@ -91,7 +91,7 @@ public class BattleManager : MonoBehaviour {
 				break;
 			}
 
-			vecPosition = new Vector3 (7 , 2 - nIndex * 0.8F, 0);
+			vecPosition = new Vector3 (7 , 5 - nIndex * 0.8F, 0);
 
 			charic.Setup (characterStats, characterManager, skillManager, E_Type.E_Enemy,vecPosition);
 

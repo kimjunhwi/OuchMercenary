@@ -29,8 +29,9 @@ public class Warrior : Character {
 
 		charicStats = new CharacterStats (_charic);
 
-		//임시 베이직 스킬을 부여함 ---------------------------------------------------
-		charicStats.basicSkill = new BasicSkill(1,1001,"a","attack",0,1,"warrior",1,1,100,100,"enemy",1,1,"close","p_attack rating의 100%로 공격");
+		
+
+
 
 		animator.runtimeAnimatorController = ObjectCashing.Instance.LoadAnimationController("Animation/" + charicStats.m_strJob);
 

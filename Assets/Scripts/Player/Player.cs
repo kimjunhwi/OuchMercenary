@@ -5,11 +5,14 @@ using ReadOnlys;
 
 public class Player : MonoBehaviour {
 
+	public List<ActiveSkill> actvieSkill = new List<ActiveSkill>();
 
 	public List<CharacterStats> LIST_HERO = new List<CharacterStats>();
 
 	public void Init()
 	{
+		ActiveSkill tempActiveSkill = null;
+
 		CharacterStats _charic = new CharacterStats ();
 
 		_charic.m_nIndex = 0;
@@ -37,6 +40,18 @@ public class Player : MonoBehaviour {
 		_charic.m_fCritical_Rating = 1;
 		_charic.m_fCritical_Damage = 1.5f;
 		_charic.m_nBatchIndex = 2;
+		//임시 베이직 스킬을 부여함 ---------------------------------------------------
+		_charic.basicSkill = new BasicSkill(1,1001,"a","attack",0,1,"warrior",1,1,100,100,"enemy",1,1,"close","p_attack rating의 100%로 공격");
+
+		tempActiveSkill = new ActiveSkill(0,"double Attack",1000,"attack",2,1,"assassin",1,1,0,20,0,0,0,0,0,0,75,2,1,1,1,"enemy",1,"close",0,"pAttack ratring의 75%로 2회 공격",false);
+
+		actvieSkill.Add(tempActiveSkill);
+
+		tempActiveSkill = new ActiveSkill(1,"Power Attack",1001,"attack",2,1,"warrior",1,1,0,30,0,0,0,0,0,0,120,1,1,1,1,"enemy",1,"close",0,"pAttack ratring의 120%로 2회 공격",false);
+
+		actvieSkill.Add(tempActiveSkill);
+
+		_charic.activeSkill = actvieSkill;
 
 		LIST_HERO.Add (_charic);
 

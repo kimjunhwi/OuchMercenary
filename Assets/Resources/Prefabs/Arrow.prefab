@@ -52,7 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd80d78a3a9274ca6891db666aa3d46b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: {x: 0, y: -1000, z: 0}
+  m_vecMaxY: {x: 0, y: 0, z: 0}
+  fTime: 0
 --- !u!212 &212945767687779878
 SpriteRenderer:
   m_ObjectHideFlags: 1
