@@ -327,6 +327,7 @@ public class LoginManager : MonoBehaviour
 			{
 				loginState_Text.text = "기본 캐릭터 불러오기 완료";
 				#if UNITY_EDITOR
+				StartCoroutine(GameManager.Instance.DataLoad());
 				StartCoroutine(LoadScene());
 				LoginCategory_Panel.SetActive (false);
 
