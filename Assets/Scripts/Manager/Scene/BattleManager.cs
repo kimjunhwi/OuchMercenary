@@ -13,8 +13,7 @@ public class BattleManager : MonoBehaviour {
 	private Vector3 vecPosition;
 	private Vector3 m_vecZeroPosition = new Vector3 (-8.5f, 1.0f, 0);
 
-	private float m_fPlusX = 1.5f;
-	private float m_fPlusY = 1.5f;
+	private readonly float m_fPlusXY = 1.5f;
 
 	public Player player;
 	public SkillManager skillManager;
@@ -61,7 +60,7 @@ public class BattleManager : MonoBehaviour {
 			int nValue = characterStats.m_nBatchIndex / 4;
 			int nDight = characterStats.m_nBatchIndex % 4;
 
-			vecPosition = new Vector3(m_vecZeroPosition.x + (nValue * m_fPlusX), m_vecZeroPosition.y - (nDight * m_fPlusX),0.0f);
+			vecPosition = new Vector3(m_vecZeroPosition.x + (nValue * m_fPlusXY), m_vecZeroPosition.y - (nDight * m_fPlusXY),0.0f);
 
 			//캐릭터에 대한 내용을 초기화 해줌
 			charic.Setup (characterStats, characterManager, skillManager, E_Type.E_Hero,vecPosition);

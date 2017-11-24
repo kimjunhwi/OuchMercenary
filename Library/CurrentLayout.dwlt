@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 3}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 521}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -40,8 +40,8 @@ MonoBehaviour:
     y: 0
     width: 159
     height: 630
-  m_MinSize: {x: 104, y: 121}
-  m_MaxSize: {x: 4004, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 22}
   m_Panes:
   - {fileID: 22}
@@ -68,7 +68,7 @@ MonoBehaviour:
     y: 0
     width: 1280
     height: 680
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 521}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &4
 MonoBehaviour:
@@ -133,10 +133,10 @@ MonoBehaviour:
     y: 30
     width: 1280
     height: 630
-  m_MinSize: {x: 817, y: 492}
-  m_MaxSize: {x: 22012, y: 14042}
+  m_MinSize: {x: 713, y: 471}
+  m_MaxSize: {x: 22008, y: 14021}
   vertical: 0
-  controlID: 162
+  controlID: 145
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -157,10 +157,10 @@ MonoBehaviour:
     y: 0
     width: 534
     height: 630
-  m_MinSize: {x: 202, y: 442}
+  m_MinSize: {x: 102, y: 242}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 44
+  controlID: 24
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -179,15 +179,15 @@ MonoBehaviour:
     y: 0
     width: 534
     height: 320
-  m_MinSize: {x: 202, y: 221}
+  m_MinSize: {x: 102, y: 121}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 18}
+  m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 18}
   - {fileID: 19}
   - {fileID: 15}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -206,14 +206,14 @@ MonoBehaviour:
     y: 320
     width: 534
     height: 310
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 17}
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
   - {fileID: 17}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -234,10 +234,10 @@ MonoBehaviour:
     y: 0
     width: 310
     height: 630
-  m_MinSize: {x: 234, y: 492}
-  m_MaxSize: {x: 10004, y: 14042}
+  m_MinSize: {x: 234, y: 471}
+  m_MaxSize: {x: 10004, y: 14021}
   vertical: 1
-  controlID: 87
+  controlID: 101
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -447,7 +447,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoom: 0
     m_UniformScale: 1
     m_UpDirection: 1
@@ -504,14 +504,14 @@ MonoBehaviour:
     width: 532
     height: 299
   m_SceneLighting: 0
-  lastFramingTime: 3453.5854340195656
+  lastFramingTime: 6074.002121984959
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0.9003645, y: 2.087468, z: 0}
+    m_Target: {x: -7.38, y: -0.23, z: 0}
     speed: 2
-    m_Value: {x: 0.9003645, y: 2.087468, z: 0}
+    m_Value: {x: -7.38, y: -0.23, z: 0}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -538,9 +538,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 14.677794
+    m_Target: 4.0496044
     speed: 2
-    m_Value: 14.677794
+    m_Value: 4.0496044
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -583,9 +583,9 @@ MonoBehaviour:
     - {fileID: 1107665360845916490, guid: 2742ccc06ab5f4b16bc354c443380212, type: 2}
     - {fileID: 1107243881850866990, guid: 3af8a13b5c2674cf694f388580a3aa1e, type: 2}
     m_ValueSerializationHelper:
-    - {x: 585.21564, y: 110.05859}
-    - {x: 585.21564, y: 154.03514}
-    - {x: 513.1844, y: 140}
+    - {x: 614.2001, y: 179.4}
+    - {x: 485.2, y: 169.41171}
+    - {x: 609.4038, y: 141.42343}
   m_PreviewAnimator: {fileID: 0}
   m_AnimatorController: {fileID: 0}
   m_BreadCrumbs: []
@@ -627,9 +627,9 @@ MonoBehaviour:
     height: 302
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 08280000
+    m_SelectedIDs: f8060000
     m_LastClickedID: 0
-    m_ExpandedIDs: 8ef1ffff1afcffff00000000
+    m_ExpandedIDs: 1afcffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -690,19 +690,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Scene
+    - Assets/Scripts/Character
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scene
+  - Assets/Scripts/Character
   m_LastFoldersGridSize: 16
   m_LastProjectPath: /Users/ImaiDakaki/OuchMercenary
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 183}
-    m_SelectedIDs: ae280000
-    m_LastClickedID: 10414
-    m_ExpandedIDs: 00000000f4270000242800003428000050280000cc280000ce2800001c290000062a0000082a000000ca9a3bffffff7f
+    m_SelectedIDs: 5a280000
+    m_LastClickedID: 10330
+    m_ExpandedIDs: 00000000f4270000242800003428000050280000d2280000d428000022290000162a0000182a000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -730,7 +730,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 350.00214}
     m_SelectedIDs: 4c4f0000
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000f4270000242800003428000050280000cc280000ce2800001c290000062a0000082a0000
+    m_ExpandedIDs: 00000000f4270000242800003428000050280000d2280000d428000022290000162a0000182a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -761,18 +761,18 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: e44600000c410000b64c00002e0a00006a33000000000000de3200006e3e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Character
+      m_OriginalName: Character
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 2048
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 12}
     m_CreateAssetUtility:

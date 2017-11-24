@@ -27,7 +27,7 @@ public class Archer : Character {
 		charicStats = new CharacterStats (_charic);
 
 		//임시 베이직 스킬을 부여함 ---------------------------------------------------
-		charicStats.basicSkill = new BasicSkill(2,1002,"a","attack",0,1,"archer",1,1,100,100,"enemy",1,1,"close","p_attack rating의 100%로 공격");
+		charicStats.basicSkill = new BasicSkill(2,1002,"a","attack",0,1,"archer",1,1,100,0,1.5f,"enemy",1,1,"close","p_attack rating의 100%로 공격");
 
 		ActiveSkill active = new ActiveSkill(2,"ChargingShot",1002,"attack",2,1,"archer",1,2,0,0,0,5,0,0,0,0,120,120,1,5,3,"enemy",1,"close",0," 5회 공격시 마다 적 1명에게 p_AttackRating 150%의 피해를 입힌다",false);
 
@@ -58,6 +58,8 @@ public class Archer : Character {
 	{
 		if (E_CHARIC_STATE == _E_STATE)
 			return;
+
+		animator.Rebind();
 
 		//액션 변경
 		E_CHARIC_STATE = _E_STATE;
@@ -200,10 +202,10 @@ public class Archer : Character {
 			{
 				if (transform.position != m_VecFirstPosition) 
 				{
+					transform.position = Vector3.MoveTowards (transform.position, m_VecFirstPosition, Time.deltaTime * charicStats.m_fMoveSpeed);
+
 					//캐릭터 레이어를 재정렬
 					characterManager.SortingCharacterLayer();
-
-					transform.position = Vector3.MoveTowards (transform.position, m_VecFirstPosition, Time.deltaTime * charicStats.m_fMoveSpeed);
 				} 
 				else 
 				{
@@ -236,25 +238,20 @@ public class Archer : Character {
 
 				m_fAttackTime += Time.deltaTime;
 
-				if (targetCharacter == null) 
-				{
+				if (targetCharacter == null) {
 					CheckCharacterState (E_CHARACTER_STATE.E_WALK);
 
 					break;
-				} 
-				else 
-				{
+				} else {
 					//공격 하려던 캐릭터가 이미 죽어있을경우 대기 상태로 바꿈 
-					if (targetCharacter.IsDead ()) 
-					{
+					if (targetCharacter.IsDead ()) {
 						CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
 
 						break;
 					}
 
 					//만약 현재 공격중인 적이 자신의 공격범위에서 벗어날 경우
-					if (Vector3.Distance (transform.position, targetCharacter.transform.position) > charicStats.m_fAttack_Range) 
-					{
+					if (Vector3.Distance (transform.position, targetCharacter.transform.position) > charicStats.m_fAttack_Range) {
 						m_fAttackTime = 0.0f;
 
 						targetCharacter = null;
@@ -263,15 +260,6 @@ public class Archer : Character {
 
 						break;
 					}
-
-					//현재 활성화 된 캐릭터들 중에서 공격 범위 안에 들어온 리스트 들을 반환 
-					ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
-
-					//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
-					if (targetLists.Count > 0) {
-						//제일 가까운 캐릭터를 반환한다.
-						targetCharacter = (Character)targetLists [0];
-					}
 				}
 
 				if (m_fAttackTime >= charicStats.m_fAttackSpeed) {
@@ -279,13 +267,45 @@ public class Archer : Character {
 
 					animator.SetTrigger ("Attack");
 
-					GameObject Arrow = arrowPool.GetObject();
+					activeSkill = null;
 
-					Projectile projectile = Arrow.GetComponent<Projectile> ();
+					for (int nIndex = 0; nIndex < charicStats.activeSkill.Count; nIndex++) {
+						bool bIsActive = false;
 
-					StartCoroutine(projectile.Shoot(arrowPool,transform.position,targetCharacter.transform.position,1.0f));
+						if (Random.Range (0, 100) < charicStats.activeSkill [nIndex].m_fAttack_ActvieRating ||
+						    Random.Range (0, 100) < charicStats.activeSkill [nIndex].m_fCriticalAttack_ActiveRating) {
+							bIsActive = true;
+						} else if (charicStats.activeSkill [nIndex].m_nAttackCount_ActiveRating != 0 &&
+						         charicStats.activeSkill [nIndex].m_nAttackCount_ActiveRating < m_nAttackCount) {
+							bIsActive = true;
+						}
 
-					Debug.Log ("Attack");
+						if (bIsActive)
+							activeSkill = charicStats.activeSkill [nIndex];
+
+					}
+
+					if (activeSkill == null) {
+
+						Debug.Log ("BaseAttack");
+
+						//현재 활성화 된 캐릭터들 중에서 공격 범위 안에 들어온 리스트 들을 반환 
+						ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
+
+						//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
+						if (targetLists.Count > 0) {
+
+							for (int nIndex = 0; nIndex < charicStats.basicSkill.nMaxTargetNumber; nIndex++) {
+								if (targetLists.Count <= nIndex) {
+									break;
+								}
+
+								skillManager.BasicAttack (this, (Character)targetLists [nIndex]);
+							}
+						}
+					} else {
+						Debug.Log ("ActvieAttack");
+					}
 				}
 			}
 			break;
@@ -295,6 +315,11 @@ public class Archer : Character {
 				alphaColor.a = Mathf.Lerp(spriteRender.color.a,0,1 * Time.deltaTime);
 
 				spriteRender.color = alphaColor;
+
+				if(spriteRender.color.a == 0.0f)
+				{
+
+				}
 			}
 			break;
 		}

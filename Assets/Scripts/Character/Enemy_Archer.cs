@@ -19,6 +19,9 @@ public class Enemy_Archer : Character {
 		//캐릭터에 대한 정보를 갱신
 		charicStats = new CharacterStats (_charic);
 
+		m_fCurrentHp = charicStats.m_fHealth;
+		m_fMaxHp = m_fCurrentHp;
+
 		//스킬 매니저 및 캐릭터 매니저를 대입
 		skillManager = _skillManager;
 		characterManager = _charicManager;
@@ -53,6 +56,8 @@ public class Enemy_Archer : Character {
 	{
 		if (E_CHARIC_STATE == _E_STATE)
 			return;
+
+		animator.Rebind();
 
 		//액션 변경
 		E_CHARIC_STATE = _E_STATE;

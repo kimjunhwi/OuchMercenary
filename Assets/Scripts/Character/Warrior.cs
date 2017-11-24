@@ -19,24 +19,21 @@ public class Warrior : Character {
 
 	public override void Setup (CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager, E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
 	{
+		charicStats = new CharacterStats (_charic);
+
+		m_fCurrentHp = charicStats.m_fHealth;
+		m_fMaxHp = m_fCurrentHp;
+
 		skillManager = _skillManager;
 		characterManager = _charicManager;
 
 		E_CHARIC_TYPE = _E_TYPE;
 
 		m_VecFirstPosition = _vecPosition;
+
 		gameObject.transform.position = m_VecFirstPosition;
 
-		charicStats = new CharacterStats (_charic);
-
 		animator.runtimeAnimatorController = ObjectCashing.Instance.LoadAnimationController("Animation/" + charicStats.m_strJob);
-
-		if (_E_TYPE == E_Type.E_Enemy) 
-		{
-			CheckCharacterState (E_CHARACTER_STATE.E_WALK);
-
-			spriteRender.flipX = true;
-		}
 	}
 
 
@@ -49,6 +46,8 @@ public class Warrior : Character {
 	{
 		if (E_CHARIC_STATE == _E_STATE)
 			return;
+
+		animator.Rebind();
 
 		//액션 변경
 		E_CHARIC_STATE = _E_STATE;
@@ -247,20 +246,17 @@ public class Warrior : Character {
 			{
 				m_fAttackTime += Time.deltaTime;
 
+				//null 일 경우 재탐색
 				if (targetCharacter == null) 
 				{
-					CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
-
-					break;
+					ResetTargetCharacter(this,charicStats.m_fAttack_Range);
 				} 
 				else 
 				{
-					//공격 하려던 캐릭터가 이미 죽어있을경우 대기 상태로 바꿈 
+					//공격 하려던 캐릭터가 이미 죽어있을경우 타겟을 갱신 
 					if (targetCharacter.IsDead ()) 
 					{
-						CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
-
-						break;
+						ResetTargetCharacter(this,charicStats.m_fAttack_Range);
 					}
 
 					//만약 현재 공격중인 적이 자신의 공격범위에서 벗어날 경우
@@ -268,66 +264,86 @@ public class Warrior : Character {
 					{
 						m_fAttackTime = 0.0f;
 
-						targetCharacter = null;
-
-						CheckCharacterState (E_CHARACTER_STATE.E_WALK);
-
-						break;
+						ResetTargetCharacter(this,charicStats.m_fAttack_Range);
 					}
 				}
 
+				if(targetCharacter == null)
+					yield break;
+
+				//공격 시
 				if (m_fAttackTime >= charicStats.m_fAttackSpeed) {
 					m_fAttackTime = 0.0f;
 
+					animator.SetTrigger ("Attack");
 
+					//활성화 시킬 스킬을 null
 					activeSkill = null;
 
+					//1.캐릭터가 현재 가지고 있는 스킬 만큼 돈다.
+					//2.쿨타임 중일 경우 다음 인덱스로
+					//3.발동 확률을 체크 후 됐을 경우 활성화 시킬 스킬에 넣어준다.
 					for (int nIndex = 0; nIndex < charicStats.activeSkill.Count; nIndex++) 
 					{
-						bool bIsActive = false;
+						if(charicStats.activeSkill[nIndex].m_bIsCooltime)
+							continue;
 
-						if (Random.Range (0, 100) < charicStats.activeSkill [nIndex].m_fAttack_ActvieRating ||
-						    Random.Range (0, 100) < charicStats.activeSkill [nIndex].m_fCriticalAttack_ActiveRating) 
+						if(IsUseSkill(nIndex)) 
 						{
-							bIsActive = true;
-						} 
-						else if (charicStats.activeSkill [nIndex].m_nAttackCount_ActiveRating != 0 &&
-						         charicStats.activeSkill [nIndex].m_nAttackCount_ActiveRating < m_nAttackCount) 
-						{
-							bIsActive = true;
-						}
-
-						if(bIsActive)
 							activeSkill = charicStats.activeSkill [nIndex];
-
+							break;
+						}
 					}
 
 					if (activeSkill == null) {
-						
-						//현재 활성화 된 캐릭터들 중에서 공격 범위 안에 들어온 리스트 들을 반환 
-						ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
 
-						//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
-						if (targetLists.Count > 0) {
-							//제일 가까운 캐릭터를 반환한다.
-							targetCharacter = (Character)targetLists [0];
+						Debug.Log ("BaseAttack");
+
+						for (int nAttackCount = 0; nAttackCount < charicStats.basicSkill.nAttackNumber; nAttackCount++) {
+
+							if(targetCharacter.IsDead())
+							{ 
+								ResetTargetCharacter(this,charicStats.m_fAttack_Range);
+
+								if(targetCharacter == null)
+									yield break;
+							}
+							nAttackCount++;
+
+							//1.사거리안에 들어온 캐릭터가 1개 이상일 경우
+							//2.적 캐릭터에서 공격 범위 만큼의 리스트를 구한 후
+							//3.그 안에 있는 캐릭터에게 공격 횟수 만큼 데미지를 준다.
+							ArrayList targetLists = characterManager.FindTarget(targetCharacter,charicStats.basicSkill.fAttackArea);
+
+							for (int nIndex = 0; nIndex < charicStats.basicSkill.nMaxTargetNumber; nIndex++) {
+								//만약 타겟수가 공격 해야할 캐릭터 수보다 적을 경우 종료
+								if (targetLists.Count <= nIndex) {
+									break;
+								}
+
+								skillManager.BasicAttack (this, (Character)targetLists [nIndex]);
+							}
 						}
 					} 
 					else 
 					{
+						Debug.Log (activeSkill.m_strName);
 
+						StartCoroutine(SkillCoolTime());
 					}
 				}
 			}
 			break;
 		case E_CHARACTER_STATE.E_DEAD:
 			{
-				alphaColor.a = Mathf.Lerp(spriteRender.color.a,0,1 * Time.deltaTime);
+				alphaColor.a = Mathf.Lerp(spriteRender.color.a,0,m_fDisableSpeed * Time.deltaTime);
 
 				spriteRender.color = alphaColor;
 
 				if(spriteRender.color.a == 0.0f)
 				{
+					characterManager.Remove(this);
+
 					
 				}
 			}

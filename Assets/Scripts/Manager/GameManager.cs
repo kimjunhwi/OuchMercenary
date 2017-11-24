@@ -20,6 +20,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public GameObject Root_ui;
 
+	public AllPassiveSkill[] cAllPassiveSkill = null;
+
 	LoginManager loginManager;
 
 	public bool bIsLoad = false;
@@ -29,6 +31,10 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public IEnumerator DataLoad()
     {
 		loginManager = GameObject.Find("LoginManager").GetComponent<LoginManager>();
+
+
+		// Unicode Parsing
+		Load_TableInfo_AllPassive();
 
 		#if UNITY_EDITOR
 
@@ -60,6 +66,38 @@ public class GameManager : GenericMonoSingleton<GameManager>
     }
 
 	public Player GetPlayer() { return m_Player; }
+
+	void Load_TableInfo_AllPassive()
+	{
+		if (cAllPassiveSkill.Length != 0) return;
+
+		string txtFilePath = "AllPessive";
+		TextAsset ta = LoadTextAsset(txtFilePath);
+		List<string> line = LineSplit(ta.text);
+
+		AllPassiveSkill[] kInfo = new AllPassiveSkill[line.Count - 1];
+
+		for (int i = 0; i < line.Count; i++)
+		{
+			//Console.WriteLine("line : " + line[i]);
+			if (line[i] == null) continue;
+			if (i == 0) continue; 	// Title skip
+
+			string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
+			if (Cells[0] == "") continue;
+
+			kInfo[i - 1] = new AllPassiveSkill();
+			kInfo[i - 1].nIndex = int.Parse(Cells[0]);
+			kInfo[i - 1].nCharacterIndex = int.Parse(Cells[1]);
+			kInfo[i - 1].nSkillClass = int.Parse(Cells[2]);
+			kInfo[i - 1].nTier = int.Parse(Cells[3]);
+			kInfo[i - 1].strJob = Cells[4];
+			kInfo[i - 1].nAttribute = int.Parse(Cells[5]);
+			kInfo[i - 1].nAttackType = int.Parse(Cells[6]);
+			kInfo[i - 1].strOption_List = Cells[7];
+		}
+		cAllPassiveSkill = kInfo;
+	}
 
 	//------------------------------------------------------------------------------------------------
 	// 리소스 이미지 로드.
