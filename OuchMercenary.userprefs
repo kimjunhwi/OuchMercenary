@@ -1,21 +1,33 @@
-﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Manager/Scene/BattleManager.cs">
+﻿<Properties StartupConfiguration="{ABDB6780-48B2-7F58-4D2D-FA17B93C1C71}|" StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Manager/ReadOnly.cs">
     <Files>
-      <File FileName="Assets/Scripts/Player/Player.cs" Line="33" Column="3" />
-      <File FileName="Assets/Scripts/Manager/Scene/MainSceneManager.cs" Line="15" Column="48" />
-      <File FileName="Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" Line="156" Column="9" />
-      <File FileName="Assets/Scripts/Manager/ReadOnly.cs" Line="66" Column="17" />
-      <File FileName="Assets/Scripts/Manager/GameManager.cs" Line="32" Column="18" />
-      <File FileName="Assets/Scripts/UI/Upbar.cs" Line="14" Column="5" />
-      <File FileName="Assets/Scripts/Manager/SkillManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Character/Warrior.cs" Line="96" Column="49" />
-      <File FileName="Assets/Scripts/Character/Commander.cs" Line="65" Column="58" />
-      <File FileName="Assets/Scripts/Manager/Scene/BattleManager.cs" Line="35" Column="1" />
+      <File FileName="Assets/Scripts/Character/Archer.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/Commander.cs" Line="1" Column="1" />
+      <File FileName="../Downloads/ProjectM/Assets/Scripts/CharicManager.cs" Line="1" Column="1" />
+      <File FileName="../Downloads/ProjectM/Assets/Scripts/CGame.cs" Line="1" Column="1" />
+      <File FileName="Assets/GooglePlayGames/BasicApi/Achievement.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/FadingManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Projectile/Arrow.cs" Line="1" Column="1" />
+      <File FileName="../BlackSmith5/Assets/Scripts/InGame/UI/Inventory/InventoryShowPanel.cs" Line="1" Column="1" />
+      <File FileName="../Downloads/ProjectM/Assets/Scripts/Skill.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/Character.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Player/Player.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/Enemy_Warrior.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/Enemy_Archer.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/Warrior.cs" Line="1" Column="1" />
+      <File FileName="../BlackSmith5/Assets/Scripts/InGame/Manager/GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/ReadOnly.cs" Line="129" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/Warrior.cs" line="182" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Manager/CharacterManager.cs" line="37" column="31" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/Enemy_Warrior.cs" line="196" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.OuchMercenary PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
 </Properties>
