@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scene/0.LogoScene.unity
+    guid: 0ac9479f0531740f89556eb1f9bef7c1
+  - enabled: 1
+    path: Assets/Scene/1.StartCene.unity
+    guid: 6bb36e607583442b987081e6bf01ff74
+  - enabled: 1
+    path: Assets/Scene/2.MainScene.unity
+    guid: dc5a7a5e84efa480ea71346d6483f949
+  - enabled: 1
+    path: Assets/Scene/3.BattleScene.unity
+    guid: 498431583293a476ca1a5b99274cc8b3
+  - enabled: 1
+    path: Assets/Scene/4-0.StageScene.unity
+    guid: a5754752fe33741508d931a1cc30c50f
+  - enabled: 1
+    path: Assets/Scene/4-1.StageDefenseScene.unity
+    guid: 44daad45b39f54c39890cfa0448fbf18
+  - enabled: 1
+    path: Assets/Scene/4-2.StageAttackScene.unity
+    guid: f9bbc01137f9a418480654b7e72bb7e0
+  - enabled: 1
+    path: Assets/Scene/4-3.StageInfiniteScene.unity
+    guid: 37d6193d6f7cb4762aa859983eac9482
+  - enabled: 1
+    path: Assets/Scene/5.StagePreBattleScene.unity
+    guid: 06b537b1ec3b0469597a8c377f127879

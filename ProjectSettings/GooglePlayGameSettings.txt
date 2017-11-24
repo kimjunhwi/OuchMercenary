@@ -1,0 +1,13 @@
+lastUpgrade=00942
+proj.pluginVersion=0.9.42
+ios.ClientId=967380709050-ckn6tedc70o1itdgi5ah6j2490dlo5ts.apps.googleusercontent.com
+ios.BundleId=com.Wiz.Ouch
+proj.ConstantsClassName=GPGS
+ios.ResourceData=%23define+CLIENT_ID+%40%22967380709050-ckn6tedc70o1itdgi5ah6j2490dlo5ts.apps.googleusercontent.com%22%0a%23define+BUNDLE_ID+%40%22com.Wiz.Ouch%22%0a%23define+ACH_SCORE+%40%22CgkIut2I45McEAIQAQ%22%0a%23define+LEAD_SCORE_LEADERBOARD+%40%22CgkIut2I45McEAIQAg%22
+and.ClientId=650414994292-acuba71ika5f6gj99b2d2ebtdslsnnvs.apps.googleusercontent.com
+ios.SetupDone=true
+proj.AppId=650414994292
+and.BundleId=com.WIZ.OuchMercenary
+proj.classDir=Assets
+and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0a%3c%21--%0aGoogle+Play+game+services+IDs.%0aSave+this+file+as+res%2fvalues%2fgames-ids.xml+in+your+project.%0a--%3e%0a%3cresources%3e%0a++%3c%21--+app_id+--%3e%0a++%3cstring+name%3d%22app_id%22+translatable%3d%22false%22%3e650414994292%3c%2fstring%3e%0a++%3c%21--+package_name+--%3e%0a++%3cstring+name%3d%22package_name%22+translatable%3d%22false%22%3ecom.WIZ.OuchMercenary%3c%2fstring%3e%0a++%3c%21--+achievement+1+--%3e%0a++%3cstring+name%3d%22achievement_1%22+translatable%3d%22false%22%3eCgkI9OaE_vYSEAIQAA%3c%2fstring%3e%0a++%3c%21--+achievement+2+--%3e%0a++%3cstring+name%3d%22achievement_2%22+translatable%3d%22false%22%3eCgkI9OaE_vYSEAIQAQ%3c%2fstring%3e%0a++%3c%21--+achievement+3+--%3e%0a++%3cstring+name%3d%22achievement_3%22+translatable%3d%22false%22%3eCgkI9OaE_vYSEAIQAg%3c%2fstring%3e%0a++%3c%21--+achievement+4+--%3e%0a++%3cstring+name%3d%22achievement_4%22+translatable%3d%22false%22%3eCgkI9OaE_vYSEAIQAw%3c%2fstring%3e%0a++%3c%21--+achievement+5+--%3e%0a++%3cstring+name%3d%22achievement_5%22+translatable%3d%22false%22%3eCgkI9OaE_vYSEAIQBA%3c%2fstring%3e%0a%3c%2fresources%3e%0a
+android.SetupDone=true
