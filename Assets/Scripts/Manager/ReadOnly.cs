@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace ReadOnlys
 {
-	public enum E_LOAD_STATE : int
+public enum E_LOAD_STATE : int
 	{
 		E_LOAD_GET_BASICCHARACTERDATA = 0,
 
@@ -74,59 +73,78 @@ namespace ReadOnlys
 	};
 
 
-
-
 	#region Class 
 
 
-	public class CharacterStats
-	{
+[System.Serializable]
+	public class CharacterStats{
 
 		public int m_nIndex;				//인덱스
-		public string m_strName; 			//주 직업
+		
+		public string m_strJobName; 			//주 직업
+		
 		public string m_strCharicName;		//캐릭 이름
+		
 		public int m_nEnhace;				//강화 횟수
+		
 		public string m_strJob;				//직업 
+		
 		public int m_nLevel;				//레벨
+		
 		public int m_nTier;					//티어 
 
 		public int m_nAttribute;			//공격 속성 (물리 , 마법 , x)
+		
 		public int m_nAttackType;			//공격 타입 (근거리, 원거리) 
+		
 		public int m_nTribe;				//종족 (인간 등..)
 
-		public float m_fSite;					//적 인식 범위 
+		public float m_fSite;				//적 인식 범위 
+		
 		public float m_fHealth;				//체력
+		
 		public float m_fAccuracy;			//명중률
 
+		public float m_fAttack_Range;		//공격 사거리
+
 		public float m_fPhyiscal_Rating;	//물리 공격력(%)
+		
 		public float m_fMagic_Rating;		//마법 공격력(%)
 
-		public float m_fAttack_Range;		//공격 사거리 
-		public float m_fAttack_Area;		//공격 범위
-
-		public int m_nMaxTargetNumber;			//대상 개수
-		public int m_nAttack_Priority;		//공격 우선 순위
-
 		public float m_fAttackSpeed;		//공격 속도
+
 		public float m_fMoveSpeed;			//이동 속도
 
 		public float m_fPhysical_Defence;	//물리 방어력
-		public float m_fMasic_Defence;		//마법 방어력 
+		
+		public float m_fMasic_Defence;		//마법 방어력
 
 		public float m_fDodge;				//회피율
+		
 		public float m_fCritical_Rating;	//크리 확률
+		
 		public float m_fCritical_Damage;	//크리 데미지
+
+		public float m_fPhysicalPenetrate;	//물리 관통
+
+		public float m_fMagicPenetrate;		//마법 관통
+
+		public float m_fCC_Reg;				//??
+
+		public float m_fExp;				//경험치 (다음 레벨 경험치는 따로 저장)
+
+		public float m_fMaxExp;				//임시
 
 		public int m_nBatchIndex;			//배치 인덱스 
 
-		public BasicSkill basicSkill;
+		public List<BasicSkill> basicSkill = new List<BasicSkill>();
 
 		public List<ActiveSkill> activeSkill = new List<ActiveSkill>();
 
 		public CharacterStats(CharacterStats _charic)
 		{
 			m_nIndex 			= _charic.m_nIndex;
-			m_strName 			= _charic.m_strName;
+			m_strJobName 		= _charic.m_strJobName;
 			m_strCharicName 	= _charic.m_strCharicName;
 			m_nEnhace 			= _charic.m_nEnhace;
 			m_strJob 			= _charic.m_strJob;
@@ -141,9 +159,6 @@ namespace ReadOnlys
 			m_fPhyiscal_Rating 	= _charic.m_fPhyiscal_Rating;
 			m_fMagic_Rating 	= _charic.m_fMagic_Rating;
 			m_fAttack_Range 	= _charic.m_fAttack_Range;
-			m_fAttack_Area 		= _charic.m_fAttack_Area;
-			m_nMaxTargetNumber 	= _charic.m_nMaxTargetNumber;
-			m_nAttack_Priority 	= _charic.m_nAttack_Priority;
 			m_fAttackSpeed 		= _charic.m_fAttackSpeed;
 			m_fMoveSpeed 		= _charic.m_fMoveSpeed;
 			m_fPhysical_Defence = _charic.m_fPhysical_Defence;
@@ -161,7 +176,6 @@ namespace ReadOnlys
 
 		}
 	}
-
 
 	[System.Serializable]
 	public class ActiveSkill
@@ -193,13 +207,13 @@ namespace ReadOnlys
 		public string m_strAttackPriority;
 		public float m_fDuration;				//지속시간
 		public string m_strExplanation; 			//설명
-		public bool m_bIsActive;				//활성화 할 수 있는가
+		public bool m_bIsCooltime;				//사용 할 수 있는가 
 
 		public ActiveSkill(int _nIndex,string _strName,int _nCharacterIndex,string _strAttackType , int _nSkillClass,int _nTier,string _strJob,
-			int _nAttribute,int _nAttackType, int _nActivePriority,float _fAttack_ActiveRating,float _fCriticalAttack_ActiveRating,
-			int _nAttackCount_ActiveRating,float _fDodgy_ActiveRating,float _fHit_ActiveRating,float _fCoolTime,float _fCastTime,
-			float _fPhysicalMagnification,float _fMagicMagnification,int _nAttackNumber,float _fAttackRange,float _fAttackArea, 
-			string _strSkillTarget,int _nMaxTargetNumber,string _strAttackPriority, float _fDuration,string _strExplanation,bool _bIsActive)
+							int _nAttribute,int _nAttackType, int _nActivePriority,float _fAttack_ActiveRating,float _fCriticalAttack_ActiveRating,
+							int _nAttackCount_ActiveRating,float _fDodgy_ActiveRating,float _fHit_ActiveRating,float _fCoolTime,float _fCastTime,
+							float _fPhysicalMagnification,float _fMagicMagnification,int _nAttackNumber,float _fAttackRange,float _fAttackArea, 
+							string _strSkillTarget,int _nMaxTargetNumber,string _strAttackPriority, float _fDuration,string _strExplanation,bool _bIsCooltime)
 		{
 			m_nIndex = _nIndex;
 			m_strName = _strName;
@@ -223,59 +237,59 @@ namespace ReadOnlys
 			m_strAttackPriority = _strAttackPriority;
 			m_fDuration = _fDuration;
 			m_strExplanation = _strExplanation;
-			m_bIsActive = _bIsActive;
+			m_bIsCooltime = _bIsCooltime;
 		}
 	}
-
 
 	[System.Serializable]
 	public class BasicSkill {
 
-		public int nIndex;             //스킬에 대한 인덱스
-		public int nCharacterIndex;    //소유가능한 캐릭터 인덱스
-		public string strSkillName;    //스킬 이름
-		public string strSkillType;    //스킬 타입 0 =basic attack,1= formation, 2 = active attack, 3 =  buff, 4 = debuff,
-		public int nTier;              //캐릭터 전직 단계
-		public int nSkillClass;        //스킬 분류
-		public string strJob;          //소유 가능한 직업
-		public int nAttribute;         //속성 물리,마법인지
-		public int nAttackType;        //공격 타입 (근접, 원거리, 0)
-		public int nPhsyicMagnification;   //물리 속성 공격
-		public int nMagicMagnification;    //마법 속성 공격
-		public string strSkillTarget;      //대상
-		public int nMaxTargetNumber;       //최대 공격 개수
-		public int nAttackNumber;          //공격 횟수
-		public string strAttackPriority;   //공격 우선순위
-		public string strExplanation;      //스킬 설명
+    public int nIndex;             //스킬에 대한 인덱스
+    public int nCharacterIndex;    //소유가능한 캐릭터 인덱스
+    public string strSkillName;    //스킬 이름
+    public string strSkillType;    //스킬 타입 0 =basic attack,1= formation, 2 = active attack, 3 =  buff, 4 = debuff,
+    public int nTier;              //캐릭터 전직 단계
+    public int nSkillClass;        //스킬 분류
+    public string strJob;          //소유 가능한 직업
+    public int nAttribute;         //속성 물리,마법인지
+    public int nAttackType;        //공격 타입 (근접, 원거리, 0)
+    public int nPhsyicMagnification;   //물리 속성 공격
+    public int nMagicMagnification;    //마법 속성 공격
+	public float fAttackArea;
+    public string strSkillTarget;      //대상
+    public int nMaxTargetNumber;       //최대 공격 개수
+    public int nAttackNumber;          //공격 횟수
+    public string strAttackPriority;   //공격 우선순위
+    public string strExplanation;      //스킬 설명
 
-		public BasicSkill(int _nindex,int _nCharacterIndex,string _strSkillName,string _strSkillType,int _nTier, int _nSkillClass,
-			string _strJob,int _nAttribute, int _nAttackType, int _nPhsyicMagnification, int _nMagicMagnification,string _strSkillTarget,
-			int _nMaxTargetNumber, int _nAttackNumber,string _strAttackPriority,string _strExplain)
-		{
-			nIndex = _nindex;
-			nCharacterIndex = _nCharacterIndex;
-			strSkillName = _strSkillName;
-			strSkillType = _strSkillType;
-			nTier = _nTier;
-			nSkillClass = _nSkillClass;
-			strJob = _strJob;
-			nAttribute = _nAttribute;
-			nAttackType = _nAttackType;
-			nPhsyicMagnification = _nPhsyicMagnification;
-			nMagicMagnification = _nMagicMagnification;
-			strSkillTarget = _strSkillTarget;
-			nMaxTargetNumber = _nMaxTargetNumber;
-			nAttackNumber = _nAttackNumber;
-			strAttackPriority = _strAttackPriority;
-			strExplanation = _strExplain;
+    public BasicSkill(int _nindex,int _nCharacterIndex,string _strSkillName,string _strSkillType,int _nTier, int _nSkillClass,
+                        string _strJob,int _nAttribute, int _nAttackType, int _nPhsyicMagnification, int _nMagicMagnification,float _fAttackArea,
+						string _strSkillTarget, int _nMaxTargetNumber, int _nAttackNumber,string _strAttackPriority,string _strExplain)
+                        {
+                                nIndex = _nindex;
+                                nCharacterIndex = _nCharacterIndex;
+                                strSkillName = _strSkillName;
+                                strSkillType = _strSkillType;
+                                nTier = _nTier;
+                                nSkillClass = _nSkillClass;
+                                strJob = _strJob;
+                                nAttribute = _nAttribute;
+                                nAttackType = _nAttackType;
+                                nPhsyicMagnification = _nPhsyicMagnification;
+                                nMagicMagnification = _nMagicMagnification;
+								fAttackArea = _fAttackArea;
+                                strSkillTarget = _strSkillTarget;
+                                nMaxTargetNumber = _nMaxTargetNumber;
+                                nAttackNumber = _nAttackNumber;
+                                strAttackPriority = _strAttackPriority;
+                                strExplanation = _strExplain;
 
-		}
+                        }
 	}
 
 
 	[System.Serializable]
-	public class PassiveSkill {
-
+	public class AllPassiveSkill {
 		public int nIndex;             //스킬에 대한 인덱스
 		public int nCharacterIndex;    //소유가능한 캐릭터 인덱스
 		public string strSkillName;    //스킬 이름
@@ -285,28 +299,24 @@ namespace ReadOnlys
 		public string strJob;          //소유 가능한 직업
 		public int nAttribute;         //속성 물리,마법인지,두개다
 		public int nAttackType;        //공격 타입 (근접, 원거리, 두개 =다)
-		public List<int> Option_List;		//옵션 인덱스 
+		public string strOption_List;		//옵션 인덱스 
 		public string strExplanation;      //스킬 설명
-
-		public PassiveSkill(int _nindex,int _nCharacterIndex,string _strSkillName,string _strSkillType,int _nTier, int _nSkillClass,
-			string _strJob,int _nAttribute, int _nAttackType,List<int> _option_list, string _strExplain)
-		{
-			nIndex = _nindex;
-			nCharacterIndex = _nCharacterIndex;
-			strSkillName = _strSkillName;
-			strSkillType = _strSkillType;
-			nTier = _nTier;
-			nSkillClass = _nSkillClass;
-			strJob = _strJob;
-			nAttribute = _nAttribute;
-			nAttackType = _nAttackType;
-			Option_List = _option_list;
-			strExplanation = _strExplain;
-
-		}
 	}
 
+	[System.Serializable]
+	public class PassiveSkill
+	{
+		List<PassiveSkillOption> LIST_SKILL= new List<PassiveSkillOption>();
+	}
 
+	public class PassiveSkillOption
+	{
+		int nIndex;
+
+		int nEnhaceValue = 0;
+
+		List<string> LIST_OPTION_LIST = new List<string>();
+	}
 
 
 	public class TestCharacter

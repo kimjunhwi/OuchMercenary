@@ -1,7 +1,7 @@
 ﻿<Properties StartupConfiguration="{ABDB6780-48B2-7F58-4D2D-FA17B93C1C71}|" StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Manager/ReadOnly.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Character/Archer.cs">
     <Files>
-      <File FileName="Assets/Scripts/Character/Archer.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/Archer.cs" Line="344" Column="10" />
       <File FileName="Assets/Scripts/Character/Commander.cs" Line="1" Column="1" />
       <File FileName="../Downloads/ProjectM/Assets/Scripts/CharicManager.cs" Line="1" Column="1" />
       <File FileName="../Downloads/ProjectM/Assets/Scripts/CGame.cs" Line="1" Column="1" />
@@ -15,16 +15,18 @@
       <File FileName="Assets/Scripts/Character/Enemy_Warrior.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Character/Enemy_Archer.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Character/Warrior.cs" Line="1" Column="1" />
-      <File FileName="../BlackSmith5/Assets/Scripts/InGame/Manager/GameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Manager/ReadOnly.cs" Line="129" Column="32" />
+      <File FileName="Assets/Scripts/Manager/ReadOnly.cs" Line="1" Column="1" />
+      <File FileName="../Desktop/ReadOnly 14-05-19-974.cs" Line="1" Column="1" />
+      <File FileName="../OuchMercenary 2/Assets/Scripts/Manager/CharacterManager.cs" Line="72" Column="4" />
+      <File FileName="../OuchMercenary 2/Assets/Scripts/Player/Player.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/Warrior.cs" line="182" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/Warrior.cs" line="249" column="1" />
       <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Manager/CharacterManager.cs" line="37" column="31" />
-      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/Enemy_Warrior.cs" line="196" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/Enemy_Warrior.cs" line="201" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.OuchMercenary PreferredExecutionTarget="Unity.Editor" />

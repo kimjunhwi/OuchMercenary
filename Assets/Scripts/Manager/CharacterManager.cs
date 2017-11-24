@@ -5,7 +5,6 @@ using ReadOnlys;
 
 public class CharacterManager : MonoBehaviour {
 
-
 	IComparer compare = new SortunityLayerCompare();
 	public ArrayList ARRAY_CHARIC = new ArrayList();
 
@@ -14,6 +13,8 @@ public class CharacterManager : MonoBehaviour {
 	public void Add(Character _character)
 	{
 		ARRAY_CHARIC.Add(_character);
+
+
 	}
 
 	//remove
@@ -68,12 +69,11 @@ public class CharacterManager : MonoBehaviour {
 			//return x.m_value.CompareTo( y.m_value ); // 작은 순서대로 정렬.
 			//return y.m_value.CompareTo( x.m_value ); // 큰 순서대로 정렬.
 
-			return x.transform.position.y.CompareTo(y.transform.position.y);
+			return x.transform.position.y.CompareTo (y.transform.position.y);
 		}
-
 	}
 
-	// 필요한 캐릭터를 반환 ------------------------------------------ 20170413
+	// 필요한 캐릭터를 반환 ------------------------------------------
 	public ArrayList FindTarget(Character _charic, float _fDistance)
 	{
 		ArrayList TargetArray = new ArrayList();
@@ -86,6 +86,37 @@ public class CharacterManager : MonoBehaviour {
 			if (kCharic.E_CHARIC_TYPE == _charic.E_CHARIC_TYPE) continue; //아군 제외.
 
 			float fDistance = Vector3.Distance(kCharic.gameObject.transform.position, _charic.gameObject.transform.position);
+
+			if(fDistance < _fDistance)
+				SortArray.Add(new SortunitClass() { m_value1 = fDistance, m_charic = kCharic });
+		}
+
+		if (SortArray.Count > 0)
+		{
+			// 작은 순서대로 정렬.
+			SortArray.Sort(new SortunitClassCompare());
+
+			foreach (SortunitClass sort in SortArray)
+			{
+				TargetArray.Add(sort.m_charic);
+			}
+		}
+
+		return TargetArray;
+	}
+
+	public ArrayList FindTargetArea(Character _Attackcharic, Character _TargetCharic, float _fDistance)
+	{
+		ArrayList TargetArray = new ArrayList();
+		ArrayList SortArray = new ArrayList(); //조건에 맞추어 정렬.
+
+		foreach (Character kCharic in ARRAY_CHARIC)
+		{
+			if (kCharic.IsDead() == true) continue;
+			if (kCharic == _Attackcharic) continue; //공격 캐릭 제외
+			if (kCharic.E_CHARIC_TYPE == _Attackcharic.E_CHARIC_TYPE) continue; //아군 제외.
+
+			float fDistance = Vector3.Distance(kCharic.gameObject.transform.position, _TargetCharic.gameObject.transform.position);
 
 			if(fDistance < _fDistance)
 				SortArray.Add(new SortunitClass() { m_value1 = fDistance, m_charic = kCharic });
