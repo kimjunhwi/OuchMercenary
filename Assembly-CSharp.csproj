@@ -341,40 +341,40 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.CognitoIdentity">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.CognitoIdentity.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.CognitoIdentity.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.CognitoSync">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.CognitoSync.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.CognitoSync.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.Core">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.Core.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.Core.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.DynamoDBv2">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.DynamoDBv2.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.DynamoDBv2.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.Lambda">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.Lambda.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.Lambda.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.S3">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.S3.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.S3.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.SecurityToken">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.SecurityToken.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.SecurityToken.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.SimpleNotificationService">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.SimpleNotificationService.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.SimpleNotificationService.dll</HintPath>
  </Reference>
  <Reference Include="Facebook.Unity">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/FacebookSDK/Plugins/Facebook.Unity.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/FacebookSDK/Plugins/Facebook.Unity.dll</HintPath>
  </Reference>
  <Reference Include="Facebook.Unity.Gameroom">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/FacebookSDK/Plugins/Gameroom/Facebook.Unity.Gameroom.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/FacebookSDK/Plugins/Gameroom/Facebook.Unity.Gameroom.dll</HintPath>
  </Reference>
  <Reference Include="FacebookNamedPipeClient">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/FacebookSDK/Plugins/Gameroom/FacebookNamedPipeClient.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/FacebookSDK/Plugins/Gameroom/FacebookNamedPipeClient.dll</HintPath>
  </Reference>
  <Reference Include="Facebook.Unity.Settings">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/FacebookSDK/Plugins/Settings/Facebook.Unity.Settings.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/FacebookSDK/Plugins/Settings/Facebook.Unity.Settings.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
