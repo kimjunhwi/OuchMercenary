@@ -10,13 +10,12 @@ public class MainSceneManager : MonoBehaviour
 {
 	public Button Stage_Button;
 
+	public Transform canvas;
+
 	void Start () 
 	{
-		Stage_Button.onClick.AddListener (LoadScene);
+		Stage_Button.onClick.AddListener(() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_STAGE , E_SCENE_INDEX.E_MENU , canvas));
 	}
 	
-	public void LoadScene()
-	{
-		SceneManager.LoadScene ((int)E_SCENE_INDEX.E_STAGE);
-	}
+
 }

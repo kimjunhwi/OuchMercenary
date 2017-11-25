@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class StagePanel : MonoBehaviour 
 {
+	public Transform canvas;
+
 	private const string sStageInfo_Defense 	= "스테이지 - 방어";
 	private const string sStageInfo_Attack 	= "스테이지 - 공격";
 	private const string sStageInfo_Infinite = "무한던전";
@@ -21,9 +23,7 @@ public class StagePanel : MonoBehaviour
 		stageAttack_Button.onClick.RemoveAllListeners ();
 		stageInfinite_Button.onClick.RemoveAllListeners ();
 
-		stageDefense_Button.onClick.AddListener (() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_STAGE_DEFENSE));
+		stageDefense_Button.onClick.AddListener (() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_STAGE_DEFENSE, ReadOnlys.E_SCENE_INDEX.E_STAGE , canvas));
 		//GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_STAGE, canvas, sStageInfo_Defense);
 	}
-
-
 }

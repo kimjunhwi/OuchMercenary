@@ -30,6 +30,7 @@ using UnityEngine.SocialPlatforms;
 
 public class LoginManager : MonoBehaviour 
 {
+	public Transform canvas;
 
 	AsyncOperation ao;
 
@@ -40,6 +41,8 @@ public class LoginManager : MonoBehaviour
 	public string sGoogleID;	
 	public string sFaceBookID;
 	public E_LOGIN_PORVIDER_INDEX eLoginProviderIndex;
+
+
 
 	public bool bIsSuccessed = false;
 
@@ -144,7 +147,14 @@ public class LoginManager : MonoBehaviour
 		PlayerPrefs.DeleteKey ("FirstAppActive");
 		//Login(data sync) -> Version Check(static data download) -> GameStart
 		LoginManager_Init();
+		//Init SetUpBar
 		GameManager.Instance.InitUpbar ();
+		//Init LoadingPanel
+		GameManager.Instance.InitLoadingPanel();
+
+
+
+
 		#if UNITY_EDITOR
 		//처음 실행과 아닐때의 분기
 		if (PlayerPrefs.HasKey ("FirstAppActive"))
@@ -196,7 +206,6 @@ public class LoginManager : MonoBehaviour
 	//Google, FaceBook 등등 로그인시 초기화 할것들
 	void LoginManager_Init()
 	{
-
 		GoogleLogin_Button.onClick.AddListener (GoogleLogin);
 		//FaceBookLogin_Button.onClick.AddListener (FaceBookLogin);
 		nickConfirm_Button.onClick.AddListener (DataSetSaveInCognito_FirstLogin);
@@ -328,7 +337,9 @@ public class LoginManager : MonoBehaviour
 				loginState_Text.text = "기본 캐릭터 불러오기 완료";
 				#if UNITY_EDITOR
 				StartCoroutine(GameManager.Instance.DataLoad());
-				StartCoroutine(LoadScene());
+
+
+				GameManager.Instance.LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, canvas );
 				LoginCategory_Panel.SetActive (false);
 
 		
@@ -355,11 +366,8 @@ public class LoginManager : MonoBehaviour
 				loginState_Text.text = sInputText + "...";
 				nPotCount = 0;
 			}
-
-
 		}
 	}
-
 
 
 

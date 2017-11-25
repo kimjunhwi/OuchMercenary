@@ -1480,6 +1480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eb2647547e054904968333cfd11c65b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 1544825979}
   stageDefense_Button: {fileID: 1967037157}
   stageAttack_Button: {fileID: 1152660169}
   stageInfinite_Button: {fileID: 355840193}
