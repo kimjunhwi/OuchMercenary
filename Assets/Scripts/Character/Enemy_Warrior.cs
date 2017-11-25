@@ -13,16 +13,20 @@ public class Enemy_Warrior : Character {
 
 	public override void Setup (CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager, E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
 	{
+		charicStats = new CharacterStats (_charic);
+
+		m_fCurrentHp = charicStats.m_fHealth;
+		m_fMaxHp = m_fCurrentHp;
+
 		skillManager = _skillManager;
 		characterManager = _charicManager;
 
 		E_CHARIC_TYPE = _E_TYPE;
 
 		m_VecFirstPosition = _vecPosition;
+	
 		gameObject.transform.position = m_VecFirstPosition;
-
-		charicStats = new CharacterStats (_charic);
-
+	
 		animator.runtimeAnimatorController = ObjectCashing.Instance.LoadAnimationController("Animation/" + charicStats.m_strJob);
 
 		CheckCharacterState (E_CHARACTER_STATE.E_WALK);
@@ -45,6 +49,8 @@ public class Enemy_Warrior : Character {
 	{
 		if (E_CHARIC_STATE == _E_STATE)
 			return;
+
+		animator.Rebind();
 
 		//액션 변경
 		E_CHARIC_STATE = _E_STATE;
@@ -88,7 +94,6 @@ public class Enemy_Warrior : Character {
 			break;
 			case E_CHARACTER_STATE.E_DEAD:
 			{
-				spriteRender.flipX = true;
 
 				animator.SetBool("Dead",true);
 			}
@@ -188,7 +193,7 @@ public class Enemy_Warrior : Character {
 
 			case E_CHARACTER_STATE.E_DEAD:
 			{
-				alphaColor.a = Mathf.Lerp(spriteRender.color.a,0,1 * Time.deltaTime);
+				alphaColor.a = Mathf.Lerp(spriteRender.color.a,0,m_fDisableSpeed * Time.deltaTime);
 
 				spriteRender.color = alphaColor;
 			}

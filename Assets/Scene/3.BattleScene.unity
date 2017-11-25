@@ -533,7 +533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strPrefabName: 
   nPoolSize: 50
-  prefab: {fileID: 1421981109743502, guid: 4c951d25f3ada43439703217aa397529, type: 2}
+  prefab: {fileID: 1421981109743502, guid: ba03f5399ce694cff923db1a60027fc6, type: 2}
 --- !u!4 &1425629001
 Transform:
   m_ObjectHideFlags: 0

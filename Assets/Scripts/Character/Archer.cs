@@ -26,12 +26,12 @@ public class Archer : Character {
 
 		charicStats = new CharacterStats (_charic);
 
-		//임시 베이직 스킬을 부여함 ---------------------------------------------------
-		charicStats.basicSkill = new BasicSkill(2,1002,"a","attack",0,1,"archer",1,1,100,100,"enemy",1,1,"close","p_attack rating의 100%로 공격");
+		// //임시 베이직 스킬을 부여함 ---------------------------------------------------
+		// charicStats.basicSkill = new BasicSkill(2,1002,"a","attack",0,1,"archer",1,1,100,0,1.5f,"enemy",1,1,"close","p_attack rating의 100%로 공격");
 
-		ActiveSkill active = new ActiveSkill(2,"ChargingShot",1002,"attack",2,1,"archer",1,2,0,0,0,5,0,0,0,0,120,120,1,5,3,"enemy",1,"close",0," 5회 공격시 마다 적 1명에게 p_AttackRating 150%의 피해를 입힌다",false);
+		// ActiveSkill active = new ActiveSkill(2,"ChargingShot",1002,"attack",2,1,"archer",1,2,0,0,0,5,0,0,0,0,120,120,1,5,3,"enemy",1,"close",0," 5회 공격시 마다 적 1명에게 p_AttackRating 150%의 피해를 입힌다",false);
 
-		charicStats.activeSkill.Add(active);
+		// charicStats.activeSkill.Add(active);
 
 		animator.runtimeAnimatorController = ObjectCashing.Instance.LoadAnimationController ("Animation/" + charicStats.m_strJob);
 
@@ -58,6 +58,8 @@ public class Archer : Character {
 	{
 		if (E_CHARIC_STATE == _E_STATE)
 			return;
+
+		animator.Rebind();
 
 		//액션 변경
 		E_CHARIC_STATE = _E_STATE;
@@ -200,10 +202,10 @@ public class Archer : Character {
 			{
 				if (transform.position != m_VecFirstPosition) 
 				{
+					transform.position = Vector3.MoveTowards (transform.position, m_VecFirstPosition, Time.deltaTime * charicStats.m_fMoveSpeed);
+
 					//캐릭터 레이어를 재정렬
 					characterManager.SortingCharacterLayer();
-
-					transform.position = Vector3.MoveTowards (transform.position, m_VecFirstPosition, Time.deltaTime * charicStats.m_fMoveSpeed);
 				} 
 				else 
 				{
@@ -236,20 +238,20 @@ public class Archer : Character {
 
 				m_fAttackTime += Time.deltaTime;
 
+				//null 일 경우 재탐색
 				if (targetCharacter == null) 
 				{
-					CheckCharacterState (E_CHARACTER_STATE.E_WALK);
-
-					break;
+					ResetTargetCharacter(this,charicStats.m_fAttack_Range);
 				} 
 				else 
 				{
-					//공격 하려던 캐릭터가 이미 죽어있을경우 대기 상태로 바꿈 
+					//공격 하려던 캐릭터가 이미 죽어있을경우 타겟을 갱신 
 					if (targetCharacter.IsDead ()) 
 					{
-						CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
+						ResetTargetCharacter(this,charicStats.m_fAttack_Range);
 
-						break;
+						if(targetCharacter == null)
+							yield break;
 					}
 
 					//만약 현재 공격중인 적이 자신의 공격범위에서 벗어날 경우
@@ -257,35 +259,107 @@ public class Archer : Character {
 					{
 						m_fAttackTime = 0.0f;
 
-						targetCharacter = null;
+						ResetTargetCharacter(this,charicStats.m_fAttack_Range);
 
-						CheckCharacterState (E_CHARACTER_STATE.E_WALK);
-
-						break;
-					}
-
-					//현재 활성화 된 캐릭터들 중에서 공격 범위 안에 들어온 리스트 들을 반환 
-					ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
-
-					//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
-					if (targetLists.Count > 0) {
-						//제일 가까운 캐릭터를 반환한다.
-						targetCharacter = (Character)targetLists [0];
+						if(targetCharacter == null)
+							yield break;
 					}
 				}
+
+				if(targetCharacter == null)
+					yield break;
+
 
 				if (m_fAttackTime >= charicStats.m_fAttackSpeed) {
 					m_fAttackTime = 0.0f;
 
 					animator.SetTrigger ("Attack");
 
-					GameObject Arrow = arrowPool.GetObject();
+					activeSkill = null;
 
-					Projectile projectile = Arrow.GetComponent<Projectile> ();
+					//1.캐릭터가 현재 가지고 있는 스킬 만큼 돈다.
+					//2.쿨타임 중일 경우 다음 인덱스로
+					//3.발동 확률을 체크 후 됐을 경우 활성화 시킬 스킬에 넣어준다.
+					for (int nIndex = 0; nIndex < charicStats.activeSkill.Count; nIndex++) 
+					{
+						if(charicStats.activeSkill[nIndex].m_bIsCooltime)
+							continue;
 
-					StartCoroutine(projectile.Shoot(arrowPool,transform.position,targetCharacter.transform.position,1.0f));
+						if(IsUseSkill(nIndex)) 
+						{
+							activeSkill = charicStats.activeSkill [nIndex];
+							break;
+						}
+					}
 
-					Debug.Log ("Attack");
+					if (activeSkill == null) {
+
+						Debug.Log ("BaseAttack");
+
+						for (int nAttackCount = 0; nAttackCount < charicStats.basicSkill[0].nAttackNumber; nAttackCount++) {
+
+							bool bIsCritical = false;
+
+							if(targetCharacter.IsDead())
+							{ 
+								ResetTargetCharacter(this,charicStats.m_fAttack_Range);
+
+								if(targetCharacter == null)
+									yield break;
+							}
+
+							nAttackCount++;
+
+							if(Random.Range(0,100) < charicStats.m_fCritical_Rating)
+							{
+								bIsCritical = true;
+
+								for(int nIndex = 0; nIndex < charicStats.activeSkill.Count;nIndex++)
+								{
+									if(Random.Range(0,100) < charicStats.activeSkill[nIndex].m_fCriticalAttack_ActiveRating)
+									{
+										activeSkill = charicStats.activeSkill[nIndex];
+										
+										break;
+									}
+								}
+
+								if(activeSkill != null)
+								{
+									
+									continue;
+								}
+							}
+
+							//1.사거리안에 들어온 캐릭터가 1개 이상일 경우
+							//2.적 캐릭터에서 공격 범위 만큼의 리스트를 구한 후
+							//3.그 안에 있는 캐릭터에게 공격 횟수 만큼 데미지를 준다.
+							ArrayList targetLists = characterManager.FindTargetArea(this,targetCharacter,charicStats.basicSkill[0].fAttackArea);
+
+							for (int nIndex = 0; nIndex < charicStats.basicSkill[0].nMaxTargetNumber; nIndex++) {
+								//만약 타겟수가 공격 해야할 캐릭터 수보다 적을 경우 종료
+								if (targetLists.Count <= nIndex) {
+									break;
+								}
+								
+								//데미지 계산을 미리 한 후 화살에 데미지를 인자로 보낸후 데미지 처리를 한다. 
+
+								GameObject Arrow = arrowPool.GetObject();
+
+								Projectile projectile = Arrow.GetComponent<Projectile> ();
+
+								StartCoroutine(projectile.Shoot(arrowPool,this,targetCharacter,1.0f));
+
+								//skillManager.BasicAttack (this, (Character)targetLists [nIndex],bIsCritical);
+							}
+						}
+					} 
+					else 
+					{
+						Debug.Log (activeSkill.m_strName);
+
+						StartCoroutine(SkillCoolTime());
+					}
 				}
 			}
 			break;
@@ -295,6 +369,11 @@ public class Archer : Character {
 				alphaColor.a = Mathf.Lerp(spriteRender.color.a,0,1 * Time.deltaTime);
 
 				spriteRender.color = alphaColor;
+
+				if(spriteRender.color.a == 0.0f)
+				{
+
+				}
 			}
 			break;
 		}
