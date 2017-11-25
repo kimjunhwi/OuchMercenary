@@ -29,7 +29,9 @@ using UnityEngine.SocialPlatforms;
 //어디서든 사용해야 하기 때문에 제네릭싱글톤을 통해 구현
 public class GameManager : GenericMonoSingleton<GameManager>
 {
-	AsyncOperation ao;
+	public E_SCENE_INDEX prevSceneIndex;		//이전 씬 인덱스
+	public E_SCENE_INDEX nextSceneIndex;		//다음 씬 인덱스
+	public Transform curSceneCanvas;			//현재씬의 캔버스
 
 	Player m_Player;
 
@@ -43,9 +45,11 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	//Scene 마다 있는 UpBar
 	public Upbar upBar;
+	public GameObject upBarHold_obj;		//UpBarHoldrer
 
-	public GameObject upBarHold_obj;
-
+	//Scene 마다 있는 LoadingPanel
+	public LoadingPanel loadingPanel;
+	public GameObject loadingPanel_obj;		//LoadingPanel
 
 	public IEnumerator DataLoad()
     {
@@ -54,8 +58,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		#if UNITY_EDITOR
 
 		loginManager.bIsSuccessed = true;
-
-
 
 		#elif UNITY_IOS
 
@@ -198,7 +200,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		if (hit.collider != null)
 		{
 			//Debug.Log (hit.collider.name);  //이 부분을 활성화 하면, 선택된 오브젝트의 이름이 찍혀 나옵니다. 
-			target = hit.collider.gameObject;  //히트 된 게임 오브젝트를 타겟으로 지정
+			target = hit.collider.gameObject;  //히트 된 게임 오브젝트를 타겟으로 지정.
 		}
 		return target;
 	}
@@ -235,32 +237,46 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		upBar.UpbarChangeInfo (_sIndex, _str);
 	}
 
-	public void LoadScene(E_SCENE_INDEX _sceneINdex)
+	public void LoadScene(E_SCENE_INDEX _sceneIndex, E_SCENE_INDEX _prevSceneIndex, Transform _canvas)
 	{
+		prevSceneIndex = _prevSceneIndex;
+		nextSceneIndex = _sceneIndex;
 		GameManager.Instance.InitUpbar ();
-
-		SceneManager.LoadScene ((int)_sceneINdex);
+		//SetUpLoadingPanel (_canvas);
+		SceneManager.LoadScene ((int)E_SCENE_INDEX.E_LOADING);
+		//StartCoroutine( LoadingScene (_sceneIndex));
 	}
 
-	IEnumerator LoadingScene(){
-		yield return new WaitForSeconds (0.3f);
-
-		ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_MENU);
-		ao.allowSceneActivation = false;
-
-		while (!ao.isDone) 
+	public void InitLoadingPanel()
+	{
+		if (loadingPanel == null) 
 		{
-			if (ao.progress == 0.9f) {
-				//loginState_Text.text = "Press Button";
+			loadingPanel_obj = GameObject.Find ("LoadingPanelHold");
+			DontDestroyOnLoad (loadingPanel_obj);
 
-				if (Input.GetMouseButtonDown (0)) {
-					yield return new WaitForSeconds (1.0f);
-					ao.allowSceneActivation = true;
-				}
-			}
-			yield return null;
+			GameObject go = (GameObject)Instantiate (Resources.Load ("Prefabs/LoadingPanel", typeof(GameObject)));
+			loadingPanel = go.GetComponent<LoadingPanel> ();
+			go.transform.SetParent (loadingPanel_obj.transform);
+		
+			go.SetActive (false);
+			DontDestroyOnLoad (go);
+		} 
+		else 
+		{
+			//upBar.gameObject.transform.position = new Vector3 (0f, 490f, 0f);
+			loadingPanel.gameObject.transform.SetParent(loadingPanel_obj.transform);
+			loadingPanel.gameObject.SetActive (false);
 		}
 	}
+	public void SetUpLoadingPanel(Transform _canvas)
+	{
+		Debug.Log ("LoadingPanel Active");
+		loadingPanel.gameObject.SetActive (true);
+		loadingPanel.gameObject.transform.SetParent (_canvas, false);
+		//upBar.UpbarChangeInfo (_sIndex, _str);
+	}
+
+
 
 
 	#endregion

@@ -29,6 +29,7 @@ public enum E_LOAD_STATE : int
 		E_STAGE_ATTACK,
 		E_STAGE_INFINITE,
 		E_STAGE_PREBATTLE,
+		E_LOADING,
 	};
 
 	//물리 타입, 마법 타입, 무
@@ -338,6 +339,7 @@ public enum E_LOAD_STATE : int
 		public int Index { get; set; } 						// Hash key.
 
 		public int C_Index { get; set; }					// CharacterIndex 
+
 		public string C_JobNames { get; set;}				// Character 직업 이름
 
 		public string C_Name { get; set;}					// Character Name

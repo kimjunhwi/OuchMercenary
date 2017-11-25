@@ -988,6 +988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stage_Button: {fileID: 1361186968}
+  canvas: {fileID: 126760284}
 --- !u!1 &919539288
 GameObject:
   m_ObjectHideFlags: 0

@@ -554,6 +554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1073edcb8e4a428c81015dd1a5b5f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
   Ready_Button: {fileID: 1432548231}
 --- !u!1 &723630289
 GameObject:
@@ -758,6 +759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1073edcb8e4a428c81015dd1a5b5f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 1544825979}
   Ready_Button: {fileID: 1841821620}
 --- !u!1 &981519597
 GameObject:
