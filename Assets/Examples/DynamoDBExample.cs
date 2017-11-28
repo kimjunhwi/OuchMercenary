@@ -32,7 +32,6 @@ namespace AWSSDK.Examples
         void Start()
         {
             UnityInitializer.AttachToGameObject(this.gameObject);
-			Amazon.AWSConfigs.HttpClient = Amazon.AWSConfigs.HttpClientOption.UnityWebRequest;
             lowLevelButton.onClick.AddListener(LowLevelListener);
             midLevelScanButton.onClick.AddListener(MidLevelScanListener);
             highLevelobjectMapperButton.onClick.AddListener(HighLevelListener);

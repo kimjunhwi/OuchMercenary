@@ -78,11 +78,12 @@ public enum E_LOAD_STATE : int
 
 
 [System.Serializable]
-	public class CharacterStats{
+	public class CharacterStats
+	{
 
 		public int m_nIndex;				//인덱스
 		
-		public string m_strJobName; 			//주 직업
+		public string m_strJobName; 		//주 직업
 		
 		public string m_strCharicName;		//캐릭 이름
 		
@@ -300,8 +301,8 @@ public enum E_LOAD_STATE : int
 		public string strJob;          //소유 가능한 직업
 		public int nAttribute;         //속성 물리,마법인지,두개다
 		public int nAttackType;        //공격 타입 (근접, 원거리, 두개 =다)
-		public string strOption_List;		//옵션 인덱스 
-		public string strExplanation;      //스킬 설명
+		public string strOption_List;  //옵션 인덱스 
+		public string strExplanation;  //스킬 설명
 	}
 
 	[System.Serializable]
@@ -333,7 +334,7 @@ public enum E_LOAD_STATE : int
 		public int skillPower { get; set;}
 	}
 
-
+	[System.Serializable]
 	public class DBBasicCharacter
 	{
 		public int Index { get; set; } 						// Hash key.
@@ -346,7 +347,83 @@ public enum E_LOAD_STATE : int
 
 		public int C_Enhance { get; set; }					// Character 강화 단계
 
-		public string Jobs {get;set;}							// 직업 이름
+		public string Jobs {get;set;}						// 직업 이름
+
+		public int Levels { get; set;}						// Character Level
+
+		public int Tier { get; set;}						// Chracter Tier
+
+		public int Attribute { get; set; }					// Character 특성 (물리, 마법, None)
+
+		public int AttackType { get; set;}					// 근거리, 원거리 타입
+
+		public int Tribe { get; set;}						// Character 종족
+
+		public float Site { get; set; }						// Character 인지범위
+
+		public float Health { get; set;}					// Character 체력
+
+		public float Accurancy { get; set;}					// Character 정확도
+
+		public float AttackRange { get; set;}				// Character 공격 사거리
+
+		public float Physic_AttackRating { get; set;}		// Character 물리 공격력
+
+		public float Magic_AttackRating { get; set;}		// Character 마법 공격력
+
+		public float AttackSpeed { get; set;}				// Character 공격 속도
+
+		public float MoveSpeed { get; set;}					// Character 이동 속도
+
+		public float Physic_Defense { get; set;}			// Character 물리 방어력
+
+		public float Magic_Defense { get; set; }			// Character 마법 방어력
+
+		public float Dodge { get; set;}						// Character 회피력
+
+		public float Crit_Rating { get; set; }				// Character 크리 확률
+
+		public float Crit_Dmg { get; set; }					// Character 크리 데미지
+
+		public float Physic_Penetrate {get; set;}			// Character 물리 관통
+
+		public float Magic_Penetrate {get; set;}			// Character 마법 관통
+
+		public float CC_Registance {	get; set; }			// Character 상태이상 저항
+
+		public float Exp {	get; set; }						// Character 현재 경험치
+
+		public float ExpMax {	get; set; }					// Character 최대 경험치
+
+		public float Betch_Index {	get; set; }				// Character 배치위치 
+					
+		public List<BasicSkill> basicSkill {get; set;}
+
+		public List<ActiveSkill> activeSkills {get; set;}
+	}
+
+	public class DBPlayersCharacter
+	{
+		//해당플레이어의 캐릭터가 맞는지 체크 하는 2개의 변수
+		public string UserEamil { get; set; } 				// Hash key.
+		public string UserNick	{ get; set; }
+						
+		public List<DBBasicCharacter> Characters {get; set;}
+	}
+	[System.Serializable]
+	public class DBBasicCharacter_Sealized
+	{
+		public int Index { get; set; } 						// Hash key.
+
+		public int C_Index { get; set; }					// CharacterIndex 
+
+		public string C_JobNames { get; set;}				// Character 직업 이름
+
+		public string C_Name { get; set;}					// Character Name
+
+		public int C_Enhance { get; set; }					// Character 강화 단계
+
+		public string Jobs {get;set;}						// 직업 이름
 
 		public int Levels { get; set;}						// Character Level
 
@@ -396,7 +473,11 @@ public enum E_LOAD_STATE : int
 
 		public float Betch_Index {	get; set; }				// Character 배치위치 
 
+		public List<BasicSkill> basicSkill {get; set;}
+
+		public List<ActiveSkill> activeSkills {get; set;}
 	}
+
 
 	#endregion
 }

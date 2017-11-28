@@ -32,16 +32,17 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public E_SCENE_INDEX prevSceneIndex;		//이전 씬 인덱스
 	public E_SCENE_INDEX nextSceneIndex;		//다음 씬 인덱스
 	public Transform curSceneCanvas;			//현재씬의 캔버스
+	private bool isPrevLoad;					//이전씬을 로드 할건지 아닌지
 
 	Player m_Player;
 
 	public GameObject Root_ui;
 
-	LoginManager loginManager;
+	public LoginManager loginManager;
 
 	public bool bIsLoad = false;
 
-	public List<DBBasicCharacter> lDbBasicCharacter = new List<DBBasicCharacter> ();
+	public List<DBBasicCharacter> lDbBasicCharacter = new List<DBBasicCharacter>();
 
 	//Scene 마다 있는 UpBar
 	public Upbar upBar;
@@ -58,6 +59,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		#if UNITY_EDITOR
 
 		loginManager.bIsSuccessed = true;
+
+	
+
 
 		#elif UNITY_IOS
 
@@ -237,7 +241,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		upBar.UpbarChangeInfo (_sIndex, _str);
 	}
 
-	public void LoadScene(E_SCENE_INDEX _sceneIndex, E_SCENE_INDEX _prevSceneIndex, Transform _canvas)
+	public void LoadScene(E_SCENE_INDEX _sceneIndex, E_SCENE_INDEX _prevSceneIndex, bool _isPrev)
 	{
 		prevSceneIndex = _prevSceneIndex;
 		nextSceneIndex = _sceneIndex;
@@ -246,7 +250,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		SceneManager.LoadScene ((int)E_SCENE_INDEX.E_LOADING);
 		//StartCoroutine( LoadingScene (_sceneIndex));
 	}
-
+	/*
 	public void InitLoadingPanel()
 	{
 		if (loadingPanel == null) 
@@ -276,7 +280,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		//upBar.UpbarChangeInfo (_sIndex, _str);
 	}
 
-
+*/
 
 
 	#endregion

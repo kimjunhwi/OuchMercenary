@@ -137,8 +137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bed46572c6b51a4d85f77096b43721a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IdentityPoolId: 
-  Region: us-east-1
+  IdentityPoolId: ap-northeast-2:d9654bd4-332d-4e05-8a6d-49a55ed1dbf3
+  Region: ap-northeast-2
 --- !u!4 &134338384
 Transform:
   m_ObjectHideFlags: 0

@@ -356,6 +356,8 @@ MonoBehaviour:
   nickInputField: {fileID: 600321832}
   loginState_Text: {fileID: 899139273}
   LoginCategory_Panel: {fileID: 2048310167}
+  IdentityPoolId: ap-northeast-2:d9654bd4-332d-4e05-8a6d-49a55ed1dbf3
+  Region: ap-northeast-2
 --- !u!4 &289017148
 Transform:
   m_ObjectHideFlags: 0
@@ -1029,7 +1031,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1359288883}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1451,9 +1453,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 93976157}
-  - {fileID: 1598450944}
   - {fileID: 899139272}
   - {fileID: 2048310168}
+  - {fileID: 1598450944}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1550,7 +1552,7 @@ RectTransform:
   - {fileID: 739908886}
   - {fileID: 249715314}
   m_Father: {fileID: 1359288883}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1647,7 +1649,7 @@ RectTransform:
   - {fileID: 734754106}
   - {fileID: 1211861594}
   m_Father: {fileID: 1359288883}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

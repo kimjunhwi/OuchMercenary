@@ -15,6 +15,9 @@ public class MainSceneManager : MonoBehaviour
 	void Start () 
 	{
 		Stage_Button.onClick.AddListener(() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_STAGE , E_SCENE_INDEX.E_MENU , canvas));
+
+		Debug.Log (GameManager.Instance.lDbBasicCharacter [0].Index.ToString () + " : " + GameManager.Instance.lDbBasicCharacter [0].C_Name);
+
 	}
 	
 

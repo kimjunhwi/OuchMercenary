@@ -4,10 +4,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
+using System;
 using System.IO;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 
 using ReadOnlys;
 
@@ -21,8 +23,6 @@ using Amazon.Runtime;
 using Amazon.CognitoIdentity;
 using Amazon.CognitoIdentity.Model;
 using Amazon.CognitoSync.SyncManager;
-
-
 
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
@@ -42,7 +42,7 @@ public class LoginManager : MonoBehaviour
 	public string sFaceBookID;
 	public E_LOGIN_PORVIDER_INDEX eLoginProviderIndex;
 
-
+	private int nCurPlayerCount = 0;
 
 	public bool bIsSuccessed = false;
 
@@ -62,6 +62,7 @@ public class LoginManager : MonoBehaviour
 	private Player m_Player;
 	//Aws에서 받는 리스트
 	public List<DBBaiscCharacter_ForGet> lDBBasicCheacter_GetList = new List<DBBaiscCharacter_ForGet> ();
+	public List<DBBaiscCharacter_ForGet> lDBBasicCheacter_GetList2 = new List<DBBaiscCharacter_ForGet> ();
 	private const int nCharacterCount = 53;
 	//정보 불러올때 띄우는 텍스트
 
@@ -71,7 +72,7 @@ public class LoginManager : MonoBehaviour
 	//Google
 	private string AccessTokken_GP;
 	//Identity ID pool 
-	private string IdentityPoolId = "ap-northeast-2:8958fcc7-adb9-492d-8435-baefabf9c962";
+	private string IdentityPoolId = "ap-northeast-2:0c274d71-5a9b-4747-bcd1-6b9d0d161301";
 
 	//지역 설정 변수
 	private string Region = RegionEndpoint.APNortheast2.SystemName;	
@@ -149,11 +150,6 @@ public class LoginManager : MonoBehaviour
 		LoginManager_Init();
 		//Init SetUpBar
 		GameManager.Instance.InitUpbar ();
-		//Init LoadingPanel
-		GameManager.Instance.InitLoadingPanel();
-
-
-
 
 		#if UNITY_EDITOR
 		//처음 실행과 아닐때의 분기
@@ -165,7 +161,12 @@ public class LoginManager : MonoBehaviour
 		}
 		else {
 			PlayerPrefs.SetString ("FirstAppActive", "True");
-			CharacterDBLoadAndPutOperation ();
+			//CharacterDBLoadAndPutOperationTest ();
+
+			if (File.Exists (Application.persistentDataPath + "/BasicCharacter.data"))
+				SaveAndLoadBinaryFile();
+			else
+				CharacterDBLoadAndPutOperation();
 		}
 		#elif UNITY_ANDROID
 
@@ -173,12 +174,16 @@ public class LoginManager : MonoBehaviour
 		if (PlayerPrefs.HasKey ("FirstAppActive"))
 		{
 			//db에서 데이터 읽어오기
+
 			//다운되어있는  prefab에서 가져오기
 			Debug.Log ("LoginSequence");
 		}
 		else {
 			PlayerPrefs.SetString ("FirstAppActive", "True");
-			CharacterDBLoadAndPutOperation ();
+		if (File.Exists (Application.persistentDataPath + "/BasicCharacter.data"))
+			SaveAndLoadBinaryFile();
+		else
+			CharacterDBLoadAndPutOperation();
 		}
 		#endif
 
@@ -215,6 +220,7 @@ public class LoginManager : MonoBehaviour
 		//WWW Error 해결코드 2017ver.
 		Amazon.AWSConfigs.HttpClient = Amazon.AWSConfigs.HttpClientOption.UnityWebRequest;
 
+		Debug.Log (Credentials);
 		//Editor
 		//FaceBook 초기화
 		FB.Init ();		
@@ -225,11 +231,20 @@ public class LoginManager : MonoBehaviour
 		PlayGamesPlatform.InitializeInstance(configEditor);
 		//GoogleLogin Active
 		PlayGamesPlatform.Activate();
+		 
+		Debug.Log (Credentials.IdentityPoolId.ToString ());
 
 
 		_ddbClient = Client;
+		_context = Context;
 
 		playerInfo = SyncManager.OpenOrCreateDataset("PlayerInfo");
+
+		//playerInfo.Put ("Nick", "Smaet");
+		//playerInfo.Put ("Provider", "Google");
+		//playerInfo.Put ("Email", "dkan56@naver.com");
+
+		//playerInfo.SynchronizeAsync ();
 
 		Debug.Log ("Init Complete");
 
@@ -258,27 +273,66 @@ public class LoginManager : MonoBehaviour
 	//처음 로그인후 닉 과 해당 이메일을 확인조건으로 저장한다
 	public void DataSetSaveInCognito_FirstLogin()
 	{
-		
 		sNick = nickInputField.text;
 
 		playerInfo.Put ("Nick", sNick);
 		playerInfo.Put ("Provider", eLoginProviderIndex.ToString ());
 		playerInfo.Put ("Email", sEmail);
 
+		//해당 플레이어의 캐릭터들 정보를 가져온다
+		//DynamoDBCheck(sEmail, sNick, true);
 
 		playerInfo.SynchronizeAsync ();
 
+		//CharacterDBLoadAndPutOperation ();
 
 		nickInputObj.SetActive (false);
 	}
 
 	//연동이 되어있으면 이메일과 닉을 체크 해서 연동을 한다
-	public void DynamoDBCheck(string _email, string _nick)
+	public void DynamoDBCheck(string _email, string _nick , bool isFirstLogin)
 	{
+		//First or Not Check
+		//처음 로그인시 기본 캐릭셋을 db에 만든다
+		if (isFirstLogin) {
+
+		}
+
+		else 
+		{
+			
+		}
+	}
+	//이메일과 닉을 체크 하여 DB에서 로드  
+	IEnumerator CheckEmailAndNick_LoadDB(string _email, string _nick)
+	{
+		yield return new WaitForSeconds (0.2f);
+		while (true) 
+		{
+			
+			yield return null;
+		}
+	}
+	//클래스를 집에서 봐서 바꿔야함
+	IEnumerator GetPlayerCountFromDB()
+	{
+		yield return new WaitForSeconds (0.1f);
+
+		while (true) 
+		{
+			if (nCurPlayerCount != 0)
+				Debug.Log ("GetPlayerCountComplete Count :" + nCurPlayerCount);
+			
+
+			nCurPlayerCount = _syncManager.ListDatasets ().Count;
+			yield return null;
+		}
 
 	}
 
 	#region LoadFromAwsDB
+
+
 	//DB에서 연동하여 데이터를 가져온다 Character
 	private void CharacterDBLoadAndPutOperation()
 	{
@@ -296,9 +350,10 @@ public class LoginManager : MonoBehaviour
 					character = result.Result as DBBaiscCharacter_ForGet;
 					// Update few properties.
 
-					Debug.Log(character.C_JobNames + "\n");
+					Debug.Log("1 : " + character.C_JobNames + "\n");
 					//GetCharacter= character;
 					lDBBasicCheacter_GetList.Add(character);
+					
 					//Index++;
 					character = null;
 				}
@@ -317,6 +372,9 @@ public class LoginManager : MonoBehaviour
 
 	IEnumerator isFinishLoadData(E_LOAD_STATE _state)
 	{
+
+		yield return new WaitForSeconds(0.2f);
+
 		int nPotCount = 0;
 		string sInputText = null;
 		switch (_state) 
@@ -332,28 +390,26 @@ public class LoginManager : MonoBehaviour
 		while (true) 
 		{
 			//break 조건
-			if (lDBBasicCheacter_GetList.Count == nCharacterCount) 
+			if (lDBBasicCheacter_GetList.Count == nCharacterCount ) 
 			{
 				loginState_Text.text = "기본 캐릭터 불러오기 완료";
 				#if UNITY_EDITOR
 				StartCoroutine(GameManager.Instance.DataLoad());
 
-
-				GameManager.Instance.LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, canvas );
+				//GameManager.Instance.LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, canvas );
+				//StartCoroutine(GetPlayerCountFromDB());
 				LoginCategory_Panel.SetActive (false);
+				InsertInfoToUsingListInGameManager();
 
-		
+			
 				#elif UNITY_ANDROID
-				LoginCategory_Panel.SetActive (true);
-
+				//LoginCategory_Panel.SetActive (true);
+				InsertInfoToUsingListInGameManager();
 				#endif
-
-
 				break;
 			}
 
 			yield return new WaitForSeconds(0.2f);
-
 
 			if (nPotCount == 0) {
 				loginState_Text.text = sInputText + ".";
@@ -368,15 +424,85 @@ public class LoginManager : MonoBehaviour
 			}
 		}
 	}
+	//GameManager
+	public void InsertInfoToUsingListInGameManager()
+	{
+		DBBasicCharacter dbBaseCharacters = new DBBasicCharacter();
+		GameManager.Instance.lDbBasicCharacter.Capacity = 53;
+		for (int i = 0; i < 53; i++)
+		{
+			dbBaseCharacters = new DBBasicCharacter ();
+
+			dbBaseCharacters.Accurancy 		        = lDBBasicCheacter_GetList [i].Accurancy;
+			dbBaseCharacters.activeSkills 	        = lDBBasicCheacter_GetList [i].activeSkills;
+			dbBaseCharacters.AttackRange 	        = lDBBasicCheacter_GetList [i].AttackRange;
+			dbBaseCharacters.AttackSpeed 	        = lDBBasicCheacter_GetList [i].AttackSpeed;
+			dbBaseCharacters.Attribute 		        = lDBBasicCheacter_GetList [i].Attribute;
+			dbBaseCharacters.basicSkill 	        = lDBBasicCheacter_GetList [i].basicSkill;
+			dbBaseCharacters.Betch_Index 	        = lDBBasicCheacter_GetList [i].Betch_Index;
+			dbBaseCharacters.CC_Registance 	        = lDBBasicCheacter_GetList [i].CC_Registance;
+			dbBaseCharacters.Crit_Dmg 		        = lDBBasicCheacter_GetList [i].Crit_Dmg;
+			dbBaseCharacters.Crit_Rating 	        = lDBBasicCheacter_GetList [i].Crit_Rating;
+			dbBaseCharacters.C_Enhance 		        = lDBBasicCheacter_GetList [i].C_Enhance;
+			dbBaseCharacters.C_Index 		        = lDBBasicCheacter_GetList [i].C_Index;
+			dbBaseCharacters.C_JobNames 	        = lDBBasicCheacter_GetList [i].C_JobNames;
+			dbBaseCharacters.C_Name 		        = lDBBasicCheacter_GetList [i].C_Name;
+			dbBaseCharacters.Dodge 			        = lDBBasicCheacter_GetList [i].Dodge;
+			dbBaseCharacters.Exp 			        = lDBBasicCheacter_GetList [i].Exp;
+			dbBaseCharacters.ExpMax 		        = lDBBasicCheacter_GetList [i].ExpMax;
+			dbBaseCharacters.Health 		        = lDBBasicCheacter_GetList [i].Exp;
+			dbBaseCharacters.Index 			        = lDBBasicCheacter_GetList [i].Index;
+			dbBaseCharacters.Jobs 			        = lDBBasicCheacter_GetList [i].Jobs;
+			dbBaseCharacters.Levels 		        = lDBBasicCheacter_GetList [i].Levels;
+			dbBaseCharacters.Magic_AttackRating 	= lDBBasicCheacter_GetList [i].Magic_AttackRating;
+			dbBaseCharacters.Magic_Defense 			= lDBBasicCheacter_GetList [i].Magic_Defense;
+			dbBaseCharacters.Magic_Penetrate 		= lDBBasicCheacter_GetList [i].Magic_Penetrate;
+			dbBaseCharacters.MoveSpeed 				= lDBBasicCheacter_GetList [i].MoveSpeed;
+			dbBaseCharacters.Physic_AttackRating 	= lDBBasicCheacter_GetList [i].Physic_AttackRating;
+			dbBaseCharacters.Physic_Defense 		= lDBBasicCheacter_GetList [i].Physic_AttackRating;
+			dbBaseCharacters.Physic_Penetrate 		= lDBBasicCheacter_GetList [i].Physic_Penetrate;
+			dbBaseCharacters.Site 					= lDBBasicCheacter_GetList [i].Site;
+			dbBaseCharacters.Tier 					= lDBBasicCheacter_GetList [i].Tier;
+			dbBaseCharacters.Tribe 					= lDBBasicCheacter_GetList [i].Tribe;
+
+			GameManager.Instance.lDbBasicCharacter.Add(dbBaseCharacters);
+			dbBaseCharacters = null;
+		}
+		CharacterListAdjust ();
+		SaveAndLoadBinaryFile ();
+		
+	}
+
+	public void SaveAndLoadBinaryFile()
+	{
+		if (!File.Exists (Application.persistentDataPath + "/BasicCharacter.data")) {
+			BinaryFormatter bf = new BinaryFormatter ();
+			FileStream fileStream = new FileStream (Application.persistentDataPath + "/BasicCharacter.data", FileMode.Create);
 
 
+			bf.Serialize (fileStream, GameManager.Instance.lDbBasicCharacter);
+
+			fileStream.Close ();
+
+			Debug.Log ("Saved In Binary Data");
+		}
+		else
+		{
+			BinaryFormatter bf = new BinaryFormatter ();
+			FileStream fileStream = new FileStream (Application.persistentDataPath + "/BasicCharacter.data", FileMode.Open);
+
+			GameManager.Instance.lDbBasicCharacter = (List<DBBasicCharacter>)bf.Deserialize(fileStream);
+			fileStream.Close ();
+		}
+		Debug.Log ("Load In Binary Data");
+		GameManager.Instance.LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, canvas );
+	}
 
 	#endregion
 	#region GoogleLogin
+
 	public void GoogleLogin()
 	{
-
-
 
 		Debug.Log ("trying to login Google");
 		Social.localUser.Authenticate ((bool success) => {
@@ -416,8 +542,6 @@ public class LoginManager : MonoBehaviour
 
 				//DynamoDBCheck
 
-
-
 				//데이터셋을 만들 곳
 
 				eLoginProviderIndex = E_LOGIN_PORVIDER_INDEX.E_GOOGLE;
@@ -427,18 +551,34 @@ public class LoginManager : MonoBehaviour
 
 				playerInfo = SyncManager.OpenOrCreateDataset("PlayerInfo");
 
-
 				playerInfo.OnSyncSuccess += this.HandleSyncSuccess; 		// OnSyncSucess uses events/delegates pattern
 				playerInfo.OnSyncFailure += this.HandleSyncFailure; 		// OnSyncFailure uses events/delegates pattern
 				playerInfo.OnSyncConflict = this.HandleSyncConflict;
 				playerInfo.OnDatasetMerged = this.HandleDatasetMerged;
 				playerInfo.OnDatasetDeleted = this.HandleDatasetDeleted;
 
-
 				sEmail = ((PlayGamesLocalUser)Social.localUser).Email;
 				sNick = ((PlayGamesLocalUser)Social.localUser).userName;
 
-				nickInputObj.SetActive(true);
+				//GetPlayerCount
+				StartCoroutine (GetPlayerCountFromDB ());
+
+
+				//이메일 비교하여 접속한적이 있는지 없는지 비교
+				if (sEmail == playerInfo.Get ("Email")) 
+				{
+					//player DataLoad
+
+				}
+				//접속한 적이 있으면 Data Load -> playerInfo
+				else 
+				{
+					//없다면 닉을 치는 창을 띄움
+					nickInputObj.SetActive(true);
+				}
+					
+			
+
 				break;
 			}
 		}
@@ -569,7 +709,7 @@ public class LoginManager : MonoBehaviour
 		}
 
 		//Get CharacterList
-		CharacterDBLoadAndPutOperation ();
+		//CharacterDBLoadAndPutOperation ();
 
 
 		/*
@@ -625,6 +765,8 @@ public class LoginManager : MonoBehaviour
 			});
 		Debug.Log (lDBBasicCheacter_GetList);
 		Debug.Log ("정렬 완료!");
+
+
 	}
 
 	[DynamoDBTable("CharacterBasicInfoTable")]
@@ -720,6 +862,27 @@ public class LoginManager : MonoBehaviour
 		[DynamoDBProperty("Betch_Index")]
 		public float Betch_Index {	get; set; }				// Character 배치위치 
 
+		[DynamoDBProperty("BasicSkill")]				
+		public List<BasicSkill> basicSkill {get; set;}
+
+		[DynamoDBProperty("ActiveSkill")]				
+		public List<ActiveSkill> activeSkills {get; set;}
+
 	}
+
+	[DynamoDBTable("PlayersCharacterInfoTable")]
+	public class DBPlayersCharacter_ForDBWork
+	{
+		[DynamoDBHashKey]   
+		public string UserEamil { get; set; } 				// Hash key.
+		[DynamoDBRangeKey]
+		public string UserNick	{ get; set; }
+
+		[DynamoDBProperty("CharactersInfo")]				
+		public List<DBBaiscCharacter_ForGet> Characters {get; set;}
+
+	}
+
+
 
 }

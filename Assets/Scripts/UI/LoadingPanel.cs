@@ -21,7 +21,7 @@ public class LoadingPanel : MonoBehaviour
 	public IEnumerator LoadingScene()
 	{
 		
-		//Update랑 안겹치기 위해 
+		//Update랑 안겹치기 위해 (for Safe)
 		yield return new WaitForSeconds (0.5f);
 
 		switch (GameManager.Instance.nextSceneIndex) 
@@ -60,7 +60,7 @@ public class LoadingPanel : MonoBehaviour
 
 				yield return new WaitForSeconds (1.0f);
 
-				GameManager.Instance.InitLoadingPanel();
+				//GameManager.Instance.InitLoadingPanel();
 				ao.allowSceneActivation = true;
 
 

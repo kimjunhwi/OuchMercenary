@@ -693,9 +693,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d7eff32f192cf347b4547741e894f43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IdentityPoolId: ap-northeast-2:786cd4c5-6cbd-4ce9-81c8-de35ca50c026
-  CognitoPoolRegion: ap-northeast-2
-  DynamoRegion: ap-northeast-2
+  IdentityPoolId: 
+  CognitoPoolRegion: us-east-1
+  DynamoRegion: us-east-1
   backButton: {fileID: 1216566832}
   createTableButton: {fileID: 1986945662}
   listTableButton: {fileID: 949987654}

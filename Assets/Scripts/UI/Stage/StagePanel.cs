@@ -24,6 +24,6 @@ public class StagePanel : MonoBehaviour
 		stageInfinite_Button.onClick.RemoveAllListeners ();
 
 		stageDefense_Button.onClick.AddListener (() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_STAGE_DEFENSE, ReadOnlys.E_SCENE_INDEX.E_STAGE , canvas));
-		//GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_STAGE, canvas, sStageInfo_Defense);
+	
 	}
 }
