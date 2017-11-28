@@ -265,12 +265,13 @@
      <Compile Include="Assets\GooglePlayGames\Platforms\TokenClient.cs" />
      <Compile Include="Assets\GooglePlayGames\PluginVersion.cs" />
      <Compile Include="Assets\GPGS.cs" />
-     <Compile Include="Assets\Scripts\Character\Archer.cs" />
      <Compile Include="Assets\Scripts\Character\Character.cs" />
-     <Compile Include="Assets\Scripts\Character\Commander.cs" />
-     <Compile Include="Assets\Scripts\Character\Enemy_Archer.cs" />
-     <Compile Include="Assets\Scripts\Character\Enemy_Warrior.cs" />
-     <Compile Include="Assets\Scripts\Character\Warrior.cs" />
+     <Compile Include="Assets\Scripts\Character\EnemyCharacter\Enemy_Archer.cs" />
+     <Compile Include="Assets\Scripts\Character\EnemyCharacter\Enemy_Warrior.cs" />
+     <Compile Include="Assets\Scripts\Character\PlayerCharacter\Archer.cs" />
+     <Compile Include="Assets\Scripts\Character\PlayerCharacter\Commander.cs" />
+     <Compile Include="Assets\Scripts\Character\PlayerCharacter\Priest.cs" />
+     <Compile Include="Assets\Scripts\Character\PlayerCharacter\Warrior.cs" />
      <Compile Include="Assets\Scripts\Manager\CharacterManager.cs" />
      <Compile Include="Assets\Scripts\Manager\FadingManager.cs" />
      <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
@@ -291,6 +292,8 @@
      <Compile Include="Assets\Scripts\Player\Player.cs" />
      <Compile Include="Assets\Scripts\Projectile\Arrow.cs" />
      <Compile Include="Assets\Scripts\Projectile\Projectile.cs" />
+     <Compile Include="Assets\Scripts\UI\Battle\CharacterUI.cs" />
+     <Compile Include="Assets\Scripts\UI\Battle\DamageTextPool.cs" />
      <Compile Include="Assets\Scripts\UI\LoadingPanel.cs" />
      <Compile Include="Assets\Scripts\UI\PreBattle\PreBattleSceneManager.cs" />
      <Compile Include="Assets\Scripts\UI\Stage\Defense\Chapter.cs" />
@@ -316,6 +319,8 @@
      <None Include="Assets\GooglePlayGames\Editor\GPGSDependencies.xml" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\FacebookSDK\link.xml" />
+     <None Include="Assets\Resources\Unicode\AllPassive.txt" />
+     <None Include="Assets\Resources\Unicode\AllPassiveOption.txt" />
      <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.59.0.txt" />
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>

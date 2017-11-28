@@ -495,6 +495,7 @@ public class LoginManager : MonoBehaviour
 			fileStream.Close ();
 		}
 		Debug.Log ("Load In Binary Data");
+		StartCoroutine (GameManager.Instance.DataLoad ());
 		GameManager.Instance.LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, canvas );
 	}
 

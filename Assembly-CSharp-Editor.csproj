@@ -83,6 +83,8 @@
      <None Include="Assets\GooglePlayGames\Editor\GPGSDependencies.xml" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\FacebookSDK\link.xml" />
+     <None Include="Assets\Resources\Unicode\AllPassive.txt" />
+     <None Include="Assets\Resources\Unicode\AllPassiveOption.txt" />
      <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.59.0.txt" />
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
