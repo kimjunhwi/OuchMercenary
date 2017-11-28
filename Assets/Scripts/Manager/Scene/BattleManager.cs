@@ -18,13 +18,18 @@ public class BattleManager : MonoBehaviour {
 
 	public Player player;
 	public SkillManager skillManager;
-	public SimpleObjectPool characterPool;
 	public CharacterManager characterManager;
+
+	public SimpleObjectPool characterPool;
+	public SimpleObjectPool damageTextPool;
+
+	public Transform damagetParentTransfrom;
+	public Transform characterUI_Parent;
 
 	void Awake()
 	{
 		player = GameManager.Instance.GetPlayer ();
-
+ 
 		ToggleButton.onClick.AddListener (ChangeMode);
 
 		skillManager = new SkillManager ();
@@ -52,6 +57,9 @@ public class BattleManager : MonoBehaviour {
 			case "Archer":
 				charic = characterObject.AddComponent<Archer> ();
 				break;
+			case "Priest":
+				charic = characterObject.AddComponent<Priest> ();
+				break;
 			case "Commander":
 				charic = characterObject.AddComponent<Commander> ();
 				break;
@@ -64,7 +72,7 @@ public class BattleManager : MonoBehaviour {
 			vecPosition = new Vector3(m_vecZeroPosition.x + (nValue * m_fPlusX), m_vecZeroPosition.y - (nDight * m_fPlusX),0.0f);
 
 			//캐릭터에 대한 내용을 초기화 해줌
-			charic.Setup (characterStats, characterManager, skillManager, E_Type.E_Hero,vecPosition);
+			charic.Setup (characterStats, characterManager, skillManager,this, E_Type.E_Hero,vecPosition);
 
 			//캐릭터매니저에 추가
 			characterManager.Add (charic);
@@ -93,12 +101,29 @@ public class BattleManager : MonoBehaviour {
 
 			vecPosition = new Vector3 (7 , 5 - nIndex * 0.8F, 0);
 
-			charic.Setup (characterStats, characterManager, skillManager, E_Type.E_Enemy,vecPosition);
+			charic.Setup (characterStats, characterManager, skillManager,this, E_Type.E_Enemy,vecPosition);
 
 			characterManager.Add (charic);
 		}
 
 		characterManager.SortingCharacterLayer();
+	}
+
+	public void SortDamageTextLayer()
+	{
+		if (damagetParentTransfrom.childCount > 1) 
+		{
+			for (int nIndex = 0; nIndex < damagetParentTransfrom.childCount - 1; nIndex++) 
+			{
+				for (int nNextIndex = 1; nNextIndex < damagetParentTransfrom.childCount -1; nNextIndex++) 
+				{
+					if (damagetParentTransfrom.GetChild (nNextIndex - 1).position.y > damagetParentTransfrom.GetChild (nNextIndex).position.y) 
+					{
+						damagetParentTransfrom.SetSiblingIndex (nNextIndex);
+					}
+				}
+			}
+		}
 	}
 
 	// 플레이어 캐릭터들의 (공격 or 수비) 모드를 바꾼다. ------------------------------------------ 
@@ -107,3 +132,4 @@ public class BattleManager : MonoBehaviour {
 		characterManager.PlayerCharacterChangeMode ();
 	}
 }
+

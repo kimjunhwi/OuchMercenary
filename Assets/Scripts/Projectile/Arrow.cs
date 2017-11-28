@@ -21,7 +21,7 @@ public class Arrow : Projectile {
 		fTime = 0.0f;
 	}
 
-	  public override IEnumerator Shoot(SimpleObjectPool _simpleObjectPool, Character _AttackCharacter, Character _TargetCharacter, float _fSpeed)
+	  public override IEnumerator Shoot(SimpleObjectPool _simpleObjectPool,SkillManager _skillManager, Character _AttackCharacter, Character _TargetCharacter, bool _bIsCritical)
 	  {
 			m_vecEndPosition = _TargetCharacter.transform.position;
 			m_vecStartPosition = _AttackCharacter.transform.position;
@@ -66,6 +66,8 @@ public class Arrow : Projectile {
 
 			  yield return null;
 		  }
+
+			_skillManager.BasicAttack(_AttackCharacter,_TargetCharacter,_bIsCritical);
 
 			_simpleObjectPool.ReturnObject (gameObject);
 	
