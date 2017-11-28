@@ -51,9 +51,24 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public LoadingPanel loadingPanel;
 	public GameObject loadingPanel_obj;		//LoadingPanel
 
+	//PassiveSkill의 대한 데이터를 파싱
+	public AllPassiveSkillData[] cAllPassiveSkill = null;
+	public AllPassiveSkillOptionData[] cAllPassiveOption = null;
+
 	public IEnumerator DataLoad()
     {
 		loginManager = GameObject.Find("LoginManager").GetComponent<LoginManager>();
+
+		// Unicode Parsing ---------------------------------------------------------
+		
+		//패시브 스킬에 관한 정보들을 파싱
+		Load_TableInfo_AllPassive();
+
+		//패시브 스킬등의 옵션등을 위한 파싱
+		Load_TableInfo_AllPassiveOption();
+
+
+		// -------------------------------------------------------------------------
 
 		#if UNITY_EDITOR
 
@@ -283,46 +298,69 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 
 	#region LoadTableInfo
-	/*
-    void Load_TableInfo_Weapon()
-    {
-        if (cWeaponInfo.Length != 0) return;
+	
+	void Load_TableInfo_AllPassive()
+	{
+		if (cAllPassiveSkill != null) return;
 
-        string txtFilePath = "Weapon";
-        TextAsset ta = LoadTextAsset(txtFilePath);
-        List<string> line = LineSplit(ta.text);
+		string txtFilePath = "AllPassive";
+		TextAsset ta = LoadTextAsset(txtFilePath);
+		List<string> line = LineSplit(ta.text);
 
-        CGameWeaponInfo[] kInfo = new CGameWeaponInfo[line.Count - 1];
+		AllPassiveSkillData[] kInfo = new AllPassiveSkillData[line.Count - 1];
 
-        for (int i = 0; i < line.Count; i++)
-        {
-            //Console.WriteLine("line : " + line[i]);
-            if (line[i] == null) continue;
-            if (i == 0) continue; 	// Title skip
+		for (int i = 0; i < line.Count; i++)
+		{
+			//Console.WriteLine("line : " + line[i]);
+			if (line[i] == null) continue;
+			if (i == 0) continue; 	// Title skip
 
-            string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
-            if (Cells[0] == "") continue;
+			string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
+			if (Cells[0] == "") continue;
 
-            kInfo[i - 1] = new CGameWeaponInfo();
-            kInfo[i - 1].nIndex = int.Parse(Cells[0]);
-			kInfo[i - 1].strPath = Cells[1];
-			kInfo[i - 1].strName = Cells[2];
-			kInfo [i - 1].dMaxComplate = double.Parse (Cells [3]);
-			kInfo [i - 1].dMinusRepair= double.Parse(Cells[4]);
-			kInfo [i - 1].fMinusChargingWater = float.Parse (Cells [5]);
-			kInfo [i - 1].dMinusCriticalDamage = double.Parse (Cells [6]);
-			kInfo [i - 1].fMinusUseWater= float.Parse(Cells[7]);
-			kInfo [i - 1].fMinusCriticalChance = float.Parse (Cells [8]);
-			kInfo [i - 1].fMinusAccuracy= float.Parse(Cells[9]);
-			kInfo[i - 1].dGold = double.Parse(Cells[10]);
-			kInfo[i - 1].dHonor = double.Parse(Cells[11]);
-			kInfo[i - 1].fLimitedTime = float.Parse(Cells[12]);
-			kInfo[i - 1].nGrade = int.Parse(Cells[13]);
-            kInfo[i - 1].WeaponSprite = ObjectCashing.Instance.LoadSpriteFromCache(kInfo[i - 1].strPath);
-        }
-        cWeaponInfo = kInfo;
-    }
-	*/
+			kInfo[i - 1] = new AllPassiveSkillData();
+			kInfo[i - 1].nIndex = int.Parse(Cells[0]);
+			kInfo[i - 1].nCharacterIndex = int.Parse(Cells[1]);
+			kInfo[i - 1].nSkillClass = int.Parse(Cells[2]);
+			kInfo[i - 1].nTier = int.Parse(Cells[3]);
+			kInfo[i - 1].strJob = Cells[4];
+			kInfo[i - 1].nAttribute = int.Parse(Cells[5]);
+			kInfo[i - 1].nAttackType = int.Parse(Cells[6]);
+			kInfo[i - 1].strOption_List = Cells[7];
+		}
+		cAllPassiveSkill = kInfo;
+	}
+
+	void Load_TableInfo_AllPassiveOption()
+	{
+		if (cAllPassiveOption != null) return;
+
+		string txtFilePath = "AllPassiveOption";
+		TextAsset ta = LoadTextAsset(txtFilePath);
+		List<string> line = LineSplit(ta.text);
+
+		AllPassiveSkillOptionData[] kInfo = new AllPassiveSkillOptionData[line.Count - 1];
+
+		for (int i = 0; i < line.Count; i++)
+		{
+			//Console.WriteLine("line : " + line[i]);
+			if (line[i] == null) continue;
+			if (i == 0) continue; 	// Title skip
+
+			string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
+			if (Cells[0] == "") continue;
+
+			kInfo[i - 1] = new AllPassiveSkillOptionData();
+			kInfo[i - 1].nIndex = int.Parse(Cells[0]);
+			kInfo[i - 1].nOptionIndex = int.Parse(Cells[1]);
+			kInfo[i - 1].fValue = float.Parse(Cells[2]);
+			kInfo[i - 1].fPlus = float.Parse(Cells[3]);
+			kInfo[i - 1].nCalculate = int.Parse(Cells[4]);
+			kInfo[i - 1].strExplain = Cells[5];
+		}
+		cAllPassiveOption = kInfo;
+	}
+
 	#endregion
 
 	#region SplitText
@@ -330,7 +368,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
     TextAsset LoadTextAsset(string _txtFile)
     {
         TextAsset ta;
-        ta = Resources.Load("Data/" + _txtFile) as TextAsset;
+        ta = Resources.Load("Unicode/" + _txtFile) as TextAsset;
         return ta;
     }
 

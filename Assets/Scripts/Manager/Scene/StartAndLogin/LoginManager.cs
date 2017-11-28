@@ -71,7 +71,7 @@ public class LoginManager : MonoBehaviour
 	//Google
 	private string AccessTokken_GP;
 	//Identity ID pool 
-	private string IdentityPoolId = "ap-northeast-2:8958fcc7-adb9-492d-8435-baefabf9c962";
+	private string IdentityPoolId = "ap-northeast-2:0c274d71-5a9b-4747-bcd1-6b9d0d161301";
 
 	//지역 설정 변수
 	private string Region = RegionEndpoint.APNortheast2.SystemName;	
@@ -165,6 +165,11 @@ public class LoginManager : MonoBehaviour
 		}
 		else {
 			PlayerPrefs.SetString ("FirstAppActive", "True");
+			
+			//StartCoroutine(GameManager.Instance.DataLoad());
+			
+			//GameManager.Instance.LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, canvas );
+				
 			CharacterDBLoadAndPutOperation ();
 		}
 		#elif UNITY_ANDROID

@@ -11,24 +11,12 @@ public class Enemy_Warrior : Character {
 
 	}
 
-	public override void Setup (CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager, E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
+	public override void Setup (CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager,BattleManager _BattleManager, E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
 	{
-		charicStats = new CharacterStats (_charic);
-
-		m_fCurrentHp = charicStats.m_fHealth;
-		m_fMaxHp = m_fCurrentHp;
-
-		skillManager = _skillManager;
-		characterManager = _charicManager;
-
-		E_CHARIC_TYPE = _E_TYPE;
-
-		m_VecFirstPosition = _vecPosition;
+		base.Setup(_charic,_charicManager,_skillManager,_BattleManager, _E_TYPE,_vecPosition);
 	
-		gameObject.transform.position = m_VecFirstPosition;
-	
-		animator.runtimeAnimatorController = ObjectCashing.Instance.LoadAnimationController("Animation/" + charicStats.m_strJob);
-
+		gameObject.transform.position = _vecPosition;
+		
 		CheckCharacterState (E_CHARACTER_STATE.E_WALK);
 
 		spriteRender.flipX = true;

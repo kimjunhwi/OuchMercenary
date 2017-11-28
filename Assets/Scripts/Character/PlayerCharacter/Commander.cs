@@ -9,30 +9,17 @@ public class Commander : Character {
 	protected override void Awake ()
 	{
 		base.Awake ();
-
 	}
 
 	//초기화
-	public override void Setup (CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager, E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
+	public override void Setup (CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager,BattleManager _BattleManager, E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
 	{
-		skillManager = _skillManager;
-		characterManager = _charicManager;
-
-		E_CHARIC_TYPE = _E_TYPE;
-
-		m_VecFirstPosition = _vecPosition;
-		gameObject.transform.position = m_VecFirstPosition;
-
-		charicStats = new CharacterStats (_charic);
-
-		animator.runtimeAnimatorController = ObjectCashing.Instance.LoadAnimationController("Animation/" + charicStats.m_strJob);
+		base.Setup(_charic,_charicManager,_skillManager,_BattleManager, _E_TYPE,_vecPosition);
 	}
-
 
 	protected override void Update ()
 	{
 		StartCoroutine(this.CharacterAction());
-
 
 		if(Input.GetMouseButtonDown(0))
 		{

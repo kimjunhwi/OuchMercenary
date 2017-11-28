@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using ReadOnlys;
 
 public class Character : MonoBehaviour {
@@ -20,8 +21,10 @@ public class Character : MonoBehaviour {
 
 	protected Vector3 m_VecFirstPosition;
 
-	protected GameObject HealthActiveObject;							//피격시 체력 게이지를 보여줬다 사라지게 할 오브젝트
+	protected GameObject HealthActiveObject;	 						//피격시 체력 게이지를 보여줬다 사라지게 할 오브젝트
+
 	protected Transform HealthSizeTransform;							//Sprite Render이기 때문에 ScaleX를 잡아서 조절 함  
+	protected Transform damageTextTransform;
 
 	public Character targetCharacter = null;							//공격하려는 오브젝트
 
@@ -32,13 +35,17 @@ public class Character : MonoBehaviour {
 	protected SpriteRenderer spriteRender;								//스프라이트 
 
 	protected CharacterStats charicStats = null;						//캐릭터에 관한 정보 
+
+	protected BattleManager battleManager;
 	protected CharacterManager characterManager;						//배치된 캐릭터들을 관리
 	protected SkillManager skillManager;					
 	//LIST<SkillData>
-	protected ActiveSkill activeSkill = null;
+	protected int nActiveSkillIndex = -1;
 
 	//캐릭터가 죽운뒤 투명도를 위함
 	protected Color alphaColor;
+
+	protected CharacterUI characterUI;
 
 	protected virtual void Awake()
 	{
@@ -49,6 +56,8 @@ public class Character : MonoBehaviour {
 		HealthActiveObject = transform.GetChild (0).gameObject;
 
 		HealthSizeTransform = HealthActiveObject.transform.GetChild (0).transform;
+
+		damageTextTransform = transform.GetChild (1).transform;
 	}
 
 	protected virtual void OnEnable()
@@ -65,7 +74,47 @@ public class Character : MonoBehaviour {
 	protected virtual void Update(){ }
 
 	//캐릭터에 대한 초기화 및 배치를 함
-	public virtual void Setup(CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager, E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0){ }
+	public virtual void Setup(CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager,BattleManager _BattleManager,  E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
+	{
+		Debug.Log("1");
+
+		charicStats = new CharacterStats (_charic);
+
+		//스킬 매니저와 캐릭터 매니저를 등록
+		skillManager = _skillManager;
+		characterManager = _charicManager;
+		battleManager = _BattleManager;
+
+		//타입을 저장
+		E_CHARIC_TYPE = _E_TYPE;
+
+		//캐릭터 타입이 자신 캐릭일 경우
+		if(E_CHARIC_TYPE == E_Type.E_Hero)
+		{
+			//패시브 스킬들을 적용
+			ActivePassiveSkill();
+
+			//처음 위치를 미리 저장해둔다.
+			m_VecFirstPosition = _vecPosition;
+			gameObject.transform.position = m_VecFirstPosition;
+
+			//캐릭터 UI들을 생성
+			GameObject Charic_UI_Object= Instantiate(Resources.Load("Prefabs/Battle_Charic_Info") as GameObject);
+
+			//생성된 캐릭터를 부모를 UI로 해줌
+			Charic_UI_Object.transform.SetParent(battleManager.characterUI_Parent,false);
+
+			//캐릭터 UI를 받아와서 세팅
+			characterUI = Charic_UI_Object.GetComponent<CharacterUI>();
+			characterUI.SetUp(charicStats.m_fHealth);
+		}
+
+		//캐릭터의 현재 체력을 셋팅
+		m_fCurrentHp = charicStats.m_fHealth;
+		m_fMaxHp = m_fCurrentHp;
+
+		animator.runtimeAnimatorController = ObjectCashing.Instance.LoadAnimationController("Animation/" + charicStats.m_strJob);
+	 }
 
 	//액션이 변경이 됐을때 초기화를 진행
 	public virtual void CheckCharacterState(E_CHARACTER_STATE _E_STATE){ }
@@ -73,11 +122,25 @@ public class Character : MonoBehaviour {
 	//FSM머신 처리
 	protected virtual IEnumerator CharacterAction (){ yield return null; }
 
+	public CharacterStats GetStats(){ return charicStats;}
+
+	public float GetCurrentHealth() { return m_fCurrentHp; }
+
 	//캐릭터가 데미지를 받았을시에 호출 되는 함수이다.
 	public void TakeDamage(float _fDamage)
 	{
 		//데미지 계산 처리
 		m_fCurrentHp -= _fDamage;
+
+		if(m_fCurrentHp < 0)
+		{
+			m_fCurrentHp = 0;
+		}
+
+		if(E_CHARIC_TYPE == E_Type.E_Hero)
+		{
+			characterUI.ChangeHealth(m_fCurrentHp);
+		}
 	
 		HealthSizeTransform.localScale = new Vector3 (m_fCurrentHp / m_fMaxHp, 1.0f, 1.0f);
 
@@ -91,20 +154,126 @@ public class Character : MonoBehaviour {
 		} 
 		else 
 		{
-			//만약 체력바가 활성화 되지않았다면 활성화를 시킨후 코루틴을 호출
-			if (!HealthActiveObject.activeSelf) 
-			{
-				HealthActiveObject.SetActive (true);
+			if (E_CHARIC_TYPE == E_Type.E_Enemy) {
 
-				StartCoroutine (ShowHealthBar());
-			}
-			//만약 호출 되지 않았다면 시간을 0으로 바꿔줌
-			else 
-			{
-				m_fActiveHealthTime = 0.0f;
+				ShowDamage(_fDamage.ToString("F0"));
+
+				//만약 체력바가 활성화 되지않았다면 활성화를 시킨후 코루틴을 호출
+				if (!HealthActiveObject.activeSelf) {
+					HealthActiveObject.SetActive (true);
+
+					StartCoroutine (ShowHealthBar ());
+				}
+				//만약 호출 되지 않았다면 시간을 0으로 바꿔줌
+				else 
+				{
+					m_fActiveHealthTime = 0.0f;
+				}
 			}
 		}
+	}
 
+	public void TakeHeal(float _fHeal)
+	{
+		//데미지 계산 처리
+		m_fCurrentHp += _fHeal;
+
+		if(m_fCurrentHp < m_fMaxHp)
+		{
+			m_fCurrentHp = m_fMaxHp;
+		}
+
+		if(E_CHARIC_TYPE == E_Type.E_Hero)
+		{
+			characterUI.ChangeHealth(m_fCurrentHp);
+		}
+
+		HealthSizeTransform.localScale = new Vector3 (m_fCurrentHp / m_fMaxHp, 1.0f, 1.0f);
+	}
+
+	public void Dodge()
+	{
+		ShowDamage ("빗나감");
+
+		for(int nIndex = 0; nIndex< charicStats.activeSkill.Count; nIndex++)
+		{
+			if(charicStats.activeSkill[nIndex].m_bIsCooltime)
+				continue;
+
+			if(Random.Range(0,100) < charicStats.activeSkill[nIndex].m_fDodgy_ActiveRating)
+			{
+				nActiveSkillIndex = nIndex;
+
+				StartCoroutine( SkillCoolTime());
+
+				return;
+			}
+		}
+		return;
+	}
+
+	//패시브 스킬 적용 함수이다. 
+	//1.현재 자신이 가진 패시브 개수만큼 돈다
+	//2.패시브 옵션에 따라 증가되는 방식이 다르며 (% , +),증가되는 종류도 다르기 때문에 switch로 나눔
+	protected void ActivePassiveSkill()
+	{
+		for(int nIndex = 0; nIndex < charicStats.passiveSkill.Count; nIndex++)
+		{
+			switch(charicStats.passiveSkill[nIndex].nOptionIndex)
+			{
+				case (int)E_PASSIVE_TYPE.E_HP:						
+				
+				charicStats.m_fHealth += charicStats.m_fHealth * charicStats.passiveSkill[nIndex].fValue * 0.01f;	
+				
+				break;
+				
+				case (int)E_PASSIVE_TYPE.E_ACCURACY:					
+				
+				charicStats.m_fAccuracy += charicStats.passiveSkill[nIndex].fValue;
+				
+				break;
+				case (int)E_PASSIVE_TYPE.E_PHYSICAL_ATTACK_RATING:		
+				
+				charicStats.m_fPhyiscal_Rating += charicStats.m_fPhyiscal_Rating * charicStats.passiveSkill[nIndex].fValue * 0.01f;	
+
+				break;
+				case (int)E_PASSIVE_TYPE.E_MAGIC_ATTACK_RATING:			
+				
+				charicStats.m_fMagic_Rating += charicStats.m_fMagic_Rating * charicStats.passiveSkill[nIndex].fValue * 0.01f;	
+				
+				break;
+				case (int)E_PASSIVE_TYPE.E_PHYSICAL_DEFENCE:			
+				
+				charicStats.m_fPhysical_Defence += charicStats.passiveSkill[nIndex].fValue;
+				
+				break;
+				case (int)E_PASSIVE_TYPE.E_MAGIC_DEFENCE:				
+				
+				charicStats.m_fMasic_Defence += charicStats.passiveSkill[nIndex].fValue;
+				
+				break;
+				case (int)E_PASSIVE_TYPE.E_DODGE:						
+				
+				charicStats.m_fDodge += charicStats.passiveSkill[nIndex].fValue;
+				
+				break;
+				case (int)E_PASSIVE_TYPE.E_CRITICAL_RATING:				
+				
+				charicStats.m_fCritical_Rating += charicStats.passiveSkill[nIndex].fValue;
+				
+				break;
+				case (int)E_PASSIVE_TYPE.E_CRITICAL_DAMAGE:				
+				
+				charicStats.m_fCritical_Damage += charicStats.passiveSkill[nIndex].fValue;
+				
+				break;
+				case (int)E_PASSIVE_TYPE.E_ATTACK_SPEED:				
+				
+				charicStats.m_fAttackSpeed += charicStats.m_fAttackSpeed * charicStats.passiveSkill[nIndex].fValue * 0.01f;
+				
+				break;
+			}
+		}
 	}
 
 	IEnumerator ShowHealthBar()
@@ -150,23 +319,10 @@ public class Character : MonoBehaviour {
 		int nSkillIndex = -1;
 
 		//쿨타임 시킬 스킬이 없을 경우
-		if(activeSkill == null)
+		if(nActiveSkillIndex == -1)
 			yield break;
 
-		//캐릭터가 가진 액티브 스킬의 개수 만큼 돌려서 확인
-		for(int nIndex = 0; nIndex < charicStats.activeSkill.Count; nIndex++)
-		{
-			if(charicStats.activeSkill[nIndex] == activeSkill)
-			{
-				nSkillIndex = nIndex;
-				break;
-			}
-		}
-
-		//만약 없었을 경우 종료
-		if(nSkillIndex == -1)
-			yield break;
-
+		nSkillIndex = nActiveSkillIndex;
 
 		//스킬이 있을 경우 쿨타임을 돌림
 		charicStats.activeSkill [nSkillIndex].m_bIsCooltime = true;
@@ -185,10 +341,21 @@ public class Character : MonoBehaviour {
 		charicStats.activeSkill [nSkillIndex].m_bIsCooltime = false;
 	}
 
-	protected void ResetTargetCharacter(Character _StartCharacter, float _fRange)
+	protected void ResetTargetCharacter(float _fRange)
 	{
-		//현재 활성화 된 캐릭터들 중에서 지정한 사거리 안에 들어온 리스트 들을 반환 
-		ArrayList targetLists = characterManager.FindTarget (_StartCharacter,_fRange);
+		
+		ArrayList targetLists = characterManager.FindTarget (this,_fRange);
+
+		if (charicStats.basicSkill [0].strSkillTarget != "enemy") 
+		{
+			//현재 활성화 된 캐릭터들 중 가장 체력이 적은 우리팀 캐릭터 리스트를 반환
+			targetLists = characterManager.FindMyMinHealthTarget (this,_fRange);
+		} 
+		else 
+		{
+			//현재 활성화 된 캐릭터들 중에서 지정한 사거리 안에 들어온 리스트 들을 반환 
+			targetLists = characterManager.FindTarget (this,_fRange);
+		}
 
 		//만약 0보다 크면 넣어주고 찾지 못했을 경우 대기 상태로 변경
 		if(targetLists.Count > 0)
@@ -200,6 +367,25 @@ public class Character : MonoBehaviour {
 			targetCharacter = null;
 			CheckCharacterState(E_CHARACTER_STATE.E_WAIT);
 		}
+	}
+
+	public void ShowDamage(string _strDamage)
+	{
+		Camera camera = Camera.main;
+
+		GameObject damageText = battleManager.damageTextPool.GetObject ();
+
+		damageText.transform.SetParent (battleManager.damagetParentTransfrom,false);
+		damageText.transform.localScale = Vector3.one;
+		damageText.transform.position = camera.WorldToScreenPoint(damageTextTransform.position);
+		damageText.name = "Damage";
+
+		DamageTextPool damagePool = damageText.GetComponent<DamageTextPool> ();
+		damagePool.Damage (_strDamage);
+		damagePool.textObjPool = battleManager.damageTextPool;
+		damagePool.leftSecond = 1f;
+
+		battleManager.SortDamageTextLayer ();
 	}
 
 	//캐릭터의 재정렬을 위함 Y축이 낮을 수록 앞으로 나와야 함 (쿼터뷰 식)

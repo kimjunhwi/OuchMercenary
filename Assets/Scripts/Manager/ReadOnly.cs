@@ -70,8 +70,27 @@ public enum E_LOAD_STATE : int
 		E_TARGET_CHARACTER_MOVE,
 		E_ATTACK,
 		E_DEAD,
-
 	};
+
+	public enum E_SKILL_TYPE
+	{
+		E_NONE = -1,
+	}
+
+	//패시브 스킬의 타입 종류
+	public enum E_PASSIVE_TYPE
+	{
+		E_HP,						//HP 증가 감소
+		E_ACCURACY,					//명중률 증가 감소
+		E_PHYSICAL_ATTACK_RATING,	//물리 공격령 증가 감소
+		E_MAGIC_ATTACK_RATING,		//마법 공격력 증가 감소
+		E_PHYSICAL_DEFENCE,			//물리 방어력 증가 감소
+		E_MAGIC_DEFENCE,			//마법 방어력 증가 감소
+		E_DODGE,					//회피율 증가 감소
+		E_CRITICAL_RATING,			//크리티컬 확률 증가 감소
+		E_CRITICAL_DAMAGE,			//크리티컬 데미지 확률 증가 감소
+		E_ATTACK_SPEED,				//공격 속도 증가 감소
+	}
 
 
 	#region Class 
@@ -142,6 +161,8 @@ public enum E_LOAD_STATE : int
 
 		public List<ActiveSkill> activeSkill = new List<ActiveSkill>();
 
+		public List<PassiveSkill> passiveSkill = new List<PassiveSkill>();
+
 		public CharacterStats(CharacterStats _charic)
 		{
 			m_nIndex 			= _charic.m_nIndex;
@@ -170,6 +191,7 @@ public enum E_LOAD_STATE : int
 			m_nBatchIndex 		= _charic.m_nBatchIndex;
 			basicSkill = _charic.basicSkill;
 			activeSkill = _charic.activeSkill;
+			passiveSkill = _charic.passiveSkill;
 		}
 
 		public CharacterStats()
@@ -254,8 +276,8 @@ public enum E_LOAD_STATE : int
     public string strJob;          //소유 가능한 직업
     public int nAttribute;         //속성 물리,마법인지
     public int nAttackType;        //공격 타입 (근접, 원거리, 0)
-    public int nPhsyicMagnification;   //물리 속성 공격
-    public int nMagicMagnification;    //마법 속성 공격
+    public float fPhsyicMagnification;   //물리 속성 공격
+    public float fMagicMagnification;    //마법 속성 공격
 	public float fAttackArea;
     public string strSkillTarget;      //대상
     public int nMaxTargetNumber;       //최대 공격 개수
@@ -276,8 +298,8 @@ public enum E_LOAD_STATE : int
                                 strJob = _strJob;
                                 nAttribute = _nAttribute;
                                 nAttackType = _nAttackType;
-                                nPhsyicMagnification = _nPhsyicMagnification;
-                                nMagicMagnification = _nMagicMagnification;
+                                fPhsyicMagnification = _nPhsyicMagnification;
+                                fMagicMagnification = _nMagicMagnification;
 								fAttackArea = _fAttackArea;
                                 strSkillTarget = _strSkillTarget;
                                 nMaxTargetNumber = _nMaxTargetNumber;
@@ -290,7 +312,7 @@ public enum E_LOAD_STATE : int
 
 
 	[System.Serializable]
-	public class AllPassiveSkill {
+	public class AllPassiveSkillData {
 		public int nIndex;             //스킬에 대한 인덱스
 		public int nCharacterIndex;    //소유가능한 캐릭터 인덱스
 		public string strSkillName;    //스킬 이름
@@ -307,16 +329,49 @@ public enum E_LOAD_STATE : int
 	[System.Serializable]
 	public class PassiveSkill
 	{
-		List<PassiveSkillOption> LIST_SKILL= new List<PassiveSkillOption>();
+		public int nIndex;
+
+		public int nOptionIndex;
+
+		public int nEnhaceValue;
+
+		public float fValue;
+
+		public float fPlus;
+
+		public int nCalculate;
+
+		public string strExplain;
+
+		public PassiveSkill(int _nSkillIndex, AllPassiveSkillOptionData _passive)
+		{
+			nIndex = _nSkillIndex;
+
+			nOptionIndex = _passive.nOptionIndex;
+
+			fValue = _passive.fValue;
+
+			fPlus = _passive.fPlus;
+
+			nCalculate = _passive.nCalculate;
+
+			strExplain = _passive.strExplain;
+		}
 	}
 
-	public class PassiveSkillOption
+	[System.Serializable]
+	public class AllPassiveSkillOptionData
 	{
-		int nIndex;
+		public int nIndex;
 
-		int nEnhaceValue = 0;
+		public int nOptionIndex;
+		public float fValue;
 
-		List<string> LIST_OPTION_LIST = new List<string>();
+		public float fPlus;
+
+		public int nCalculate;
+
+		public string strExplain;
 	}
 
 
