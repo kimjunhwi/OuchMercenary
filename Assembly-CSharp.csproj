@@ -292,12 +292,15 @@
      <Compile Include="Assets\Scripts\Player\Player.cs" />
      <Compile Include="Assets\Scripts\Projectile\Arrow.cs" />
      <Compile Include="Assets\Scripts\Projectile\Projectile.cs" />
+     <Compile Include="Assets\Scripts\UI\Base\ToggleUIBase.cs" />
      <Compile Include="Assets\Scripts\UI\Battle\CharacterUI.cs" />
      <Compile Include="Assets\Scripts\UI\Battle\DamageTextPool.cs" />
      <Compile Include="Assets\Scripts\UI\LoadingPanel.cs" />
+     <Compile Include="Assets\Scripts\UI\PreBattle\CharacterInfoPanel.cs" />
      <Compile Include="Assets\Scripts\UI\PreBattle\PreBattleSceneManager.cs" />
      <Compile Include="Assets\Scripts\UI\Stage\Defense\Chapter.cs" />
      <Compile Include="Assets\Scripts\UI\Stage\Defense\StageDefensePanel.cs" />
+     <Compile Include="Assets\Scripts\UI\Stage\StageBase.cs" />
      <Compile Include="Assets\Scripts\UI\Stage\StagePanel.cs" />
      <Compile Include="Assets\Scripts\UI\Upbar.cs" />
      <Compile Include="Assets\Scripts\Window\CWindow.cs" />

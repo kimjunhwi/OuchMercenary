@@ -11,7 +11,7 @@ public class StageDefSceneManager : MonoBehaviour
 
 	void Start()
 	{
-		GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_STAGE_DEFENSE, canvas, sInfoText);
+		//GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_STAGE_DEFENSE, canvas, sInfoText);
 	}
 
 
