@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using ReadOnlys;
 
-public class Commander : Character {
+public class Commander : Player_Character {
 
 	protected override void Awake ()
 	{

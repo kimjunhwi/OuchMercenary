@@ -149,68 +149,59 @@
  <Reference Include="UnityEditor.iOS.Extensions">
  <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll</HintPath>
  </Reference>
- <Reference Include="UnityEditor.WebGL.Extensions">
- <HintPath>/Applications/Unity/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.WindowsStandalone.Extensions">
- <HintPath>/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
- </Reference>
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
  </Reference>
- <Reference Include="UnityEditor.Facebook.Extensions">
- <HintPath>/Applications/Unity/PlaybackEngines/Facebook/UnityEditor.Facebook.Extensions.dll</HintPath>
- </Reference>
  <Reference Include="AWSSDK.CognitoIdentity">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.CognitoIdentity.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.CognitoIdentity.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.CognitoSync">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.CognitoSync.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.CognitoSync.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.Core">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.Core.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.Core.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.DynamoDBv2">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.DynamoDBv2.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.DynamoDBv2.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.Lambda">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.Lambda.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.Lambda.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.S3">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.S3.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.S3.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.SecurityToken">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.SecurityToken.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.SecurityToken.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.SimpleNotificationService">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.SimpleNotificationService.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.SimpleNotificationService.dll</HintPath>
  </Reference>
  <Reference Include="Facebook.Unity">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/FacebookSDK/Plugins/Facebook.Unity.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/FacebookSDK/Plugins/Facebook.Unity.dll</HintPath>
  </Reference>
  <Reference Include="Facebook.Unity.Editor">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/FacebookSDK/Plugins/Editor/Facebook.Unity.Editor.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/FacebookSDK/Plugins/Editor/Facebook.Unity.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Facebook.Unity.Gameroom">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/FacebookSDK/Plugins/Gameroom/Facebook.Unity.Gameroom.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/FacebookSDK/Plugins/Gameroom/Facebook.Unity.Gameroom.dll</HintPath>
  </Reference>
  <Reference Include="FacebookNamedPipeClient">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/FacebookSDK/Plugins/Gameroom/FacebookNamedPipeClient.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/FacebookSDK/Plugins/Gameroom/FacebookNamedPipeClient.dll</HintPath>
  </Reference>
  <Reference Include="Facebook.Unity.Settings">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/FacebookSDK/Plugins/Settings/Facebook.Unity.Settings.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/FacebookSDK/Plugins/Settings/Facebook.Unity.Settings.dll</HintPath>
  </Reference>
  <Reference Include="Google.IOSResolver_v1.2.59.0">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/PlayServicesResolver/Editor/Google.IOSResolver_v1.2.59.0.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/PlayServicesResolver/Editor/Google.IOSResolver_v1.2.59.0.dll</HintPath>
  </Reference>
  <Reference Include="Google.JarResolver_v1.2.59.0">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/PlayServicesResolver/Editor/Google.JarResolver_v1.2.59.0.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/PlayServicesResolver/Editor/Google.JarResolver_v1.2.59.0.dll</HintPath>
  </Reference>
  <Reference Include="Google.VersionHandler">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/PlayServicesResolver/Editor/Google.VersionHandler.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/PlayServicesResolver/Editor/Google.VersionHandler.dll</HintPath>
  </Reference>
  <Reference Include="Google.VersionHandlerImpl_v1.2.59.0">
- <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/PlayServicesResolver/Editor/Google.VersionHandlerImpl_v1.2.59.0.dll</HintPath>
+ <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/PlayServicesResolver/Editor/Google.VersionHandlerImpl_v1.2.59.0.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

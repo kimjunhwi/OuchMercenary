@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ReadOnlys;
 
-public class Enemy_Warrior : Character {
+public class Enemy_Warrior : Enemy_Character {
 
 	protected override void Awake ()
 	{
