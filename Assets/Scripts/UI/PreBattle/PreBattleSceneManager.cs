@@ -12,8 +12,8 @@ public class PreBattleSceneManager : MonoBehaviour {
 
 	void Start()
 	{
-		GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_STAGE_PREBATTLE, canvas, sInfoText);
-		StartBattle_Button.onClick.AddListener(() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_BATTLE, ReadOnlys.E_SCENE_INDEX.E_STAGE_PREBATTLE, canvas));
+		//GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_STAGE_PREBATTLE, canvas, sInfoText);
+		//StartBattle_Button.onClick.AddListener(() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_BATTLE, ReadOnlys.E_SCENE_INDEX.E_STAGE_PREBATTLE, canvas));
 	}
 
 }

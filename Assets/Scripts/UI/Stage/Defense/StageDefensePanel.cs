@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,42 +12,39 @@ public enum StageChapterInfo
 	Chapter02 ,
 }
 
-public class StageDefensePanel : MonoBehaviour 
+public class StageDefensePanel : ToggleUIBase 
 {
-	public Toggle chapter1Toggle;
-	public Toggle chapter2Toggle;
-
-	public GameObject chapter1Panel;
-	public GameObject chapter2Panel;
-
 	void Start()
 	{
-		
-		
-		chapter1Panel.SetActive (true);
-		chapter2Panel.SetActive (false);
+		togglePanel[0].SetActive (true);
+		togglePanel[1].SetActive (false);
 
-		chapter1Toggle.onValueChanged.AddListener((x)=>ActivePanel(StageChapterInfo.Chapter01));
-		chapter2Toggle.onValueChanged.AddListener((x)=>ActivePanel(StageChapterInfo.Chapter02));
+		toggle[0].onValueChanged.AddListener((x)=>ActivePanel(StageChapterInfo.Chapter01));
+		toggle[1].onValueChanged.AddListener((x)=>ActivePanel(StageChapterInfo.Chapter02));
 	}
 
-	public void ActivePanel(StageChapterInfo _chapterIndex)
+	public override void ActivePanel<T> (T _chapterIndex) 
 	{
-		
-		switch (_chapterIndex) 
+		//base.ActivePanel (ref _chapterIndex);
+
+		//Enum.Parse(타입, T의 스트링)
+		var eType = Enum.Parse(typeof( StageChapterInfo), _chapterIndex.ToString());
+
+
+		switch ((StageChapterInfo)eType) 
 		{
 		case StageChapterInfo.Chapter01:
 			Debug.Log ("Active Chapter01 Panel!!");
 
-			chapter2Panel.SetActive (false);
-			chapter1Panel.SetActive (true);
+			togglePanel[1].SetActive (false);
+			togglePanel[0].SetActive (true);
 
 			break;
 		case StageChapterInfo.Chapter02:
 			Debug.Log ("Active Chapter01 Panel!!");
 
-			chapter2Panel.SetActive (true);
-			chapter1Panel.SetActive (false);
+			togglePanel[1].SetActive (true);
+			togglePanel[0].SetActive (false);
 
 			break;
 
