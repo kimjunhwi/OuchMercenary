@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ReadOnlys;
 
-public class Archer : Character {
+public class Archer : Player_Character {
 
 	SimpleObjectPool arrowPool;
 

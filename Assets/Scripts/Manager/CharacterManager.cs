@@ -165,6 +165,37 @@ public class CharacterManager : MonoBehaviour {
 		return TargetArray;
 	}
 
+	public ArrayList FindMyCharacterArea(Character _StartCharic, Character _TargetCharic, float _fDistance)
+	{
+		ArrayList TargetArray = new ArrayList();
+		ArrayList SortArray = new ArrayList(); //조건에 맞추어 정렬.
+
+		foreach (Character kCharic in ARRAY_CHARIC)
+		{
+			if (kCharic.IsDead() == true) continue;
+			if (kCharic == _StartCharic) continue; //공격 캐릭 제외
+			if (kCharic.E_CHARIC_TYPE != _StartCharic.E_CHARIC_TYPE) continue; //아군이 아닐 경우
+
+			float fDistance = Vector3.Distance(kCharic.gameObject.transform.position, _TargetCharic.gameObject.transform.position);
+
+			if(fDistance < _fDistance)
+				SortArray.Add(new SortunitClass() { m_value1 = fDistance, m_charic = kCharic });
+		}
+
+		if (SortArray.Count > 0)
+		{
+			// 작은 순서대로 정렬.
+			SortArray.Sort(new SortunitClassCompare());
+
+			foreach (SortunitClass sort in SortArray)
+			{
+				TargetArray.Add(sort.m_charic);
+			}
+		}
+
+		return TargetArray;
+	}
+
 	// 플레이어 캐릭터들의 (공격 or 수비) 모드를 바꾼다. ------------------------------------------ 
 	public void PlayerCharacterChangeMode()
 	{

@@ -28,12 +28,13 @@ public class Character : MonoBehaviour {
 
 	public Character targetCharacter = null;							//공격하려는 오브젝트
 
+	public ArrayList targetCharacter_LIST = new ArrayList();
+
 	public E_Type E_CHARIC_TYPE = E_Type.E_None;						//0,플레이어 캐릭,적 캐릭 
 	public E_CHARACTER_STATE E_CHARIC_STATE = E_CHARACTER_STATE.E_WAIT;	//상태 
 
 	protected Animator animator;										//애니메이션
 	protected SpriteRenderer spriteRender;								//스프라이트 
-
 	protected CharacterStats charicStats = null;						//캐릭터에 관한 정보 
 
 	protected BattleManager battleManager;
@@ -88,7 +89,7 @@ public class Character : MonoBehaviour {
 		//타입을 저장
 		E_CHARIC_TYPE = _E_TYPE;
 
-		//캐릭터 타입이 자신 캐릭일 경우
+		//캐릭터 타입이 플레이어 캐릭일 경우
 		if(E_CHARIC_TYPE == E_Type.E_Hero)
 		{
 			//패시브 스킬들을 적용
@@ -108,7 +109,7 @@ public class Character : MonoBehaviour {
 			characterUI = Charic_UI_Object.GetComponent<CharacterUI>();
 			characterUI.SetUp(charicStats.m_fHealth);
 		}
-
+	
 		//캐릭터의 현재 체력을 셋팅
 		m_fCurrentHp = charicStats.m_fHealth;
 		m_fMaxHp = m_fCurrentHp;
@@ -127,69 +128,10 @@ public class Character : MonoBehaviour {
 	public float GetCurrentHealth() { return m_fCurrentHp; }
 
 	//캐릭터가 데미지를 받았을시에 호출 되는 함수이다.
-	public void TakeDamage(float _fDamage)
-	{
-		//데미지 계산 처리
-		m_fCurrentHp -= _fDamage;
+	public virtual void TakeDamage(float _fDamage){ }
 
-		if(m_fCurrentHp < 0)
-		{
-			m_fCurrentHp = 0;
-		}
-
-		if(E_CHARIC_TYPE == E_Type.E_Hero)
-		{
-			characterUI.ChangeHealth(m_fCurrentHp);
-		}
-	
-		HealthSizeTransform.localScale = new Vector3 (m_fCurrentHp / m_fMaxHp, 1.0f, 1.0f);
-
-		//캐릭터가 죽을지를 판별 
-		if (m_fCurrentHp <= 0 && m_bIsDead == false) {
-
-			//만약 캐릭터가 죽었다면 State를 Dead로 바꿈
-			m_bIsDead = true;
-
-			CheckCharacterState (E_CHARACTER_STATE.E_DEAD);
-		} 
-		else 
-		{
-			if (E_CHARIC_TYPE == E_Type.E_Enemy) {
-
-				ShowDamage(_fDamage.ToString("F0"));
-
-				//만약 체력바가 활성화 되지않았다면 활성화를 시킨후 코루틴을 호출
-				if (!HealthActiveObject.activeSelf) {
-					HealthActiveObject.SetActive (true);
-
-					StartCoroutine (ShowHealthBar ());
-				}
-				//만약 호출 되지 않았다면 시간을 0으로 바꿔줌
-				else 
-				{
-					m_fActiveHealthTime = 0.0f;
-				}
-			}
-		}
-	}
-
-	public void TakeHeal(float _fHeal)
-	{
-		//데미지 계산 처리
-		m_fCurrentHp += _fHeal;
-
-		if(m_fCurrentHp < m_fMaxHp)
-		{
-			m_fCurrentHp = m_fMaxHp;
-		}
-
-		if(E_CHARIC_TYPE == E_Type.E_Hero)
-		{
-			characterUI.ChangeHealth(m_fCurrentHp);
-		}
-
-		HealthSizeTransform.localScale = new Vector3 (m_fCurrentHp / m_fMaxHp, 1.0f, 1.0f);
-	}
+	//캐릭터가 체력을 회복할 경우 호출 함
+	public virtual void TakeHeal(float _fHeal){ }
 
 	public void Dodge()
 	{
@@ -211,6 +153,10 @@ public class Character : MonoBehaviour {
 		}
 		return;
 	}
+
+
+
+	//Skilll 관련 ------------------------------------------------------------
 
 	//패시브 스킬 적용 함수이다. 
 	//1.현재 자신이 가진 패시브 개수만큼 돈다
@@ -276,22 +222,64 @@ public class Character : MonoBehaviour {
 		}
 	}
 
-	IEnumerator ShowHealthBar()
+
+	public void PlayActiveSkill(int _nActiveSkillIndex,bool _bIsCritical)
 	{
-		yield return new WaitForSeconds (0.1f);
+		//Parsing된 스킬에서 SkillType과 Target을 받아옴
+		//cf
 
-		while (m_fActiveHealthTime < m_fMaxHealthTime) 
+		string[] strActiveTypes = charicStats.activeSkill[_nActiveSkillIndex].m_strAttackType.Split(',');
+
+		string strSkillType = "attack";
+		string strTarget = "enemy";
+
+		targetCharacter_LIST.Clear();
+
+		if (strTarget == "enemy")
+			targetCharacter_LIST = characterManager.FindTargetArea (this, targetCharacter, charicStats.activeSkill [_nActiveSkillIndex].m_fAttackArea);
+
+		else if (strTarget == "self")
+			targetCharacter_LIST.Add (this);
+
+
+		switch (strSkillType) 
 		{
-			m_fActiveHealthTime += Time.deltaTime;
+		case "attack":
+			{
+				for (int nIndex = 0; nIndex < charicStats.activeSkill[_nActiveSkillIndex].m_nMaxTargetNumber; nIndex++) {
+					//만약 타겟수가 공격 해야할 캐릭터 수보다 적을 경우 종료
+					if (targetCharacter_LIST.Count <= nIndex) {
+						break;
+					}
 
-			yield return null;
+					skillManager.ActiveAttack (charicStats.activeSkill[_nActiveSkillIndex], (Character)targetCharacter_LIST[nIndex],_bIsCritical);
+				}
+			}
+			break;
+
+		case "buff":
+			{
+			}
+			break;
+
+		case "debuff":
+			{
+			}
+			break;
+
+		case "burn":
+			{
+			}
+			break;
+
+		case "poison":
+			{
+			}
+			break;
+
 		}
 
-		m_fActiveHealthTime = 0.0f;
-
-		HealthActiveObject.SetActive (false);
 	}
-
 	
 	//스킬을 사용 한지 체크한다.
 	protected bool IsUseSkill(int nIndex)
@@ -306,6 +294,8 @@ public class Character : MonoBehaviour {
 		else if (charicStats.activeSkill [nIndex].m_nAttackCount_ActiveRating != 0 &&
 				charicStats.activeSkill [nIndex].m_nAttackCount_ActiveRating < m_nAttackCount) 
 		{
+			m_nAttackCount = 0;
+
 			return true;
 		}
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ReadOnlys;
 
-public class Warrior : Character {
+public class Warrior : Player_Character {
 
 
 	protected override void Awake ()
@@ -325,7 +325,9 @@ public class Warrior : Character {
 
 								if(nActiveSkillIndex != (int)E_SKILL_TYPE.E_NONE)
 								{
-									
+
+									PlayActiveSkill(nActiveSkillIndex,bIsCritical);
+
 									continue;
 								}
 							}
