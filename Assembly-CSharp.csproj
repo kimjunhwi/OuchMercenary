@@ -297,6 +297,7 @@
      <Compile Include="Assets\Scripts\UI\Battle\DamageTextPool.cs" />
      <Compile Include="Assets\Scripts\UI\LoadingPanel.cs" />
      <Compile Include="Assets\Scripts\UI\PreBattle\CharacterInfoPanel.cs" />
+     <Compile Include="Assets\Scripts\UI\PreBattle\CharacterSlot.cs" />
      <Compile Include="Assets\Scripts\UI\PreBattle\PreBattleSceneManager.cs" />
      <Compile Include="Assets\Scripts\UI\Stage\Defense\Chapter.cs" />
      <Compile Include="Assets\Scripts\UI\Stage\Defense\StageDefensePanel.cs" />
