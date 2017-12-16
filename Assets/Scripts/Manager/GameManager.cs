@@ -56,18 +56,23 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public AllPassiveSkillData[] cAllPassiveSkill = null;
 	public AllPassiveSkillOptionData[] cAllPassiveOption = null;
 
+	public AllActiveSkillType[] cAllActiveType = null;
+
 	public IEnumerator DataLoad()
     {
 		loginManager = GameObject.Find("LoginManager").GetComponent<LoginManager>();
 
 		// Unicode Parsing ---------------------------------------------------------
 		
+		Load_TableInfo_AllActiveType();
+
 		//패시브 스킬에 관한 정보들을 파싱
 		Load_TableInfo_AllPassive();
 
 		//패시브 스킬등의 옵션등을 위한 파싱
 		Load_TableInfo_AllPassiveOption();
 
+		
 
 		// -------------------------------------------------------------------------
 
@@ -363,6 +368,33 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			kInfo[i - 1].strExplain = Cells[5];
 		}
 		cAllPassiveOption = kInfo;
+	}
+
+	void Load_TableInfo_AllActiveType()
+	{
+		if (cAllActiveType != null) return;
+
+		string txtFilePath = "ActiveSkillType";
+		TextAsset ta = LoadTextAsset(txtFilePath);
+		List<string> line = LineSplit(ta.text);
+
+		AllActiveSkillType[] kInfo = new AllActiveSkillType[line.Count - 1];
+
+		for (int i = 0; i < line.Count; i++)
+		{
+			//Console.WriteLine("line : " + line[i]);
+			if (line[i] == null) continue;
+			if (i == 0) continue; 	// Title skip
+
+			string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
+			if (Cells[0] == "") continue;
+
+			kInfo[i - 1] = new AllActiveSkillType();
+			kInfo[i - 1].nIndex = int.Parse(Cells[0]);
+			kInfo[i - 1].nActiveType = int.Parse(Cells[1]);
+			kInfo[i - 1].nTargetIndex = int.Parse(Cells[2]);
+		}
+		cAllActiveType = kInfo;
 	}
 
 	#endregion

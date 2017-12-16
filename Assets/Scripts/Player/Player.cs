@@ -42,11 +42,11 @@ public class Player : MonoBehaviour
 		_charic.basicSkill.Add(new BasicSkill(1,1001,"a","attack",0,1,"warrior",1,1,100,0,1.0f,"enemy",1,1,"close","p_attack rating의 100%로 공격"));
 
 		//Active
-		tempActiveSkill = new ActiveSkill(0,"double Attack",1000,"attack",2,1,"assassin",1,1,0,20,0,0,0,0,0,0,75,2,1,1,1,"enemy",1,"close",0,"pAttack ratring의 75%로 2회 공격",false);
-
+		tempActiveSkill = new ActiveSkill(0,"double Attack",1000,"0,10",2,1,"assassin",1,1,0,20,0,0,0,0,0,0,75,2,1,1,1,"enemy",1,"close",5,"pAttack ratring의 75%로 2회 공격",false);
+			
 		LIST_activeSkill.Add(tempActiveSkill);
 
-		tempActiveSkill = new ActiveSkill(1,"Power Attack",1001,"attack",2,2,"warrior",1,1,0,30,0,0,0,0,0,0,120,1,1,1,1,"enemy",1,"close",0,"pAttack ratring의 120%로 2회 공격",false);
+		tempActiveSkill = new ActiveSkill(1,"Power Attack",1001,"1,8",2,2,"warrior",1,1,0,30,0,0,0,0,0,0,120,1,1,1,1,"enemy",1,"close",5,"pAttack ratring의 120%로 2회 공격",false);
 
 		LIST_activeSkill.Add(tempActiveSkill);
 
