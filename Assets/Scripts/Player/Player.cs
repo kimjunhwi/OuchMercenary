@@ -5,9 +5,17 @@ using ReadOnlys;
 
 public class Player : MonoBehaviour 
 {
-	
+	private const string characterBoxStr01 = "Character/CharacterBox/1Tier_Ancher_130";
+	private const string characterBoxStr02 = "Character/CharacterBox/1Tier_Asassin_130";
+	private const string characterBoxStr03 = "Character/CharacterBox/1Tier_Commander_130";
+	private const string characterBoxStr04 = "Character/CharacterBox/1Tier_Knight_130";
+	private const string characterBoxStr05 = "Character/CharacterBox/1Tier_Magics_130";
+	private const string characterBoxStr06 = "Character/CharacterBox/1Tier_Priest_130";
+	private const string characterBoxStr07 = "Character/CharacterBox/1Tier_Warrior_130";
 
 	public List<CharacterStats> LIST_HERO = new List<CharacterStats>();
+
+	public List<DBBasicCharacter> LIST_CHARACTER = new List<DBBasicCharacter> ();
 
 	public void Init()
 	{
@@ -260,6 +268,19 @@ public class Player : MonoBehaviour
 		_charic.activeSkill = Wizard_Active_List;
 
 		LIST_HERO.Add (_charic);
+
+		for (int i = 0; i < 53; i++) {
+			LIST_CHARACTER.Add (GameManager.Instance.lDbBasicCharacter [i]);
+		}
+
+
+		GameManager.Instance.CharacterBoxImageLoad (characterBoxStr01);
+		GameManager.Instance.CharacterBoxImageLoad (characterBoxStr02);
+		GameManager.Instance.CharacterBoxImageLoad (characterBoxStr03);
+		GameManager.Instance.CharacterBoxImageLoad (characterBoxStr04);
+		GameManager.Instance.CharacterBoxImageLoad (characterBoxStr05);
+		GameManager.Instance.CharacterBoxImageLoad (characterBoxStr06);
+		GameManager.Instance.CharacterBoxImageLoad (characterBoxStr07);
 	}
 
 	public void AddCharacter(int _nIndex)
