@@ -133,6 +133,41 @@ namespace ReadOnlys
 	}
 
 
+	//
+	public enum E_TARGET : int
+	{
+		E_TARGET_ENEMY = 0,
+		E_TARGET_ALLAY,
+		E_TARGET_SELF,
+		E_TARGET_ALLY_MIN_HEALTH,
+	}
+
+	public enum E_ACTIVE_TYPE : int
+	{
+		E_ATTACK = 0,
+		E_BLEED,
+		E_BURN,
+		E_POISON,
+		E_BUFF_HP,
+		E_BUFF_ACCURACY,
+		E_BUFF_ATTACK_RANGE,
+		E_BUFF_P_ATTACK_RATING,
+		E_BUFF_M_ATTACK_RATING,
+		E_BUFF_ATTACK_SPEED,
+		E_BUFF_P_DEFENCE,
+		E_BUFF_M_DEFENCE,
+		E_BUFF_DODGE,
+		E_BUFF_CRITICAL_RATING,
+		E_BUFF_CRITICAL_DAMAGE,
+		E_BUFF_P_PENETRATE,
+		E_BUFF_M_PENETRATE,
+		E_BUFF_COOLTIME,
+		E_STRUN,
+		E_MIN_HEAL,
+		E_HEAL,
+	}
+
+
 	#region Class 
 
 
@@ -571,6 +606,14 @@ namespace ReadOnlys
 		public List<BasicSkill> basicSkill {get; set;}
 
 		public List<ActiveSkill> activeSkills {get; set;}
+	}
+
+	[System.Serializable]
+	public class AllActiveSkillType
+	{
+		public int nIndex;			//인덱스
+		public int nActiveType;	//스킬 종류
+		public int nTargetIndex;	//타겟인덱스(0 :적, 1: 우리팀, 2: 자신, 3: 최소 체력)
 	}
 
 

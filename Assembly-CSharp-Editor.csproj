@@ -85,6 +85,7 @@
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\FacebookSDK\link.xml" />
      <None Include="Assets\Resources\Unicode\AllPassive.txt" />
+     <None Include="Assets\Resources\Unicode\ActiveSkillType.txt" />
      <None Include="Assets\Resources\Unicode\AllPassiveOption.txt" />
      <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.59.0.txt" />
  <Reference Include="UnityEngine.Advertisements">

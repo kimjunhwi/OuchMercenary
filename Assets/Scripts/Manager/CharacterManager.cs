@@ -74,6 +74,7 @@ public class CharacterManager : MonoBehaviour {
 	}
 
 	// 필요한 캐릭터를 반환 ------------------------------------------
+	// 거리에 따른 캐릭터들중 반대편 캐릭들을 전부 반환한다.
 	public ArrayList FindTarget(Character _charic, float _fDistance)
 	{
 		ArrayList TargetArray = new ArrayList();
@@ -105,6 +106,7 @@ public class CharacterManager : MonoBehaviour {
 		return TargetArray;
 	}
 
+	//공격 타겟 캐릭터를 기준으로 범위안에 있는 캐릭터리스트를 반환한다.
 	public ArrayList FindTargetArea(Character _Attackcharic, Character _TargetCharic, float _fDistance)
 	{
 		ArrayList TargetArray = new ArrayList();

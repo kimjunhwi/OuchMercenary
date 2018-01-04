@@ -351,6 +351,8 @@ public class Warrior : Player_Character {
 					{
 						Debug.Log (charicStats.activeSkill[nActiveSkillIndex].m_strName);
 
+						PlayActiveSkill(nActiveSkillIndex,false);
+
 						StartCoroutine(SkillCoolTime());
 					}
 				}

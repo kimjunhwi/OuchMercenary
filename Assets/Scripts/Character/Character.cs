@@ -10,6 +10,23 @@ public class Character : MonoBehaviour {
 	protected bool m_bIsFront ;
 	protected bool m_bIsDead = false;			//캐릭터가 죽었는지
 
+	//각 도트딜 및 상태에 따른 체크를 위함---------------------------------------
+	protected bool m_bIsBleed = false;			//출혈상태
+	protected bool m_bIsBurn = false;			//화상상태
+	protected bool m_bIsPoison = false;			//중독상태
+	protected bool m_bIsSturn = false;			//스턴상태
+
+	protected float m_fBleedTime = 0.0f;
+	protected float m_fBurnTime = 0.0f;
+	protected float m_fPoisonTime = 0.0f;
+	protected float m_fSturnTime = 0.0f;
+
+	protected GameObject BleedObject;
+	protected GameObject BurnObject;
+	protected GameObject PoisonObject;
+	protected GameObject SturnObject;
+	//------------------------------------------------------------------
+
 	protected int m_nAttackCount = 0;			//n횟수 공격시 발동하는 엑티브 스킬을 위함
 
 	protected float m_fAttackTime = 0.0f;		//
@@ -45,7 +62,6 @@ public class Character : MonoBehaviour {
 
 	//캐릭터가 죽운뒤 투명도를 위함
 	protected Color alphaColor;
-
 	protected CharacterUI characterUI;
 
 	protected virtual void Awake()
@@ -59,6 +75,11 @@ public class Character : MonoBehaviour {
 		HealthSizeTransform = HealthActiveObject.transform.GetChild (0).transform;
 
 		damageTextTransform = transform.GetChild (1).transform;
+
+		BleedObject = transform.GetChild (2).gameObject;
+		BurnObject = transform.GetChild (3).gameObject;
+		PoisonObject = transform.GetChild (4).gameObject;
+		SturnObject = transform.GetChild (5).gameObject;
 	}
 
 	protected virtual void OnEnable()
@@ -222,7 +243,8 @@ public class Character : MonoBehaviour {
 		}
 	}
 
-
+	//Active Skill관련 -----------------------
+	#region  ActiveSkill
 	public void PlayActiveSkill(int _nActiveSkillIndex,bool _bIsCritical)
 	{
 		//Parsing된 스킬에서 SkillType과 Target을 받아옴
@@ -230,57 +252,80 @@ public class Character : MonoBehaviour {
 
 		string[] strActiveTypes = charicStats.activeSkill[_nActiveSkillIndex].m_strAttackType.Split(',');
 
-		string strSkillType = "attack";
-		string strTarget = "enemy";
-
-		targetCharacter_LIST.Clear();
-
-		if (strTarget == "enemy")
-			targetCharacter_LIST = characterManager.FindTargetArea (this, targetCharacter, charicStats.activeSkill [_nActiveSkillIndex].m_fAttackArea);
-
-		else if (strTarget == "self")
-			targetCharacter_LIST.Add (this);
-
-
-		switch (strSkillType) 
+		for(int nIndex = 0; nIndex < strActiveTypes.Length; nIndex++)
 		{
-		case "attack":
-			{
-				for (int nIndex = 0; nIndex < charicStats.activeSkill[_nActiveSkillIndex].m_nMaxTargetNumber; nIndex++) {
-					//만약 타겟수가 공격 해야할 캐릭터 수보다 적을 경우 종료
-					if (targetCharacter_LIST.Count <= nIndex) {
-						break;
-					}
+			targetCharacter_LIST.Clear ();
 
-					skillManager.ActiveAttack (charicStats.activeSkill[_nActiveSkillIndex], (Character)targetCharacter_LIST[nIndex],_bIsCritical);
-				}
-			}
-			break;
+			AllActiveSkillType skillData = GameManager.Instance.cAllActiveType[int.Parse(strActiveTypes[nIndex])];
 
-		case "buff":
-			{
-			}
-			break;
+			if(skillData == null)
+				return;
 
-		case "debuff":
-			{
-			}
-			break;
+			targetCharacter_LIST = GetTargetLIST(skillData.nTargetIndex,_nActiveSkillIndex);
 
-		case "burn":
-			{
-			}
-			break;
+			if(targetCharacter_LIST.Count == 0)
+				continue;
 
-		case "poison":
-			{
-			}
-			break;
-
-		}
-
+			skillManager.ActiveSkill(skillData.nActiveType,charicStats.activeSkill[_nActiveSkillIndex],this,targetCharacter_LIST,_bIsCritical);
+		}		
 	}
 	
+	ArrayList GetTargetLIST(int _nActiveSkillType,int _nActiveSkillIndex)
+	{
+		switch(_nActiveSkillType)
+		{
+			case (int)E_TARGET.E_TARGET_ENEMY:
+			{
+				return characterManager.FindTargetArea(this,targetCharacter,charicStats.activeSkill[_nActiveSkillIndex].m_fAttackRange);
+			}
+			case (int)E_TARGET.E_TARGET_ALLAY:
+			{
+				return characterManager.FindMyCharacterArea(this,targetCharacter,charicStats.activeSkill[_nActiveSkillIndex].m_fAttackArea);
+			}
+			case (int)E_TARGET.E_TARGET_ALLY_MIN_HEALTH:
+			{
+				return characterManager.FindMyMinHealthTarget(targetCharacter,charicStats.activeSkill[_nActiveSkillIndex].m_fAttackArea);
+			}
+			case (int)E_TARGET.E_TARGET_SELF:
+			{
+				ArrayList selfList = new ArrayList ();
+
+				selfList.Add (this);
+
+				return selfList;
+			}
+		}
+
+		return null;
+	}
+
+	public void SetDetrimental(E_ACTIVE_TYPE _TYPE,float _fDamage,float _fTime)
+	{
+		switch(_TYPE)
+		{
+			case E_ACTIVE_TYPE.E_BLEED:
+			{
+				SetBleed(_fDamage,_fTime);
+			}
+			break;
+			case E_ACTIVE_TYPE.E_BURN:
+			{
+				SetBurn(_fDamage,_fTime);
+			}
+			break;
+			case E_ACTIVE_TYPE.E_POISON:
+			{
+				SetPoison(_fDamage,_fTime);
+			}
+			break;
+			case E_ACTIVE_TYPE.E_STRUN:
+			{
+				SetSturn(_fDamage,_fTime);
+			}
+			break;
+		}
+	}
+
 	//스킬을 사용 한지 체크한다.
 	protected bool IsUseSkill(int nIndex)
 	{
@@ -331,6 +376,168 @@ public class Character : MonoBehaviour {
 		charicStats.activeSkill [nSkillIndex].m_bIsCooltime = false;
 	}
 
+	#endregion
+
+
+	//각 상태들(중독,화상,출혈,스턴)을 갱신하기 위한 코루틴들
+	#region Detrimental 
+
+	public void SetBleed(float _fValue,float _fTime)
+	{
+		if (m_bIsBleed)
+			m_fBleedTime = (m_fBleedTime > _fTime) ? m_fBleedTime : _fTime;
+		else {
+		
+			m_fBleedTime = _fTime;
+
+			StartCoroutine (DelayBleedObject ());
+
+		}
+		StartCoroutine(SustainedDamage(_fValue,_fTime));
+	}
+
+	public IEnumerator DelayBleedObject()
+	{
+		yield return new WaitForSeconds(0.1f);
+
+		m_bIsBleed =true;
+
+		BleedObject.SetActive(true);
+
+		while(m_fBleedTime > 0)
+		{
+			m_fBleedTime -= Time.deltaTime;
+
+			yield return null;
+		}
+
+		BleedObject.SetActive(false);
+
+		m_bIsBleed = false;
+	}
+
+	public void SetPoison(float _fValue,float _fTime)
+	{
+		if (m_bIsPoison)
+			m_fPoisonTime = (m_fPoisonTime > _fTime) ? m_fPoisonTime : _fTime;
+		else {
+		
+			m_fPoisonTime = _fTime;
+
+			StartCoroutine (DelayPoisonObject ());
+		}
+
+		StartCoroutine(SustainedDamage(_fValue,_fTime));
+	}
+
+	public IEnumerator DelayPoisonObject()
+	{
+		yield return new WaitForSeconds(0.1f);
+
+		m_bIsPoison =true;
+
+		PoisonObject.SetActive(true);
+
+		while(m_fBleedTime > 0)
+		{
+			m_fPoisonTime -= Time.deltaTime;
+
+			yield return null;
+		}
+
+		PoisonObject.SetActive(false);
+
+		m_bIsPoison = false;
+	}
+
+	public void SetBurn(float _fValue,float _fTime)
+	{
+		if (m_bIsBurn)
+			m_fBurnTime = (m_fBurnTime > _fTime) ? m_fBurnTime : _fTime;
+		else {
+
+			m_fBurnTime = _fTime;
+
+			StartCoroutine (DelayBurnObject ());
+		}
+		StartCoroutine(SustainedDamage(_fValue,_fTime));
+	}
+
+	public IEnumerator DelayBurnObject()
+	{
+		yield return new WaitForSeconds(0.1f);
+
+		m_bIsBurn =true;
+
+		BurnObject.SetActive(true);
+
+		while(m_fBurnTime > 0)
+		{
+			m_fBurnTime -= Time.deltaTime;
+
+			yield return null;
+		}
+
+		BurnObject.SetActive(false);
+
+		m_bIsBurn = false;
+	}
+
+	public void SetSturn(float _fValue,float _fTime)
+	{
+		if (m_bIsSturn)
+			m_fSturnTime = (m_fSturnTime > _fTime) ? m_fSturnTime : _fTime;
+		else {
+
+			m_fSturnTime = _fTime;
+
+			StartCoroutine (DelaySturnObject ());
+		}
+
+		StartCoroutine(SustainedDamage(_fValue,_fTime));
+	}
+
+	public IEnumerator DelaySturnObject()
+	{
+		yield return new WaitForSeconds(0.1f);
+
+		m_bIsSturn =true;
+
+		SturnObject.SetActive(true);
+
+		while(m_fSturnTime > 0)
+		{
+			m_fSturnTime -= Time.deltaTime;
+
+			yield return null;
+		}
+
+		SturnObject.SetActive(false);
+
+		m_bIsSturn = false;
+	}
+
+	//지속 데미지를 주는 코루틴 1초마다 n데미지
+	public IEnumerator SustainedDamage(float _fValue,float _fTime)
+	{
+		 yield return new WaitForSeconds(0.1f);
+
+		int nAttackTime = (int)_fTime;
+
+        while (nAttackTime > 0)
+        {
+            yield return new WaitForSeconds(1f);
+
+			if(m_bIsDead)
+				yield break;
+
+			TakeDamage(_fValue);
+
+			nAttackTime--;
+        }
+	}
+
+	#endregion
 	protected void ResetTargetCharacter(float _fRange)
 	{
 		
