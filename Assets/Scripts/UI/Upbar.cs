@@ -14,42 +14,53 @@ public class Upbar : MonoBehaviour
 
 	public E_SCENE_INDEX ePrev_SceneIndex;
 
+	public Sprite[] upbarSprites;
+	public Image[] upbarImages;
+
+	public MainSceneManager mainSceneManager;
 
 	public void SetUpHomeButton()
 	{
 		GameManager.Instance.InitUpbar ();
-		SceneManager.LoadScene ((int)E_SCENE_INDEX.E_MENU);
+		GameManager.Instance.LoadScene( E_SCENE_INDEX.E_MENU , E_SCENE_INDEX.E_NONE, false);
 	}
 
+	public void SetSprite()
+	{
+		upbarImages [0].sprite = upbarSprites [1];
+		upbarImages [1].sprite = upbarSprites [0];
+		upbarImages [2].sprite = upbarSprites [3];
+		upbarImages [3].sprite = upbarSprites [3];
+		upbarImages [4].sprite = upbarSprites [2];
+	}
 
 
 	//뒤로가기 버튼 씬마다 재세팅
 	public void SetBackButtonLoadScene(E_SCENE_INDEX _curSceneIndex , E_SCENE_INDEX _prevSceneIndex )
 	{
+		GameManager.Instance.isPrevLoad = true;
+	
 		switch (_curSceneIndex) 
 		{
 		case E_SCENE_INDEX.E_STAGE:
 			//SetUpBar 초기화
-			GameManager.Instance.InitUpbar ();
-			SceneManager.LoadScene ((int)E_SCENE_INDEX.E_MENU);
-			break;
-		case E_SCENE_INDEX.E_STAGE_DEFENSE:
-			GameManager.Instance.InitUpbar ();
-			SceneManager.LoadScene ((int)E_SCENE_INDEX.E_STAGE);
-			break;
-		case E_SCENE_INDEX.E_STAGE_PREBATTLE:
-			GameManager.Instance.InitUpbar ();
-
-			if (_prevSceneIndex == E_SCENE_INDEX.E_STAGE_DEFENSE)
-				SceneManager.LoadScene ((int)E_SCENE_INDEX.E_STAGE_DEFENSE);
-			else if (_prevSceneIndex == E_SCENE_INDEX.E_STAGE_ATTACK)
-				SceneManager.LoadScene ((int)E_SCENE_INDEX.E_STAGE_ATTACK);
-			else if (_prevSceneIndex == E_SCENE_INDEX.E_STAGE_INFINITE)
-				SceneManager.LoadScene ((int)E_SCENE_INDEX.E_STAGE_INFINITE);
 		
-			else
-				Debug.Log ("Load Scene Failed");
+			GameManager.Instance.LoadScene( _curSceneIndex , _prevSceneIndex, true);
+			//GameManager.Instance.InitUpbar ();
+			break;
 
+		case E_SCENE_INDEX.E_MERMANAGE:
+			//GameManager.Instance.InitUpbar ();
+			GameManager.Instance.LoadScene (_curSceneIndex, _prevSceneIndex , true);
+			break;
+		case E_SCENE_INDEX.E_STAGE_HEALING:
+	
+			mainSceneManager.ActivePanelBack (E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, true);
+			break;
+
+		case E_SCENE_INDEX.E_STAGE_TRAINNIG:
+
+			mainSceneManager.ActivePanelBack (E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING, true);
 			break;
 		default:
 			break;
@@ -62,28 +73,47 @@ public class Upbar : MonoBehaviour
 		//BackButton 초기화 
 		Back_Button.onClick.RemoveAllListeners ();
 		gameObject.SetActive (true);
-
+		StopCoroutine (mainSceneManager.fadeInOutTest.FadeInOutOnce (E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, true));
 		switch (_eSceneIndex) 
 		{
+		//스테이지 씬
 		case E_SCENE_INDEX.E_STAGE:
 			//이전 씬의 정보
 			ePrev_SceneIndex = GameManager.Instance.prevSceneIndex;
 			//현재 씬의 정보
 			stageInfo_Text.text = _stageInfo;
-			//셋팅되는 씬을 입력해야됨
+			//셋팅되는 씬을 입력해야됨 (해당씬, 이전씬)
 			Back_Button.onClick.AddListener (()=> SetBackButtonLoadScene(E_SCENE_INDEX.E_STAGE, ePrev_SceneIndex));
 			break;
-		case E_SCENE_INDEX.E_STAGE_DEFENSE:
+		//용병관리 씬
+		case E_SCENE_INDEX.E_MERMANAGE:
+			//이전 씬의 정보
 			ePrev_SceneIndex = GameManager.Instance.prevSceneIndex;
+			//현재 씬의 정보
 			stageInfo_Text.text = _stageInfo;
-			Back_Button.onClick.AddListener (()=> SetBackButtonLoadScene(E_SCENE_INDEX.E_STAGE_DEFENSE, ePrev_SceneIndex));
+			//셋팅되는 씬을 입력해야됨 (해당씬, 이전씬)
+			//Back_Button.onClick.AddListener (GameManager.Instance.InitMercenaryManage);
+			Back_Button.onClick.AddListener (()=> SetBackButtonLoadScene(E_SCENE_INDEX.E_MERMANAGE, ePrev_SceneIndex));
 			break;
 
-		case E_SCENE_INDEX.E_STAGE_PREBATTLE:
+		case E_SCENE_INDEX.E_STAGE_HEALING:
+
+			//이전 씬의 정보
 			ePrev_SceneIndex = GameManager.Instance.prevSceneIndex;
+			//현재 씬의 정보
 			stageInfo_Text.text = _stageInfo;
-			Back_Button.onClick.AddListener (()=> SetBackButtonLoadScene(E_SCENE_INDEX.E_STAGE_PREBATTLE, ePrev_SceneIndex));
+			Back_Button.onClick.AddListener (()=> SetBackButtonLoadScene(E_SCENE_INDEX.E_STAGE_HEALING, ePrev_SceneIndex));
 			break;
+
+		case E_SCENE_INDEX.E_STAGE_TRAINNIG:
+
+			//이전 씬의 정보
+			ePrev_SceneIndex = GameManager.Instance.prevSceneIndex;
+			//현재 씬의 정보
+			stageInfo_Text.text = _stageInfo;
+			Back_Button.onClick.AddListener (()=> SetBackButtonLoadScene(E_SCENE_INDEX.E_STAGE_TRAINNIG, ePrev_SceneIndex));
+			break;
+
 
 		default:
 			break;

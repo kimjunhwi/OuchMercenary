@@ -1,0 +1,21 @@
+ManifestFileVersion: 0
+CRC: 3810421306
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 0e66aee9532f8ab6fc7f7eaedcc62d98
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 21f0dc8ebad690f009368069428e0a1a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/UI/bar/bar_home_button.png
+- Assets/Resources/UI/bar/bar_back_button.png
+- Assets/Resources/UI/bar/bar_background.png
+- Assets/Resources/UI/bar/main_gold_box.png
+Dependencies: []

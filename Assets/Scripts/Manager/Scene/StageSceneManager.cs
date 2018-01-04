@@ -10,7 +10,7 @@ public class StageSceneManager : MonoBehaviour
 
 	void Start () 
 	{
-		GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_STAGE, canvas, sInfoText);
+		GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_STAGE, canvas, sInfoText, null);
 	}
 
 }

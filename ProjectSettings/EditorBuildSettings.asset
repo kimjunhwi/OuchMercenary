@@ -18,20 +18,14 @@ EditorBuildSettings:
     path: Assets/Scene/3.BattleScene.unity
     guid: 498431583293a476ca1a5b99274cc8b3
   - enabled: 1
-    path: Assets/Scene/4-0.StageScene.unity
+    path: Assets/Scene/4.StageScene.unity
     guid: a5754752fe33741508d931a1cc30c50f
   - enabled: 1
-    path: Assets/Scene/4-1.StageDefenseScene.unity
-    guid: 44daad45b39f54c39890cfa0448fbf18
-  - enabled: 1
-    path: Assets/Scene/4-2.StageAttackScene.unity
-    guid: f9bbc01137f9a418480654b7e72bb7e0
-  - enabled: 1
-    path: Assets/Scene/4-3.StageInfiniteScene.unity
-    guid: 37d6193d6f7cb4762aa859983eac9482
-  - enabled: 1
-    path: Assets/Scene/5.StagePreBattleScene.unity
-    guid: 06b537b1ec3b0469597a8c377f127879
+    path: Assets/Scene/5.MercenaryManageScene.unity
+    guid: a79100b7a12564f4da8e7a862b9f4019
   - enabled: 1
     path: Assets/Scene/0-1.LoadingScene.unity
     guid: 2fcb30061a63d4e1f9ba93f8222daf1f
+  - enabled: 1
+    path: Assets/Scene/0-2.ShortLoadingScene.unity
+    guid: 6abd9ca52591144acbf725a35ee9e52b

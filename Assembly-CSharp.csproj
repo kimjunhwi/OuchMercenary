@@ -264,6 +264,7 @@
      <Compile Include="Assets\GooglePlayGames\Platforms\TokenClient.cs" />
      <Compile Include="Assets\GooglePlayGames\PluginVersion.cs" />
      <Compile Include="Assets\GPGS.cs" />
+     <Compile Include="Assets\Scripts\AssetBundle\LoadAssetBundle.cs" />
      <Compile Include="Assets\Scripts\Character\Character.cs" />
      <Compile Include="Assets\Scripts\Character\EnemyCharacter\Enemy_Archer.cs" />
      <Compile Include="Assets\Scripts\Character\EnemyCharacter\Enemy_Character.cs" />
@@ -293,17 +294,35 @@
      <Compile Include="Assets\Scripts\Player\Player.cs" />
      <Compile Include="Assets\Scripts\Projectile\Arrow.cs" />
      <Compile Include="Assets\Scripts\Projectile\Projectile.cs" />
+     <Compile Include="Assets\Scripts\UI\Base\ButtonUIBase.cs" />
+     <Compile Include="Assets\Scripts\UI\Base\FadeInOut.cs" />
+     <Compile Include="Assets\Scripts\UI\Base\NotFirstObjDisable.cs" />
      <Compile Include="Assets\Scripts\UI\Base\ToggleUIBase.cs" />
      <Compile Include="Assets\Scripts\UI\Battle\CharacterUI.cs" />
      <Compile Include="Assets\Scripts\UI\Battle\DamageTextPool.cs" />
+     <Compile Include="Assets\Scripts\UI\Healing\HealSlot.cs" />
+     <Compile Include="Assets\Scripts\UI\Healing\MercenaryHealPanel.cs" />
      <Compile Include="Assets\Scripts\UI\LoadingPanel.cs" />
+     <Compile Include="Assets\Scripts\UI\MecenaryManage\MercenaryManageCharacterInfo.cs" />
+     <Compile Include="Assets\Scripts\UI\MecenaryManage\MercenaryManageEquipmentInfo.cs" />
+     <Compile Include="Assets\Scripts\UI\MecenaryManage\MercenaryManagePanel.cs" />
+     <Compile Include="Assets\Scripts\UI\MecenaryManage\MercenarySceneManager.cs" />
+     <Compile Include="Assets\Scripts\UI\MecenaryManage\MerManageHeroSlot.cs" />
      <Compile Include="Assets\Scripts\UI\PreBattle\CharacterInfoPanel.cs" />
+     <Compile Include="Assets\Scripts\UI\PreBattle\CharacterInfoSpecPanel.cs" />
      <Compile Include="Assets\Scripts\UI\PreBattle\CharacterSlot.cs" />
-     <Compile Include="Assets\Scripts\UI\PreBattle\PreBattleSceneManager.cs" />
+     <Compile Include="Assets\Scripts\UI\PreBattle\CInfoSpecificSlot.cs" />
+     <Compile Include="Assets\Scripts\UI\PreBattle\CSkillInfoSlot.cs" />
+     <Compile Include="Assets\Scripts\UI\PreBattle\MercenaryDispatchCancel.cs" />
+     <Compile Include="Assets\Scripts\UI\PreBattle\MercenaryDispatchPanel.cs" />
+     <Compile Include="Assets\Scripts\UI\PreBattle\MercenaryDispatchSlot.cs" />
+     <Compile Include="Assets\Scripts\UI\PreBattle\PreBattleScenePanel.cs" />
      <Compile Include="Assets\Scripts\UI\Stage\Defense\Chapter.cs" />
      <Compile Include="Assets\Scripts\UI\Stage\Defense\StageDefensePanel.cs" />
      <Compile Include="Assets\Scripts\UI\Stage\StageBase.cs" />
      <Compile Include="Assets\Scripts\UI\Stage\StagePanel.cs" />
+     <Compile Include="Assets\Scripts\UI\Trainning\TrainningPanel.cs" />
+     <Compile Include="Assets\Scripts\UI\Trainning\TrainSlot.cs" />
      <Compile Include="Assets\Scripts\UI\Upbar.cs" />
      <Compile Include="Assets\Scripts\Window\CWindow.cs" />
      <Compile Include="Assets\Scripts\Window\CWindowCheck.cs" />
@@ -352,40 +371,40 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.CognitoIdentity">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.CognitoIdentity.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.CognitoIdentity.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.CognitoSync">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.CognitoSync.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.CognitoSync.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.Core">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.Core.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.Core.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.DynamoDBv2">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.DynamoDBv2.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.DynamoDBv2.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.Lambda">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.Lambda.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.Lambda.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.S3">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.S3.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.S3.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.SecurityToken">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.SecurityToken.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.SecurityToken.dll</HintPath>
  </Reference>
  <Reference Include="AWSSDK.SimpleNotificationService">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/AWSSDK/AWSSDK.SimpleNotificationService.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/AWSSDK/AWSSDK.SimpleNotificationService.dll</HintPath>
  </Reference>
  <Reference Include="Facebook.Unity">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/FacebookSDK/Plugins/Facebook.Unity.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/FacebookSDK/Plugins/Facebook.Unity.dll</HintPath>
  </Reference>
  <Reference Include="Facebook.Unity.Gameroom">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/FacebookSDK/Plugins/Gameroom/Facebook.Unity.Gameroom.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/FacebookSDK/Plugins/Gameroom/Facebook.Unity.Gameroom.dll</HintPath>
  </Reference>
  <Reference Include="FacebookNamedPipeClient">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/FacebookSDK/Plugins/Gameroom/FacebookNamedPipeClient.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/FacebookSDK/Plugins/Gameroom/FacebookNamedPipeClient.dll</HintPath>
  </Reference>
  <Reference Include="Facebook.Unity.Settings">
- <HintPath>/Users/ImaiDakaki/OuchMercenary/Assets/FacebookSDK/Plugins/Settings/Facebook.Unity.Settings.dll</HintPath>
+ <HintPath>/Users/cheolgeungi/OuchMercenary/Assets/FacebookSDK/Plugins/Settings/Facebook.Unity.Settings.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
