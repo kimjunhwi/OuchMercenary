@@ -270,9 +270,12 @@
      <Compile Include="Assets\Scripts\Character\EnemyCharacter\Enemy_Warrior.cs" />
      <Compile Include="Assets\Scripts\Character\PlayerCharacter\Archer.cs" />
      <Compile Include="Assets\Scripts\Character\PlayerCharacter\Commander.cs" />
+     <Compile Include="Assets\Scripts\Character\PlayerCharacter\Knight.cs" />
+     <Compile Include="Assets\Scripts\Character\PlayerCharacter\Mechanic.cs" />
      <Compile Include="Assets\Scripts\Character\PlayerCharacter\Player_Character.cs" />
      <Compile Include="Assets\Scripts\Character\PlayerCharacter\Priest.cs" />
      <Compile Include="Assets\Scripts\Character\PlayerCharacter\Warrior.cs" />
+     <Compile Include="Assets\Scripts\Character\PlayerCharacter\Wizard.cs" />
      <Compile Include="Assets\Scripts\Manager\CharacterManager.cs" />
      <Compile Include="Assets\Scripts\Manager\FadingManager.cs" />
      <Compile Include="Assets\Scripts\Manager\GameManager.cs" />

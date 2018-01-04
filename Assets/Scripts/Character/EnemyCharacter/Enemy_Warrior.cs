@@ -23,7 +23,7 @@ public class Enemy_Warrior : Enemy_Character {
 	}
 
 
-	protected override void Update ()
+	public override void ActionUpdate ()
 	{
 		StartCoroutine(this.CharacterAction());
 	}
@@ -122,6 +122,15 @@ public class Enemy_Warrior : Enemy_Character {
 				if (targetCharacter == null) {
 					CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
 					break;
+				}
+
+				//현재 활성화 된 캐릭터들 중에서 공격 범위 안에 들어온 리스트 들을 반환 
+				ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
+
+				//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
+				if (targetLists.Count > 0) {
+					//제일 가까운 캐릭터를 반환한다.
+					targetCharacter = (Character)targetLists [0];
 				}
 
 				transform.position = Vector3.MoveTowards (transform.position, targetCharacter.transform.position, Time.deltaTime * charicStats.m_fMoveSpeed);

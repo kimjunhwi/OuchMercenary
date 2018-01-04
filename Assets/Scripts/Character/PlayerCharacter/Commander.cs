@@ -17,7 +17,7 @@ public class Commander : Player_Character {
 		base.Setup(_charic,_charicManager,_skillManager,_BattleManager, _E_TYPE,_vecPosition);
 	}
 
-	protected override void Update ()
+	public override void ActionUpdate ()
 	{
 		StartCoroutine(this.CharacterAction());
 

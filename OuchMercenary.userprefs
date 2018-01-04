@@ -1,27 +1,29 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Manager/SkillManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Manager/ReadOnly.cs">
     <Files>
       <File FileName="../OuchMercenary 2/Assets/Scripts/Manager/GameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Player/Player.cs" Line="56" Column="3" />
-      <File FileName="Assets/Scripts/Manager/ReadOnly.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Player/Player.cs" Line="106" Column="36" />
       <File FileName="Assets/Scripts/UI/Battle/DamageTextPool.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Manager/Scene/BattleManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Manager/SkillManager.cs" Line="115" Column="34" />
-      <File FileName="Assets/Scripts/Character/Character.cs" Line="269" Column="1" />
-      <File FileName="Assets/Scripts/Character/PlayerCharacter/Priest.cs" Line="143" Column="1" />
-      <File FileName="Assets/Scripts/Character/PlayerCharacter/Warrior.cs" Line="354" Column="1" />
+      <File FileName="Assets/Scripts/Manager/SkillManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/Character.cs" Line="171" Column="4" />
+      <File FileName="Assets/Scripts/Character/PlayerCharacter/Priest.cs" Line="8" Column="34" />
+      <File FileName="Assets/Scripts/Character/PlayerCharacter/Warrior.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Manager/CharacterManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Character/PlayerCharacter/Archer.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Character/EnemyCharacter/Enemy_Archer.cs" Line="1" Column="1" />
       <File FileName="../BlackSmith5/Assets/Scripts/InGame/Arbait/ArbaitCharacter.cs" Line="1" Column="1" />
       <File FileName="../BlackSmith5/Assets/Scripts/InGame/Arbait/ArbaitBatch.cs" Line="1" Column="1" />
       <File FileName="../OuchMercenary 2/Assets/Scripts/Manager/ReadOnly.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/ReadOnly.cs" Line="290" Column="118" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/PlayerCharacter/Warrior.cs" line="354" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/Character.cs" line="258" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/Character.cs" line="455" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

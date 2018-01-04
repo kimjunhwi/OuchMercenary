@@ -16,6 +16,8 @@ public class BattleManager : MonoBehaviour {
 	private float m_fPlusX = 1.5f;
 	private float m_fPlusY = 1.5f;
 
+	private bool m_bIsPause = false;
+
 	public Player player;
 	public SkillManager skillManager;
 	public CharacterManager characterManager;
@@ -37,7 +39,7 @@ public class BattleManager : MonoBehaviour {
 		characterManager = gameObject.AddComponent<CharacterManager>();
 
 		///임시
-		for (int nIndex = 0; nIndex < player.LIST_HERO.Count; nIndex++) 
+		for (int nIndex = 2; nIndex < player.LIST_HERO.Count; nIndex++) 
 		{
 			CharacterStats characterStats = player.LIST_HERO [nIndex];
 
@@ -62,6 +64,15 @@ public class BattleManager : MonoBehaviour {
 				break;
 			case "Commander":
 				charic = characterObject.AddComponent<Commander> ();
+				break;
+			case "Knight":
+				charic = characterObject.AddComponent<Knight> ();
+				break;
+			case "Wizard":
+				charic = characterObject.AddComponent<Wizard> ();
+				break;
+			case "Mechanic":
+				charic = characterObject.AddComponent<Mechanic> ();
 				break;
 			}
 
@@ -107,6 +118,14 @@ public class BattleManager : MonoBehaviour {
 		}
 
 		characterManager.SortingCharacterLayer();
+	}
+
+	void Update()
+	{
+		if(m_bIsPause == false)
+		{
+			characterManager.Actions();
+		}
 	}
 
 	public void SortDamageTextLayer()
