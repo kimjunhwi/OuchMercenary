@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System.Text;
@@ -32,7 +33,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public E_SCENE_INDEX prevSceneIndex;		//이전 씬 인덱스
 	public E_SCENE_INDEX nextSceneIndex;		//다음 씬 인덱스
 	public Transform curSceneCanvas;			//현재씬의 캔버스
-	private bool isPrevLoad;					//이전씬을 로드 할건지 아닌지
+	public bool isPrevLoad;						//이전씬을 로드 할건지 아닌지
 
 	Player m_Player;
 
@@ -43,20 +44,20 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public bool bIsLoad = false;
 
 	public List<DBBasicCharacter> lDbBasicCharacter = new List<DBBasicCharacter>();
-
+	public List<Sprite> CharacterBoxImage_List = new List<Sprite> ();
 	//Scene 마다 있는 UpBar
 	public Upbar upBar;
-	public GameObject upBarHold_obj;		//UpBarHoldrer
-
-	//Scene 마다 있는 LoadingPanel
-	public LoadingPanel loadingPanel;
-	public GameObject loadingPanel_obj;		//LoadingPanel
+	public GameObject upBarHold_obj;			//UpBarHoldrer
+	//용병관리창 hold 하는 obj
+	public MercenaryManagePanel mercenaryManagePanel;
+	public GameObject mercenaryManageHold_Obj;	//MercenaryManageHolder
 
 	//PassiveSkill의 대한 데이터를 파싱
 	public AllPassiveSkillData[] cAllPassiveSkill = null;
 	public AllPassiveSkillOptionData[] cAllPassiveOption = null;
 
-	public AllActiveSkillType[] cAllActiveType = null;
+	public List<Sprite> getSpriteArray = new List<Sprite>();
+	public bool isSpriteDown;
 
 	public IEnumerator DataLoad()
     {
@@ -64,15 +65,14 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		// Unicode Parsing ---------------------------------------------------------
 		
-		Load_TableInfo_AllActiveType();
-
 		//패시브 스킬에 관한 정보들을 파싱
 		Load_TableInfo_AllPassive();
 
 		//패시브 스킬등의 옵션등을 위한 파싱
 		Load_TableInfo_AllPassiveOption();
 
-		
+		//CharacterBox Image 
+
 
 		// -------------------------------------------------------------------------
 
@@ -104,6 +104,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		m_Player = new Player ();
 
 		m_Player.Init ();
+
+
 
         yield break;
     }
@@ -229,78 +231,243 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		return target;
 	}
 
+
+
 	#region StaticGameObject
+	public void CharacterBoxImageLoad(string _strPath)
+	{
+		Sprite image = (Sprite)Instantiate (Resources.Load (_strPath, typeof(Sprite)));
+		CharacterBoxImage_List.Add (image);
+	}
+	//용병관리창 init
+	public void InitMercenaryManage()
+	{
+		if (mercenaryManagePanel == null) {
+			mercenaryManageHold_Obj = GameObject.Find ("MercenaryManageHold");
+			DontDestroyOnLoad (mercenaryManageHold_Obj);
+
+			GameObject go = (GameObject)Instantiate (Resources.Load ("Prefabs/UI/MercenaryManage/MercenaryManagePanel", typeof(GameObject)));
+
+			mercenaryManagePanel = go.GetComponent<MercenaryManagePanel> ();
+
+			go.transform.SetParent (mercenaryManageHold_Obj.transform);
+
+			go.SetActive (false);
+			DontDestroyOnLoad (go);
+		} 
+		else 
+		{
+			mercenaryManagePanel.gameObject.transform.position = new Vector3 (0f, 0f, 0f);
+			mercenaryManagePanel.gameObject.transform.SetParent(mercenaryManageHold_Obj.transform);
+			mercenaryManagePanel.gameObject.SetActive (false);
+		}
+	}
+
+	public void SetUpMercenaryManage(Transform _trans)
+	{
+		mercenaryManagePanel.gameObject.transform.SetParent (_trans, false);
+		mercenaryManagePanel.gameObject.transform.SetAsLastSibling ();
+		mercenaryManagePanel.gameObject.SetActive (true);
+
+		SetUpbar (mercenaryManagePanel.gameObject.transform);
+
+
+	}
+
+
+
+	#region Upbar
 	public void InitUpbar()
 	{
 		if (upBar == null) 
 		{	
+			string assetBundleDirectory = "Assets/AssetBundles";
+		
 			upBarHold_obj = GameObject.Find ("UpBarHold");
 			DontDestroyOnLoad (upBarHold_obj);
+			if (System.IO.File.Exists ("Assets/AssetBundles/bundle/upbar"))
+			{
 
-			GameObject go = (GameObject)Instantiate (Resources.Load ("Prefabs/UpBar", typeof(GameObject)));
-			upBar = go.GetComponent<Upbar> ();
-			go.transform.SetParent (upBarHold_obj.transform);
-			//홈버튼 추가
-			upBar.Home_Button.onClick.AddListener (upBar.SetUpHomeButton);
+				StartCoroutine (LoadFromMemoryAsync ("Assets/AssetBundles/bundle/upbar"));
+				StartCoroutine (LoadSpriteFromAssetBundel ("Assets/AssetBundles/mainsceneicon"));
+				Debug.Log ("경로에 해당 파일이 있음.");
 
-			go.SetActive (false);
-			DontDestroyOnLoad (go);
+				/*
+				assetBundle = AssetBundle.LoadFromFile ("Assets/AssetBundles/ui_upbar");	
+
+
+
+				GameObject go = assetBundle.LoadAsset<GameObject>("ui_upbar");
+
+				//GameObject go = (GameObject)Instantiate (Resources.Load ("Prefabs/UpBar", typeof(GameObject)));
+
+				upBar = go.GetComponent<Upbar> ();
+				go.transform.SetParent (upBarHold_obj.transform);
+				//홈버튼 추가
+				upBar.Home_Button.onClick.AddListener (upBar.SetUpHomeButton);
+
+				go.SetActive (false);
+				DontDestroyOnLoad (go);
+
+		*/
+			} 
+
+			else {
+				Debug.Log ("경로에 해당 파일이 없음.");
+			}
 		}
 		else 
 		{
 			upBar.gameObject.transform.position = new Vector3 (0f, 490f, 0f);
 			upBar.gameObject.transform.SetParent(upBarHold_obj.transform);
 			upBar.gameObject.SetActive (false);
+			//StartCoroutine (StartInitUpbar ());	
+		}
+	}
+	public IEnumerator LoadSpriteFromAssetBundel(string _path)
+	{
+		isSpriteDown = false;
+		AssetBundleCreateRequest createRequest = AssetBundle.LoadFromMemoryAsync(File.ReadAllBytes(_path));
+
+		yield return createRequest;
+
+		AssetBundle bundle = createRequest.assetBundle;
+
+		Sprite [] prefab  = bundle.LoadAllAssets<Sprite> ();
+
+		for (int i = 0; i < prefab.Length; i++) {
+			//Debug.Log (prefab [i].name);
+			getSpriteArray.Add (prefab [i]);
 		
+			if(i == prefab.Length -1)
+				isSpriteDown = true;
+		}
+		//"."을 기준으로 다시 정렬
+		getSpriteArray.Sort (delegate(Sprite A, Sprite B) 
+			{
+				if(int.Parse(A.name.Substring(0, A.name.IndexOf("."))) > int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return 1;
+				else if (int.Parse(A.name.Substring(0, A.name.IndexOf("."))) < int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return -1;
+				return 0;
+			});
+		
+		for (int i = 0; i < getSpriteArray.Count; i++) {
+			Debug.Log (getSpriteArray[i]);
 		}
 	}
 
-	public void SetUpbar(E_SCENE_INDEX _sIndex ,Transform _trans, string _str)
+
+
+	//해당 경로에 있는 에셋 번들 불러오기
+	IEnumerator LoadFromMemoryAsync(string _path)
 	{
+		
+		AssetBundleCreateRequest createRequest = AssetBundle.LoadFromMemoryAsync(File.ReadAllBytes(_path));
+
+		yield return createRequest;
+
+		AssetBundle bundle = createRequest.assetBundle;
+
+		Sprite [] prefab  = bundle.LoadAllAssets<Sprite> ();
+
+		for (int i = 0; i < prefab.Length; i++)
+			Debug.Log (prefab [i].name);
+
+		GameObject go = (GameObject)Instantiate (Resources.Load ("Prefabs/UpBar", typeof(GameObject)));
+
+		upBar = go.GetComponent<Upbar> ();
+
+		upBar.upbarSprites = new Sprite[prefab.Length];
+		for (int i = 0; i < prefab.Length; i++) {
+			upBar.upbarSprites [i] = prefab [i];
+		}
+
+		upBar.SetSprite ();
+
+		go.transform.SetParent (upBarHold_obj.transform);
+		//홈버튼 추가 및 함수 할당
+		upBar.Home_Button.onClick.AddListener (upBar.SetUpHomeButton);
+
+		go.SetActive (false);
+		DontDestroyOnLoad (go);
+
+		/*
+		upBar = prefab.GetComponent<Upbar> ();
+		prefab.transform.SetParent (upBarHold_obj.transform);
+		//홈버튼 추가
+		upBar.Home_Button.onClick.AddListener (upBar.SetUpHomeButton);
+
+		prefab.SetActive (false);
+		DontDestroyOnLoad (prefab);
+			*/
+
+		/*
+		AssetBundleCreateRequest createRequest = AssetBundle.LoadFromFileAsync(_path);
+
+		var myLoadedAssetBundle = createRequest.assetBundle;
+
+		if (myLoadedAssetBundle == null)
+		{
+			Debug.Log("Failed to load AssetBundle!");
+			yield break;
+		}
+		else
+			Debug.Log("Successed to load AssetBundle!");
+
+		var prefab = myLoadedAssetBundle.LoadAsset<GameObject>("Upbar");
+		//Instantiate(prefab, Vector3.zero, Quaternion.identity);
+
+		upBar = prefab.GetComponent<Upbar> ();
+		prefab.transform.SetParent (upBarHold_obj.transform);
+		//홈버튼 추가
+		upBar.Home_Button.onClick.AddListener (upBar.SetUpHomeButton);
+
+		prefab.SetActive (false);
+		DontDestroyOnLoad (prefab);
+		*/
+	}
+
+	//해당 씬의 정보와 캔버스에 Upbar를 붙힌.
+	public void SetUpbar(E_SCENE_INDEX _sIndex ,Transform _trans, string _str, MainSceneManager _mainScene)
+	{
+		upBar.mainSceneManager = _mainScene;
 		upBar.gameObject.transform.SetParent (_trans, false);
+
+		//뒤에 더미도 같이 만든다 (로딩시 비는 것을 막기 위해)
+		//GameObject upbar_Dummy = (GameObject)Instantiate (Resources.Load ("Prefabs/UpBar_Dummy", typeof(GameObject)));
+		//upbar_Dummy.gameObject.transform.SetParent (_trans, false);
+		//upbar_Dummy.GetComponent<Upbar> ().stageInfo_Text.text = _str;
+
+		upBar.gameObject.transform.SetSiblingIndex (_trans.childCount - 2);
 		upBar.UpbarChangeInfo (_sIndex, _str);
 	}
 
-	public void LoadScene(E_SCENE_INDEX _sceneIndex, E_SCENE_INDEX _prevSceneIndex, bool _isPrev)
+	public void SetUpbar(Transform _trans)
+	{
+		upBar.gameObject.transform.SetParent (_trans, false);
+
+		upBar.gameObject.transform.SetAsLastSibling ();
+
+		upBar.UpbarChangeInfo (E_SCENE_INDEX.E_MERMANAGE, "용병관리");
+	}
+
+	#endregion
+	//현재 씬과 이전 씬을 설정하여 로딩 후 씬을 불러온다
+	public void LoadScene(E_SCENE_INDEX _sceneIndex, E_SCENE_INDEX _prevSceneIndex, bool _isNoTip)
 	{
 		prevSceneIndex = _prevSceneIndex;
 		nextSceneIndex = _sceneIndex;
-		GameManager.Instance.InitUpbar ();
-		//SetUpLoadingPanel (_canvas);
-		SceneManager.LoadScene ((int)E_SCENE_INDEX.E_LOADING);
-		//StartCoroutine( LoadingScene (_sceneIndex));
-	}
-	/*
-	public void InitLoadingPanel()
-	{
-		if (loadingPanel == null) 
-		{
-			loadingPanel_obj = GameObject.Find ("LoadingPanelHold");
-			DontDestroyOnLoad (loadingPanel_obj);
 
-			GameObject go = (GameObject)Instantiate (Resources.Load ("Prefabs/LoadingPanel", typeof(GameObject)));
-			loadingPanel = go.GetComponent<LoadingPanel> ();
-			go.transform.SetParent (loadingPanel_obj.transform);
+		//메인 씬이 아니면 Upbar초기화 (싱글턴 오브젝트로 빼놓는다)
+		if (_sceneIndex != E_SCENE_INDEX.E_MENU)
+			GameManager.Instance.InitUpbar ();
 		
-			go.SetActive (false);
-			DontDestroyOnLoad (go);
-		} 
-		else 
-		{
-			//upBar.gameObject.transform.position = new Vector3 (0f, 490f, 0f);
-			loadingPanel.gameObject.transform.SetParent(loadingPanel_obj.transform);
-			loadingPanel.gameObject.SetActive (false);
-		}
-	}
-	public void SetUpLoadingPanel(Transform _canvas)
-	{
-		Debug.Log ("LoadingPanel Active");
-		loadingPanel.gameObject.SetActive (true);
-		loadingPanel.gameObject.transform.SetParent (_canvas, false);
-		//upBar.UpbarChangeInfo (_sIndex, _str);
+		if (_isNoTip == true)
+			SceneManager.LoadScene ((int)E_SCENE_INDEX.E_LOADING_SHORT);
+		else
+			SceneManager.LoadScene ((int)E_SCENE_INDEX.E_LOADING);
+		
 	}
 
-*/
 
 
 	#endregion
@@ -368,33 +535,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			kInfo[i - 1].strExplain = Cells[5];
 		}
 		cAllPassiveOption = kInfo;
-	}
-
-	void Load_TableInfo_AllActiveType()
-	{
-		if (cAllActiveType != null) return;
-
-		string txtFilePath = "ActiveSkillType";
-		TextAsset ta = LoadTextAsset(txtFilePath);
-		List<string> line = LineSplit(ta.text);
-
-		AllActiveSkillType[] kInfo = new AllActiveSkillType[line.Count - 1];
-
-		for (int i = 0; i < line.Count; i++)
-		{
-			//Console.WriteLine("line : " + line[i]);
-			if (line[i] == null) continue;
-			if (i == 0) continue; 	// Title skip
-
-			string[] Cells = line[i].Split("\t"[0]);	// cell split, tab
-			if (Cells[0] == "") continue;
-
-			kInfo[i - 1] = new AllActiveSkillType();
-			kInfo[i - 1].nIndex = int.Parse(Cells[0]);
-			kInfo[i - 1].nActiveType = int.Parse(Cells[1]);
-			kInfo[i - 1].nTargetIndex = int.Parse(Cells[2]);
-		}
-		cAllActiveType = kInfo;
 	}
 
 	#endregion

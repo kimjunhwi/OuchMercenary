@@ -1,0 +1,10 @@
+ManifestFileVersion: 0
+CRC: 3859603659
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: bundle/upbar
+      Dependencies: {}
+    Info_1:
+      Name: mainsceneicon
+      Dependencies: {}

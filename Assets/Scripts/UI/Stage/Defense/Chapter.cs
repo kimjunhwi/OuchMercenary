@@ -11,9 +11,12 @@ public class Chapter : MonoBehaviour
 
 	void Start()
 	{
-		Ready_Button.onClick.AddListener(() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_STAGE_PREBATTLE, 
-			ReadOnlys.E_SCENE_INDEX.E_STAGE_DEFENSE, canvas));
+		//Ready_Button.onClick.AddListener(() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_STAGE_PREBATTLE, 
+		//	ReadOnlys.E_SCENE_INDEX.E_STAGE_DEFENSE, canvas));
+		//Ready_Button.onClick.AddListener();
 	}
+
+
 
 
 }

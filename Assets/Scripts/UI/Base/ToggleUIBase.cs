@@ -12,8 +12,6 @@ public class ToggleUIBase : MonoBehaviour
 
 	public Toggle [] toggle;
 
-
-
-
 	public virtual void ActivePanel<T> (T _chapterIndex) {}
+
 }

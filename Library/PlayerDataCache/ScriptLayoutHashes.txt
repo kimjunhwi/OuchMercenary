@@ -1,4 +1,5 @@
 Android
+e1a5056b306710daa609eb340b8560c3 Assembly-CSharp.dll:.MercenaryDispatchCancel
 dc07d7ad69b399a46e92c483bf1c04ca UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsTracker
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
 9f07aaefd0255462bb6e4f9e5da6b2d4 UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationTrack
@@ -48,7 +49,7 @@ c63db43c730fa2cbb8ca07de15898cb6 UnityEngine.UI.dll:UnityEngine.UI.Toggle
 f61c0793411f10cf5fbfa1473fef5ef2 UnityEngine.UI.dll:UnityEngine.UI.ToggleGroup
 86d36c43c53541d667100dc90b89cfba UnityEngine.UI.dll:UnityEngine.EventSystems.TouchInputModule
 1b8c02d0aa82fbf036a2b9b2d713eec3 UnityEngine.UI.dll:UnityEngine.UI.VerticalLayoutGroup
-cd95e678d5e35f17b2c2bcb4394e4bdf Assembly-CSharp.dll:.Player
+525eaaee0491babad146fb6abc422da2 Assembly-CSharp.dll:.Player
 4ffb6b89a214e4c0bcb25a4714a5663a Assembly-CSharp.dll:AWSSDK.Examples.LowLevelTableExample
 8b14c5e2ae6cb42c1c0d48d8f1e5c374 Assembly-CSharp.dll:.Enemy_Warrior
 a35dc9cca2faebc5f5f1aeb9e8e47bbe UnityEngine.UI.dll:UnityEngine.UI.AspectRatioFitter
@@ -86,6 +87,7 @@ f61c0793411f10cf5fbfa1473fef5ef2 UnityEngine.UI.dll:UnityEngine.UI.ToggleGroup
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Facebook.Unity.Example.Pay
 05524b8f659e7bfe5756d1335fec24ba AWSSDK.Core.dll:Amazon.UnityInitializer
 05524b8f659e7bfe5756d1335fec24ba AWSSDK.Core.dll:Amazon.Runtime.Internal.UnityMainThreadDispatcher
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.StageBase
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.SkillManager
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
 9f07aaefd0255462bb6e4f9e5da6b2d4 UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationTrack
@@ -117,7 +119,7 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
 55d0933c494e261e4c2c81ee29626aef Assembly-CSharp.dll:.LoadingPanel
 50c5d3ffbdecfef214041ddec5935115 Assembly-CSharp.dll:.NickInput
-d5324e93b18cd50062aff98bdc3fbda7 Assembly-CSharp.dll:.PreBattleSceneManager
+d5324e93b18cd50062aff98bdc3fbda7 Assembly-CSharp.dll:.PreBattleScenePanel
 e56b9ea6ac8a13465acb03c6a46c0f55 Assembly-CSharp.dll:.StageDefSceneManager
 bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.AudioSpatializerMicrosoft
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInput
@@ -126,17 +128,18 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.Spa
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.SpatialMappingRenderer
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Facebook.Unity.Example.AppLinks
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Facebook.Unity.Example.DialogShare
-193d4e87a33fc5f80670fe0b03008e87 Assembly-CSharp.dll:.StagePanel
+eddf4711b28c360f8130826c84952437 Assembly-CSharp.dll:.StagePanel
 5265addfe2aed5864cad2ed1f1c179f6 Assembly-CSharp.dll:.CWindowCheck
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Facebook.Unity.Example.GraphRequest
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Facebook.Unity.Example.LogView
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.CharacterUI
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Facebook.Unity.Example.ConsoleBase
 8b14c5e2ae6cb42c1c0d48d8f1e5c374 Assembly-CSharp.dll:.Warrior
 e56b9ea6ac8a13465acb03c6a46c0f55 Assembly-CSharp.dll:.StageSceneManager
 8b14c5e2ae6cb42c1c0d48d8f1e5c374 Assembly-CSharp.dll:.Enemy_Archer
 d6e26929e3ce93d265ed9a5d94b42d47 Assembly-CSharp.dll:AWSSDK.Examples.HighLevelTableExample
 86c5613e3e7bcd059909acc2a0c4bca4 Assembly-CSharp.dll:.CWindowYesNo
-7959ca8e047f699587a14b7b2ca3205b Assembly-CSharp.dll:AWSSDK.Examples.CognitoSyncManagerSample
+c449bffd6d7f131c686bc2f43239ce9b Assembly-CSharp.dll:.CharacterSlot
 05524b8f659e7bfe5756d1335fec24ba Facebook.Unity.dll:Facebook.Unity.Mobile.Android.AndroidFacebookGameObject
 05524b8f659e7bfe5756d1335fec24ba Facebook.Unity.dll:Facebook.Unity.Mobile.Android.AndroidFacebookLoader
 05524b8f659e7bfe5756d1335fec24ba Facebook.Unity.dll:Facebook.Unity.AsyncRequestString
@@ -158,7 +161,7 @@ d6e26929e3ce93d265ed9a5d94b42d47 Assembly-CSharp.dll:AWSSDK.Examples.HighLevelTa
 6e2af9c7c9e5cbdd03bcbe5a4db40f2f Assembly-CSharp.dll:AWSSDK.Examples.S3Example
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Facebook.Unity.Example.MainMenu
 32e8fe00b63ed946490b898f6024a2f2 Facebook.Unity.Settings.dll:Facebook.Unity.Settings.FacebookSettings
-3a69994cb144d615b98c2c60f896d101 Assembly-CSharp.dll:.GameManager
+afb82ed6fa493046d2d4034756e380eb Assembly-CSharp.dll:.GameManager
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
 60b2bb652410a5867a5ab9a01cd38461 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkDiscovery
@@ -190,12 +193,15 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 05524b8f659e7bfe5756d1335fec24ba Facebook.Unity.dll:Facebook.Unity.Editor.Dialogs.MockLoginDialog
 05524b8f659e7bfe5756d1335fec24ba Facebook.Unity.dll:Facebook.Unity.Editor.Dialogs.MockShareDialog
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ObjectCashing
+d07bf85cffafd79d3e53233b99678d93 Assembly-CSharp.dll:.MercenaryDispatchPanel
 ff6a7cae997ffdafd670e4d051be44fd Assembly-CSharp.dll:.MenuManager
 be4a001a15990d27e14073fe41c459a0 Assembly-CSharp.dll:AWSSDK.Examples.LambdaExample
+850497ae9606e83b5217fbe49bcc682c Assembly-CSharp.dll:.DamageTextPool
 a5da663323a60df5f33b3c614ef44492 Assembly-CSharp.dll:.Arrow
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback
 5f2ad81aa8994e8fbe25d1e57afe6773 UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.PlaymodeTestsController
 64eb32cc721b1cc68a91ed57461e188c UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.RemoteTestResultSender
+c4f279239afbac65d0b1ba75520b61df Assembly-CSharp.dll:.MercenaryDispatchSlot
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.MobileSetting
 2c8898fef0e11194b80a030e1905c3e4 Assembly-CSharp.dll:.LoginManager
 bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.AudioSpatializerMicrosoft
@@ -204,10 +210,13 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.SpatialMappingRenderer
 8b14c5e2ae6cb42c1c0d48d8f1e5c374 Assembly-CSharp.dll:.Commander
-0ba3e873f16ec72aa34f3a9a7632d0d6 Assembly-CSharp.dll:.StageDefensePanel
+160427cce5112a2b0f019dbd370cb4fc Assembly-CSharp.dll:.StageDefensePanel
+fdd37e1e0c48380b2dee422134fc4812 Assembly-CSharp.dll:.CharacterInfoPanel
 63e20d1155879efa7296302e764c0322 Assembly-CSharp.dll:.FadingManager
 12a552b91ca4eaee0ebd5fe030c2de05 Assembly-CSharp.dll:.Upbar
-f144a670b8612e8d0cffd2fa6aa1d85e Assembly-CSharp.dll:.BattleManager
+8b14c5e2ae6cb42c1c0d48d8f1e5c374 Assembly-CSharp.dll:.Priest
+8b14c5e2ae6cb42c1c0d48d8f1e5c374 Assembly-CSharp.dll:.Player_Character
+286a4834f682085da8789ca7d9a159e3 Assembly-CSharp.dll:.BattleManager
 c886f21dee2d3ea771684f82695df936 Assembly-CSharp.dll:.Chapter
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.CWindow
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Facebook.Unity.Example.AppInvites
@@ -215,10 +224,12 @@ c886f21dee2d3ea771684f82695df936 Assembly-CSharp.dll:.Chapter
 a0483f909a2b1563e2f5444dd70217d0 Assembly-CSharp.dll:.MainSceneManager
 23c48cde5b66cc94f79d8a4f760c187a Assembly-CSharp.dll:AWSSDK.Examples.DynamoDBExample
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:GooglePlayGames.OurUtils.PlayGamesHelperObject
+8b14c5e2ae6cb42c1c0d48d8f1e5c374 Assembly-CSharp.dll:.Enemy_Character
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Projectile
 fdb0193e7c9276d0fd4dc0e11db3326c Assembly-CSharp.dll:.SimpleObjectPool
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.CharacterManager
 32e8fe00b63ed946490b898f6024a2f2 Facebook.Unity.Settings.dll:Facebook.Unity.Settings.FacebookSettings
+af1276596e1cbc21ff9cb68132ee2d05 Assembly-CSharp.dll:.ToggleUIBase
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Facebook.Unity.Example.AppRequests
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.CallbackExecutor
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder

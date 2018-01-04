@@ -20,50 +20,59 @@ public class LoadingPanel : MonoBehaviour
 
 	public IEnumerator LoadingScene()
 	{
-		
 		//Update랑 안겹치기 위해 (for Safe)
-		yield return new WaitForSeconds (0.5f);
+		yield return new WaitForSeconds (0.01f);
 
-		switch (GameManager.Instance.nextSceneIndex) 
-		{
-		case E_SCENE_INDEX.E_MENU:
-			ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_MENU);
-			break;
-		case E_SCENE_INDEX.E_STAGE:
-			ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_STAGE);
-			break;
-		case E_SCENE_INDEX.E_STAGE_DEFENSE:
-			ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_STAGE_DEFENSE);
-			break;
-		case E_SCENE_INDEX.E_STAGE_ATTACK:
-			ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_STAGE_ATTACK);
-			break;
-		case E_SCENE_INDEX.E_STAGE_INFINITE:
-			ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_STAGE_INFINITE);
-			break;
-		case E_SCENE_INDEX.E_STAGE_PREBATTLE:
-			ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_STAGE_PREBATTLE);
-			break;
-		case E_SCENE_INDEX.E_BATTLE:
-			ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_BATTLE);
-			break;
-		default:
-			break;
+		if (GameManager.Instance.isPrevLoad == false) {
+
+			switch (GameManager.Instance.nextSceneIndex) {
+			case E_SCENE_INDEX.E_MENU:
+				ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_MENU);
+				break;
+			case E_SCENE_INDEX.E_STAGE:
+				ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_STAGE);
+				break;
+
+			case E_SCENE_INDEX.E_BATTLE:
+				ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_BATTLE);
+				break;
+			case E_SCENE_INDEX.E_MERMANAGE:
+				ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_MERMANAGE);
+				break;
+		
+			default:
+				break;
+			}
+		} else {
+
+			switch (GameManager.Instance.prevSceneIndex) {
+			case E_SCENE_INDEX.E_MENU:
+				ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_MENU);
+				break;
+			case E_SCENE_INDEX.E_STAGE:
+				ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_STAGE);
+				break;
+
+			case E_SCENE_INDEX.E_BATTLE:
+				ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_BATTLE);
+				break;
+			case E_SCENE_INDEX.E_MERMANAGE:
+				ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_MERMANAGE);
+				break;
+
+			default:
+				break;
+			}
 		}
-			
 		ao.allowSceneActivation = false;
 
 		while (!ao.isDone) 
 		{
 			if (ao.progress == 0.9f) 
 			{
-
-				yield return new WaitForSeconds (1.0f);
-
-				//GameManager.Instance.InitLoadingPanel();
+				yield return new WaitForSeconds (0.05f);
+				GameManager.Instance.isPrevLoad = false;
 				ao.allowSceneActivation = true;
-
-
 			}
 			yield return null;
 		}

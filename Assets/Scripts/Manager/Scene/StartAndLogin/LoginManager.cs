@@ -30,6 +30,8 @@ using UnityEngine.SocialPlatforms;
 
 public class LoginManager : MonoBehaviour 
 {
+
+
 	public Transform canvas;
 
 	AsyncOperation ao;
@@ -150,6 +152,9 @@ public class LoginManager : MonoBehaviour
 		LoginManager_Init();
 		//Init SetUpBar
 		GameManager.Instance.InitUpbar ();
+		//Init 용병관리 Instance
+		//GameManager.Instance.InitMercenaryManage();
+
 
 		#if UNITY_EDITOR
 		//처음 실행과 아닐때의 분기
@@ -159,7 +164,8 @@ public class LoginManager : MonoBehaviour
 			//다운되어있는  prefab에서 가져오기
 			Debug.Log ("LoginSequence");
 		}
-		else {
+		else 
+		{
 			PlayerPrefs.SetString ("FirstAppActive", "True");
 			//CharacterDBLoadAndPutOperationTest ();
 
@@ -167,6 +173,7 @@ public class LoginManager : MonoBehaviour
 				SaveAndLoadBinaryFile();
 			else
 				CharacterDBLoadAndPutOperation();
+			
 		}
 		#elif UNITY_ANDROID
 
@@ -178,12 +185,14 @@ public class LoginManager : MonoBehaviour
 			//다운되어있는  prefab에서 가져오기
 			Debug.Log ("LoginSequence");
 		}
-		else {
+		else 
+		{
 			PlayerPrefs.SetString ("FirstAppActive", "True");
-		if (File.Exists (Application.persistentDataPath + "/BasicCharacter.data"))
-			SaveAndLoadBinaryFile();
-		else
-			CharacterDBLoadAndPutOperation();
+
+			if (File.Exists (Application.persistentDataPath + "/BasicCharacter.data"))
+				SaveAndLoadBinaryFile();
+			else
+				CharacterDBLoadAndPutOperation();
 		}
 		#endif
 
@@ -468,7 +477,9 @@ public class LoginManager : MonoBehaviour
 			GameManager.Instance.lDbBasicCharacter.Add(dbBaseCharacters);
 			dbBaseCharacters = null;
 		}
+		//정렬
 		CharacterListAdjust ();
+		//로컬 저장
 		SaveAndLoadBinaryFile ();
 		
 	}
@@ -486,6 +497,7 @@ public class LoginManager : MonoBehaviour
 
 			Debug.Log ("Saved In Binary Data");
 		}
+
 		else
 		{
 			BinaryFormatter bf = new BinaryFormatter ();
@@ -494,9 +506,10 @@ public class LoginManager : MonoBehaviour
 			GameManager.Instance.lDbBasicCharacter = (List<DBBasicCharacter>)bf.Deserialize(fileStream);
 			fileStream.Close ();
 		}
+
 		Debug.Log ("Load In Binary Data");
 		StartCoroutine (GameManager.Instance.DataLoad ());
-		GameManager.Instance.LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, canvas );
+		GameManager.Instance.LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, false );
 	}
 
 	#endregion

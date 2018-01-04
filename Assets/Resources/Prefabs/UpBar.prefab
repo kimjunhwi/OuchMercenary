@@ -414,6 +414,14 @@ MonoBehaviour:
   stageInfo_Text: {fileID: 114879960802779990}
   Back_Button: {fileID: 114120520777038290}
   Home_Button: {fileID: 114500410779265374}
+  ePrev_SceneIndex: 0
+  upbarSprites: []
+  upbarImages:
+  - {fileID: 114155854360581736}
+  - {fileID: 114125521047057894}
+  - {fileID: 114267852636868622}
+  - {fileID: 114215961754129826}
+  - {fileID: 114512675848912392}
 --- !u!114 &114879960802779990
 MonoBehaviour:
   m_ObjectHideFlags: 1
