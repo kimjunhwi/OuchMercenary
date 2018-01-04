@@ -1,12 +1,12 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Manager/ReadOnly.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/Upbar.cs">
     <Files>
-      <File FileName="Assets/Scripts/Manager/GameManager.cs" Line="38" Column="8" />
-      <File FileName="Assets/Scripts/Manager/Scene/MainSceneManager.cs" Line="23" Column="29" />
-      <File FileName="Assets/Scripts/UI/Upbar.cs" Line="57" Column="2" />
-      <File FileName="Assets/Scripts/UI/Base/FadeInOut.cs" Line="93" Column="37" />
-      <File FileName="Assets/Scripts/Player/Player.cs" Line="6" Column="1" />
+      <File FileName="Assets/Scripts/Manager/GameManager.cs" Line="461" Column="2" />
+      <File FileName="Assets/Scripts/Manager/Scene/MainSceneManager.cs" Line="45" Column="114" />
+      <File FileName="Assets/Scripts/UI/Upbar.cs" Line="76" Column="5" />
+      <File FileName="Assets/Scripts/UI/Base/FadeInOut.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Player/Player.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Manager/ReadOnly.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>

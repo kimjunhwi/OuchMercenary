@@ -73,7 +73,7 @@ public class Upbar : MonoBehaviour
 		//BackButton 초기화 
 		Back_Button.onClick.RemoveAllListeners ();
 		gameObject.SetActive (true);
-		StopCoroutine (mainSceneManager.fadeInOutTest.FadeInOutOnce (E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, true));
+		//StopCoroutine (mainSceneManager.fadeInOutTest.FadeInOutOnce (E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, true));
 		switch (_eSceneIndex) 
 		{
 		//스테이지 씬
