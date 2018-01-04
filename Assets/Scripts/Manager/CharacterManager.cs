@@ -28,9 +28,15 @@ public class CharacterManager : MonoBehaviour {
 		ARRAY_CHARIC.Clear();
 	}
 
-	public void Update()
+	public void Actions()
 	{
-		
+		foreach (Character obj in ARRAY_CHARIC) 
+		{
+			if(obj.IsDead() == true)
+				continue;
+			
+			obj.ActionUpdate();
+		}
 	}
 
 	public class SortunitClass
@@ -120,7 +126,7 @@ public class CharacterManager : MonoBehaviour {
 
 			float fDistance = Vector3.Distance(kCharic.gameObject.transform.position, _TargetCharic.gameObject.transform.position);
 
-			if(fDistance < _fDistance)
+			if(fDistance <= _fDistance)
 				SortArray.Add(new SortunitClass() { m_value1 = fDistance, m_charic = kCharic });
 		}
 

@@ -102,6 +102,7 @@ namespace ReadOnlys
 		E_Enemy,
 	};
 
+	//각 캐릭터들의 대한 상태들
 	public enum E_CHARACTER_STATE
 	{
 		E_WAIT = 0,
@@ -109,6 +110,7 @@ namespace ReadOnlys
 		E_TARGET_MOVE,
 		E_TARGET_CHARACTER_MOVE,
 		E_ATTACK,
+		E_CAST,
 		E_DEAD,
 	};
 
@@ -292,27 +294,30 @@ namespace ReadOnlys
 		public float m_fAttack_ActvieRating;			//공격시 발동 확률
 		public float m_fCriticalAttack_ActiveRating;	//크리티컬 공격시 발동 확률
 		public int m_nAttackCount_ActiveRating;			//n번 공격시 발동 확률
+		public float m_fMiss_ActiveRating;				//Miss시 발동 확률 
 		public float m_fDodgy_ActiveRating;				//회피시 발동 확률
 		public float m_fHit_ActiveRating;				//데미지를 받았을때 발동 확률
 		public float m_fCoolTime;				//쿨타임
-		public float m_fCastSpeed;				//캐스팅 속도
+		public float m_fCastTime;				//캐스팅
 		public float m_fPhysicalMagnification;  //물리 공격 배율
 		public float m_fMagicMagnification;		//마법 공격 배율
 		public int m_nAttackNumber;				//공격 횟수
 		public float m_fAttackRange;			//공격 범위
 		public float m_fAttackArea;				//공격 스킬 범위
-		public string m_strSkillTarget;			//스킬 타겟 (적 or 자신)
 		public int m_nMaxTargetNumber; 			//최대 공격 개수
 		public string m_strAttackPriority;
+		public float m_fKnockback_Power;
 		public float m_fDuration;				//지속시간
+		public string m_strEffectName;
+		public string m_strAnimationClip;
 		public string m_strExplanation; 			//설명
 		public bool m_bIsCooltime;				//사용 할 수 있는가 
 
-		public ActiveSkill(int _nIndex,string _strName,int _nCharacterIndex,string _strAttackType , int _nSkillClass,int _nTier,string _strJob,
+		public ActiveSkill(int _nIndex,int _nCharacterIndex,string _strName,string _strAttackType , int _nSkillClass,int _nTier,string _strJob,
 							int _nAttribute,int _nAttackType, int _nActivePriority,float _fAttack_ActiveRating,float _fCriticalAttack_ActiveRating,
-							int _nAttackCount_ActiveRating,float _fDodgy_ActiveRating,float _fHit_ActiveRating,float _fCoolTime,float _fCastTime,
+			int _nAttackCount_ActiveRating,float _fMiss_ActiveRating, float _fDodgy_ActiveRating,float _fHit_ActiveRating,float _fCoolTime,float _fCastTime,
 							float _fPhysicalMagnification,float _fMagicMagnification,int _nAttackNumber,float _fAttackRange,float _fAttackArea, 
-							string _strSkillTarget,int _nMaxTargetNumber,string _strAttackPriority, float _fDuration,string _strExplanation,bool _bIsCooltime)
+			int _nMaxTargetNumber,string _strAttackPriority,float  _fKnockback_Power, float _fDuration,string _strEffectName,string _strAnimationClip, string _strExplanation,bool _bIsCooltime)
 		{
 			m_nIndex = _nIndex;
 			m_strName = _strName;
@@ -327,14 +332,17 @@ namespace ReadOnlys
 			m_fAttack_ActvieRating = _fAttack_ActiveRating;
 			m_fCriticalAttack_ActiveRating = _fCriticalAttack_ActiveRating;
 			m_nAttackCount_ActiveRating = _nAttackCount_ActiveRating;
+			m_fMiss_ActiveRating = _fMiss_ActiveRating;
 			m_fDodgy_ActiveRating = _fDodgy_ActiveRating;
 			m_fHit_ActiveRating = _fHit_ActiveRating;
 			m_fCoolTime = _fCoolTime;
-			m_fCastSpeed = _fCastTime;
-			m_strSkillTarget = _strSkillTarget;
+			m_fCastTime = _fCastTime;
 			m_nMaxTargetNumber = _nMaxTargetNumber;
 			m_strAttackPriority = _strAttackPriority;
+			m_fKnockback_Power = _fKnockback_Power;
 			m_fDuration = _fDuration;
+			m_strEffectName = _strEffectName;
+			m_strAnimationClip = _strAnimationClip;
 			m_strExplanation = _strExplanation;
 			m_bIsCooltime = _bIsCooltime;
 		}

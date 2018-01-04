@@ -28,7 +28,7 @@ public class Enemy_Archer : Enemy_Character {
 	}
 
 
-	protected override void Update ()
+	public override void ActionUpdate ()
 	{
 		StartCoroutine(this.CharacterAction());
 	}
@@ -259,7 +259,7 @@ public class Enemy_Archer : Enemy_Character {
 
 								Projectile projectile = Arrow.GetComponent<Projectile> ();
 
-								StartCoroutine(projectile.Shoot(arrowPool,skillManager,this,targetCharacter,bIsCritical));
+								StartCoroutine(projectile.BasicBezierShoot(arrowPool,skillManager,this,targetCharacter,bIsCritical));
 
 								//skillManager.BasicAttack (this, (Character)targetLists [nIndex],bIsCritical);
 							}

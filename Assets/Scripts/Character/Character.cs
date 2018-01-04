@@ -20,11 +20,14 @@ public class Character : MonoBehaviour {
 	protected float m_fBurnTime = 0.0f;
 	protected float m_fPoisonTime = 0.0f;
 	protected float m_fSturnTime = 0.0f;
+	protected float m_fCastTime = 0.0f;
+	protected float m_fMaxCastTime = 0.0f;
 
 	protected GameObject BleedObject;
 	protected GameObject BurnObject;
 	protected GameObject PoisonObject;
 	protected GameObject SturnObject;
+	protected GameObject CastObject;
 	//------------------------------------------------------------------
 
 	protected int m_nAttackCount = 0;			//n횟수 공격시 발동하는 엑티브 스킬을 위함
@@ -80,6 +83,7 @@ public class Character : MonoBehaviour {
 		BurnObject = transform.GetChild (3).gameObject;
 		PoisonObject = transform.GetChild (4).gameObject;
 		SturnObject = transform.GetChild (5).gameObject;
+		CastObject = transform.GetChild (6).gameObject;
 	}
 
 	protected virtual void OnEnable()
@@ -93,7 +97,7 @@ public class Character : MonoBehaviour {
 
 	protected virtual void Start() { }
 
-	protected virtual void Update(){ }
+	public virtual void ActionUpdate(){ }
 
 	//캐릭터에 대한 초기화 및 배치를 함
 	public virtual void Setup(CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager,BattleManager _BattleManager,  E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
@@ -153,6 +157,29 @@ public class Character : MonoBehaviour {
 
 	//캐릭터가 체력을 회복할 경우 호출 함
 	public virtual void TakeHeal(float _fHeal){ }
+
+	public virtual void Attack(){ }
+
+	public int CheckActiveAttack()
+	{ 
+		int nResultSkillIndex = (int)E_SKILL_TYPE.E_NONE;
+
+		//1.캐릭터가 현재 가지고 있는 스킬 만큼 돈다.
+		//2.쿨타임 중일 경우 다음 인덱스로
+		//3.발동 확률을 체크 후 됐을 경우 활성화 시킬 스킬에 넣어준다.
+		for (int nIndex = 0; nIndex < charicStats.activeSkill.Count; nIndex++) 
+		{
+			if(charicStats.activeSkill[nIndex].m_bIsCooltime)
+				continue;
+
+			if(IsUseSkill(nIndex)) 
+			{
+				return nIndex;
+			}
+		}
+	
+		return nResultSkillIndex;
+	}
 
 	public void Dodge()
 	{
@@ -438,7 +465,7 @@ public class Character : MonoBehaviour {
 
 		PoisonObject.SetActive(true);
 
-		while(m_fBleedTime > 0)
+		while(m_fPoisonTime > 0)
 		{
 			m_fPoisonTime -= Time.deltaTime;
 
