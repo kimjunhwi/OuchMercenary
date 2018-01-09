@@ -43,8 +43,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public bool bIsLoad = false;
 
-	public List<DBBasicCharacter> lDbBasicCharacter = new List<DBBasicCharacter>();
-
 	public List<DBBasicCharacter> assasinList = new List<DBBasicCharacter>();
 	public List<DBBasicCharacter> warriorList = new List<DBBasicCharacter>();
 	public List<DBBasicCharacter> archerList = new List<DBBasicCharacter>();
@@ -52,6 +50,22 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public List<DBBasicCharacter> priestList = new List<DBBasicCharacter>();
 	public List<DBBasicCharacter> wizzardList = new List<DBBasicCharacter> ();
 	public List<DBBasicCharacter> commandList = new List<DBBasicCharacter>();
+
+	//DB에서 게임내에 저장할 리스트 (기본 데이터들)
+	public List<DBBasicCharacter> lDbBasicCharacter = new List<DBBasicCharacter>();
+	public List<DBActiveSkill> lDbActiveSkill = new List<DBActiveSkill> ();
+	public List<DBActiveSkillType> lDbActiveSkillType = new List<DBActiveSkillType> ();
+	public List<DBPassiveSkill> lDbPassiveSkill = new List <DBPassiveSkill>();
+	public List<DBPassiveSkillOptionIndex> lDbPassiveSkillOptionIndex = new List<DBPassiveSkillOptionIndex> ();
+	public List<DBBasicSkill> lDbBasickill = new List<DBBasicSkill> ();
+
+	public List<DBWeapon> lDbWeapon = new List<DBWeapon> ();
+	public List<DBArmor> lDBArmor = new List<DBArmor> ();
+	public List<DBGlove> lDBGlove = new List<DBGlove> ();
+	public List<DBAccessory> lDBAccessory = new List<DBAccessory> ();
+	public List<DBEquipment_RandomOption> lDBEquipmentRandomOption = new List<DBEquipment_RandomOption> ();
+
+
 
 
 	public List<Sprite> CharacterBoxImage_List = new List<Sprite> ();
