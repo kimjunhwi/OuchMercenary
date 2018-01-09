@@ -327,7 +327,7 @@ MonoBehaviour:
   m_button_Ads: {fileID: 114608470718863488}
   m_button_Goods: {fileID: 114941232655088132}
   m_button_delete: {fileID: 114124733818868076}
-  Goods_Image: {fileID: 0}
+  Title_Text: {fileID: 114380344815715928}
 --- !u!114 &114906165678531264
 MonoBehaviour:
   m_ObjectHideFlags: 1

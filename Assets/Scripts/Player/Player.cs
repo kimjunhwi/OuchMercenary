@@ -13,6 +13,9 @@ public class Player : MonoBehaviour
 	private const string characterBoxStr06 = "Character/CharacterBox/1Tier_Priest_130";
 	private const string characterBoxStr07 = "Character/CharacterBox/1Tier_Warrior_130";
 
+
+	public List<Equipment> LIST_ITEM = new List<Equipment>();
+
 	public List<CharacterStats> LIST_HERO = new List<CharacterStats>();
 
 	public List<DBBasicCharacter> LIST_CHARACTER = new List<DBBasicCharacter> ();

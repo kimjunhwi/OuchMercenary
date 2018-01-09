@@ -2614,6 +2614,7 @@ MonoBehaviour:
   bCompleteAlpha: 0
   bNonAlpha: 0
   isBack: 0
+  fImageAlpha: 0
   mainSceneManager: {fileID: 0}
   eCurActiveButton: 0
 --- !u!114 &496388307

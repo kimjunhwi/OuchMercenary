@@ -1437,11 +1437,30 @@ Prefab:
         type: 2}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: dfd87b8950a0941558933524d438993e, type: 2}
+      objectReference: {fileID: 9100000, guid: 4058de20db71e42239123163b695c478, type: 2}
     - target: {fileID: 212891737365539554, guid: ba03f5399ce694cff923db1a60027fc6,
         type: 2}
       propertyPath: m_WasSpriteAssigned
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212891737365539554, guid: ba03f5399ce694cff923db1a60027fc6,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 2.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 212891737365539554, guid: ba03f5399ce694cff923db1a60027fc6,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 2.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 4539189567653450, guid: ba03f5399ce694cff923db1a60027fc6, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212891737365539554, guid: ba03f5399ce694cff923db1a60027fc6,
+        type: 2}
+      propertyPath: m_Color.a
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ba03f5399ce694cff923db1a60027fc6, type: 2}
