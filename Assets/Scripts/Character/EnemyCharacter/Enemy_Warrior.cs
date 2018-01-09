@@ -21,180 +21,87 @@ public class Enemy_Warrior : Enemy_Character {
 
 		spriteRender.flipX = true;
 	}
-
-
-	public override void ActionUpdate ()
-	{
-		StartCoroutine(this.CharacterAction());
-	}
-
+		
 	protected override void OnEnable()
 	{
 		base.OnEnable();
 	}
 
-	public override void CheckCharacterState(E_CHARACTER_STATE _E_STATE)
+	public override void Attack()
 	{
-		if (E_CHARIC_STATE == _E_STATE)
-			return;
+		nActiveSkillIndex = CheckActiveAttack ();
 
-		animator.Rebind();
+		if (nActiveSkillIndex == (int)E_SKILL_TYPE.E_NONE) {
 
-		//액션 변경
-		E_CHARIC_STATE = _E_STATE;
-		animator.speed = 1.0f;
-		//추후 사용 될 수 있을 부분이 있기에 만들어둠
-		switch(E_CHARIC_STATE)
-		{
+			Debug.Log ("BaseAttack");
 
-		case E_CHARACTER_STATE.E_WALK:
-			{
-				animator.SetTrigger ("Walk");
+			for (int nAttackCount = 0; nAttackCount < charicStats.basicSkill[0].nAttackNumber; nAttackCount++) {
 
+				bool bIsCritical = false;
 
-			}
-			break;
+				//만약 공격 하려던 캐릭터가 죽어있다면
+				if(targetCharacter.IsDead())
+				{ 
+					//다시 공격범위 안에 있는 캐릭터를 탐색
+					ResetTargetCharacter(charicStats.m_fAttack_Range);
 
+					//공격 범위안에 있는 캐릭이 null일 경우 종료
+					if (targetCharacter == null)
+						return;
+				}
 
-		case E_CHARACTER_STATE.E_TARGET_CHARACTER_MOVE:
-			{
-				animator.SetTrigger ("Walk");
+				nAttackCount++;
 
-				if (targetCharacter == null)
-					CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
-
-				//자신 보다 오른쪽에 있을 경우 
-				if (transform.position.x < targetCharacter.transform.position.x) {
-					spriteRender.flipX = false;
-				} 
-				//자신 보다 왼쪽에 있을 경우
-				else 
+				//
+				if(Random.Range(0,100) < charicStats.m_fCritical_Rating)
 				{
-					spriteRender.flipX = true;
-				}
-			}
-			break;
-		case E_CHARACTER_STATE.E_ATTACK:
-			{
-				animator.SetTrigger ("Idle");
+					bIsCritical = true;
 
-			}
-			break;
-			case E_CHARACTER_STATE.E_DEAD:
-			{
-
-				animator.SetBool("Dead",true);
-			}
-			break;
-		}
-	}
-
-	protected override IEnumerator CharacterAction()
-	{
-		yield return new WaitForSeconds (0.1f);
-
-		switch (E_CHARIC_STATE) {
-
-		case E_CHARACTER_STATE.E_WALK:
-			{
-				//현재 활성화 된 캐릭터들 중에서 인식 범위 안에 들어온 리스트 들을 반환 
-				ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fSite);
-
-				//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
-				if (targetLists.Count > 0) {
-
-					//제일 가까운 캐릭터를 반환한다.
-					targetCharacter = (Character)targetLists [0];
-
-					//찾은 캐릭터로 이동 
-					CheckCharacterState (E_CHARACTER_STATE.E_TARGET_CHARACTER_MOVE);
-
-					break;
-				}
-
-				//찾은 캐릭터가 없고 자신이 적일경우 왼쪽으로 이동
-				if (E_CHARIC_TYPE == E_Type.E_Enemy)
-					transform.Translate (Vector3.left * charicStats.m_fMoveSpeed * Time.deltaTime);
-			}
-			break;
-		case E_CHARACTER_STATE.E_TARGET_CHARACTER_MOVE:
-			{
-				if (targetCharacter == null) {
-					CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
-					break;
-				}
-
-				//현재 활성화 된 캐릭터들 중에서 공격 범위 안에 들어온 리스트 들을 반환 
-				ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
-
-				//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
-				if (targetLists.Count > 0) {
-					//제일 가까운 캐릭터를 반환한다.
-					targetCharacter = (Character)targetLists [0];
-				}
-
-				transform.position = Vector3.MoveTowards (transform.position, targetCharacter.transform.position, Time.deltaTime * charicStats.m_fMoveSpeed);
-
-				//캐릭터 레이어를 재정렬
-				characterManager.SortingCharacterLayer();
-
-				if (Vector3.Distance (transform.position, targetCharacter.transform.position) < charicStats.m_fAttack_Range) {
-					CheckCharacterState (E_CHARACTER_STATE.E_ATTACK);
-				}
-			}
-			break;
-
-		case E_CHARACTER_STATE.E_ATTACK:
-			{
-				m_fAttackTime += Time.deltaTime;
-
-				if (targetCharacter == null) 
-				{
-					CheckCharacterState (E_CHARACTER_STATE.E_WALK);
-
-					break;
-				} 
-				else 
-				{
-					//만약 현재 공격중인 적이 자신의 공격범위에서 벗어날 경우
-					if (Vector3.Distance (transform.position, targetCharacter.transform.position) > charicStats.m_fAttack_Range) 
+					for(int nIndex = 0; nIndex < charicStats.activeSkill.Count;nIndex++)
 					{
-						m_fAttackTime = 0.0f;
+						if(Random.Range(0,100) < charicStats.activeSkill[nIndex].m_fCriticalAttack_ActiveRating)
+						{
+							nActiveSkillIndex = nIndex;
 
-						targetCharacter = null;
+							break;
+						}
+					}
 
-						CheckCharacterState (E_CHARACTER_STATE.E_WALK);
+					if(nActiveSkillIndex != (int)E_SKILL_TYPE.E_NONE)
+					{
 
+						continue;
+					}
+				}
+
+				//1.사거리안에 들어온 캐릭터가 1개 이상일 경우
+				//2.적 캐릭터에서 공격 범위 만큼의 리스트를 구한 후
+				//3.그 안에 있는 캐릭터에게 공격 횟수 만큼 데미지를 준다.
+				ArrayList targetLists = characterManager.FindTargetArea(this,targetCharacter,charicStats.basicSkill[0].fAttackArea);
+
+				for (int nIndex = 0; nIndex < charicStats.basicSkill[0].nMaxTargetNumber; nIndex++) {
+					//만약 타겟수가 공격 해야할 캐릭터 수보다 적을 경우 종료
+					if (targetLists.Count <= nIndex) {
 						break;
 					}
 
-					//현재 활성화 된 캐릭터들 중에서 공격 범위 안에 들어온 리스트 들을 반환 
-					ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
-
-					//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
-					if (targetLists.Count > 0) {
-						//제일 가까운 캐릭터를 반환한다.
-						targetCharacter = (Character)targetLists [0];
-					}
-				}
-
-				if (m_fAttackTime >= charicStats.m_fAttackSpeed) {
-					m_fAttackTime = 0.0f;
-
-					animator.SetTrigger ("Attack");
-
-					Debug.Log ("Attack");
+					skillManager.BasicAttack (this, (Character)targetLists [nIndex],bIsCritical);
 				}
 			}
-			break;
+		} 
+		else 
+		{
+			StartCoroutine(SkillCoolTime());
 
-			case E_CHARACTER_STATE.E_DEAD:
+			if (charicStats.activeSkill [nActiveSkillIndex].m_fCastTime == 0) 
 			{
-				alphaColor.a = Mathf.Lerp(spriteRender.color.a,0,m_fDisableSpeed * Time.deltaTime);
+				base.PlayActiveSkill (nActiveSkillIndex, false);
 
-				spriteRender.color = alphaColor;
+			} 
+			else 
+			{
+				CheckCharacterState (E_CHARACTER_STATE.E_CAST);
 			}
-			break;
 		}
 	}
 }

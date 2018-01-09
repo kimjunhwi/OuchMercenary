@@ -13,8 +13,6 @@ public class CharacterManager : MonoBehaviour {
 	public void Add(Character _character)
 	{
 		ARRAY_CHARIC.Add(_character);
-
-
 	}
 
 	//remove
@@ -32,9 +30,6 @@ public class CharacterManager : MonoBehaviour {
 	{
 		foreach (Character obj in ARRAY_CHARIC) 
 		{
-			if(obj.IsDead() == true)
-				continue;
-			
 			obj.ActionUpdate();
 		}
 	}

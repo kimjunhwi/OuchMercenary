@@ -4,21 +4,6 @@ using UnityEngine;
 
 namespace ReadOnlys
 {
-	public enum E_CHECK_DATA
-	{
-		E_CHECK_DATA_CHRACTERINFO = 0,
-		E_CHECK_DATA_ACTIVESKILL,
-		E_CHECK_DATA_ACTIVESKILLTYPE,
-		E_CHECK_DATA_PASSIVESKILL,
-		E_CHECK_DATA_PASSIVESKILLOPTIONINDEX,
-		E_CHECK_DATA_BASICSKILL,
-		E_CHECK_DATA_EQUIPWEAPON,
-		E_CHECK_DATA_EQUIPARMOR,
-		E_CHECK_DATA_EQUIPGLOVE,
-		E_CHECK_DATA_EQUIPACCESSORY,
-		E_CHECK_DATA_EQUIPRANDOMINDEX,
-	}
-
 	//메인씬 UI버튼의 인덱스들
 	public enum E_ACTIVEBUTTON
 	{
@@ -61,16 +46,6 @@ namespace ReadOnlys
 	public enum E_LOAD_STATE : int
 	{
 		E_LOAD_GET_BASICCHARACTERDATA = 0,
-		E_LOAD_GET_ACTIVESKILLDATA,
-		E_LOAD_GET_ACTIVESKILLTYPEDATA,
-		E_LOAD_GET_PASSIVESKILLDATA,
-		E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA,
-		E_LOAD_GET_BASICSKILLDATA,
-		E_LOAD_GET_EQUIPMENTWEAPONDATA,
-		E_LOAD_GET_EQUIPMENTARMORDATA,
-		E_LOAD_GET_EQUIPMENTGLOVEDATA,
-		E_LOAD_GET_EQUIPMENTACCESSORYDATA,
-		E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA,
 
 	}
 
@@ -95,6 +70,7 @@ namespace ReadOnlys
 		E_LOADING_SHORT,
 		E_STAGE_HEALING,
 		E_STAGE_TRAINNIG,
+		E_EMPLOYER,
 	};
 
 	//물리 타입, 마법 타입, 무
@@ -192,6 +168,18 @@ namespace ReadOnlys
 		E_STRUN,
 		E_MIN_HEAL,
 		E_HEAL,
+	}
+
+	public enum E_CHARACTER_TYPE
+	{
+		E_ALL = 0,
+		E_ASSASIN,
+		E_WARRIOR,
+		E_PRIEST,
+		E_WIZZARD,
+		E_ARCHER,
+		E_COMMAND,
+		E_KNIGHT,
 	}
 
 
@@ -313,7 +301,6 @@ namespace ReadOnlys
 		public int m_nSkillClass;
 		public int m_nTier;
 		public string m_strJob;
-		public int m_nLevels;
 		public int m_nAttribute;						//공격 속성
 		public int m_nAttackType;						//공격 타입
 		public int m_nActivePriority;					//공격 우선 순위
@@ -336,7 +323,7 @@ namespace ReadOnlys
 		public float m_fDuration;				//지속시간
 		public string m_strEffectName;
 		public string m_strAnimationClip;
-		public string m_strExplanation; 		//설명
+		public string m_strExplanation; 			//설명
 		public bool m_bIsCooltime;				//사용 할 수 있는가 
 
 		public ActiveSkill(int _nIndex,int _nCharacterIndex,string _strName,string _strAttackType , int _nSkillClass,int _nTier,string _strJob,
@@ -422,8 +409,7 @@ namespace ReadOnlys
 
 
 	[System.Serializable]
-	public class AllPassiveSkillData 
-	{
+	public class AllPassiveSkillData {
 		public int nIndex;             //스킬에 대한 인덱스
 		public int nCharacterIndex;    //소유가능한 캐릭터 인덱스
 		public string strSkillName;    //스킬 이름
@@ -443,6 +429,8 @@ namespace ReadOnlys
 		public int nIndex;
 
 		public int nOptionIndex;
+
+		public int nEnhaceValue;
 
 		public float fValue;
 
@@ -506,7 +494,7 @@ namespace ReadOnlys
 
 		public string C_JobNames { get; set;}				// Character 직업 이름
 
-		public int C_JobIndex {get;set;}					// JobIndex
+		public int C_JobIndex { get; set; }
 
 		public string C_Name { get; set;}					// Character Name
 
@@ -566,110 +554,45 @@ namespace ReadOnlys
 
 		public List<ActiveSkill> activeSkills {get; set;}
 
-		public List<PassiveSkill> passiveSkills {get; set;}
+		public DBBasicCharacter()
+		{
+		}
 
+		public DBBasicCharacter(DBBasicCharacter _Charic)
+		{
+			C_Index = _Charic.C_Index;
+			C_JobNames = _Charic.C_JobNames;
+			C_JobIndex = _Charic.C_JobIndex;
+			C_Name = _Charic.C_Name;
+			C_Enhance = _Charic.C_Enhance;
+			Jobs = _Charic.Jobs;
+			Levels = _Charic.Levels;
+			Tier = _Charic.Tier;
+			Attribute = _Charic.Attribute;
+			AttackType = _Charic.AttackType;
+			Tribe = _Charic.Tribe;
+			Site = _Charic.Site;
+			Health = _Charic.Health;
+			Accurancy = _Charic.Accurancy;
+			AttackRange = _Charic.AttackRange;
+			Physic_AttackRating = _Charic.Physic_AttackRating;
+			Magic_AttackRating = _Charic.Magic_AttackRating;
+			AttackSpeed = _Charic.AttackSpeed;
+			MoveSpeed = _Charic.MoveSpeed;
+			Physic_Defense = _Charic.Physic_Defense;
+			Magic_Defense = _Charic.Magic_Defense;
+			Dodge = _Charic.Dodge;
+			Crit_Rating = _Charic.Crit_Rating;
+			Crit_Dmg = _Charic.Crit_Dmg;
+			Physic_Penetrate = _Charic.Physic_Penetrate;
+			Magic_Penetrate = _Charic.Magic_Penetrate;
+			CC_Registance = _Charic.CC_Registance;
+			Exp = _Charic.Exp;
+			ExpMax = _Charic.ExpMax;
+			Betch_Index = _Charic.Betch_Index;
+
+		}
 	}
-
-
-	[System.Serializable]
-	public class DBActiveSkill
-	{
-		public int m_nIndex;
-		public string m_strName;
-		public int m_nCharacterIndex;
-		public int m_strAttackType;
-		public int m_nSkillClass;
-		public int m_nTier;
-		public string m_strJob;
-		public int m_nLevels;
-		public int m_nAttribute;						//공격 속성
-		public int m_nAttackType;						//공격 타입
-		public int m_nActivePriority;					//공격 우선 순위
-		public float m_fAttack_ActvieRating;			//공격시 발동 확률
-		public float m_fCriticalAttack_ActiveRating;	//크리티컬 공격시 발동 확률
-		public int m_nAttackCount_ActiveRating;			//n번 공격시 발동 확률
-		public float m_fMiss_ActiveRating;				//Miss시 발동 확률 
-		public float m_fDodgy_ActiveRating;				//회피시 발동 확률
-		public float m_fHit_ActiveRating;				//데미지를 받았을때 발동 확률
-		public float m_fCoolTime;				//쿨타임
-		public float m_fCastTime;				//캐스팅
-		public float m_fPhysicalMagnification;  //물리 공격 배율
-		public float m_fMagicMagnification;		//마법 공격 배율
-		public int m_nAttackNumber;				//공격 횟수
-		public float m_fAttackRange;			//공격 범위
-		public float m_fAttackArea;				//공격 스킬 범위
-		public int m_nMaxTargetNumber; 			//최대 공격 개수
-		public string m_strAttackPriority;
-		public float m_fKnockback_Power;
-		public float m_fDuration;				//지속시간
-		public string m_strEffectName;
-		public string m_strAnimationClip;
-		public string m_strExplanation; 		//설명
-		public int m_bIsCooltime;				//사용 할 수 있는가 
-	}
-	[System.Serializable]
-	public class DBActiveSkillType
-	{
-		public int nIndex;			//인덱스
-		public int nActiveType;	//스킬 종류
-		public int nTargetIndex;	//타겟인덱스(0 :적, 1: 우리팀, 2: 자신, 3: 최소 체력)
-	}
-
-	[System.Serializable]
-	public class DBPassiveSkill 
-	{
-		public int nIndex;             //스킬에 대한 인덱스
-		public int nCharacterIndex;    //소유가능한 캐릭터 인덱스
-		public string strSkillName;    //스킬 이름
-		public string strSkillType;    //스킬 타입 0 =basic attack,1= formation, 2 = active attack, 3 =  buff, 4 = debuff,
-		public int nTier;              //캐릭터 전직 단계
-		public int nSkillClass;        //스킬 분류
-		public string strJob;          //소유 가능한 직업
-		public int nAttribute;         //속성 물리,마법인지,두개다
-		public int nAttackType;        //공격 타입 (근접, 원거리, 두개 =다)
-		public string strOption_List;  //옵션 인덱스 
-		public string strExplanation;  //스킬 설명
-	}
-
-
-	[System.Serializable]
-	public class DBPassiveSkillOptionIndex
-	{
-		public int nIndex;
-
-		public int nOptionIndex;
-		public float fValue;
-
-		public float fPlus;
-
-		public int nCalculate;
-
-		//public string strExplain;
-	}
-
-	[System.Serializable]
-	public class DBBasicSkill
-	{
-
-		public int nIndex;             //스킬에 대한 인덱스
-		public int nCharacterIndex;    //소유가능한 캐릭터 인덱스
-		public string strSkillName;    //스킬 이름
-		public string strSkillType;    //스킬 타입 0 =basic attack,1= formation, 2 = active attack, 3 =  buff, 4 = debuff,
-		public int nTier;              //캐릭터 전직 단계
-		public int nSkillClass;        //스킬 분류
-		public string strJob;          //소유 가능한 직업
-		public int nAttribute;         //속성 물리,마법인지
-		public int nAttackType;        //공격 타입 (근접, 원거리, 0)
-		public float fPhsyicMagnification;   //물리 속성 공격
-		public float fMagicMagnification;    //마법 속성 공격
-		public float fAttackArea;
-		public string strSkillTarget;      //대상
-		public int nMaxTargetNumber;       //최대 공격 개수
-		public int nAttackNumber;          //공격 횟수
-		public string strAttackPriority;   //공격 우선순위
-		public string strExplanation;      //스킬 설명
-	}
-
 
 	public class DBPlayersCharacter
 	{
@@ -679,6 +602,73 @@ namespace ReadOnlys
 						
 		public List<DBBasicCharacter> Characters {get; set;}
 	}
+	[System.Serializable]
+	public class DBBasicCharacter_Sealized
+	{
+		public int Index { get; set; } 						// Hash key.
+
+		public int C_Index { get; set; }					// CharacterIndex 
+
+		public string C_JobNames { get; set;}				// Character 직업 이름
+
+		public string C_Name { get; set;}					// Character Name
+
+		public int C_Enhance { get; set; }					// Character 강화 단계
+
+		public string Jobs {get;set;}						// 직업 이름
+
+		public int Levels { get; set;}						// Character Level
+
+		public int Tier { get; set;}						// Chracter Tier
+
+		public int Attribute { get; set; }					// Character 특성 (물리, 마법, None)
+
+		public int AttackType { get; set;}					// 근거리, 원거리 타입
+
+		public int Tribe { get; set;}						// Character 종족
+
+		public float Site { get; set; }						// Character 인지범위
+
+		public float Health { get; set;}					// Character 체력
+
+		public float Accurancy { get; set;}					// Character 정확도
+
+		public float AttackRange { get; set;}				// Character 공격 사거리
+
+		public float Physic_AttackRating { get; set;}		// Character 물리 공격력
+
+		public float Magic_AttackRating { get; set;}		// Character 마법 공격력
+
+		public float AttackSpeed { get; set;}				// Character 공격 속도
+
+		public float MoveSpeed { get; set;}					// Character 이동 속도
+
+		public float Physic_Defense { get; set;}			// Character 물리 방어력
+
+		public float Magic_Defense { get; set; }			// Character 마법 방어력
+
+		public float Dodge { get; set;}						// Character 회피력
+
+		public float Crit_Rating { get; set; }				// Character 크리 확률
+
+		public float Crit_Dmg { get; set; }					// Character 크리 데미지
+
+		public float Physic_Penetrate {get; set;}			// Character 물리 관통
+
+		public float Magic_Penetrate {get; set;}			// Character 마법 관통
+
+		public float CC_Registance {	get; set; }			// Character 상태이상 저항
+
+		public float Exp {	get; set; }						// Character 현재 경험치
+
+		public float ExpMax {	get; set; }					// Character 최대 경험치
+
+		public float Betch_Index {	get; set; }				// Character 배치위치 
+
+		public List<BasicSkill> basicSkill {get; set;}
+
+		public List<ActiveSkill> activeSkills {get; set;}
+	}
 
 	[System.Serializable]
 	public class AllActiveSkillType
@@ -687,74 +677,21 @@ namespace ReadOnlys
 		public int nActiveType;	//스킬 종류
 		public int nTargetIndex;	//타겟인덱스(0 :적, 1: 우리팀, 2: 자신, 3: 최소 체력)
 	}
-	[System.Serializable]
-	public class DBEquipment
-	{
-		public int nIndex;			//인덱스
-		public string sName;		//이름
-		public int nTier;			//Tier
-		public int nQulity;			//등급
-		public string sJob;			//사용가능한 직업
-		public int nEnhanced;		//강화 수치
-		public string sEquipType;	//장비 타입(무기, 장갑, 갑옷, 악세사리 )
-		public int nRandomOption;	//RandomOption
-		public int nSellCost;		//판매가격
-		public int nMakeMaterial;	//만들때의 재료 조합식 인덱스
-		public int nBreakMaterial;	//분해시의 재료 분해식 인덱스
-	}
 
 	[System.Serializable]
-	public class DBWeapon : DBEquipment
-	{
-
-		public float fPhysical_AttackRating;		//물리공격 배율
-		public float fMagic_AttackRating;			//바법공격 배율
-	}
-
-	[System.Serializable]
-	public class DBArmor : DBEquipment
-	{
-		public int fPhysical_Defense;			
-		public int fMagic_Defense;			
-		public int nHp;
-	
-	}
-
-	[System.Serializable]
-	public class DBGlove : DBEquipment
-	{
-		public int nIndex;			//인덱스
-		public string sName;		//이름
-		public int nTier;			//Tier
-		public int nQulity;			//등급
-		public string sJob;			//사용가능한 직업
-		public int nEnhanced;		//강화 수치
-		public string sEquipType;	//장비 타입(무기, 장갑, 갑옷, 악세사리 )
-
-		public int nRandomOption;	//RandomOption
-		public int nSellCost;		//판매가격
-		public int nMakeMaterial;	//만들때의 재료 조합식 인덱스
-		public int nBreakMaterial;	//분해시의 재료 분해식 인덱스
-
-		public int fPhysical_Defense;			
-		public int fMagic_Defense;		
-				
-	}
-
-	[System.Serializable]
-	public class DBAccessory : DBEquipment
-	{
-		
-	}
-
-	[System.Serializable]
-	public class DBEquipment_RandomOption
+	public class Equipment
 	{
 		public int nIndex;
-		public int nOptionIndex;
-		public int nStartValue;
-		public int nEndValue;
+		public string strName;
+		public int nTier;
+		public int nQulity;
+		public string strPossibleJob;
+		public int nEnhance;
+		public int nEquimnetType;
+		public int nPhysical_Attack_Rating;
+		public int nMagic_Attack_Rating;
 	}
+
 
 	#endregion
 }

@@ -102,7 +102,6 @@ public class Character : MonoBehaviour {
 	//캐릭터에 대한 초기화 및 배치를 함
 	public virtual void Setup(CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager,BattleManager _BattleManager,  E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
 	{
-		Debug.Log("1");
 
 		charicStats = new CharacterStats (_charic);
 
@@ -115,24 +114,30 @@ public class Character : MonoBehaviour {
 		E_CHARIC_TYPE = _E_TYPE;
 
 		//캐릭터 타입이 플레이어 캐릭일 경우
-		if(E_CHARIC_TYPE == E_Type.E_Hero)
-		{
+		if (E_CHARIC_TYPE == E_Type.E_Hero) {
 			//패시브 스킬들을 적용
-			ActivePassiveSkill();
+			ActivePassiveSkill ();
 
 			//처음 위치를 미리 저장해둔다.
 			m_VecFirstPosition = _vecPosition;
 			gameObject.transform.position = m_VecFirstPosition;
 
 			//캐릭터 UI들을 생성
-			GameObject Charic_UI_Object= Instantiate(Resources.Load("Prefabs/Battle_Charic_Info") as GameObject);
+			GameObject Charic_UI_Object = Instantiate (Resources.Load ("Prefabs/Battle_Charic_Info") as GameObject);
 
 			//생성된 캐릭터를 부모를 UI로 해줌
-			Charic_UI_Object.transform.SetParent(battleManager.characterUI_Parent,false);
+			Charic_UI_Object.transform.SetParent (battleManager.characterUI_Parent, false);
 
 			//캐릭터 UI를 받아와서 세팅
-			characterUI = Charic_UI_Object.GetComponent<CharacterUI>();
-			characterUI.SetUp(charicStats.m_fHealth);
+			characterUI = Charic_UI_Object.GetComponent<CharacterUI> ();
+			characterUI.SetUp (charicStats.m_fHealth);
+		} else {
+
+			gameObject.transform.position = _vecPosition;
+
+			CheckCharacterState (E_CHARACTER_STATE.E_WALK);
+
+			spriteRender.flipX = true;
 		}
 	
 		//캐릭터의 현재 체력을 셋팅
@@ -568,7 +573,7 @@ public class Character : MonoBehaviour {
 	protected void ResetTargetCharacter(float _fRange)
 	{
 		
-		ArrayList targetLists = characterManager.FindTarget (this,_fRange);
+		ArrayList targetLists;
 
 		if (charicStats.basicSkill [0].strSkillTarget != "enemy") 
 		{
