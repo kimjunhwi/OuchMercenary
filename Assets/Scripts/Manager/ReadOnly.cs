@@ -4,6 +4,22 @@ using UnityEngine;
 
 namespace ReadOnlys
 {
+
+	public enum E_CHECK_DATA
+	{
+		E_CHECK_DATA_CHRACTERINFO = 0,
+		E_CHECK_DATA_ACTIVESKILL,
+		E_CHECK_DATA_ACTIVESKILLTYPE,
+		E_CHECK_DATA_PASSIVESKILL,
+		E_CHECK_DATA_PASSIVESKILLOPTIONINDEX,
+		E_CHECK_DATA_BASICSKILL,
+		E_CHECK_DATA_EQUIPWEAPON,
+		E_CHECK_DATA_EQUIPARMOR,
+		E_CHECK_DATA_EQUIPGLOVE,
+		E_CHECK_DATA_EQUIPACCESSORY,
+		E_CHECK_DATA_EQUIPRANDOMINDEX,
+	}
+
 	//메인씬 UI버튼의 인덱스들
 	public enum E_ACTIVEBUTTON
 	{
@@ -46,7 +62,16 @@ namespace ReadOnlys
 	public enum E_LOAD_STATE : int
 	{
 		E_LOAD_GET_BASICCHARACTERDATA = 0,
-
+		E_LOAD_GET_ACTIVESKILLDATA,
+		E_LOAD_GET_ACTIVESKILLTYPEDATA,
+		E_LOAD_GET_PASSIVESKILLDATA,
+		E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA,
+		E_LOAD_GET_BASICSKILLDATA,
+		E_LOAD_GET_EQUIPMENTWEAPONDATA,
+		E_LOAD_GET_EQUIPMENTARMORDATA,
+		E_LOAD_GET_EQUIPMENTGLOVEDATA,
+		E_LOAD_GET_EQUIPMENTACCESSORYDATA,
+		E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA,
 	}
 
 	public enum E_LOGIN_PORVIDER_INDEX : int
@@ -563,6 +588,8 @@ namespace ReadOnlys
 
 		public List<ActiveSkill> activeSkills {get; set;}
 
+		public List<PassiveSkill> passiveSkills { get; set; }
+
 		public DBBasicCharacter()
 		{
 		}
@@ -601,6 +628,105 @@ namespace ReadOnlys
 			Betch_Index = _Charic.Betch_Index;
 
 		}
+	}
+
+	[System.Serializable]
+	public class DBActiveSkill
+	{
+		public int m_nIndex;
+		public string m_strName;
+		public int m_nCharacterIndex;
+		public int m_strAttackType;
+		public int m_nSkillClass;
+		public int m_nTier;
+		public string m_strJob;
+		public int m_nLevels;
+		public int m_nAttribute;						//공격 속성
+		public int m_nAttackType;						//공격 타입
+		public int m_nActivePriority;					//공격 우선 순위
+		public float m_fAttack_ActvieRating;			//공격시 발동 확률
+		public float m_fCriticalAttack_ActiveRating;	//크리티컬 공격시 발동 확률
+		public int m_nAttackCount_ActiveRating;			//n번 공격시 발동 확률
+		public float m_fMiss_ActiveRating;				//Miss시 발동 확률 
+		public float m_fDodgy_ActiveRating;				//회피시 발동 확률
+		public float m_fHit_ActiveRating;				//데미지를 받았을때 발동 확률
+		public float m_fCoolTime;				//쿨타임
+		public float m_fCastTime;				//캐스팅
+		public float m_fPhysicalMagnification;  //물리 공격 배율
+		public float m_fMagicMagnification;		//마법 공격 배율
+		public int m_nAttackNumber;				//공격 횟수
+		public float m_fAttackRange;			//공격 범위
+		public float m_fAttackArea;				//공격 스킬 범위
+		public int m_nMaxTargetNumber; 			//최대 공격 개수
+		public string m_strAttackPriority;
+		public float m_fKnockback_Power;
+		public float m_fDuration;				//지속시간
+		public string m_strEffectName;
+		public string m_strAnimationClip;
+		public string m_strExplanation; 		//설명
+		public int m_bIsCooltime;				//사용 할 수 있는가 
+	}
+	[System.Serializable]
+	public class DBActiveSkillType
+	{
+		public int nIndex;			//인덱스
+		public int nActiveType;	//스킬 종류
+		public int nTargetIndex;	//타겟인덱스(0 :적, 1: 우리팀, 2: 자신, 3: 최소 체력)
+	}
+
+	[System.Serializable]
+	public class DBPassiveSkill 
+	{
+		public int nIndex;             //스킬에 대한 인덱스
+		public int nCharacterIndex;    //소유가능한 캐릭터 인덱스
+		public string strSkillName;    //스킬 이름
+		public string strSkillType;    //스킬 타입 0 =basic attack,1= formation, 2 = active attack, 3 =  buff, 4 = debuff,
+		public int nTier;              //캐릭터 전직 단계
+		public int nSkillClass;        //스킬 분류
+		public string strJob;          //소유 가능한 직업
+		public int nAttribute;         //속성 물리,마법인지,두개다
+		public int nAttackType;        //공격 타입 (근접, 원거리, 두개 =다)
+		public string strOption_List;  //옵션 인덱스 
+		public string strExplanation;  //스킬 설명
+	}
+
+
+	[System.Serializable]
+	public class DBPassiveSkillOptionIndex
+	{
+		public int nIndex;
+
+		public int nOptionIndex;
+		public float fValue;
+
+		public float fPlus;
+
+		public int nCalculate;
+
+		//public string strExplain;
+	}
+
+	[System.Serializable]
+	public class DBBasicSkill
+	{
+
+		public int nIndex;             //스킬에 대한 인덱스
+		public int nCharacterIndex;    //소유가능한 캐릭터 인덱스
+		public string strSkillName;    //스킬 이름
+		public string strSkillType;    //스킬 타입 0 =basic attack,1= formation, 2 = active attack, 3 =  buff, 4 = debuff,
+		public int nTier;              //캐릭터 전직 단계
+		public int nSkillClass;        //스킬 분류
+		public string strJob;          //소유 가능한 직업
+		public int nAttribute;         //속성 물리,마법인지
+		public int nAttackType;        //공격 타입 (근접, 원거리, 0)
+		public float fPhsyicMagnification;   //물리 속성 공격
+		public float fMagicMagnification;    //마법 속성 공격
+		public float fAttackArea;
+		public string strSkillTarget;      //대상
+		public int nMaxTargetNumber;       //최대 공격 개수
+		public int nAttackNumber;          //공격 횟수
+		public string strAttackPriority;   //공격 우선순위
+		public string strExplanation;      //스킬 설명
 	}
 
 	public class DBPlayersCharacter
@@ -720,6 +846,75 @@ namespace ReadOnlys
 		public int nSellCost;
 		public int nMakeMaterialIndex;
 		public int nBreakMaterialIndex;
+	}
+
+	[System.Serializable]
+	public class DBEquipment
+	{
+		public int nIndex;			//인덱스
+		public string sName;		//이름
+		public int nTier;			//Tier
+		public int nQulity;			//등급
+		public string sJob;			//사용가능한 직업
+		public int nEnhanced;		//강화 수치
+		public string sEquipType;	//장비 타입(무기, 장갑, 갑옷, 악세사리 )
+		public int nRandomOption;	//RandomOption
+		public int nSellCost;		//판매가격
+		public int nMakeMaterial;	//만들때의 재료 조합식 인덱스
+		public int nBreakMaterial;	//분해시의 재료 분해식 인덱스
+	}
+
+	[System.Serializable]
+	public class DBWeapon : DBEquipment
+	{
+
+		public float fPhysical_AttackRating;		//물리공격 배율
+		public float fMagic_AttackRating;			//바법공격 배율
+	}
+
+	[System.Serializable]
+	public class DBArmor : DBEquipment
+	{
+		public int fPhysical_Defense;			
+		public int fMagic_Defense;			
+		public int nHp;
+
+	}
+
+	[System.Serializable]
+	public class DBGlove : DBEquipment
+	{
+		public int nIndex;			//인덱스
+		public string sName;		//이름
+		public int nTier;			//Tier
+		public int nQulity;			//등급
+		public string sJob;			//사용가능한 직업
+		public int nEnhanced;		//강화 수치
+		public string sEquipType;	//장비 타입(무기, 장갑, 갑옷, 악세사리 )
+
+		public int nRandomOption;	//RandomOption
+		public int nSellCost;		//판매가격
+		public int nMakeMaterial;	//만들때의 재료 조합식 인덱스
+		public int nBreakMaterial;	//분해시의 재료 분해식 인덱스
+
+		public int fPhysical_Defense;			
+		public int fMagic_Defense;		
+
+	}
+
+	[System.Serializable]
+	public class DBAccessory : DBEquipment
+	{
+
+	}
+
+	[System.Serializable]
+	public class DBEquipment_RandomOption
+	{
+		public int nIndex;
+		public int nOptionIndex;
+		public int nStartValue;
+		public int nEndValue;
 	}
 
 
