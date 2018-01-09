@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.IO;
 
-public class LoadAssetBundle : MonoBehaviour {
-
+public class LoadAssetBundle : MonoBehaviour 
+{
 	//AssetBundleRequest request = loadedAssetBundleObject.LoadAssetAsync<GameObject>(assetName);
 
 	void Start()
@@ -28,9 +28,7 @@ public class LoadAssetBundle : MonoBehaviour {
 		//string uri = "file:///" + Application.dataPath + "/AssetBundles/" + assetBundleName;
 		string uri = "https://s3.ap-northeast-2.amazonaws.com/whoopsmercenarydlc/PreBattle/AssetBundles";
 
-
 		//UnityEngine.Networking.UnityWebRequest request;
-	
 		/*
 		UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequest.GetAssetBundle(uri);
 	
@@ -49,7 +47,6 @@ public class LoadAssetBundle : MonoBehaviour {
 		Instantiate(cube);
 		//Instantiate(sprite);
 		*/
-
 
 		UnityWebRequest request = UnityWebRequest.Get(uri); 
 		yield return request.Send();
@@ -74,10 +71,7 @@ public class LoadAssetBundle : MonoBehaviour {
 		Debug.Log ("다운완료!");
 
 		//File.WriteAllBytes(assetBundleDirectory + "/" + "character.unity3d", request.downloadHandler.data);
-
-
 		//AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(request);
-
 		//GameObject cube = bundle.LoadAsset<GameObject>("Cube");
 
 		/*
@@ -105,9 +99,5 @@ public class LoadAssetBundle : MonoBehaviour {
 		}
 		*/
 
-
-
 	}
-
-
 }
