@@ -37,8 +37,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	Player m_Player;
 
-	public GameObject Root_ui;
-
 	public LoginManager loginManager;
 
 	public bool bIsLoad = false;
@@ -701,8 +699,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	//CGame.Instance.Window_notice("213123 213123 ", rt => { if (rt == "0") print("notice");  });
 	public void Window_notice(string _msg, System.Action<string> _callback)
 	{
-		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
-		GameObject go = GameObject.Instantiate(Resources.Load("prefabs/Window_notice"), Vector3.zero, Quaternion.identity) as GameObject;
+		GameObject Root_ui = GameObject.Find("Canvas"); //ui attach
+		GameObject go = GameObject.Instantiate(Resources.Load("prefabs/Window_POPUP/Window_notice"), Vector3.zero, Quaternion.identity) as GameObject;
 		go.transform.parent = Root_ui.transform;
 		go.transform.localPosition = Vector3.zero;
 		go.transform.localRotation = Quaternion.identity;
@@ -714,8 +712,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public void Window_yesno(string strTitle,  System.Action<string> _callback)
 	{
-		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
-		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_yesno"), Vector3.zero, Quaternion.identity) as GameObject;
+		GameObject Root_ui = GameObject.Find("Canvas"); //ui attach
+		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_POPUP/Window_yesno"), Vector3.zero, Quaternion.identity) as GameObject;
 		go.transform.parent = Root_ui.transform;
 		go.transform.localPosition = Vector3.zero;
 		go.transform.localRotation = Quaternion.identity;
@@ -727,8 +725,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public void Window_Check(string strValue,System.Action<string> _callback)
 	{
-		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
-		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_Check"), Vector3.zero, Quaternion.identity) as GameObject;
+		GameObject Root_ui = GameObject.Find("Canvas"); //ui attach
+		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_POPUP/Window_Check"), Vector3.zero, Quaternion.identity) as GameObject;
 		go.transform.parent = Root_ui.transform;
 		go.transform.localPosition = Vector3.zero;
 		go.transform.localRotation = Quaternion.identity;
@@ -740,8 +738,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public void Window_Goblin_yesno(string strTitle, string strValue,Sprite _spriteGoods, System.Action<string> _callback)
 	{
-		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
-		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_Goblin_Buff_Yes_No"), Vector3.zero, Quaternion.identity) as GameObject;
+		GameObject Root_ui = GameObject.Find("Canvas"); //ui attach
+		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_POPUP/Window_Goblin_Buff_Yes_No"), Vector3.zero, Quaternion.identity) as GameObject;
 		go.transform.parent = Root_ui.transform;
 		go.transform.localPosition = Vector3.zero;
 		go.transform.localRotation = Quaternion.identity;

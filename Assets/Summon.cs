@@ -54,6 +54,10 @@ public class Summon : MonoBehaviour {
 				}
 
 				DBBasicCharacter newCharacter = CreateCharacter();
+
+
+
+				GameManager.Instance.GetPlayer().LIST_CHARACTER.Add(newCharacter);
 			}
 		});
 			
@@ -64,27 +68,25 @@ public class Summon : MonoBehaviour {
 	{
 		DBBasicCharacter newCharacter;
 
-		if (Random.Range (0, 100) < nOneTierPercent) 			nSummonTier = nOneTierPercent;
-		else if (Random.Range (0, 100) < nTwoTierPercent) 		nSummonTier = nTwoTierPercent;
-		else if (Random.Range (0, 100) < nThreeTierPercent) 	nSummonTier = nThreeTierPercent;
-		else if (Random.Range (0, 100) < nSpecialTierPercent) 	nSummonTier = nSpecialTierPercent;
+		if (Random.Range (0, 100) < nOneTierPercent) 			nSummonTier = (int)E_CHARACTER_TIER.E_ONE;
+		else if (Random.Range (0, 100) < nTwoTierPercent) 		nSummonTier = (int)E_CHARACTER_TIER.E_TWO;
+		else if (Random.Range (0, 100) < nThreeTierPercent) 	nSummonTier = (int)E_CHARACTER_TIER.E_THREE;
+		else if (Random.Range (0, 100) < nSpecialTierPercent) 	nSummonTier = (int)E_CHARACTER_TIER.E_FOUR;
 
-		List<DBBasicCharacter> charic_List = GameManager.Instance.GetJobList ((int)nType).FindAll (x => x.C_JobIndex <= nSummonTier);
+		List<DBBasicCharacter> charic_List = GameManager.Instance.GetJobList ((int)nType).FindAll (x => x.Tier <= nSummonTier);
 
 		if (charic_List.Count == 1) 
 		{
 			newCharacter = new DBBasicCharacter(charic_List [0]);
-
-			return newCharacter;
 		} 
 		else 
 		{
 			int nIndex = Random.Range (0, charic_List.Count);
 
 			newCharacter = new DBBasicCharacter (charic_List [nIndex]);
-
-			return newCharacter;
 		}
 
+
+		return newCharacter;
 	}
 }

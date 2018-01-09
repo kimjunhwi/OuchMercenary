@@ -6,6 +6,8 @@ using ReadOnlys;
 
 public class BattleManager : MonoBehaviour {
 
+
+
 	//공격, 수비 버튼 
 	public Button ToggleButton;
 

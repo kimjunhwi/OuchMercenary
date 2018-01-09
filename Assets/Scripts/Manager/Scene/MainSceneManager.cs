@@ -58,6 +58,9 @@ public class MainSceneManager : MonoBehaviour
 		//Mercenary Manage(용병관리)
 		activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_MANAGEMENT].onClick.AddListener(() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_MERMANAGE , E_SCENE_INDEX.E_MENU , true));
 
+		//Mercenary Manage(용병관리)
+		activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT].onClick.AddListener(() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_EMPLOYER , E_SCENE_INDEX.E_MENU , false));
+
 		activeButton [(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING].onClick.AddListener (() => StartCoroutine (fadeInOutTest.FadeInOutOnce(E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING,false)));
 
 		activeButton [(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING].onClick.AddListener (() => StartCoroutine (fadeInOutTest.FadeInOutOnce(E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING,false)));

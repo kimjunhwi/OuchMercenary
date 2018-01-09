@@ -91,11 +91,12 @@ namespace ReadOnlys
 		E_BATTLE,
 		E_STAGE,
 		E_MERMANAGE,
+		E_EMPLOYER,
 		E_LOADING,
 		E_LOADING_SHORT,
 		E_STAGE_HEALING,
 		E_STAGE_TRAINNIG,
-		E_EMPLOYER,
+
 	};
 
 	//물리 타입, 마법 타입, 무
@@ -127,6 +128,14 @@ namespace ReadOnlys
 		E_Hero,
 		E_Enemy,
 	};
+
+	public enum E_CHARACTER_TIER
+	{
+		E_ONE = 1,
+		E_TWO,
+		E_THREE,
+		E_FOUR,
+	}
 
 	//각 캐릭터들의 대한 상태들
 	public enum E_CHARACTER_STATE
@@ -728,6 +737,7 @@ namespace ReadOnlys
 						
 		public List<DBBasicCharacter> Characters {get; set;}
 	}
+
 	[System.Serializable]
 	public class DBBasicCharacter_Sealized
 	{
@@ -814,8 +824,28 @@ namespace ReadOnlys
 		public string strPossibleJob;
 		public int nEnhance;
 		public int nEquimnetType;
-		public int nPhysical_Attack_Rating;
-		public int nMagic_Attack_Rating;
+		public float fPhysical_Attack_Rating;
+		public float fMagic_Attack_Rating;
+		public float fHp;
+		public float fAccuracy;
+		public float fAll_Attack_RatingPlus;
+		public float fPysical_Attack_RatingPlus;
+		public float fMagic_Attack_RatingPlus;
+		public float fAll_Penetrate;
+		public float fPhysical_Penetrate;
+		public float fMagic_Penetrate;
+		public float fAll_Defense;
+		public float fPhysical_Defense;
+		public float fMagic_Defense;
+		public float fDodge;
+		public float fCritical_Rating;
+		public float fCritical_Damage;
+		public float fAttack_Speed;
+		public float fCoolTime;
+		public float fExpBoost;
+		public int nSellCost;
+		public int nMakeMaterialIndex;
+		public int nBreakMaterialIndex;
 	}
 
 	[System.Serializable]
