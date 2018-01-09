@@ -48,33 +48,14 @@ public class BattleManager : MonoBehaviour {
 			Character charic = null;
 
 			//각 직업에 맞는 클래스를 추가해줌
-			switch (characterStats.m_strJob) 
-			{
-			case "Assassin":
-				//characterObject.AddComponent<
-				break;
-			case "Warrior":
-				charic = characterObject.AddComponent<Warrior> ();
-				break;
-			case "Archer":
-				charic = characterObject.AddComponent<Archer> ();
-				break;
-			case "Priest":
-				charic = characterObject.AddComponent<Priest> ();
-				break;
-			case "Commander":
-				charic = characterObject.AddComponent<Commander> ();
-				break;
-			case "Knight":
-				charic = characterObject.AddComponent<Knight> ();
-				break;
-			case "Wizard":
-				charic = characterObject.AddComponent<Wizard> ();
-				break;
-			case "Mechanic":
-				charic = characterObject.AddComponent<Mechanic> ();
-				break;
-			}
+			//if(characterStats.m_strJob.Contains("Assassin")) 
+			if (characterStats.m_strJob.Contains ("Warrior")) 		charic = characterObject.AddComponent<Warrior> ();
+			else if (characterStats.m_strJob.Contains ("Archer"))	charic = characterObject.AddComponent<Archer> ();
+			else if (characterStats.m_strJob.Contains ("Priest"))	charic = characterObject.AddComponent<Priest> ();
+			else if (characterStats.m_strJob.Contains ("Commander"))charic = characterObject.AddComponent<Commander> ();
+			else if (characterStats.m_strJob.Contains ("Knight"))	charic = characterObject.AddComponent<Knight> ();
+			else if (characterStats.m_strJob.Contains ("Wizard")) 	charic = characterObject.AddComponent<Wizard> ();
+			else if( characterStats.m_strJob.Contains("Mechanic")) 	charic = characterObject.AddComponent<Mechanic> ();
 
 			//4x4배치이므로 x,y위치를 구하고 그 위치를 저장
 			int nValue = characterStats.m_nBatchIndex / 4;
@@ -89,26 +70,21 @@ public class BattleManager : MonoBehaviour {
 			characterManager.Add (charic);
 		}
 
-		for (int nIndex = 0; nIndex < 2; nIndex++) 
+		for (int nIndex = 0; nIndex < 4; nIndex++) 
 		{
-			CharacterStats characterStats = player.LIST_HERO [nIndex % 2];
+			CharacterStats characterStats = player.LIST_HERO [nIndex];
 
 			GameObject characterObject = characterPool.GetObject ();
 
 			Character charic = null;
 
-			switch (characterStats.m_strJob) 
-			{
-			case "Assassin":
-				//characterObject.AddComponent<
-				break;
-			case "Warrior":
-				charic = characterObject.AddComponent<Enemy_Warrior> ();
-				break;
-			case "Archer":
-				charic = characterObject.AddComponent<Enemy_Archer> ();
-				break;
-			}
+			if (characterStats.m_strJob.Contains ("Warrior")) 		charic = characterObject.AddComponent<Enemy_Warrior> ();
+			else if (characterStats.m_strJob.Contains ("Archer"))	charic = characterObject.AddComponent<Enemy_Archer> ();
+			else if (characterStats.m_strJob.Contains ("Priest"))	charic = characterObject.AddComponent<Enemy_Priest> ();
+			else if (characterStats.m_strJob.Contains ("Commander"))charic = characterObject.AddComponent<Commander> ();
+			else if (characterStats.m_strJob.Contains ("Knight"))	charic = characterObject.AddComponent<Enemy_Knight> ();
+			else if (characterStats.m_strJob.Contains ("Wizard")) 	charic = characterObject.AddComponent<Enemy_Wizard> ();
+			else if( characterStats.m_strJob.Contains("Mechanic")) 	charic = characterObject.AddComponent<Enemy_Mechanic> ();
 
 			vecPosition = new Vector3 (7 , 5 - nIndex * 0.8F, 0);
 

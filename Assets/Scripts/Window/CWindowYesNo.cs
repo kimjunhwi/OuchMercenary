@@ -11,14 +11,11 @@ public class CWindowYesNo : CWindow , IPointerDownHandler
     public Button m_button_Goods;
 	public Button m_button_delete;
 
-	public Text RubyText;
-	public Text strTitleText;
-
-	public Image Goods_Image;
+	public Text Title_Text;
 
 	GameObject getInfoGameObject;
 
-	public void Show(string _strTitle, string strValue,Sprite _Goods_Sprite, Action<string> _callback)
+	public void Show(string _strTitle, Action<string> _callback)
     {
         base.Show(null, _callback);
 
@@ -26,10 +23,7 @@ public class CWindowYesNo : CWindow , IPointerDownHandler
 		m_button_Goods.onClick.AddListener(OnNo);
 		m_button_delete.onClick.AddListener (OnDelete);
 
-		RubyText.text = strValue;
-		strTitleText.text = _strTitle;
-
-		Goods_Image.sprite = _Goods_Sprite;
+		Title_Text.text = _strTitle;
     }
     //public override void Show(GameObject _root, Action<string> _callback)
     //{

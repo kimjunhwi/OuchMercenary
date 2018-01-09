@@ -50,7 +50,6 @@ public class ObjectCashing : GenericMonoSingleton<ObjectCashing> {
 
         cachingSprite.TryGetValue(path, out objResource);
 
-
         if (objResource == null)
         {
             objResource = Resources.Load<Sprite>(path) as Sprite;
@@ -58,8 +57,7 @@ public class ObjectCashing : GenericMonoSingleton<ObjectCashing> {
             if (objResource != null)
                 cachingSprite.Add(path, objResource);
         }
-
-
+			
         return objResource;
     }
 

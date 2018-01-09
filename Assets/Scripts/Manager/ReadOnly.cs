@@ -70,6 +70,7 @@ namespace ReadOnlys
 		E_LOADING_SHORT,
 		E_STAGE_HEALING,
 		E_STAGE_TRAINNIG,
+		E_EMPLOYER,
 	};
 
 	//물리 타입, 마법 타입, 무
@@ -167,6 +168,18 @@ namespace ReadOnlys
 		E_STRUN,
 		E_MIN_HEAL,
 		E_HEAL,
+	}
+
+	public enum E_CHARACTER_TYPE
+	{
+		E_ALL = 0,
+		E_ASSASIN,
+		E_WARRIOR,
+		E_PRIEST,
+		E_WIZZARD,
+		E_ARCHER,
+		E_COMMAND,
+		E_KNIGHT,
 	}
 
 
@@ -481,6 +494,8 @@ namespace ReadOnlys
 
 		public string C_JobNames { get; set;}				// Character 직업 이름
 
+		public int C_JobIndex { get; set; }
+
 		public string C_Name { get; set;}					// Character Name
 
 		public int C_Enhance { get; set; }					// Character 강화 단계
@@ -538,6 +553,45 @@ namespace ReadOnlys
 		public List<BasicSkill> basicSkill {get; set;}
 
 		public List<ActiveSkill> activeSkills {get; set;}
+
+		public DBBasicCharacter()
+		{
+		}
+
+		public DBBasicCharacter(DBBasicCharacter _Charic)
+		{
+			C_Index = _Charic.C_Index;
+			C_JobNames = _Charic.C_JobNames;
+			C_JobIndex = _Charic.C_JobIndex;
+			C_Name = _Charic.C_Name;
+			C_Enhance = _Charic.C_Enhance;
+			Jobs = _Charic.Jobs;
+			Levels = _Charic.Levels;
+			Tier = _Charic.Tier;
+			Attribute = _Charic.Attribute;
+			AttackType = _Charic.AttackType;
+			Tribe = _Charic.Tribe;
+			Site = _Charic.Site;
+			Health = _Charic.Health;
+			Accurancy = _Charic.Accurancy;
+			AttackRange = _Charic.AttackRange;
+			Physic_AttackRating = _Charic.Physic_AttackRating;
+			Magic_AttackRating = _Charic.Magic_AttackRating;
+			AttackSpeed = _Charic.AttackSpeed;
+			MoveSpeed = _Charic.MoveSpeed;
+			Physic_Defense = _Charic.Physic_Defense;
+			Magic_Defense = _Charic.Magic_Defense;
+			Dodge = _Charic.Dodge;
+			Crit_Rating = _Charic.Crit_Rating;
+			Crit_Dmg = _Charic.Crit_Dmg;
+			Physic_Penetrate = _Charic.Physic_Penetrate;
+			Magic_Penetrate = _Charic.Magic_Penetrate;
+			CC_Registance = _Charic.CC_Registance;
+			Exp = _Charic.Exp;
+			ExpMax = _Charic.ExpMax;
+			Betch_Index = _Charic.Betch_Index;
+
+		}
 	}
 
 	public class DBPlayersCharacter
@@ -622,6 +676,20 @@ namespace ReadOnlys
 		public int nIndex;			//인덱스
 		public int nActiveType;	//스킬 종류
 		public int nTargetIndex;	//타겟인덱스(0 :적, 1: 우리팀, 2: 자신, 3: 최소 체력)
+	}
+
+	[System.Serializable]
+	public class Equipment
+	{
+		public int nIndex;
+		public string strName;
+		public int nTier;
+		public int nQulity;
+		public string strPossibleJob;
+		public int nEnhance;
+		public int nEquimnetType;
+		public int nPhysical_Attack_Rating;
+		public int nMagic_Attack_Rating;
 	}
 
 

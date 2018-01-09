@@ -260,36 +260,26 @@ public class Player_Character : Character {
 			{
 				m_fAttackTime += Time.deltaTime;
 
-				//null 일 경우 재탐색
-				if (targetCharacter == null) 
-				{
-					ResetTargetCharacter(charicStats.m_fAttack_Range);
+				//현재 활성화 된 캐릭터들 중에서 인식 범위 안에 들어온 리스트 들을 반환 
+				ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
+
+				//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
+				if (targetLists.Count > 0) {
+
+					//제일 가까운 캐릭터를 반환한다.
+					targetCharacter = (Character)targetLists [0];
 				} 
 				else 
 				{
-					//공격 하려던 캐릭터가 이미 죽어있을경우 타겟을 갱신 
-					if (targetCharacter.IsDead ()) 
-					{
-						ResetTargetCharacter(charicStats.m_fAttack_Range);
-
-						if(targetCharacter == null)
-							yield break;
-					}
-
-					//만약 현재 공격중인 적이 자신의 공격범위에서 벗어날 경우
-					if (Vector3.Distance (transform.position, targetCharacter.transform.position) > charicStats.m_fAttack_Range) 
-					{
-						m_fAttackTime = 0.0f;
-
-						ResetTargetCharacter(charicStats.m_fAttack_Range);
-
-						if(targetCharacter == null)
-							yield break;
-					}
+					targetCharacter = null;
 				}
 
-				if(targetCharacter == null)
+				//타겟 캐릭터가 도중에 없어졌을 경우 
+				if (targetCharacter == null) {
+
+					CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
 					yield break;
+				}
 
 				//공격 시
 				if (m_fAttackTime >= charicStats.m_fAttackSpeed) {
@@ -329,7 +319,6 @@ public class Player_Character : Character {
 				if(spriteRender.color.a == 0.0f)
 				{
 					characterManager.Remove(this);
-
 
 				}
 			}

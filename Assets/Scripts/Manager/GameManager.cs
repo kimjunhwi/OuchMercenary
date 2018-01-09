@@ -44,6 +44,16 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public bool bIsLoad = false;
 
 	public List<DBBasicCharacter> lDbBasicCharacter = new List<DBBasicCharacter>();
+
+	public List<DBBasicCharacter> assasinList = new List<DBBasicCharacter>();
+	public List<DBBasicCharacter> warriorList = new List<DBBasicCharacter>();
+	public List<DBBasicCharacter> archerList = new List<DBBasicCharacter>();
+	public List<DBBasicCharacter> knightList = new List<DBBasicCharacter>();
+	public List<DBBasicCharacter> priestList = new List<DBBasicCharacter>();
+	public List<DBBasicCharacter> wizzardList = new List<DBBasicCharacter> ();
+	public List<DBBasicCharacter> commandList = new List<DBBasicCharacter>();
+
+
 	public List<Sprite> CharacterBoxImage_List = new List<Sprite> ();
 	//Scene 마다 있는 UpBar
 	public Upbar upBar;
@@ -111,12 +121,47 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		m_Player.Init ();
 
+		SortJobIndex ();
 
 
         yield break;
     }
 
 	public Player GetPlayer() { return m_Player; }
+
+	void SortJobIndex()
+	{
+		for (int nIndex = 0; nIndex < lDbBasicCharacter.Count; nIndex++) 
+		{
+			switch (lDbBasicCharacter [nIndex].C_JobIndex) 
+			{
+			case (int)E_CHARACTER_TYPE.E_ASSASIN: 	assasinList.Add (lDbBasicCharacter[nIndex]); 	break;
+			case (int)E_CHARACTER_TYPE.E_WARRIOR: 	warriorList.Add (lDbBasicCharacter [nIndex]); 	break;
+			case (int)E_CHARACTER_TYPE.E_ARCHER: 	archerList.Add (lDbBasicCharacter [nIndex]);	break;
+			case (int)E_CHARACTER_TYPE.E_WIZZARD: 	wizzardList.Add (lDbBasicCharacter [nIndex]); 	break;
+			case (int)E_CHARACTER_TYPE.E_KNIGHT: 	knightList.Add (lDbBasicCharacter [nIndex]); 	break;
+			case (int)E_CHARACTER_TYPE.E_PRIEST: 	priestList.Add (lDbBasicCharacter [nIndex]); 	break;
+			case (int)E_CHARACTER_TYPE.E_COMMAND: 	commandList.Add (lDbBasicCharacter [nIndex]); 	break;
+			}
+		}
+	}
+
+	public List<DBBasicCharacter> GetJobList(int _E_TYPE)
+	{
+		switch (_E_TYPE) 
+		{
+		case (int)E_CHARACTER_TYPE.E_ASSASIN: 	return assasinList; 
+		case (int)E_CHARACTER_TYPE.E_WARRIOR: 	return warriorList; 
+		case (int)E_CHARACTER_TYPE.E_ARCHER: 	return archerList;	
+		case (int)E_CHARACTER_TYPE.E_WIZZARD: 	return wizzardList; 
+		case (int)E_CHARACTER_TYPE.E_KNIGHT: 	return knightList; 	
+		case (int)E_CHARACTER_TYPE.E_PRIEST: 	return priestList; 	
+		case (int)E_CHARACTER_TYPE.E_COMMAND: 	return commandList;	
+		case (int)E_CHARACTER_TYPE.E_ALL:		return lDbBasicCharacter;
+		}
+
+		return null;
+	}
 
 	//------------------------------------------------------------------------------------------------
 	// 리소스 이미지 로드.
@@ -653,7 +698,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		w.Show(_msg, _callback);
 	}
 
-	public void Window_yesno(string strTitle, string strValue,Sprite _sprite,  System.Action<string> _callback)
+	public void Window_yesno(string strTitle,  System.Action<string> _callback)
 	{
 		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
 		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_yesno"), Vector3.zero, Quaternion.identity) as GameObject;
@@ -663,7 +708,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		go.transform.localScale = Vector3.one;
 
 		CWindowYesNo w = go.GetComponent<CWindowYesNo>();
-		w.Show(strTitle,strValue,_sprite, _callback);
+		w.Show(strTitle, _callback);
 	}
 
 	public void Window_Check(string strValue,System.Action<string> _callback)
