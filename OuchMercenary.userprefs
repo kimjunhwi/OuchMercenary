@@ -1,28 +1,23 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../BlackSmith5/Assets/Scripts/InGame/UI/Inventory/InventoryScrollList.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Manager/GameManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Character/PlayerCharacter/Player_Character.cs" Line="6" Column="1" />
-      <File FileName="Assets/Scripts/Character/EnemyCharacter/Enemy_Archer.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Character/PlayerCharacter/Commander.cs" Line="85" Column="34" />
-      <File FileName="Assets/Scripts/Character/PlayerCharacter/Archer.cs" Line="113" Column="4" />
-      <File FileName="Assets/Scripts/Character/EnemyCharacter/Enemy_Character.cs" Line="338" Column="6" />
-      <File FileName="Assets/Scripts/Character/Character.cs" Line="286" Column="3" />
-      <File FileName="Assets/Scripts/Character/PlayerCharacter/Warrior.cs" Line="93" Column="4" />
-      <File FileName="Assets/Scripts/Manager/SkillManager.cs" Line="6" Column="44" />
-      <File FileName="Assets/Scripts/UI/MecenaryManage/MercenaryManageEquipmentInfo.cs" Line="69" Column="107" />
-      <File FileName="Assets/Scripts/Manager/GameManager.cs" Line="242" Column="2" />
-      <File FileName="../BlackSmith5/Assets/Scripts/InGame/UI/Inventory/Inventory.cs" Line="1" Column="1" />
-      <File FileName="../BlackSmith5/Assets/Scripts/InGame/UI/Inventory/InventoryScrollList.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" Line="1384" Column="1" />
+      <File FileName="Assets/Scripts/Manager/ReadOnly.cs" Line="725" Column="3" />
+      <File FileName="Assets/Scripts/Manager/GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Player/Player.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/Scene/MainSceneManager.cs" Line="42" Column="67" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/PlayerCharacter/Warrior.cs" line="360" column="1" />
-      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/Character.cs" line="263" column="1" />
-      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/Character.cs" line="459" column="1" />
-      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/PlayerCharacter/Player_Character.cs" line="303" column="25" />
-      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/PlayerCharacter/Wizard.cs" line="93" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/OuchMercenary/Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" line="302" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/OuchMercenary/Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" line="875" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/OuchMercenary/Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" line="1035" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/OuchMercenary/Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" line="900" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/OuchMercenary/Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" line="923" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/OuchMercenary/Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" line="881" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/OuchMercenary/Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" line="1124" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

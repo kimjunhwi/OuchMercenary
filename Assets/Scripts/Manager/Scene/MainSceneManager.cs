@@ -31,6 +31,18 @@ public class MainSceneManager : MonoBehaviour
 		//for (int i = 0; i < GameManager.Instance.getSpriteArray.Count; i++)
 		//	Debug.Log (GameManager.Instance.getSpriteArray[i]);
 	
+
+		Debug.Log ("BasicCharacterCount : " + GameManager.Instance.lDbBasicCharacter.Count);
+		Debug.Log ("ActiveSkillCount : " + GameManager.Instance.lDbActiveSkill.Count);
+		Debug.Log ("ActiveSkillTypeCount : " + GameManager.Instance.lDbActiveSkillType.Count);
+		Debug.Log ("PassiveSkillCount : " + GameManager.Instance.lDbPassiveSkill.Count);
+		Debug.Log ("PassiveSkillOptionIndexCount : " + GameManager.Instance.lDbPassiveSkillOptionIndex.Count);
+		Debug.Log ("lDbWeapon : " + GameManager.Instance.lDbWeapon.Count);
+		Debug.Log ("lDBArmor : " + GameManager.Instance.lDBArmor.Count);
+		Debug.Log ("lDBGlove : " + GameManager.Instance.lDBGlove.Count);
+		Debug.Log ("lDBAccessory : " + GameManager.Instance.lDBAccessory.Count);
+		Debug.Log ("lDBEquipmentRandomOption : " + GameManager.Instance.lDBEquipmentRandomOption.Count);
+
 		//메인 UI 버튼 초기화
 		InitActiveButton();
 		if (!bInitCheck) 
