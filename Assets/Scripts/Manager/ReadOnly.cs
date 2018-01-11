@@ -114,6 +114,12 @@ namespace ReadOnlys
 		E_RANGE,
 	};
 
+	public enum E_COOLTIME : int
+	{
+		E_NONE_COOLTIME = 0,
+		E_COOLTIME = 1,
+	}
+
 	//종족
 	enum E_TRIBE : int
 	{
@@ -146,6 +152,7 @@ namespace ReadOnlys
 		E_TARGET_CHARACTER_MOVE,
 		E_ATTACK,
 		E_CAST,
+		E_CAST_SUCCESSED,
 		E_DEAD,
 	};
 
@@ -209,11 +216,11 @@ namespace ReadOnlys
 		E_ALL = 0,
 		E_ASSASIN,
 		E_WARRIOR,
-		E_PRIEST,
-		E_WIZZARD,
 		E_ARCHER,
-		E_COMMAND,
+		E_WIZZARD,
 		E_KNIGHT,
+		E_PRIEST,
+		E_COMMAND,
 	}
 
 
@@ -319,6 +326,37 @@ namespace ReadOnlys
 			passiveSkill = _charic.passiveSkill;
 		}
 
+		public CharacterStats(DBBasicCharacter _charic)
+		{
+			m_nIndex 			= _charic.Index;
+			m_strJobName 		= _charic.C_JobNames;
+			m_strCharicName 	= _charic.C_Name;
+			m_nEnhace 			= _charic.C_Enhance;
+			m_strJob 			= _charic.C_JobNames;
+			m_nLevel 			= _charic.Levels;
+			m_nTier 			= _charic.Tier;
+			m_nAttribute 		= _charic.Attribute;
+			m_nAttackType		= _charic.AttackType;
+			m_nTribe 			= _charic.Tribe;
+			m_fSite 			= _charic.Site;
+			m_fHealth 			= _charic.Health;
+			m_fAccuracy 		= _charic.Accurancy;
+			m_fPhyiscal_Rating 	= _charic.Physic_AttackRating;
+			m_fMagic_Rating 	= _charic.Magic_AttackRating;
+			m_fAttack_Range 	= _charic.AttackRange;
+			m_fAttackSpeed 		= _charic.AttackSpeed;
+			m_fMoveSpeed 		= _charic.MoveSpeed;
+			m_fPhysical_Defence = _charic.Physic_Defense;
+			m_fMasic_Defence 	= _charic.Magic_Defense;
+			m_fDodge 			= _charic.Dodge;
+			m_fCritical_Rating 	= _charic.Crit_Rating;
+			m_fCritical_Damage 	= _charic.Crit_Dmg;
+			m_nBatchIndex 		= _charic.Betch_Index;
+			basicSkill = _charic.basicSkill;
+			activeSkill = _charic.activeSkills;
+			passiveSkill = _charic.passiveSkills;
+		}
+
 		public CharacterStats()
 		{
 
@@ -358,13 +396,13 @@ namespace ReadOnlys
 		public string m_strEffectName;
 		public string m_strAnimationClip;
 		public string m_strExplanation; 			//설명
-		public bool m_bIsCooltime;				//사용 할 수 있는가 
+		public int m_bIsCooltime;				//사용 할 수 있는가 
 
 		public ActiveSkill(int _nIndex,int _nCharacterIndex,string _strName,string _strAttackType , int _nSkillClass,int _nTier,string _strJob,
 							int _nAttribute,int _nAttackType, int _nActivePriority,float _fAttack_ActiveRating,float _fCriticalAttack_ActiveRating,
 			int _nAttackCount_ActiveRating,float _fMiss_ActiveRating, float _fDodgy_ActiveRating,float _fHit_ActiveRating,float _fCoolTime,float _fCastTime,
 							float _fPhysicalMagnification,float _fMagicMagnification,int _nAttackNumber,float _fAttackRange,float _fAttackArea, 
-			int _nMaxTargetNumber,string _strAttackPriority,float  _fKnockback_Power, float _fDuration,string _strEffectName,string _strAnimationClip, string _strExplanation,bool _bIsCooltime)
+			int _nMaxTargetNumber,string _strAttackPriority,float  _fKnockback_Power, float _fDuration,string _strEffectName,string _strAnimationClip, string _strExplanation,int _bIsCooltime)
 		{
 			m_nIndex = _nIndex;
 			m_strName = _strName;
@@ -392,6 +430,36 @@ namespace ReadOnlys
 			m_strAnimationClip = _strAnimationClip;
 			m_strExplanation = _strExplanation;
 			m_bIsCooltime = _bIsCooltime;
+		}
+
+		public ActiveSkill(DBActiveSkill _skill)
+		{
+			m_nIndex = _skill.m_nIndex;
+			m_strName = _skill.m_strName;
+			m_nCharacterIndex = _skill.m_nCharacterIndex;
+			m_strAttackType = _skill.m_strAttackType;
+			m_nSkillClass = _skill.m_nSkillClass;
+			m_nTier = _skill.m_nTier;
+			m_strJob = _skill.m_strJob;
+			m_nAttribute = _skill.m_nAttribute;
+			m_nAttackType = _skill.m_nAttackType;
+			m_nActivePriority = _skill.m_nActivePriority;
+			m_fAttack_ActvieRating = _skill.m_fAttack_ActvieRating;
+			m_fCriticalAttack_ActiveRating = _skill.m_fCriticalAttack_ActiveRating;
+			m_nAttackCount_ActiveRating = _skill.m_nAttackCount_ActiveRating;
+			m_fMiss_ActiveRating = _skill.m_fMiss_ActiveRating;
+			m_fDodgy_ActiveRating = _skill.m_fDodgy_ActiveRating;
+			m_fHit_ActiveRating = _skill.m_fHit_ActiveRating;
+			m_fCoolTime = _skill.m_fCoolTime;
+			m_fCastTime = _skill.m_fCastTime;
+			m_nMaxTargetNumber = _skill.m_nMaxTargetNumber;
+			m_strAttackPriority = _skill.m_strAttackPriority;
+			m_fKnockback_Power = _skill.m_fKnockback_Power;
+			m_fDuration = _skill.m_fDuration;
+			m_strEffectName = _skill.m_strEffectName;
+			m_strAnimationClip = _skill.m_strAnimationClip;
+			m_strExplanation = _skill.m_strExplanation;
+			m_bIsCooltime = _skill.m_bIsCooltime;
 		}
 	}
 
@@ -439,7 +507,31 @@ namespace ReadOnlys
                                 strExplanation = _strExplain;
 
                         }
+	
+		public BasicSkill(DBBasicSkill _skill)
+		{
+			nIndex = _skill.nIndex;
+			nCharacterIndex = _skill.nCharacterIndex;
+			strSkillName = _skill.strSkillName;
+			strSkillType = _skill.strSkillType;
+			nTier = _skill.nTier;
+			nSkillClass = _skill.nSkillClass;
+			strJob = _skill.strJob;
+			nAttribute = _skill.nAttribute;
+			nAttackType = _skill.nAttackType;
+			fPhsyicMagnification = _skill.fPhsyicMagnification;
+			fMagicMagnification = _skill.fMagicMagnification;
+			fAttackArea = _skill.fAttackArea;
+			strSkillTarget = _skill.strSkillTarget;
+			nMaxTargetNumber = _skill.nMaxTargetNumber;
+			nAttackNumber = _skill.nAttackNumber;
+			strAttackPriority = _skill.strAttackPriority;
+			strExplanation = _skill.strExplanation;
+		}
+	
 	}
+
+
 
 
 	[System.Serializable]
@@ -460,34 +552,34 @@ namespace ReadOnlys
 	[System.Serializable]
 	public class PassiveSkill
 	{
-		public int nIndex;
-
+		public int nIndex;             //스킬에 대한 인덱스
+		public int nCharacterIndex;    //소유가능한 캐릭터 인덱스
+		public string strSkillName;    //스킬 이름
+		public string strSkillType;    //스킬 타입 0 =basic attack,1= formation, 2 = active attack, 3 =  buff, 4 = debuff,
+		public int nTier;              //캐릭터 전직 단계
+		public int nSkillClass;        //스킬 분류
+		public string strJob;          //소유 가능한 직업
+		public int nAttribute;         //속성 물리,마법인지,두개다
+		public int nAttackType;        //공격 타입 (근접, 원거리, 두개 =다)
 		public int nOptionIndex;
+		public DBPassiveSkillOptionIndex optionData;
+		public string strExplanation;  //스킬 설명
 
-		public int nEnhaceValue;
-
-		public float fValue;
-
-		public float fPlus;
-
-		public int nCalculate;
-
-		public string strExplain;
-
-		public PassiveSkill(int _nSkillIndex, AllPassiveSkillOptionData _passive)
+		public PassiveSkill(DBPassiveSkill _skill)
 		{
-			nIndex = _nSkillIndex;
-
-			nOptionIndex = _passive.nOptionIndex;
-
-			fValue = _passive.fValue;
-
-			fPlus = _passive.fPlus;
-
-			nCalculate = _passive.nCalculate;
-
-			strExplain = _passive.strExplain;
+			nIndex = _skill.nIndex;
+			nCharacterIndex = _skill.nCharacterIndex;
+			strSkillName = _skill.strSkillName;
+			strSkillType = _skill.strSkillType;
+			nTier = _skill.nTier;
+			nSkillClass = _skill.nSkillClass;
+			strJob = _skill.strJob;
+			nAttribute = _skill.nAttribute;
+			nOptionIndex = int.Parse( _skill.strOption_List);
+			nAttackType = _skill.nAttackType;
+			strExplanation = _skill.strExplanation;
 		}
+
 	}
 
 	[System.Serializable]
@@ -496,6 +588,7 @@ namespace ReadOnlys
 		public int nIndex;
 
 		public int nOptionIndex;
+
 		public float fValue;
 
 		public float fPlus;
@@ -582,7 +675,7 @@ namespace ReadOnlys
 
 		public float ExpMax {	get; set; }					// Character 최대 경험치
 
-		public float Betch_Index {	get; set; }				// Character 배치위치 
+		public int Betch_Index {	get; set; }				// Character 배치위치 
 					
 		public List<BasicSkill> basicSkill {get; set;}
 
@@ -636,7 +729,7 @@ namespace ReadOnlys
 		public int m_nIndex;
 		public string m_strName;
 		public int m_nCharacterIndex;
-		public int m_strAttackType;
+		public string m_strAttackType;
 		public int m_nSkillClass;
 		public int m_nTier;
 		public string m_strJob;
@@ -697,13 +790,29 @@ namespace ReadOnlys
 		public int nIndex;
 
 		public int nOptionIndex;
+
 		public float fValue;
 
 		public float fPlus;
 
 		public int nCalculate;
 
-		//public string strExplain;
+		public DBPassiveSkillOptionIndex()
+		{
+		}
+
+		public DBPassiveSkillOptionIndex(DBPassiveSkillOptionIndex _skill)
+		{
+			nIndex = _skill.nIndex;
+
+			nOptionIndex = _skill.nOptionIndex;
+
+			fValue = _skill.fValue;
+
+			fPlus = _skill.fPlus;
+
+			nCalculate = _skill.nCalculate;
+		}
 	}
 
 	[System.Serializable]
@@ -727,6 +836,28 @@ namespace ReadOnlys
 		public int nAttackNumber;          //공격 횟수
 		public string strAttackPriority;   //공격 우선순위
 		public string strExplanation;      //스킬 설명
+
+		public DBBasicSkill(){ }
+
+		public DBBasicSkill(DBBasicSkill _skill)
+		{
+			nIndex = _skill.nIndex;
+			nCharacterIndex = _skill.nCharacterIndex;
+			strSkillName = _skill.strSkillName;    
+			strSkillType = _skill.strSkillType;    
+			nTier =_skill.nTier;             
+			nSkillClass =_skill.nSkillClass;       
+			strJob = _skill.strJob;        
+			nAttribute = _skill.nAttribute;         
+			nAttackType = _skill.nAttackType;        
+			fPhsyicMagnification = _skill.fPhsyicMagnification;  
+			fMagicMagnification = _skill.fMagicMagnification;    
+			fAttackArea = _skill.fAttackArea;
+			strSkillTarget = _skill.strSkillTarget;     
+			nMaxTargetNumber = _skill.nMaxTargetNumber;       
+			nAttackNumber = _skill.nAttackNumber;          
+			strAttackPriority = _skill.strAttackPriority;   
+		}
 	}
 
 	public class DBPlayersCharacter
@@ -915,6 +1046,25 @@ namespace ReadOnlys
 		public int nOptionIndex;
 		public int nStartValue;
 		public int nEndValue;
+	}
+
+	[System.Serializable]
+	public class StageData
+	{
+		public int nIndex;
+		public string strStageName;
+		public string strWaveTimes;
+		public string strEnemySpawnIndexs;
+		public string strCreateTimes;
+		public string strYPositions;
+		public int nGold;
+		public float fExp;
+		public string strEquimnetIndexs;
+		public string strCharacterDropIndexs;
+		public string strMaterialDropIndexs;
+		public string strEquipmentRates;
+		public string strCharacterDropRates;
+		public string strMaterialDropRates;
 	}
 
 

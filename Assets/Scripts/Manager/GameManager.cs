@@ -748,5 +748,47 @@ public class GameManager : GenericMonoSingleton<GameManager>
     #endregion
 
 
+	#region Character Summon
+
+	public CharacterStats SummonCharacter(int _nIndex)
+	{
+		CharacterStats _summonCharacter;
+
+		_summonCharacter = new CharacterStats (lDbBasicCharacter.Find (x => x.C_Index == _nIndex));
+
+		DBBasicSkill basicSkill = GameManager.Instance.lDbBasickill.Find (x => x.nCharacterIndex == _summonCharacter.m_nIndex);
+
+		_summonCharacter.basicSkill.Add (new BasicSkill (basicSkill));
+
+		for (int nIndex = _summonCharacter.m_nTier; nIndex > 0; nIndex--) 
+		{
+			int nRandomIndex = 0;
+			
+			List<DBActiveSkill> active_List = GameManager.Instance.lDbActiveSkill.FindAll (x => x.m_nTier == nIndex);
+
+			nRandomIndex = Random.Range (0, active_List.Count);
+
+			_summonCharacter.activeSkill.Add (new ActiveSkill (active_List [nRandomIndex]));
+
+
+			List<DBPassiveSkill> passive_List = GameManager.Instance.lDbPassiveSkill.FindAll (x => x.nCharacterIndex == -1 && nIndex == x.nTier);
+
+			passive_List.AddRange (GameManager.Instance.lDbPassiveSkill.FindAll (x => x.nCharacterIndex == _summonCharacter.m_nIndex));
+
+			nRandomIndex = Random.Range (0, passive_List.Count);
+
+			PassiveSkill newPassiveSkill = new PassiveSkill (GameManager.Instance.lDbPassiveSkill [nRandomIndex]);
+
+			newPassiveSkill.optionData = new DBPassiveSkillOptionIndex(GameManager.Instance.lDbPassiveSkillOptionIndex[newPassiveSkill.nOptionIndex]);
+
+			_summonCharacter.passiveSkill.Add (newPassiveSkill);
+		}
+
+		_summonCharacter.m_nBatchIndex = 5;
+
+		return _summonCharacter;
+	}
+	#endregion
+
 }
 

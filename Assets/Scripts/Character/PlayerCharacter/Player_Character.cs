@@ -123,11 +123,20 @@ public class Player_Character : Character {
 			break;
 		case E_CHARACTER_STATE.E_CAST:
 			{
-				animator.SetTrigger ("Idle");
+				animator.SetTrigger ("Cast");
 
 				m_fMaxCastTime = charicStats.activeSkill [nActiveSkillIndex].m_fCastTime;
 
 				CastObject.SetActive (true);
+			}
+			break;
+		case E_CHARACTER_STATE.E_CAST_SUCCESSED:
+			{
+				animator.SetTrigger ("CastSuccessed");
+
+				m_fCastSuccessedTime = 0.6f;
+
+				m_fCastTime = 0.0f;
 			}
 			break;
 		case E_CHARACTER_STATE.E_DEAD:
@@ -300,8 +309,16 @@ public class Player_Character : Character {
 
 				if (m_fMaxCastTime < m_fCastTime) 
 				{
-					m_fCastTime = 0.0f;
+					CheckCharacterState (E_CHARACTER_STATE.E_CAST_SUCCESSED);
+				}
+			}
+			break;
+		case E_CHARACTER_STATE.E_CAST_SUCCESSED:
+			{
+				m_fCastSuccessedTime -= Time.deltaTime;
 
+				if (m_fCastSuccessedTime < 0) 
+				{
 					base.PlayActiveSkill (nActiveSkillIndex, false);
 
 					CastObject.SetActive (false);
@@ -310,6 +327,8 @@ public class Player_Character : Character {
 				}
 			}
 			break;
+
+
 		case E_CHARACTER_STATE.E_DEAD:
 			{
 				alphaColor.a = Mathf.Lerp(spriteRender.color.a,0,m_fDisableSpeed * Time.deltaTime);

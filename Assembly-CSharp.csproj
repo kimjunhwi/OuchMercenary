@@ -51,7 +51,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Character_Summon.cs" />
      <Compile Include="Assets\Examples\DynamoDBBaseExample.cs" />
      <Compile Include="Assets\Examples\DynamoDBExample.cs" />
      <Compile Include="Assets\Examples\GCM.cs" />
@@ -308,6 +307,7 @@
      <Compile Include="Assets\Scripts\UI\Base\ToggleUIBase.cs" />
      <Compile Include="Assets\Scripts\UI\Battle\CharacterUI.cs" />
      <Compile Include="Assets\Scripts\UI\Battle\DamageTextPool.cs" />
+     <Compile Include="Assets\Scripts\UI\Employer\Summon.cs" />
      <Compile Include="Assets\Scripts\UI\Healing\HealSlot.cs" />
      <Compile Include="Assets\Scripts\UI\Healing\MercenaryHealPanel.cs" />
      <Compile Include="Assets\Scripts\UI\LoadingPanel.cs" />
@@ -337,7 +337,6 @@
      <Compile Include="Assets\Scripts\Window\CWindowNotice.cs" />
      <Compile Include="Assets\Scripts\Window\CWindowOk.cs" />
      <Compile Include="Assets\Scripts\Window\CWindowYesNo.cs" />
-     <Compile Include="Assets\Summon.cs" />
      <None Include="Assets\Plugins\Android\gpgs-plugin-support-0.9.42\AndroidManifest.xml" />
      <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
      <None Include="Assets\Plugins\Android\gpgs-plugin-support-0.9.42\R.txt" />

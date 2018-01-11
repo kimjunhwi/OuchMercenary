@@ -1207,7 +1207,7 @@ public class LoginManager : MonoBehaviour
 				activeSkill.m_nIndex = lDBActiveSkill_GetList [i].Index;
 				activeSkill.m_nCharacterIndex = lDBActiveSkill_GetList [i].C_Index;
 				activeSkill.m_strName = lDBActiveSkill_GetList [i].Skill_Name;
-				activeSkill.m_strAttackType = lDBActiveSkill_GetList [i].Skill_AttackType;
+				activeSkill.m_strAttackType = lDBActiveSkill_GetList [i].Skill_Type;
 				activeSkill.m_nSkillClass = lDBActiveSkill_GetList [i].Skill_Class;
 				activeSkill.m_nTier = lDBActiveSkill_GetList [i].Tier;
 				activeSkill.m_strJob = lDBActiveSkill_GetList [i].Jobs;
@@ -2136,7 +2136,7 @@ public class LoginManager : MonoBehaviour
 		public float ExpMax {	get; set; }					// Character 최대 경험치
 
 		[DynamoDBProperty("Betch_Index")]
-		public float Betch_Index {	get; set; }				// Character 배치위치 
+		public int Betch_Index {	get; set; }				// Character 배치위치 
 
 		[DynamoDBProperty("BasicSkill")]				
 		public List<BasicSkill> basicSkill {get; set;}

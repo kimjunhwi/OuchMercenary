@@ -57,7 +57,10 @@ public class Upbar : MonoBehaviour
 	
 			mainSceneManager.ActivePanelBack (E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, true);
 			break;
-
+		case E_SCENE_INDEX.E_EMPLOYER:
+			//GameManager.Instance.InitUpbar ();
+			GameManager.Instance.LoadScene (_curSceneIndex, _prevSceneIndex , true);
+			break;
 		case E_SCENE_INDEX.E_STAGE_TRAINNIG:
 
 			mainSceneManager.ActivePanelBack (E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING, true);

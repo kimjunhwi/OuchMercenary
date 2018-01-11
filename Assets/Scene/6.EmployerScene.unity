@@ -193,6 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nSummonTier: 0
+  nSummonIndex: 0
   nOneTierPercent: 100
   nTwoTierPercent: 0
   nThreeTierPercent: 0
@@ -434,6 +435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nSummonTier: 0
+  nSummonIndex: 0
   nOneTierPercent: 70
   nTwoTierPercent: 25
   nThreeTierPercent: 5
@@ -646,6 +648,11 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114837401611220746, guid: bab342b2a5ba84691888be26b6818328,
+        type: 2}
+      propertyPath: ePrev_SceneIndex
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bab342b2a5ba84691888be26b6818328, type: 2}
   m_IsPrefabParent: 0
@@ -778,6 +785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nSummonTier: 0
+  nSummonIndex: 0
   nOneTierPercent: 70
   nTwoTierPercent: 25
   nThreeTierPercent: 5
@@ -979,6 +987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nSummonTier: 0
+  nSummonIndex: 0
   nOneTierPercent: 70
   nTwoTierPercent: 25
   nThreeTierPercent: 5
@@ -1621,6 +1630,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nSummonTier: 0
+  nSummonIndex: 0
   nOneTierPercent: 70
   nTwoTierPercent: 25
   nThreeTierPercent: 5
@@ -2090,6 +2100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nSummonTier: 0
+  nSummonIndex: 1014
   nOneTierPercent: 70
   nTwoTierPercent: 25
   nThreeTierPercent: 5
@@ -2331,6 +2342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nSummonTier: 0
+  nSummonIndex: 0
   nOneTierPercent: 70
   nTwoTierPercent: 25
   nThreeTierPercent: 5
@@ -2741,6 +2753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nSummonTier: 0
+  nSummonIndex: 0
   nOneTierPercent: 70
   nTwoTierPercent: 25
   nThreeTierPercent: 5
@@ -3075,6 +3088,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nSummonTier: 0
+  nSummonIndex: 0
   nOneTierPercent: 0
   nTwoTierPercent: 70
   nThreeTierPercent: 25
@@ -3862,6 +3876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nSummonTier: 0
+  nSummonIndex: 0
   nOneTierPercent: 70
   nTwoTierPercent: 25
   nThreeTierPercent: 5

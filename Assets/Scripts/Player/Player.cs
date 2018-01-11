@@ -18,9 +18,14 @@ public class Player : MonoBehaviour
 
 	public List<CharacterStats> LIST_HERO = new List<CharacterStats>();
 
+	public List<CharacterStats> TEST_MY_HERO = new List<CharacterStats>();
+
+
 	public List<DBBasicCharacter> LIST_CHARACTER = new List<DBBasicCharacter> ();
 
 	int nGold;
+
+	int nLastStageIndex;
 
 
 	public void Init()
@@ -57,22 +62,18 @@ public class Player : MonoBehaviour
 		_charic.m_fCritical_Damage = 1.5f;
 		_charic.m_nBatchIndex = 12;
 
-
-
-		_charic.basicSkill.Add(new BasicSkill(1,1001,"a","attack",0,1,"warrior",1,1,100,0,1.0f,"enemy",1,1,"close","p_attack rating의 100%로 공격"));
-
-		//Active
-		tempActiveSkill = new ActiveSkill(0,1000,"double Attack","0,10",2,1,"Warrior",1,1,0,20,0,0,0,0,0,6,0,75,0,1,1.5f,1.5f,1,"close",0,0,"","","pAttack ratring의 75%로 2회 공격",false);
-			
-		Warrior_Acitve_List.Add(tempActiveSkill);
-
-		tempActiveSkill = new ActiveSkill(0,1001,"Power Attack","0,10",2,1,"Warrior",1,1,0,20,0,0,0,0,0,6,0,120,0,1,1.5f,1.5f,1,"close",0,0,"","","pAttack ratring의 120%로 2회 공격",false);
-
-		Warrior_Acitve_List.Add(tempActiveSkill);
-
-		//Passive
-		_charic.passiveSkill.Add(new PassiveSkill(0,GameManager.Instance.cAllPassiveOption[0]));
-		_charic.passiveSkill.Add(new PassiveSkill(1,GameManager.Instance.cAllPassiveOption[1]));
+//
+//
+//		_charic.basicSkill.Add(new BasicSkill(1,1001,"a","attack",0,1,"warrior",1,1,100,0,1.0f,"enemy",1,1,"close","p_attack rating의 100%로 공격"));
+//
+//		//Active
+//		tempActiveSkill = new ActiveSkill(0,1000,"double Attack","0,10",2,1,"Warrior",1,1,0,20,0,0,0,0,0,6,0,75,0,1,1.5f,1.5f,1,"close",0,0,"","","pAttack ratring의 75%로 2회 공격",false);
+//			
+//		Warrior_Acitve_List.Add(tempActiveSkill);
+//
+//		tempActiveSkill = new ActiveSkill(0,1001,"Power Attack","0,10",2,1,"Warrior",1,1,0,20,0,0,0,0,0,6,0,120,0,1,1.5f,1.5f,1,"close",0,0,"","","pAttack ratring의 120%로 2회 공격",false);
+//
+//		Warrior_Acitve_List.Add(tempActiveSkill);
 
 		//높은것을 정렬retur
 		Warrior_Acitve_List.Sort(delegate(ActiveSkill A, ActiveSkill B)
@@ -116,12 +117,12 @@ public class Player : MonoBehaviour
 
 		_charic.basicSkill.Add(new BasicSkill(1,1001,"a","attack",0,1,"archer",1,1,100,0,1.0f,"enemy",1,1,"close","p_attack rating의 100%로 공격"));
 
-		//Active
-		tempActiveSkill = new ActiveSkill(1,1001,"Power Attack","9",2,1,"archer",1,1,0,20,0,0,0,0,0,6,0,120,0,1,1.5f,1.5f,1,"close",0,0,"","","pAttack ratring의 120%로 2회 공격",false);
-			
-		Archer_Acitve_List.Add(tempActiveSkill);
-
-		_charic.activeSkill = Archer_Acitve_List;
+//		//Active
+//		tempActiveSkill = new ActiveSkill(1,1001,"Power Attack","9",2,1,"archer",1,1,0,20,0,0,0,0,0,6,0,120,0,1,1.5f,1.5f,1,"close",0,0,"","","pAttack ratring의 120%로 2회 공격",false);
+//			
+//		Archer_Acitve_List.Add(tempActiveSkill);
+//
+//		_charic.activeSkill = Archer_Acitve_List;
 
 		LIST_HERO.Add (_charic);
 
@@ -240,11 +241,11 @@ public class Player : MonoBehaviour
 
 		_charic.basicSkill.Add(new BasicSkill(1,1000,"a","attack",0,1,"wizard",1,1,100,0,1.0f,"enemy",1,1,"close","p_attack rating의 100%로 공격"));
 
-		tempActiveSkill = new ActiveSkill(1,1001,"Power Attack","9",2,1,"wizard",1,1,0,100,0,0,0,0,0,6,10,120,0,1,1.5f,1.5f,1,"close",0,0,"","","pAttack ratring의 120%로 2회 공격",false);
-
-		Wizard_Active_List.Add(tempActiveSkill);
-
-		_charic.activeSkill = Wizard_Active_List;
+//		tempActiveSkill = new ActiveSkill(1,1001,"Power Attack","9",2,1,"wizard",1,1,0,100,0,0,0,0,0,6,10,120,0,1,1.5f,1.5f,1,"close",0,0,"","","pAttack ratring의 120%로 2회 공격",false);
+//
+//		Wizard_Active_List.Add(tempActiveSkill);
+//
+//		_charic.activeSkill = Wizard_Active_List;
 
 		LIST_HERO.Add (_charic);
 
@@ -276,7 +277,7 @@ public class Player : MonoBehaviour
 		LIST_HERO.Add (_charic);
 
 		for (int i = 0; i < 53; i++) {
-			LIST_CHARACTER.Add (GameManager.Instance.lDbBasicCharacter [i]);
+			LIST_CHARACTER.Add ( GameManager.Instance.lDbBasicCharacter [i]);
 		}
 
 
