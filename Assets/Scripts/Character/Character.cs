@@ -22,6 +22,7 @@ public class Character : MonoBehaviour {
 	protected float m_fSturnTime = 0.0f;
 	protected float m_fCastTime = 0.0f;
 	protected float m_fMaxCastTime = 0.0f;
+	protected float m_fCastSuccessedTime = 0.0f;
 
 	protected GameObject BleedObject;
 	protected GameObject BurnObject;
@@ -102,7 +103,6 @@ public class Character : MonoBehaviour {
 	//캐릭터에 대한 초기화 및 배치를 함
 	public virtual void Setup(CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager,BattleManager _BattleManager,  E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
 	{
-		Debug.Log("1");
 
 		charicStats = new CharacterStats (_charic);
 
@@ -115,24 +115,30 @@ public class Character : MonoBehaviour {
 		E_CHARIC_TYPE = _E_TYPE;
 
 		//캐릭터 타입이 플레이어 캐릭일 경우
-		if(E_CHARIC_TYPE == E_Type.E_Hero)
-		{
+		if (E_CHARIC_TYPE == E_Type.E_Hero) {
 			//패시브 스킬들을 적용
-			ActivePassiveSkill();
+			ActivePassiveSkill ();
 
 			//처음 위치를 미리 저장해둔다.
 			m_VecFirstPosition = _vecPosition;
 			gameObject.transform.position = m_VecFirstPosition;
 
 			//캐릭터 UI들을 생성
-			GameObject Charic_UI_Object= Instantiate(Resources.Load("Prefabs/Battle_Charic_Info") as GameObject);
+			GameObject Charic_UI_Object = Instantiate (Resources.Load ("Prefabs/Battle_Charic_Info") as GameObject);
 
 			//생성된 캐릭터를 부모를 UI로 해줌
-			Charic_UI_Object.transform.SetParent(battleManager.characterUI_Parent,false);
+			Charic_UI_Object.transform.SetParent (battleManager.characterUI_Parent, false);
 
 			//캐릭터 UI를 받아와서 세팅
-			characterUI = Charic_UI_Object.GetComponent<CharacterUI>();
-			characterUI.SetUp(charicStats.m_fHealth);
+			characterUI = Charic_UI_Object.GetComponent<CharacterUI> ();
+			characterUI.SetUp (charicStats.m_fHealth);
+		} else {
+
+			gameObject.transform.position = _vecPosition;
+
+			CheckCharacterState (E_CHARACTER_STATE.E_WALK);
+
+			spriteRender.flipX = true;
 		}
 	
 		//캐릭터의 현재 체력을 셋팅
@@ -169,7 +175,7 @@ public class Character : MonoBehaviour {
 		//3.발동 확률을 체크 후 됐을 경우 활성화 시킬 스킬에 넣어준다.
 		for (int nIndex = 0; nIndex < charicStats.activeSkill.Count; nIndex++) 
 		{
-			if(charicStats.activeSkill[nIndex].m_bIsCooltime)
+			if(charicStats.activeSkill[nIndex].m_bIsCooltime == (int)E_COOLTIME.E_COOLTIME)
 				continue;
 
 			if(IsUseSkill(nIndex)) 
@@ -187,7 +193,7 @@ public class Character : MonoBehaviour {
 
 		for(int nIndex = 0; nIndex< charicStats.activeSkill.Count; nIndex++)
 		{
-			if(charicStats.activeSkill[nIndex].m_bIsCooltime)
+			if(charicStats.activeSkill[nIndex].m_bIsCooltime == (int)E_COOLTIME.E_COOLTIME)
 				continue;
 
 			if(Random.Range(0,100) < charicStats.activeSkill[nIndex].m_fDodgy_ActiveRating)
@@ -213,57 +219,57 @@ public class Character : MonoBehaviour {
 	{
 		for(int nIndex = 0; nIndex < charicStats.passiveSkill.Count; nIndex++)
 		{
-			switch(charicStats.passiveSkill[nIndex].nOptionIndex)
+			switch(charicStats.passiveSkill[nIndex].optionData.nOptionIndex)
 			{
 				case (int)E_PASSIVE_TYPE.E_HP:						
 				
-				charicStats.m_fHealth += charicStats.m_fHealth * charicStats.passiveSkill[nIndex].fValue * 0.01f;	
+				charicStats.m_fHealth += charicStats.m_fHealth * charicStats.passiveSkill[nIndex].optionData.fValue * 0.01f;	
 				
 				break;
 				
 				case (int)E_PASSIVE_TYPE.E_ACCURACY:					
 				
-				charicStats.m_fAccuracy += charicStats.passiveSkill[nIndex].fValue;
+				charicStats.m_fAccuracy += charicStats.passiveSkill[nIndex].optionData.fValue;
 				
 				break;
 				case (int)E_PASSIVE_TYPE.E_PHYSICAL_ATTACK_RATING:		
 				
-				charicStats.m_fPhyiscal_Rating += charicStats.m_fPhyiscal_Rating * charicStats.passiveSkill[nIndex].fValue * 0.01f;	
+				charicStats.m_fPhyiscal_Rating += charicStats.m_fPhyiscal_Rating * charicStats.passiveSkill[nIndex].optionData.fValue * 0.01f;	
 
 				break;
 				case (int)E_PASSIVE_TYPE.E_MAGIC_ATTACK_RATING:			
 				
-				charicStats.m_fMagic_Rating += charicStats.m_fMagic_Rating * charicStats.passiveSkill[nIndex].fValue * 0.01f;	
+				charicStats.m_fMagic_Rating += charicStats.m_fMagic_Rating * charicStats.passiveSkill[nIndex].optionData.fValue * 0.01f;	
 				
 				break;
 				case (int)E_PASSIVE_TYPE.E_PHYSICAL_DEFENCE:			
 				
-				charicStats.m_fPhysical_Defence += charicStats.passiveSkill[nIndex].fValue;
+				charicStats.m_fPhysical_Defence += charicStats.passiveSkill[nIndex].optionData.fValue;
 				
 				break;
 				case (int)E_PASSIVE_TYPE.E_MAGIC_DEFENCE:				
 				
-				charicStats.m_fMasic_Defence += charicStats.passiveSkill[nIndex].fValue;
+				charicStats.m_fMasic_Defence += charicStats.passiveSkill[nIndex].optionData.fValue;
 				
 				break;
 				case (int)E_PASSIVE_TYPE.E_DODGE:						
 				
-				charicStats.m_fDodge += charicStats.passiveSkill[nIndex].fValue;
+				charicStats.m_fDodge += charicStats.passiveSkill[nIndex].optionData.fValue;
 				
 				break;
 				case (int)E_PASSIVE_TYPE.E_CRITICAL_RATING:				
 				
-				charicStats.m_fCritical_Rating += charicStats.passiveSkill[nIndex].fValue;
+				charicStats.m_fCritical_Rating += charicStats.passiveSkill[nIndex].optionData.fValue;
 				
 				break;
 				case (int)E_PASSIVE_TYPE.E_CRITICAL_DAMAGE:				
 				
-				charicStats.m_fCritical_Damage += charicStats.passiveSkill[nIndex].fValue;
+				charicStats.m_fCritical_Damage += charicStats.passiveSkill[nIndex].optionData.fValue;
 				
 				break;
 				case (int)E_PASSIVE_TYPE.E_ATTACK_SPEED:				
 				
-				charicStats.m_fAttackSpeed += charicStats.m_fAttackSpeed * charicStats.passiveSkill[nIndex].fValue * 0.01f;
+				charicStats.m_fAttackSpeed += charicStats.m_fAttackSpeed * charicStats.passiveSkill[nIndex].optionData.fValue * 0.01f;
 				
 				break;
 			}
@@ -387,7 +393,7 @@ public class Character : MonoBehaviour {
 		nSkillIndex = nActiveSkillIndex;
 
 		//스킬이 있을 경우 쿨타임을 돌림
-		charicStats.activeSkill [nSkillIndex].m_bIsCooltime = true;
+		charicStats.activeSkill [nSkillIndex].m_bIsCooltime = (int)E_COOLTIME.E_COOLTIME;
 
 		float fTime = 0.0f;
 
@@ -400,7 +406,7 @@ public class Character : MonoBehaviour {
 		}
 
 		//만약 쿨타임이 다 됐다면 스킬을 False로 바꿔줌
-		charicStats.activeSkill [nSkillIndex].m_bIsCooltime = false;
+		charicStats.activeSkill [nSkillIndex].m_bIsCooltime = (int)E_COOLTIME.E_NONE_COOLTIME;
 	}
 
 	#endregion
@@ -568,7 +574,7 @@ public class Character : MonoBehaviour {
 	protected void ResetTargetCharacter(float _fRange)
 	{
 		
-		ArrayList targetLists = characterManager.FindTarget (this,_fRange);
+		ArrayList targetLists;
 
 		if (charicStats.basicSkill [0].strSkillTarget != "enemy") 
 		{

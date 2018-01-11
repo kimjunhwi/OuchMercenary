@@ -42,10 +42,6 @@ public class MainSceneManager : MonoBehaviour
 		Debug.Log ("lDBGlove : " + GameManager.Instance.lDBGlove.Count);
 		Debug.Log ("lDBAccessory : " + GameManager.Instance.lDBAccessory.Count);
 		Debug.Log ("lDBEquipmentRandomOption : " + GameManager.Instance.lDBEquipmentRandomOption.Count);
-		Debug.Log ("lDBStage : " + GameManager.Instance.lDBStageData.Count);
-		Debug.Log ("lDBCraftMaterial : " + GameManager.Instance.lDBCraftMaterial.Count);
-		Debug.Log ("lDBBreakMaterial : " + GameManager.Instance.lDBBreakMaterial.Count);
-		Debug.Log ("lDBFormationSkill : " + GameManager.Instance.lDBFomationSkill.Count);
 
 		//메인 UI 버튼 초기화
 		InitActiveButton();
@@ -61,6 +57,9 @@ public class MainSceneManager : MonoBehaviour
 		activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE].onClick.AddListener(() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_STAGE , E_SCENE_INDEX.E_MENU , true));
 		//Mercenary Manage(용병관리)
 		activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_MANAGEMENT].onClick.AddListener(() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_MERMANAGE , E_SCENE_INDEX.E_MENU , true));
+
+		//Mercenary Manage(용병관리)
+		activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT].onClick.AddListener(() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_EMPLOYER , E_SCENE_INDEX.E_MENU , false));
 
 		activeButton [(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING].onClick.AddListener (() => StartCoroutine (fadeInOutTest.FadeInOutOnce(E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING,false)));
 

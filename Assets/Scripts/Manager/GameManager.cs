@@ -37,11 +37,17 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	Player m_Player;
 
-	public GameObject Root_ui;
-
 	public LoginManager loginManager;
 
 	public bool bIsLoad = false;
+
+	public List<DBBasicCharacter> assasinList = new List<DBBasicCharacter>();
+	public List<DBBasicCharacter> warriorList = new List<DBBasicCharacter>();
+	public List<DBBasicCharacter> archerList = new List<DBBasicCharacter>();
+	public List<DBBasicCharacter> knightList = new List<DBBasicCharacter>();
+	public List<DBBasicCharacter> priestList = new List<DBBasicCharacter>();
+	public List<DBBasicCharacter> wizzardList = new List<DBBasicCharacter> ();
+	public List<DBBasicCharacter> commandList = new List<DBBasicCharacter>();
 
 	//DB에서 게임내에 저장할 리스트 (기본 데이터들)
 	public List<DBBasicCharacter> lDbBasicCharacter = new List<DBBasicCharacter>();
@@ -50,18 +56,15 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public List<DBPassiveSkill> lDbPassiveSkill = new List <DBPassiveSkill>();
 	public List<DBPassiveSkillOptionIndex> lDbPassiveSkillOptionIndex = new List<DBPassiveSkillOptionIndex> ();
 	public List<DBBasicSkill> lDbBasickill = new List<DBBasicSkill> ();
-	//Equipment
+
 	public List<DBWeapon> lDbWeapon = new List<DBWeapon> ();
 	public List<DBArmor> lDBArmor = new List<DBArmor> ();
 	public List<DBGlove> lDBGlove = new List<DBGlove> ();
 	public List<DBAccessory> lDBAccessory = new List<DBAccessory> ();
 	public List<DBEquipment_RandomOption> lDBEquipmentRandomOption = new List<DBEquipment_RandomOption> ();
-	public List<DBCraftMaterial> lDBCraftMaterial = new List<DBCraftMaterial> ();
-	public List<DBBreakMaterial> lDBBreakMaterial = new List<DBBreakMaterial> ();
-	//Stage
-	public List<DBStageData> lDBStageData = new List<DBStageData> ();
-	//FormationSkill
-	public List<DBFormationSkill> lDBFomationSkill = new List<DBFormationSkill>();
+
+
+
 
 	public List<Sprite> CharacterBoxImage_List = new List<Sprite> ();
 	//Scene 마다 있는 UpBar
@@ -130,12 +133,47 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		m_Player.Init ();
 
+		SortJobIndex ();
 
 
         yield break;
     }
 
 	public Player GetPlayer() { return m_Player; }
+
+	void SortJobIndex()
+	{
+		for (int nIndex = 0; nIndex < lDbBasicCharacter.Count; nIndex++) 
+		{
+			switch (lDbBasicCharacter [nIndex].C_JobIndex) 
+			{
+			case (int)E_CHARACTER_TYPE.E_ASSASIN: 	assasinList.Add (lDbBasicCharacter[nIndex]); 	break;
+			case (int)E_CHARACTER_TYPE.E_WARRIOR: 	warriorList.Add (lDbBasicCharacter [nIndex]); 	break;
+			case (int)E_CHARACTER_TYPE.E_ARCHER: 	archerList.Add (lDbBasicCharacter [nIndex]);	break;
+			case (int)E_CHARACTER_TYPE.E_WIZZARD: 	wizzardList.Add (lDbBasicCharacter [nIndex]); 	break;
+			case (int)E_CHARACTER_TYPE.E_KNIGHT: 	knightList.Add (lDbBasicCharacter [nIndex]); 	break;
+			case (int)E_CHARACTER_TYPE.E_PRIEST: 	priestList.Add (lDbBasicCharacter [nIndex]); 	break;
+			case (int)E_CHARACTER_TYPE.E_COMMAND: 	commandList.Add (lDbBasicCharacter [nIndex]); 	break;
+			}
+		}
+	}
+
+	public List<DBBasicCharacter> GetJobList(int _E_TYPE)
+	{
+		switch (_E_TYPE) 
+		{
+		case (int)E_CHARACTER_TYPE.E_ASSASIN: 	return assasinList; 
+		case (int)E_CHARACTER_TYPE.E_WARRIOR: 	return warriorList; 
+		case (int)E_CHARACTER_TYPE.E_ARCHER: 	return archerList;	
+		case (int)E_CHARACTER_TYPE.E_WIZZARD: 	return wizzardList; 
+		case (int)E_CHARACTER_TYPE.E_KNIGHT: 	return knightList; 	
+		case (int)E_CHARACTER_TYPE.E_PRIEST: 	return priestList; 	
+		case (int)E_CHARACTER_TYPE.E_COMMAND: 	return commandList;	
+		case (int)E_CHARACTER_TYPE.E_ALL:		return lDbBasicCharacter;
+		}
+
+		return null;
+	}
 
 	//------------------------------------------------------------------------------------------------
 	// 리소스 이미지 로드.
@@ -661,8 +699,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	//CGame.Instance.Window_notice("213123 213123 ", rt => { if (rt == "0") print("notice");  });
 	public void Window_notice(string _msg, System.Action<string> _callback)
 	{
-		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
-		GameObject go = GameObject.Instantiate(Resources.Load("prefabs/Window_notice"), Vector3.zero, Quaternion.identity) as GameObject;
+		GameObject Root_ui = GameObject.Find("Canvas"); //ui attach
+		GameObject go = GameObject.Instantiate(Resources.Load("prefabs/Window_POPUP/Window_notice"), Vector3.zero, Quaternion.identity) as GameObject;
 		go.transform.parent = Root_ui.transform;
 		go.transform.localPosition = Vector3.zero;
 		go.transform.localRotation = Quaternion.identity;
@@ -672,23 +710,23 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		w.Show(_msg, _callback);
 	}
 
-	public void Window_yesno(string strTitle, string strValue,Sprite _sprite,  System.Action<string> _callback)
+	public void Window_yesno(string strTitle,  System.Action<string> _callback)
 	{
-		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
-		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_yesno"), Vector3.zero, Quaternion.identity) as GameObject;
+		GameObject Root_ui = GameObject.Find("Canvas"); //ui attach
+		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_POPUP/Window_yesno"), Vector3.zero, Quaternion.identity) as GameObject;
 		go.transform.parent = Root_ui.transform;
 		go.transform.localPosition = Vector3.zero;
 		go.transform.localRotation = Quaternion.identity;
 		go.transform.localScale = Vector3.one;
 
 		CWindowYesNo w = go.GetComponent<CWindowYesNo>();
-		w.Show(strTitle,strValue,_sprite, _callback);
+		w.Show(strTitle, _callback);
 	}
 
 	public void Window_Check(string strValue,System.Action<string> _callback)
 	{
-		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
-		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_Check"), Vector3.zero, Quaternion.identity) as GameObject;
+		GameObject Root_ui = GameObject.Find("Canvas"); //ui attach
+		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_POPUP/Window_Check"), Vector3.zero, Quaternion.identity) as GameObject;
 		go.transform.parent = Root_ui.transform;
 		go.transform.localPosition = Vector3.zero;
 		go.transform.localRotation = Quaternion.identity;
@@ -700,8 +738,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	public void Window_Goblin_yesno(string strTitle, string strValue,Sprite _spriteGoods, System.Action<string> _callback)
 	{
-		//GameObject Root_ui = GameObject.Find("root_window)"); //ui attach
-		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_Goblin_Buff_Yes_No"), Vector3.zero, Quaternion.identity) as GameObject;
+		GameObject Root_ui = GameObject.Find("Canvas"); //ui attach
+		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_POPUP/Window_Goblin_Buff_Yes_No"), Vector3.zero, Quaternion.identity) as GameObject;
 		go.transform.parent = Root_ui.transform;
 		go.transform.localPosition = Vector3.zero;
 		go.transform.localRotation = Quaternion.identity;
@@ -709,6 +747,48 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	}
     #endregion
 
+
+	#region Character Summon
+
+	public CharacterStats SummonCharacter(int _nIndex)
+	{
+		CharacterStats _summonCharacter;
+
+		_summonCharacter = new CharacterStats (lDbBasicCharacter.Find (x => x.C_Index == _nIndex));
+
+		DBBasicSkill basicSkill = GameManager.Instance.lDbBasickill.Find (x => x.nCharacterIndex == _summonCharacter.m_nIndex);
+
+		_summonCharacter.basicSkill.Add (new BasicSkill (basicSkill));
+
+		for (int nIndex = _summonCharacter.m_nTier; nIndex > 0; nIndex--) 
+		{
+			int nRandomIndex = 0;
+			
+			List<DBActiveSkill> active_List = GameManager.Instance.lDbActiveSkill.FindAll (x => x.m_nTier == nIndex);
+
+			nRandomIndex = Random.Range (0, active_List.Count);
+
+			_summonCharacter.activeSkill.Add (new ActiveSkill (active_List [nRandomIndex]));
+
+
+			List<DBPassiveSkill> passive_List = GameManager.Instance.lDbPassiveSkill.FindAll (x => x.nCharacterIndex == -1 && nIndex == x.nTier);
+
+			passive_List.AddRange (GameManager.Instance.lDbPassiveSkill.FindAll (x => x.nCharacterIndex == _summonCharacter.m_nIndex));
+
+			nRandomIndex = Random.Range (0, passive_List.Count);
+
+			PassiveSkill newPassiveSkill = new PassiveSkill (GameManager.Instance.lDbPassiveSkill [nRandomIndex]);
+
+			newPassiveSkill.optionData = new DBPassiveSkillOptionIndex(GameManager.Instance.lDbPassiveSkillOptionIndex[newPassiveSkill.nOptionIndex]);
+
+			_summonCharacter.passiveSkill.Add (newPassiveSkill);
+		}
+
+		_summonCharacter.m_nBatchIndex = 5;
+
+		return _summonCharacter;
+	}
+	#endregion
 
 }
 

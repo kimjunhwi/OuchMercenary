@@ -5,13 +5,9 @@ using ReadOnlys;
 
 public class Mechanic : Player_Character {
 
-	SimpleObjectPool arrowPool;
-
 	protected override void Awake ()
 	{
 		base.Awake ();
-
-		arrowPool = GameObject.Find("ArrowObjectPool").GetComponent<SimpleObjectPool>();
 	}
 
 	public override void Setup (CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager,BattleManager _BattleManager, E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
@@ -104,6 +100,5 @@ public class Mechanic : Player_Character {
 				CheckCharacterState (E_CHARACTER_STATE.E_CAST);
 			}
 		}
-
 	}
 }
