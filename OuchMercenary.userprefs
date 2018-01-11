@@ -1,18 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/Upbar.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Manager/Scene/MainSceneManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Manager/GameManager.cs" Line="461" Column="2" />
-      <File FileName="Assets/Scripts/Manager/Scene/MainSceneManager.cs" Line="45" Column="114" />
-      <File FileName="Assets/Scripts/UI/Upbar.cs" Line="76" Column="5" />
-      <File FileName="Assets/Scripts/UI/Base/FadeInOut.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" Line="1789" Column="48" />
+      <File FileName="Assets/Scripts/Manager/GameManager.cs" Line="63" Column="18" />
       <File FileName="Assets/Scripts/Player/Player.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Manager/ReadOnly.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/Scene/MainSceneManager.cs" Line="48" Column="84" />
+      <File FileName="Assets/Scripts/Manager/ReadOnly.cs" Line="816" Column="31" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/cheolgeungi/OuchMercenary/Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" line="413" column="1" />
+      <Breakpoint file="/Users/cheolgeungi/OuchMercenary/Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" line="352" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
