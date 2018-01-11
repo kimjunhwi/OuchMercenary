@@ -283,7 +283,7 @@ public class Character : MonoBehaviour {
 		//Parsing된 스킬에서 SkillType과 Target을 받아옴
 		//cf
 
-		string[] strActiveTypes = charicStats.activeSkill[_nActiveSkillIndex].m_strAttackType.Split(',');
+		string[] strActiveTypes = charicStats.activeSkill[_nActiveSkillIndex].m_strSkillType.Split(',');
 
 		for(int nIndex = 0; nIndex < strActiveTypes.Length; nIndex++)
 		{

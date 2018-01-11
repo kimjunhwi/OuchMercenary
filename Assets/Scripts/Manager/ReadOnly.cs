@@ -72,6 +72,10 @@ namespace ReadOnlys
 		E_LOAD_GET_EQUIPMENTGLOVEDATA,
 		E_LOAD_GET_EQUIPMENTACCESSORYDATA,
 		E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA,
+		E_LOAD_GET_STAGEDATA,
+		E_LOAD_GET_CRAFTMATERIALDATA,
+		E_LOAD_GET_BREAKMATERIALDATA,
+		E_LOAD_GET_FORMATIONSKILLDATA,
 	}
 
 	public enum E_LOGIN_PORVIDER_INDEX : int
@@ -369,7 +373,7 @@ namespace ReadOnlys
 		public int m_nIndex;
 		public string m_strName;
 		public int m_nCharacterIndex;
-		public string m_strAttackType;
+		public string m_strSkillType;
 		public int m_nSkillClass;
 		public int m_nTier;
 		public string m_strJob;
@@ -398,7 +402,7 @@ namespace ReadOnlys
 		public string m_strExplanation; 			//설명
 		public int m_bIsCooltime;				//사용 할 수 있는가 
 
-		public ActiveSkill(int _nIndex,int _nCharacterIndex,string _strName,string _strAttackType , int _nSkillClass,int _nTier,string _strJob,
+		public ActiveSkill(int _nIndex,int _nCharacterIndex,string _strName,string _strSkillType , int _nSkillClass,int _nTier,string _strJob,
 							int _nAttribute,int _nAttackType, int _nActivePriority,float _fAttack_ActiveRating,float _fCriticalAttack_ActiveRating,
 			int _nAttackCount_ActiveRating,float _fMiss_ActiveRating, float _fDodgy_ActiveRating,float _fHit_ActiveRating,float _fCoolTime,float _fCastTime,
 							float _fPhysicalMagnification,float _fMagicMagnification,int _nAttackNumber,float _fAttackRange,float _fAttackArea, 
@@ -407,7 +411,7 @@ namespace ReadOnlys
 			m_nIndex = _nIndex;
 			m_strName = _strName;
 			m_nCharacterIndex = _nCharacterIndex;
-			m_strAttackType = _strAttackType;
+			m_strSkillType = _strSkillType;
 			m_nSkillClass = _nSkillClass;
 			m_nTier = _nTier;
 			m_strJob = _strJob;
@@ -437,7 +441,7 @@ namespace ReadOnlys
 			m_nIndex = _skill.m_nIndex;
 			m_strName = _skill.m_strName;
 			m_nCharacterIndex = _skill.m_nCharacterIndex;
-			m_strAttackType = _skill.m_strAttackType;
+			m_strSkillType = _skill.m_strSkillType;
 			m_nSkillClass = _skill.m_nSkillClass;
 			m_nTier = _skill.m_nTier;
 			m_strJob = _skill.m_strJob;
@@ -729,7 +733,7 @@ namespace ReadOnlys
 		public int m_nIndex;
 		public string m_strName;
 		public int m_nCharacterIndex;
-		public string m_strAttackType;
+		public string m_strSkillType;
 		public int m_nSkillClass;
 		public int m_nTier;
 		public string m_strJob;
@@ -989,7 +993,7 @@ namespace ReadOnlys
 		public string sJob;			//사용가능한 직업
 		public int nEnhanced;		//강화 수치
 		public string sEquipType;	//장비 타입(무기, 장갑, 갑옷, 악세사리 )
-		public int nRandomOption;	//RandomOption
+		public string nRandomOption;	//RandomOption
 		public int nSellCost;		//판매가격
 		public int nMakeMaterial;	//만들때의 재료 조합식 인덱스
 		public int nBreakMaterial;	//분해시의 재료 분해식 인덱스
@@ -1023,7 +1027,7 @@ namespace ReadOnlys
 		public int nEnhanced;		//강화 수치
 		public string sEquipType;	//장비 타입(무기, 장갑, 갑옷, 악세사리 )
 
-		public int nRandomOption;	//RandomOption
+		public string nRandomOption;	//RandomOption
 		public int nSellCost;		//판매가격
 		public int nMakeMaterial;	//만들때의 재료 조합식 인덱스
 		public int nBreakMaterial;	//분해시의 재료 분해식 인덱스
@@ -1049,9 +1053,10 @@ namespace ReadOnlys
 	}
 
 	[System.Serializable]
-	public class StageData
+	public class DBStageData
 	{
 		public int nIndex;
+		public string strStageNumber;
 		public string strStageName;
 		public string strWaveTimes;
 		public string strEnemySpawnIndexs;
@@ -1065,7 +1070,54 @@ namespace ReadOnlys
 		public string strEquipmentRates;
 		public string strCharacterDropRates;
 		public string strMaterialDropRates;
+		public string strBackground;
 	}
+
+	[System.Serializable]
+	public class DBCraftMaterial
+	{
+		public int nIndex;					// Index
+		public int nIron;					// 철
+		public int nFabric;					// 옷감
+		public int nWood;					// 나무
+		public int nWeaponStone;			// 무기석
+		public int nArmorStone;				// 방어구석
+		public int nAccessoryStone;			// 악세사리석
+		public int nEpicStone;				// 에픽석 
+		public int nGoldCost;				// 비용
+		public int nTier;					// 티어
+		public int Qulity;					// 단계
+		public string strEquipType;			// 장착할수 있는 타입
+	}
+
+	[System.Serializable]
+	public class DBBreakMaterial
+	{
+		public int nIndex;					// Index
+		public int nIron;					// 철
+		public int nFabric;					// 옷감
+		public int nWood;					// 나무
+		public int nWeaponStone;			// 무기석
+		public int nArmorStone;				// 방어구석
+		public int nAccessoryStone;			// 악세사리석
+		public int nEpicStone;				// 에픽석 
+
+	}
+
+	[System.Serializable]
+	public class DBFormationSkill
+	{
+		public int nIndex;						// Index
+		public int nCharacterIndex;				// C_Index
+		public string strName;					// 스킬 이름
+		public string strSkillType;				// 스킬 타입
+		public int nSkillClass;				// 스킬 클래스
+		public int nTier;						// 티어
+		public string strFomationTarget;		// 포메이션 타겟
+		public int nOptionIndex;				// 옵션 인덱스 
+		public string strExplanation;			// 설명	
+	}
+
 
 
 	#endregion

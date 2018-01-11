@@ -34,7 +34,7 @@ public class BattleManager : MonoBehaviour {
 
 	List<stWaveData> Wave_List = new List<stWaveData> ();
 
-	StageData stageData;
+	DBStageData stageData;
 
 	//공격, 수비 버튼 
 	public Button ToggleButton;

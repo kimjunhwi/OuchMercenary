@@ -62,6 +62,12 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public List<DBGlove> lDBGlove = new List<DBGlove> ();
 	public List<DBAccessory> lDBAccessory = new List<DBAccessory> ();
 	public List<DBEquipment_RandomOption> lDBEquipmentRandomOption = new List<DBEquipment_RandomOption> ();
+	public List<DBCraftMaterial> lDBCraftMaterial = new List<DBCraftMaterial> ();
+	public List<DBBreakMaterial> lDBBreakMaterial = new List<DBBreakMaterial> ();
+	//Stage
+	public List<DBStageData> lDBStageData = new List<DBStageData> ();
+	//FormationSkill
+	public List<DBFormationSkill> lDBFomationSkill = new List<DBFormationSkill>();
 
 
 

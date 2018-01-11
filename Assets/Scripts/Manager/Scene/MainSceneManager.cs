@@ -42,6 +42,11 @@ public class MainSceneManager : MonoBehaviour
 		Debug.Log ("lDBGlove : " + GameManager.Instance.lDBGlove.Count);
 		Debug.Log ("lDBAccessory : " + GameManager.Instance.lDBAccessory.Count);
 		Debug.Log ("lDBEquipmentRandomOption : " + GameManager.Instance.lDBEquipmentRandomOption.Count);
+		Debug.Log ("lDBStage : " + GameManager.Instance.lDBStageData.Count);
+		Debug.Log ("lDBCraftMaterial : " + GameManager.Instance.lDBCraftMaterial.Count);
+		Debug.Log ("lDBBreakMaterial : " + GameManager.Instance.lDBBreakMaterial.Count);
+		Debug.Log ("lDBFormationSkill : " + GameManager.Instance.lDBFomationSkill.Count);
+
 
 		//메인 UI 버튼 초기화
 		InitActiveButton();
