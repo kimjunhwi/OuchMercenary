@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3859603659
+CRC: 3552060963
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -8,3 +8,14 @@ AssetBundleManifest:
     Info_1:
       Name: mainsceneicon
       Dependencies: {}
+    Info_2:
+      Name: characteranim/archer
+      Dependencies: {}
+    Info_3:
+      Name: characteranim/assassin
+      Dependencies: {}
+    Info_4:
+      Name: character
+      Dependencies:
+        Dependency_0: characteranim/archer
+        Dependency_1: characteranim/assassin

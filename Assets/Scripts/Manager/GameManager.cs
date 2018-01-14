@@ -308,6 +308,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		Sprite image = (Sprite)Instantiate (Resources.Load (_strPath, typeof(Sprite)));
 		CharacterBoxImage_List.Add (image);
 	}
+
 	//용병관리창 init
 	public void InitMercenaryManage()
 	{
@@ -359,7 +360,14 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 				StartCoroutine (LoadFromMemoryAsync ("Assets/AssetBundles/bundle/upbar"));
 				StartCoroutine (LoadSpriteFromAssetBundel ("Assets/AssetBundles/mainsceneicon"));
-				Debug.Log ("경로에 해당 파일이 있음.");
+
+
+                StartCoroutine(LoadAnimationDataFromAssetBundel("Assets/AssetBundles/characteranim/archer"));
+
+                StartCoroutine(LoadAnimationDataFromAssetBundel("Assets/AssetBundles/characteranim/assassin"));
+
+
+                Debug.Log ("경로에 해당 파일이 있음.");
 
 				/*
 				assetBundle = AssetBundle.LoadFromFile ("Assets/AssetBundles/ui_upbar");	
@@ -393,73 +401,69 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			//StartCoroutine (StartInitUpbar ());	
 		}
 	}
-	public IEnumerator LoadSpriteFromAssetBundel(string _path)
-	{
-		isSpriteDown = false;
-		AssetBundleCreateRequest createRequest = AssetBundle.LoadFromMemoryAsync(File.ReadAllBytes(_path));
 
-		yield return createRequest;
+    //해당 씬의 정보와 캔버스에 Upbar를 붙힌.
+    public void SetUpbar(E_SCENE_INDEX _sIndex, Transform _trans, string _str, MainSceneManager _mainScene)
+    {
+        upBar.mainSceneManager = _mainScene;
+        upBar.gameObject.transform.SetParent(_trans, false);
 
-		AssetBundle bundle = createRequest.assetBundle;
+        //뒤에 더미도 같이 만든다 (로딩시 비는 것을 막기 위해)
+        //GameObject upbar_Dummy = (GameObject)Instantiate (Resources.Load ("Prefabs/UpBar_Dummy", typeof(GameObject)));
+        //upbar_Dummy.gameObject.transform.SetParent (_trans, false);
+        //upbar_Dummy.GetComponent<Upbar> ().stageInfo_Text.text = _str;
 
-		Sprite [] prefab  = bundle.LoadAllAssets<Sprite> ();
+        upBar.gameObject.transform.SetSiblingIndex(_trans.childCount - 2);
+        upBar.UpbarChangeInfo(_sIndex, _str);
+    }
 
-		for (int i = 0; i < prefab.Length; i++) {
-			//Debug.Log (prefab [i].name);
-			getSpriteArray.Add (prefab [i]);
-		
-			if(i == prefab.Length -1)
-				isSpriteDown = true;
-		}
-		//"."을 기준으로 다시 정렬
-		getSpriteArray.Sort (delegate(Sprite A, Sprite B) 
-			{
-				if(int.Parse(A.name.Substring(0, A.name.IndexOf("."))) > int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return 1;
-				else if (int.Parse(A.name.Substring(0, A.name.IndexOf("."))) < int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return -1;
-				return 0;
-			});
-		
-		for (int i = 0; i < getSpriteArray.Count; i++) {
-			Debug.Log (getSpriteArray[i]);
-		}
-	}
+    public void SetUpbar(Transform _trans)
+    {
+        upBar.gameObject.transform.SetParent(_trans, false);
+
+        upBar.gameObject.transform.SetAsLastSibling();
+
+        upBar.UpbarChangeInfo(E_SCENE_INDEX.E_MERMANAGE, "용병관리");
+    }
+
+    //해당 경로에 있는 에셋 번들 불러오기 (UpBar)
+    IEnumerator LoadFromMemoryAsync(string _path)
+    {
+
+        AssetBundleCreateRequest createRequest = AssetBundle.LoadFromMemoryAsync(File.ReadAllBytes(_path));
+
+        yield return createRequest;
+
+        AssetBundle bundle = createRequest.assetBundle;
+
+        Sprite[] prefab = bundle.LoadAllAssets<Sprite>();
+
+        for (int i = 0; i < prefab.Length; i++)
+            Debug.Log(prefab[i].name);
+
+        GameObject go = (GameObject)Instantiate(Resources.Load("Prefabs/UpBar", typeof(GameObject)));
+
+        upBar = go.GetComponent<Upbar>();
+
+        upBar.upbarSprites = new Sprite[prefab.Length];
 
 
 
-	//해당 경로에 있는 에셋 번들 불러오기
-	IEnumerator LoadFromMemoryAsync(string _path)
-	{
-		
-		AssetBundleCreateRequest createRequest = AssetBundle.LoadFromMemoryAsync(File.ReadAllBytes(_path));
+        for (int i = 0; i < prefab.Length; i++)
+        {
+            upBar.upbarSprites[i] = prefab[i];
+        }
 
-		yield return createRequest;
+        upBar.SetSprite();
 
-		AssetBundle bundle = createRequest.assetBundle;
+        go.transform.SetParent(upBarHold_obj.transform);
+        //홈버튼 추가 및 함수 할당
+        upBar.Home_Button.onClick.AddListener(upBar.SetUpHomeButton);
 
-		Sprite [] prefab  = bundle.LoadAllAssets<Sprite> ();
+        go.SetActive(false);
+        DontDestroyOnLoad(go);
 
-		for (int i = 0; i < prefab.Length; i++)
-			Debug.Log (prefab [i].name);
-
-		GameObject go = (GameObject)Instantiate (Resources.Load ("Prefabs/UpBar", typeof(GameObject)));
-
-		upBar = go.GetComponent<Upbar> ();
-
-		upBar.upbarSprites = new Sprite[prefab.Length];
-		for (int i = 0; i < prefab.Length; i++) {
-			upBar.upbarSprites [i] = prefab [i];
-		}
-
-		upBar.SetSprite ();
-
-		go.transform.SetParent (upBarHold_obj.transform);
-		//홈버튼 추가 및 함수 할당
-		upBar.Home_Button.onClick.AddListener (upBar.SetUpHomeButton);
-
-		go.SetActive (false);
-		DontDestroyOnLoad (go);
-
-		/*
+        /*
 		upBar = prefab.GetComponent<Upbar> ();
 		prefab.transform.SetParent (upBarHold_obj.transform);
 		//홈버튼 추가
@@ -467,9 +471,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		prefab.SetActive (false);
 		DontDestroyOnLoad (prefab);
-			*/
+			
 
-		/*
+		
 		AssetBundleCreateRequest createRequest = AssetBundle.LoadFromFileAsync(_path);
 
 		var myLoadedAssetBundle = createRequest.assetBundle;
@@ -493,33 +497,141 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		prefab.SetActive (false);
 		DontDestroyOnLoad (prefab);
 		*/
-	}
+    }
 
-	//해당 씬의 정보와 캔버스에 Upbar를 붙힌.
-	public void SetUpbar(E_SCENE_INDEX _sIndex ,Transform _trans, string _str, MainSceneManager _mainScene)
-	{
-		upBar.mainSceneManager = _mainScene;
-		upBar.gameObject.transform.SetParent (_trans, false);
+    #endregion
 
-		//뒤에 더미도 같이 만든다 (로딩시 비는 것을 막기 위해)
-		//GameObject upbar_Dummy = (GameObject)Instantiate (Resources.Load ("Prefabs/UpBar_Dummy", typeof(GameObject)));
-		//upbar_Dummy.gameObject.transform.SetParent (_trans, false);
-		//upbar_Dummy.GetComponent<Upbar> ().stageInfo_Text.text = _str;
+    public IEnumerator LoadSpriteFromAssetBundel(string _path)
+    {
+        isSpriteDown = false;
+        AssetBundleCreateRequest createRequest = AssetBundle.LoadFromMemoryAsync(File.ReadAllBytes(_path));
 
-		upBar.gameObject.transform.SetSiblingIndex (_trans.childCount - 2);
-		upBar.UpbarChangeInfo (_sIndex, _str);
-	}
+        yield return createRequest;
 
-	public void SetUpbar(Transform _trans)
-	{
-		upBar.gameObject.transform.SetParent (_trans, false);
+        AssetBundle bundle = createRequest.assetBundle;
 
-		upBar.gameObject.transform.SetAsLastSibling ();
+        Sprite[] prefab = bundle.LoadAllAssets<Sprite>();
 
-		upBar.UpbarChangeInfo (E_SCENE_INDEX.E_MERMANAGE, "용병관리");
-	}
+        for (int i = 0; i < prefab.Length; i++)
+        {
+            //Debug.Log (prefab [i].name);
+            getSpriteArray.Add(prefab[i]);
 
-	#endregion
+            if (i == prefab.Length - 1)
+                isSpriteDown = true;
+        }
+        //"."을 기준으로 다시 정렬
+        getSpriteArray.Sort(delegate (Sprite A, Sprite B)
+        {
+            if (int.Parse(A.name.Substring(0, A.name.IndexOf("."))) > int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return 1;
+            else if (int.Parse(A.name.Substring(0, A.name.IndexOf("."))) < int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return -1;
+            return 0;
+        });
+
+        for (int i = 0; i < getSpriteArray.Count; i++)
+        {
+            Debug.Log(getSpriteArray[i]);
+        }
+    }
+    public IEnumerator LoadAnimationDataFromAssetBundel(string _path)
+    {
+        isSpriteDown = false;
+        AssetBundleCreateRequest createRequest = AssetBundle.LoadFromMemoryAsync(File.ReadAllBytes(_path));
+
+        yield return createRequest;
+
+        AssetBundle bundle = createRequest.assetBundle;
+
+
+        var bundles = bundle.LoadAllAssets();
+
+        /*
+        characterAnimationFromAssetBundle = new CharacterAnimationContain();
+
+        for (int i = 0; i < 29; i++)
+        {
+            //Debug.Log (prefab [i].name);
+
+            int index = int.Parse(bundles[i].name.Substring(0, bundles[i].name.IndexOf(".")));
+
+
+            if (index == 1)
+                characterAnimationFromAssetBundle.animator = bundles[i] as RuntimeAnimatorController;
+            if (index != 1 && index < 6)
+                characterAnimationFromAssetBundle.AnimationClip.Add( bundles[i] as AnimationClip);
+            else
+            {
+                characterAnimationFromAssetBundle.sprites.Add(bundles[i] as Sprite);
+            }
+
+        }
+
+        for (int i = 0; i < characterAnimationFromAssetBundle.sprites.Count; i++)
+        {
+            if (characterAnimationFromAssetBundle.sprites[i] == null)
+            {
+                characterAnimationFromAssetBundle.sprites.Remove(characterAnimationFromAssetBundle.sprites[i]);
+                //확실하게 null을 없애기 위해서.
+                i = 0;
+            }  
+        }
+
+        //정렬
+
+        characterAnimationFromAssetBundle.sprites.Sort(delegate (Sprite A, Sprite B)
+        {
+            if (int.Parse(A.name.Substring(0, A.name.IndexOf("."))) > int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return 1;
+            else if (int.Parse(A.name.Substring(0, A.name.IndexOf("."))) < int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return -1;
+            return 0;
+        });
+
+        Debug.Log(characterAnimationFromAssetBundle);
+        */
+    }
+
+
+    //해당 씬의 정보와 캔버스에 Upbar를 붙힌.
+    public void SetUpCharacter(Transform _trans)
+    {
+        //testCharacter.transform.SetParent(_trans, false);
+       // testCharacter.SetActive(true);
+    }
+
+    public IEnumerator LoadAnimationFromAssetBundel(string _path)
+    {
+        isSpriteDown = false;
+        AssetBundleCreateRequest createRequest = AssetBundle.LoadFromMemoryAsync(File.ReadAllBytes(_path));
+
+        yield return createRequest;
+
+        AssetBundle bundle = createRequest.assetBundle;
+
+
+        GameObject go = Instantiate(bundle.LoadAsset<GameObject>("Archer_Basic"));
+
+        go.transform.position = Vector3.zero;
+
+        GameObject go2 = Instantiate(bundle.LoadAsset<GameObject>("Assassin_Basic"));
+
+        go2.transform.position = Vector3.zero;
+        /*
+        go.GetComponent<Animator>().runtimeAnimatorController = characterAnimationFromAssetBundle.animator;
+        RuntimeAnimatorController anim = go.GetComponent<Animator>().runtimeAnimatorController;
+        // go.GetComponent<Animator>().GetCurrentAnimatorClipInfo[]
+        for(int i=0; i< characterAnimationFromAssetBundle.AnimationClip.Count; i++)
+        {
+            anim.animationClips[i] = characterAnimationFromAssetBundle.AnimationClip[i];
+        }
+        for (int i = 0; i < characterAnimationFromAssetBundle.AnimationClip.Count; i++)
+            Debug.Log(anim.animationClips[i]);
+        */
+
+
+        //testCharacter = go;
+
+    }
+
+
 	//현재 씬과 이전 씬을 설정하여 로딩 후 씬을 불러온다
 	public void LoadScene(E_SCENE_INDEX _sceneIndex, E_SCENE_INDEX _prevSceneIndex, bool _isNoTip)
 	{

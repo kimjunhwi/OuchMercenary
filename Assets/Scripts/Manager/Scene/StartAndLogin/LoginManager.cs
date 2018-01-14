@@ -89,7 +89,7 @@ public class LoginManager : MonoBehaviour
 
 
 	//DB정보들의 각각의 개수
-	private const int nCharacterCount = 61;
+	private const int nCharacterCount = 59;
 	private const int nActiveSkillCount = 144;
 	private const int nActiveSkillTypeCount = 64;
 	private const int nPassiveSkillCount = 164;
@@ -240,7 +240,7 @@ public class LoginManager : MonoBehaviour
 			StartCoroutine(CheckBasicDataLoadEnd());
 
 		}
-		#elif UNITY_ANDROID
+    #elif UNITY_ANDROID
 
 		if (PlayerPrefs.HasKey ("FirstAppActive"))
 		{
@@ -253,21 +253,23 @@ public class LoginManager : MonoBehaviour
 		PlayerPrefs.SetString ("FirstAppActive", "True");
 		//CharacterDBLoadAndPutOperationTest ();
 
-		LoadBasicDataSequence();
+		StartCoroutine(StartLoadBasicDataSequence());
 		StartCoroutine(CheckBasicDataLoadEnd());
 
 		}
-		#endif
+      #endif
 
 
 
-		//CharacterListAdjust ();
-		//StartCoroutine( GameManager.Instance.DataLoad());
 
-	}
 
-	// Update is called once per frame
-	void Update () 
+        //CharacterListAdjust ();
+        //StartCoroutine( GameManager.Instance.DataLoad());
+
+    }
+
+    // Update is called once per frame
+    void Update () 
 	{
 		if(bIsSuccessed == true)
 		{
