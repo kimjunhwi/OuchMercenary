@@ -1,10 +1,26 @@
 ManifestFileVersion: 0
-CRC: 3859603659
+CRC: 1191933647
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: bundle/upbar
       Dependencies: {}
     Info_1:
-      Name: mainsceneicon
+      Name: characteranim/archer
       Dependencies: {}
+    Info_2:
+      Name: characteranim/assassin
+      Dependencies: {}
+    Info_3:
+      Name: character
+      Dependencies:
+        Dependency_0: characteranim/archer
+        Dependency_1: characteranim/assassin
+    Info_4:
+      Name: mainscene/images
+      Dependencies: {}
+    Info_5:
+      Name: mainscene/prefabs
+      Dependencies:
+        Dependency_0: bundle/upbar
+        Dependency_1: mainscene/images

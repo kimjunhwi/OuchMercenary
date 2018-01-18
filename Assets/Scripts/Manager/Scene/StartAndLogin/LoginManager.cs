@@ -67,7 +67,7 @@ public class LoginManager : MonoBehaviour
 	public Slider totalSlider;						//전체 진행도
 	public Text progress_Text;						//전체 진행도 텍스트
 	public int nCurProgressValue = 0;				//현재 진행도 값
-
+    public GameObject progressBar_Panel;            //로딩바 패널
 
 	//Aws에서 받는 리스트
 	public List<DBBaiscCharacter_ForGet> lDBBasicCheacter_GetList = new List<DBBaiscCharacter_ForGet> ();
@@ -140,7 +140,8 @@ public class LoginManager : MonoBehaviour
 	private string IdentityPoolId = "ap-northeast-2:7dd3a4a2-9eb4-40e9-839c-bf362be95280";
 
 	//지역 설정 변수
-	private string Region = RegionEndpoint.APNortheast2.SystemName;	
+	private string Region = RegionEndpoint.APNortheast2.SystemName;
+    private bool bIsNickInput;
 
 
 	private RegionEndpoint _Region
@@ -232,15 +233,17 @@ public class LoginManager : MonoBehaviour
 		else 
 		{
 			PlayerPrefs.SetString ("FirstAppActive", "True");
-			//CharacterDBLoadAndPutOperationTest ();
+            //CharacterDBLoadAndPutOperationTest ();
 
-			//StartCoroutine(DBLoadCharacter ());
-			//LoadCharacter(0);
-			StartCoroutine(StartLoadBasicDataSequence());
-			StartCoroutine(CheckBasicDataLoadEnd());
+            //StartCoroutine(GameManager.Instance.LoadSceneFromAssetBundle("Assets/AssetBundles/scenes"));
 
-		}
-		#elif UNITY_ANDROID
+            //StartCoroutine(DBLoadCharacter ());
+            //LoadCharacter(0);
+            StartCoroutine(StartLoadBasicDataSequence());
+            StartCoroutine(CheckBasicDataLoadEnd());
+
+        }
+    #elif UNITY_ANDROID
 
 		if (PlayerPrefs.HasKey ("FirstAppActive"))
 		{
@@ -253,21 +256,16 @@ public class LoginManager : MonoBehaviour
 		PlayerPrefs.SetString ("FirstAppActive", "True");
 		//CharacterDBLoadAndPutOperationTest ();
 
-		LoadBasicDataSequence();
+		StartCoroutine(StartLoadBasicDataSequence());
 		StartCoroutine(CheckBasicDataLoadEnd());
 
 		}
-		#endif
+      #endif
 
+    }
 
-
-		//CharacterListAdjust ();
-		//StartCoroutine( GameManager.Instance.DataLoad());
-
-	}
-
-	// Update is called once per frame
-	void Update () 
+    // Update is called once per frame
+    void Update () 
 	{
 		if(bIsSuccessed == true)
 		{
@@ -281,11 +279,16 @@ public class LoginManager : MonoBehaviour
 	//Google, FaceBook 등등 로그인시 초기화 할것들
 	void LoginManager_Init()
 	{
+        //Google로그인 버튼 초기화
 		GoogleLogin_Button.onClick.AddListener (GoogleLogin);
-		//FaceBookLogin_Button.onClick.AddListener (FaceBookLogin);
-		nickConfirm_Button.onClick.AddListener (DataSetSaveInCognito_FirstLogin);
 
-		UnityInitializer.AttachToGameObject(this.gameObject);
+        //닉확정 버튼 초기화
+        nickConfirm_Button.onClick.AddListener(StartDataSetSave);
+        //FaceBookLogin_Button.onClick.AddListener (FaceBookLogin);
+
+        //GuestLogin_Button.onClick.AddListener();
+
+        UnityInitializer.AttachToGameObject(this.gameObject);
 		AWSConfigs.LoggingConfig.LogTo = LoggingOptions.UnityLogger;
 		//WWW Error 해결코드 2017ver.
 		Amazon.AWSConfigs.HttpClient = Amazon.AWSConfigs.HttpClientOption.UnityWebRequest;
@@ -303,7 +306,7 @@ public class LoginManager : MonoBehaviour
 		//GoogleLogin Active
 		PlayGamesPlatform.Activate();
 		 
-		//Debug.Log (Credentials.IdentityPoolId.ToString ());
+		Debug.Log (Credentials.IdentityPoolId.ToString ());
 
 
 		_ddbClient = Client;
@@ -311,7 +314,6 @@ public class LoginManager : MonoBehaviour
 
 		_context = Context;
 
-		playerInfo = SyncManager.OpenOrCreateDataset("PlayerInfo");
 
 		//playerInfo.Put ("Nick", "Smaet");
 		//playerInfo.Put ("Provider", "Google");
@@ -319,7 +321,7 @@ public class LoginManager : MonoBehaviour
 
 		//playerInfo.SynchronizeAsync ();
 
-		Debug.Log ("Init Complete");
+    
 
 	}
 
@@ -343,23 +345,172 @@ public class LoginManager : MonoBehaviour
 		}
 	}
 
-	//처음 로그인후 닉 과 해당 이메일을 확인조건으로 저장한다
-	public void DataSetSaveInCognito_FirstLogin()
+    public void Test()
+    {
+       
+
+
+    }
+
+
+
+    public void StartTestDataSetSave()
+    {
+       // StartCoroutine(DataSetSaveInCognito());
+        DBBasicCharacter basicCharacter = new DBBasicCharacter();
+        basicCharacter = GameManager.Instance.lDbBasicCharacter[0];
+
+        
+        Debug.Log(GameManager.Instance.lDbBasicCharacter[0].Index);
+    }
+
+    public void StartDataSetSave()
+    {
+        //StartCoroutine(DataSetSaveInCognito_FirstLogin());
+       
+
+    }
+    //처음 로그인후 닉 과 해당 이메일을 확인조건으로 저장한다
+    IEnumerator DataSetSaveInCognito()
+    {
+
+        
+        DBPlayersCharacter players = new DBPlayersCharacter();
+
+        players.Characters = new List<DBBasicCharacter_Test>();
+        //임시 캐릭터를 집어 넣는다.
+        List<DBBasicCharacter_Test> characters = new List<DBBasicCharacter_Test>();
+
+      
+
+        DBBasicCharacter_Test character = new DBBasicCharacter_Test();
+        character.activeSkills = new List <DBActiveSkill>();
+        character.passiveSkills = new List <DBPassiveSkill>();
+
+        DBActiveSkill activeSkill = new DBActiveSkill(); 
+        activeSkill = GameManager.Instance.lDbActiveSkill[0];
+        character.activeSkills.Add(activeSkill);
+
+
+        DBPassiveSkill passiveSkill = new DBPassiveSkill();
+        passiveSkill = GameManager.Instance.lDbPassiveSkill[0];
+        character.passiveSkills.Add(passiveSkill);
+
+        /*
+        BasicSkill basicSkill = new BasicSkill(GameManager.Instance.lDbBasickill[0]);
+        character.basicSkill.Add(basicSkill);
+        */
+        characters.Add(character);
+
+        players.Index = 0;
+        players.UserEmail = "Empty";
+        players.UserNick = "Empty";
+        players.Characters.Add(character);
+
+        //Debug.Log("Index : " + players.Index + "players Email : " + sEmail + "players Nick : " + sNick + "players Character : " +
+       //     players.Characters[0].Jobs);
+
+        yield return new WaitForSeconds(0.1f);
+
+        // Save the Character.
+        Context.SaveAsync(players, (result) =>
+        {
+            if (result.Exception == null)
+            {
+                Debug.Log("playerInfoSaved");
+                bIsNickInput = true;
+            }
+
+            else
+                Debug.Log(result.Exception.ToString());
+        });
+
+
+        //string myValue = dataset.Get("myKey");
+        //dataset.Put("myKey", "newValue");
+        //playerInfo.Get("");
+        //playerInfo.Put("","");
+
+        //dataset.Remove("myKey");
+
+        //CharacterDBLoadAndPutOperation ();
+
+        nickInputObj.SetActive(false);
+    }
+
+    //처음 로그인후 닉 과 해당 이메일을 확인조건으로 저장한다
+    IEnumerator DataSetSaveInCognito_FirstLogin()
 	{
-		sNick = nickInputField.text;
+        yield return null;
+        /*
+        //playerInfo = SyncManager.OpenOrCreateDataset("PlayerInfo");
+
+        sNick = nickInputField.text;
 
 		playerInfo.Put ("Nick", sNick);
-		playerInfo.Put ("Provider", eLoginProviderIndex.ToString ());
+		//playerInfo.Put ("Provider", eLoginProviderIndex.ToString ());
 		playerInfo.Put ("Email", sEmail);
 
 		//해당 플레이어의 캐릭터들 정보를 가져온다
 		//DynamoDBCheck(sEmail, sNick, true);
 
+        //플레이어 정보 동기화
 		playerInfo.SynchronizeAsync ();
 
-		//CharacterDBLoadAndPutOperation ();
+        DBPlayersCharacter players = new DBPlayersCharacter();
 
-		nickInputObj.SetActive (false);
+        players.Characters = new List<DBBasicCharacter>();
+        //임시 캐릭터를 집어 넣는다.
+        List<DBBasicCharacter> characters = new List<DBBasicCharacter>();
+        DBBasicCharacter character = new DBBasicCharacter();
+        character = GameManager.Instance.lDbBasicCharacter[0];
+
+        ActiveSkill activeSkill = new ActiveSkill(GameManager.Instance.lDbActiveSkill[0]);
+        character.activeSkills.Add(activeSkill);
+ 
+        BasicSkill basicSkill = new BasicSkill(GameManager.Instance.lDbBasickill[0]);
+        character.basicSkill.Add(basicSkill);
+     
+        PassiveSkill passiveSkill = new PassiveSkill(GameManager.Instance.lDbPassiveSkill[0]);
+        character.passiveSkills.Add(passiveSkill);
+      
+        characters.Add(character);
+
+        players.Index = 0;
+        players.UserEmail = sEmail;
+        players.UserNick = sNick;
+        players.Characters.Add(character);
+
+        Debug.Log("Index : " + players.Index + "players Email : " + sEmail + "players Nick : " + sNick + "players Character : " +
+            players.Characters[0].Jobs);
+
+        yield return new WaitForSeconds(0.1f);
+
+        // Save the Character.
+        Context.SaveAsync(players, (result) =>
+        {
+            if (result.Exception == null)
+            {
+                Debug.Log("playerInfoSaved");
+                bIsNickInput = true;
+            }
+              
+            else
+                Debug.Log(result.Exception.ToString());
+        });
+
+
+        //string myValue = dataset.Get("myKey");
+        //dataset.Put("myKey", "newValue");
+        //playerInfo.Get("");
+        //playerInfo.Put("","");
+
+        //dataset.Remove("myKey");
+
+        //CharacterDBLoadAndPutOperation ();
+
+        nickInputObj.SetActive (false);
+        */
 	}
 
 	//연동이 되어있으면 이메일과 닉을 체크 해서 연동을 한다
@@ -1318,8 +1469,10 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
 			dbBaseCharacters.Site 					= lDBBasicCheacter_GetList [i].Site;
 			dbBaseCharacters.Tier 					= lDBBasicCheacter_GetList [i].Tier;
 			dbBaseCharacters.Tribe 					= lDBBasicCheacter_GetList [i].Tribe;
+            dbBaseCharacters.passiveSkills          = lDBBasicCheacter_GetList[i].passiveSkills;
 
-			GameManager.Instance.lDbBasicCharacter.Add(dbBaseCharacters);
+
+            GameManager.Instance.lDbBasicCharacter.Add(dbBaseCharacters);
 			dbBaseCharacters = null;
 		}
 		//정렬
@@ -1929,7 +2082,6 @@ public void SaveAndLoadBinaryFile(string _path, E_LOAD_STATE _loadState)
 		Debug.Log (_loadState.ToString() +  "Load In Binary Data");
 		totalSlider.value++;
 
-
 	}
 
 
@@ -1943,8 +2095,14 @@ IEnumerator CheckBasicDataLoadEnd()
 	{
 		if(bIsFinishLoadDate== true)
 		{
-			StartCoroutine (GameManager.Instance.DataLoad ());
-			GameManager.Instance.LoadScene (E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, false);
+                StartTestDataSetSave();
+                //Test();
+                //로그인 관련 패널 온(구글, 페이스북, Guest)
+                //LoginCategory_Panel.SetActive(true);
+                ////로딩바 false
+                progressBar_Panel.SetActive(false);
+                StartCoroutine (GameManager.Instance.DataLoad ());
+			    GameManager.Instance.LoadScene (E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, false);
 			break;
 		}
 		else
@@ -2186,6 +2344,7 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 				Credentials.AddLogin ("accounts.google.com", AccessTokken_GP);
 
 				playerInfo = SyncManager.OpenOrCreateDataset("PlayerInfo");
+                
 
 				playerInfo.OnSyncSuccess += this.HandleSyncSuccess; 		// OnSyncSucess uses events/delegates pattern
 				playerInfo.OnSyncFailure += this.HandleSyncFailure; 		// OnSyncFailure uses events/delegates pattern
@@ -2196,12 +2355,12 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 				sEmail = ((PlayGamesLocalUser)Social.localUser).Email;
 				sNick = ((PlayGamesLocalUser)Social.localUser).userName;
 
-				//GetPlayerCount
-				StartCoroutine (GetPlayerCountFromDB ());
+                //GetPlayerCount
+                //StartCoroutine (GetPlayerCountFromDB ());
 
-
-				//이메일 비교하여 접속한적이 있는지 없는지 비교
-				if (sEmail == playerInfo.Get ("Email")) 
+                nickInputObj.SetActive(true);
+                //이메일 비교하여 접속한적이 있는지 없는지 비교
+                if (sEmail == playerInfo.Get ("Email")) 
 				{
 					//player DataLoad
 
@@ -2209,11 +2368,9 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 				//접속한 적이 있으면 Data Load -> playerInfo
 				else 
 				{
-					//없다면 닉을 치는 창을 띄움
-					nickInputObj.SetActive(true);
-				}
-					
-			
+                    //없다면 닉을 치는 창을 띄움
+                   
+                }
 
 				break;
 			}
@@ -2366,11 +2523,11 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 
 		//statusMessage = "Syncing to CognitoSync Cloud failed";
 	}
-	#endregion
+    #endregion
 
 
-	#region Public Authentication Providers
-	#if USE_FACEBOOK_LOGIN
+    #region Public Authentication Providers
+#if USE_FACEBOOK_LOGIN
 	private void FacebookLoginCallback(FBResult result)
 	{
 	Debug.Log("FB.Login completed");
@@ -2387,12 +2544,27 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 	}
 	}
 
-	#endif
-	#endregion
+#endif
+    #endregion
+
+  
+    //각각의 플레이어 마다 가지고 있는 캐릭터들
+    [DynamoDBTable("PlayersInfoTable")]
+    public class DBPlayersCharacter
+    {
+        [DynamoDBHashKey]
+        public int Index { get; set; }                      // Hash key.
+        [DynamoDBProperty("UserEmail")]
+        public string UserEmail { get; set; }               // Hash key.
+        [DynamoDBProperty("UserNick")]
+        public string UserNick { get; set; }
+        [DynamoDBProperty("CharactersInfo")]
+        public List<DBBasicCharacter_Test> Characters { get; set; }
+    }
 
 
 
-	[DynamoDBTable("CharacterBasicInfoTable")]
+    [DynamoDBTable("CharacterBasicInfoTable")]
 	public class DBBaiscCharacter_ForGet
 	{
 		[DynamoDBHashKey]   
@@ -2490,32 +2662,20 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 		public int Betch_Index {	get; set; }				// Character 배치위치 
 
 		[DynamoDBProperty("BasicSkill")]				
-		public List<BasicSkill> basicSkill {get; set;}
+		public List<DBBasicSkill> basicSkill {get; set;}
 
 		[DynamoDBProperty("ActiveSkill")]				
-		public List<ActiveSkill> activeSkills {get; set;}
+		public List<DBActiveSkill> activeSkills {get; set;}
 
 		[DynamoDBProperty("PassiveSkill")]
-		public List<PassiveSkill> passiveSkills {get; set;}
+		public List<DBPassiveSkill> passiveSkills {get; set;}
 
 	}
-
-	[DynamoDBTable("PlayersCharacterInfoTable")]
-	public class DBPlayersCharacter_ForDBWork
-	{
-		[DynamoDBHashKey]   
-		public string UserEamil { get; set; } 				// Hash key.
-		[DynamoDBRangeKey]
-		public string UserNick	{ get; set; }
-
-		[DynamoDBProperty("CharactersInfo")]				
-		public List<DBBaiscCharacter_ForGet> Characters {get; set;}
-
-	}
+   
 
 
 
-	[DynamoDBTable("CharacterActiveSkillList")]
+    [DynamoDBTable("CharacterActiveSkillList")]
 	public class DBActiveSkill_ForGet
 	{
 		[DynamoDBHashKey]   

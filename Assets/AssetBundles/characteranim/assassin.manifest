@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 2474791117
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b8f79b9961a056da5b682b4a97a03da3
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1f44cdb7fbbf4a5dc2e5ce63ceabbee1
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Character/Assasin/High Assassin 2048x2048_256x256.png
+- Assets/Resources/Animation/Assasin/Basic Assasin_Walk.anim
+- Assets/Resources/Character/Assasin/Hero Assassin 2048x2048_256x256.png
+- Assets/Resources/Character/Assasin/Basic Assassin 2048x2048_256x256 (1).png
+- Assets/Resources/Animation/Assasin/Basic Assasin_Attack.anim
+- Assets/Resources/Animation/Assasin/Basic Assasin.controller
+- Assets/Resources/Character/Assasin/Assassin 2048x2048_256x256.png
+- Assets/Resources/Animation/Assasin/Basic Assasin_Idle.anim
+Dependencies: []

@@ -1,0 +1,38 @@
+ManifestFileVersion: 0
+CRC: 2105578377
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 48038e7aaf1d800341c83f66eb97e049
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1f44cdb7fbbf4a5dc2e5ce63ceabbee1
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Character/Archer/Archer_Death4.png
+- Assets/Resources/Character/Archer/Archer_Walk2.png
+- Assets/Resources/Animation/Archer/Archer_Idle.anim
+- Assets/Resources/Character/Archer/Archer_Death2.png
+- Assets/Resources/Animation/Archer/Archer.controller
+- Assets/Resources/Character/Archer/Archer_Attack3.png
+- Assets/Resources/Character/Archer/Archer_Walk1.png
+- Assets/Resources/Character/Archer/Archer_Attack2.png
+- Assets/Resources/Character/Archer/Archer_Walk3.png
+- Assets/Resources/Character/Archer/Archer_Idle1.png
+- Assets/Resources/Animation/Archer/Archer_Walk.anim
+- Assets/Resources/Character/Archer/Archer_Death3.png
+- Assets/Resources/Character/Archer/Archer_Death1.png
+- Assets/Resources/Character/Archer/Archer_Attack1.png
+- Assets/Resources/Animation/Archer/Archer_Attack.anim
+- Assets/Resources/Character/Archer/Archer_Idle2.png
+- Assets/Resources/Animation/Archer/Archer_Dead.anim
+Dependencies: []
