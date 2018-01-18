@@ -1,20 +1,23 @@
-﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+﻿<Properties StartupConfiguration="{ABDB6780-48B2-7F58-4D2D-FA17B93C1C71}|" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Manager/Scene/BattleManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Manager/Scene/MainSceneManager.cs" Line="35" Column="39" />
-      <File FileName="Assets/Scripts/Player/Player.cs" Line="21" Column="28" />
-      <File FileName="Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" Line="1590" Column="68" />
-      <File FileName="Assets/Scripts/UI/MecenaryManage/MercenaryManageCharacterInfo.cs" Line="447" Column="1" />
-      <File FileName="Assets/Scripts/Manager/Scene/BattleManager.cs" Line="210" Column="38" />
-      <File FileName="Assets/Scripts/UI/Employer/Summon.cs" Line="58" Column="5" />
-      <File FileName="Assets/GooglePlayGames/Platforms/Android/AndroidTokenClient.cs" Line="333" Column="1" />
-      <File FileName="Assets/Scripts/UI/Upbar.cs" Line="60" Column="32" />
-      <File FileName="Assets/Scripts/Character/PlayerCharacter/Player_Character.cs" Line="6" Column="42" />
-      <File FileName="Assets/Scripts/Character/PlayerCharacter/Mechanic.cs" Line="96" Column="25" />
-      <File FileName="Assets/Scripts/Manager/ReadOnly.cs" Line="1056" Column="30" />
+      <File FileName="Assets/Scripts/Manager/Scene/BattleManager.cs" Line="173" Column="5" />
+      <File FileName="Assets/Scripts/Manager/Scene/MainSceneManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Player/Player.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI/MecenaryManage/MercenaryManageCharacterInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI/Employer/Summon.cs" Line="1" Column="1" />
+      <File FileName="Assets/GooglePlayGames/Platforms/Android/AndroidTokenClient.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI/Upbar.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/PlayerCharacter/Player_Character.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/PlayerCharacter/Mechanic.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/Character.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/CharacterManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/Scene/StageSceneManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/Scene/StageDefSceneManager.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/PlayerCharacter/Warrior.cs" line="360" column="1" />
@@ -22,7 +25,10 @@
       <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/Character.cs" line="460" column="1" />
       <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/PlayerCharacter/Wizard.cs" line="93" column="1" />
       <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Window/CWindowYesNo.cs" line="47" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Manager/Scene/BattleManager.cs" line="76" column="53" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.OuchMercenary PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
 </Properties>

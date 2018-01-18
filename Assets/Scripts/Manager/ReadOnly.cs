@@ -132,10 +132,9 @@ namespace ReadOnlys
 	};
 
 	// Type ------------------------------------
-	public enum E_Type
+	public enum E_Type : int
 	{
-		E_None = 0,
-		E_Hero,
+		E_Hero = 0,
 		E_Enemy,
 	};
 
@@ -159,6 +158,22 @@ namespace ReadOnlys
 		E_CAST_SUCCESSED,
 		E_DEAD,
 	};
+
+	//전투 진행에 관한 스테이트
+	public enum E_BATTLE_STATE
+	{
+		E_NONE,
+		E_INIT, 	//
+		E_PLAY, 	//
+		E_RESULT,	//
+	};
+
+	public enum E_SEARCH_TYPE
+	{
+		E_EXCLUDE_FRIEND = 0,
+		E_FRIENDLY,
+
+	}
 
 	public enum E_SKILL_TYPE
 	{
@@ -236,6 +251,8 @@ namespace ReadOnlys
 	{
 
 		public int m_nIndex;				//인덱스
+
+		public int m_nCharacterIndex;		//캐릭터인덱
 		
 		public string m_strJobName; 		//주 직업
 		
@@ -302,6 +319,7 @@ namespace ReadOnlys
 		public CharacterStats(CharacterStats _charic)
 		{
 			m_nIndex 			= _charic.m_nIndex;
+			m_nCharacterIndex   = _charic.m_nCharacterIndex;
 			m_strJobName 		= _charic.m_strJobName;
 			m_strCharicName 	= _charic.m_strCharicName;
 			m_nEnhace 			= _charic.m_nEnhace;
@@ -333,6 +351,7 @@ namespace ReadOnlys
 		public CharacterStats(DBBasicCharacter _charic)
 		{
 			m_nIndex 			= _charic.Index;
+			m_nCharacterIndex	= _charic.C_Index;
 			m_strJobName 		= _charic.C_JobNames;
 			m_strCharicName 	= _charic.C_Name;
 			m_nEnhace 			= _charic.C_Enhance;
@@ -584,6 +603,24 @@ namespace ReadOnlys
 			strExplanation = _skill.strExplanation;
 		}
 
+		public PassiveSkill(PassiveSkill _skill)
+		{
+			nIndex = _skill.nIndex;
+			nCharacterIndex = _skill.nCharacterIndex;
+			strSkillName = _skill.strSkillName;
+			strSkillType = _skill.strSkillType;
+			nTier = _skill.nTier;
+			nSkillClass = _skill.nSkillClass;
+			strJob = _skill.strJob;
+			nAttribute = _skill.nAttribute;
+			nOptionIndex = _skill.nOptionIndex;
+			nAttackType = _skill.nAttackType;
+			strExplanation = _skill.strExplanation;
+		}
+
+		public PassiveSkill()
+		{
+		}
 	}
 
 	[System.Serializable]
@@ -685,7 +722,7 @@ namespace ReadOnlys
 
 		public List<ActiveSkill> activeSkills {get; set;}
 
-		public List<PassiveSkill> passiveSkills { get; set; }
+		public List<PassiveSkill> passiveSkills { get; set;}
 
 		public DBBasicCharacter()
 		{

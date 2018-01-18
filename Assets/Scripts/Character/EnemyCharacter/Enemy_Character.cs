@@ -165,7 +165,15 @@ public class Enemy_Character : Character {
 			break;
 		case E_CHARACTER_STATE.E_DEAD:
 			{
-				spriteRender.flipX = true;
+				characterManager.Remove(this);
+
+				battleManager.CharacterDie (E_Type.E_Enemy);
+
+				if (spriteRender.flipX == true)
+					StartCoroutine(TweenMove(new Vector3(transform.position.x + 0.5f,transform.position.y,transform.position.z),1.0f));
+
+				else 
+					StartCoroutine(TweenMove(new Vector3(transform.position.x - 0.5f,transform.position.y,transform.position.z),1.0f));
 
 				animator.SetBool("Dead",true);
 			}
@@ -334,10 +342,13 @@ public class Enemy_Character : Character {
 
 				spriteRender.color = alphaColor;
 
+
+
 				if(spriteRender.color.a == 0.0f)
 				{
-					characterManager.Remove(this);
+					
 
+				
 				}
 			}
 			break;

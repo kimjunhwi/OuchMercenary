@@ -44,3 +44,16 @@
 /Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/Unity.CecilTools.dll
 /Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/Mono.Cecil.Pdb.dll
 /Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/AWSSDK.CognitoIdentity.dll
+/Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/AWSSDK.CognitoSync.dll
+/Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/AWSSDK.Core.dll
+/Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/AWSSDK.DynamoDBv2.dll
+/Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/AWSSDK.Lambda.dll
+/Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/AWSSDK.S3.dll
+/Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/AWSSDK.SecurityToken.dll
+/Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/AWSSDK.SimpleNotificationService.dll
+/Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/Facebook.Unity.dll
+/Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/Facebook.Unity.Editor.dll
+/Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/Facebook.Unity.Gameroom.dll
+/Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/FacebookNamedPipeClient.dll
+/Users/ImaiDakaki/OuchMercenary/Temp/bin/Debug/Facebook.Unity.Settings.dll

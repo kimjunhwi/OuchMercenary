@@ -15,8 +15,6 @@ public enum StageChapterInfo
 public class StageDefensePanel : ToggleUIBase 
 {
 	public StagePanel stagePanel;
-	//각각의 챕터에 대한 정보들
-	public Chapter [] chapters;
 
 	void Start()
 	{
@@ -26,8 +24,6 @@ public class StageDefensePanel : ToggleUIBase
 		toggle[0].onValueChanged.AddListener((x)=>ActivePanel(StageChapterInfo.Chapter01));
 		toggle[1].onValueChanged.AddListener((x)=>ActivePanel(StageChapterInfo.Chapter02));
 
-		chapters [0].Ready_Button.onClick.AddListener (ActivePreBattlePanel);
-		chapters [1].Ready_Button.onClick.AddListener (ActivePreBattlePanel);
 	}
 
 	public override void ActivePanel<T> (T _chapterIndex) 

@@ -51,7 +51,7 @@ public class Character : MonoBehaviour {
 
 	public ArrayList targetCharacter_LIST = new ArrayList();
 
-	public E_Type E_CHARIC_TYPE = E_Type.E_None;						//0,플레이어 캐릭,적 캐릭 
+	public E_Type E_CHARIC_TYPE;										//플레이어 캐릭,적 캐릭 
 	public E_CHARACTER_STATE E_CHARIC_STATE = E_CHARACTER_STATE.E_WAIT;	//상태 
 
 	protected Animator animator;										//애니메이션
@@ -206,6 +206,18 @@ public class Character : MonoBehaviour {
 			}
 		}
 		return;
+	}
+
+	protected IEnumerator TweenMove(Vector3 end, float time)
+	{
+		var t = 0f;
+		var start = transform.position;
+		while(t < 1f)
+		{
+			t += Time.deltaTime/time;
+			transform.position = Vector3.Lerp(start, end, t);
+			yield return null;
+		}
 	}
 
 

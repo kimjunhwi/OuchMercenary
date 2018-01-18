@@ -141,6 +141,10 @@ public class Player_Character : Character {
 			break;
 		case E_CHARACTER_STATE.E_DEAD:
 			{
+				characterManager.Remove(this);
+
+				battleManager.CharacterDie (E_Type.E_Hero);
+
 				spriteRender.flipX = false;
 
 				animator.SetBool("Dead",true);
@@ -337,7 +341,7 @@ public class Player_Character : Character {
 
 				if(spriteRender.color.a == 0.0f)
 				{
-					characterManager.Remove(this);
+					
 
 				}
 			}

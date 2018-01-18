@@ -89,7 +89,7 @@ public class LoginManager : MonoBehaviour
 
 
 	//DB정보들의 각각의 개수
-	private const int nCharacterCount = 61;
+	private const int nCharacterCount = 59;
 	private const int nActiveSkillCount = 144;
 	private const int nActiveSkillTypeCount = 64;
 	private const int nPassiveSkillCount = 164;
@@ -137,7 +137,7 @@ public class LoginManager : MonoBehaviour
 	//Google
 	private string AccessTokken_GP;
 	//Identity ID pool 
-	private string IdentityPoolId = "ap-northeast-2:0c274d71-5a9b-4747-bcd1-6b9d0d161301";
+	private string IdentityPoolId = "ap-northeast-2:7dd3a4a2-9eb4-40e9-839c-bf362be95280";
 
 	//지역 설정 변수
 	private string Region = RegionEndpoint.APNortheast2.SystemName;	
@@ -1292,6 +1292,7 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
 			dbBaseCharacters.AttackSpeed 	        = lDBBasicCheacter_GetList [i].AttackSpeed;
 			dbBaseCharacters.Attribute 		        = lDBBasicCheacter_GetList [i].Attribute;
 			dbBaseCharacters.basicSkill 	        = lDBBasicCheacter_GetList [i].basicSkill;
+			dbBaseCharacters.passiveSkills 			= lDBBasicCheacter_GetList [i].passiveSkills;
 			dbBaseCharacters.Betch_Index 	        = lDBBasicCheacter_GetList [i].Betch_Index;
 			dbBaseCharacters.CC_Registance 	        = lDBBasicCheacter_GetList [i].CC_Registance;
 			dbBaseCharacters.Crit_Dmg 		        = lDBBasicCheacter_GetList [i].Crit_Dmg;

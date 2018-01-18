@@ -36,6 +36,9 @@ public class BattleManager : MonoBehaviour {
 
 	DBStageData stageData;
 
+
+	public E_BATTLE_STATE Battle_State = E_BATTLE_STATE.E_NONE;
+
 	//공격, 수비 버튼 
 	public Button ToggleButton;
 
@@ -60,7 +63,7 @@ public class BattleManager : MonoBehaviour {
 
 	public Text StageNameText;
 	public Text StageWaveText;
-	public Text StageTimeText;
+	public Text NextWaveTimeText;
 
 	void Awake()
 	{
@@ -72,22 +75,87 @@ public class BattleManager : MonoBehaviour {
 
 		characterManager = gameObject.AddComponent<CharacterManager>();
 
-
-
-		for (int nIndex = 0; nIndex < 4; nIndex++) 
-		{
-			
-		}
-
-		characterManager.SortingCharacterLayer();
+		BattleState_set (E_BATTLE_STATE.E_INIT);
 	}
 
 	void Update()
 	{
-		if(m_bIsPause == false)
+		BattleState_update ();
+	}
+
+	//-------------------------------------------------------------------------------------
+	void BattleState_set(E_BATTLE_STATE _STATE)
+	{
+		Battle_State = _STATE;
+		switch (Battle_State)
 		{
-			characterManager.Actions();
+		case E_BATTLE_STATE.E_INIT: BattleState_init_set(); break;
+		case E_BATTLE_STATE.E_PLAY: BattleState_play_set(); break;
+		case E_BATTLE_STATE.E_RESULT: BattleState_result_set(); break;
 		}
+	}
+	//-------------------------------------------------------------------------------------
+	void BattleState_update()
+	{
+		switch (Battle_State)
+		{
+		case E_BATTLE_STATE.E_INIT: BattleState_init_update(); break;
+		case E_BATTLE_STATE.E_PLAY: BattleState_play_update(); break;
+		case E_BATTLE_STATE.E_RESULT: BattleState_result_update(); break;
+		}
+	}
+
+	//초기화---------------------------------------------------
+	void BattleState_init_set()
+	{
+		nCurMin 		= 0;
+		fCurSec 		= 0f;
+
+		fPlusTimer 		= 0.0f;
+
+		nStageIndex 	= 0;
+		nNowWaveIndex 	= 0;
+		nMaxWaveIndex 	= 0;
+
+
+		stageData = GameManager.Instance.lDBStageData [0];
+
+		StageInit ();
+
+		characterManager.SortingCharacterLayer();
+
+		StartCoroutine(EnemySpawning ());
+
+		StartCoroutine (Timer (Wave_List [nNowWaveIndex].fWaveTime));
+
+		BattleState_set (E_BATTLE_STATE.E_PLAY);
+	}
+
+	void BattleState_play_set()
+	{
+		Debug.Log ("Play");
+	}
+
+	void BattleState_result_set()
+	{
+		Debug.Log ("Result");
+	}
+
+
+	//배틀씬에 대한 업데이트------------------------------------------
+	void BattleState_init_update()
+	{
+
+	}
+
+	void BattleState_play_update()
+	{
+		characterManager.Actions ();
+	}
+
+	void BattleState_result_update()
+	{
+
 	}
 
 	public void StageInit()
@@ -131,9 +199,9 @@ public class BattleManager : MonoBehaviour {
 
 
 		///플레이어 캐릭터 셋팅
-		for (int nIndex = 2; nIndex < player.LIST_HERO.Count; nIndex++) 
+		for (int nIndex = 0; nIndex < player.TEST_MY_HERO.Count; nIndex++) 
 		{
-			CharacterStats characterStats = player.LIST_HERO [nIndex];
+			CharacterStats characterStats = player.TEST_MY_HERO [nIndex];
 
 			GameObject characterObject = characterPool.GetObject ();
 
@@ -165,22 +233,19 @@ public class BattleManager : MonoBehaviour {
 
 	public IEnumerator EnemySpawning()
 	{
-		yield return new WaitForSeconds (3.0f);
+		yield return new WaitForSeconds (0.1f);
 
+		//마지막 웨이브가 0일 경우 종료 스폰 종료
 		while (Wave_List [nMaxWaveIndex].Enemy_Queue.Count != 0) 
 		{
 			if (Wave_List [nNowWaveIndex].Enemy_Queue.Count == 0) 
 			{
-				nNowWaveIndex++;
 
 				if (nNowWaveIndex > nMaxWaveIndex) 
 				{
 					break;
 				}
 			}
-
-			if (nNowWaveIndex != nMaxWaveIndex)
-				StartCoroutine (Timer (Wave_List [nNowWaveIndex].fWaveTime));
 
 			if (Wave_List [nNowWaveIndex].Enemy_Queue.Peek ().fCreateTime < fPlusTimer) 
 			{
@@ -243,9 +308,8 @@ public class BattleManager : MonoBehaviour {
 			nCurMin++;
 			fCurSec -= 60.0f;
 		}
-
-
-		while (nCurMin >= 0f) 
+			
+		while (true) 
 		{
 			fCurSec -= Time.deltaTime;
 			fPlusTimer += Time.deltaTime;
@@ -253,12 +317,34 @@ public class BattleManager : MonoBehaviour {
 			second = (int)fCurSec;
 
 			if(second < 10)
-				StageTimeText.text = nCurMin.ToString () + ":" +"0"+second.ToString ();
+				NextWaveTimeText.text = nCurMin.ToString () + ":" +"0"+second.ToString ();
 			else
-				StageTimeText.text = nCurMin.ToString () + ":" + second.ToString ();
+				NextWaveTimeText.text = nCurMin.ToString () + ":" + second.ToString ();
 
-			if (nCurMin == 0 && second <= 0f)
-				break;	
+			if (nCurMin == 0 && second <= 0f) 
+			{
+				fPlusTimer = 0f;
+				nNowWaveIndex++;
+
+				if (nNowWaveIndex == nMaxWaveIndex) 
+				{
+					NextWaveTimeText.text = "00:00";
+					break;
+				} 
+				else 
+				{
+					nCurMin = 0;
+					fCurSec = Wave_List[nNowWaveIndex].fWaveTime;
+
+					while (fCurSec < 60) 
+					{
+						nCurMin++;
+						fCurSec -= 60.0f;
+					}
+
+					continue;
+				}
+			}
 
 			if (nCurMin != 0 && second == 0f) 
 			{
@@ -269,9 +355,42 @@ public class BattleManager : MonoBehaviour {
 			yield return null;
 		}
 
-		nNowWaveIndex++;
-
 		yield  break;
+	}
+
+	public void CharacterDie(E_Type _type)
+	{
+		if (_type == E_Type.E_Enemy) 
+		{
+			if (characterManager.SearchTypeCount(_type) == 0) 
+			{
+				fPlusTimer = 0f;
+				nNowWaveIndex++;
+
+				if (nNowWaveIndex > nMaxWaveIndex) 
+				{
+					BattleState_set (E_BATTLE_STATE.E_RESULT);
+					return;
+				}
+
+				nCurMin = 0;
+				fCurSec =Wave_List[nNowWaveIndex].fWaveTime;
+
+				while (fCurSec < 60) 
+				{
+					nCurMin++;
+					fCurSec -= 60.0f;
+				}
+			}
+		} 
+		else if (_type == E_Type.E_Hero) 
+		{
+			if (characterManager.SearchTypeCount (_type) == 0) 
+			{
+				BattleState_set (E_BATTLE_STATE.E_RESULT);
+			}
+		}
+
 	}
 
 	// 플레이어 캐릭터들의 (공격 or 수비) 모드를 바꾼다. ------------------------------------------ 

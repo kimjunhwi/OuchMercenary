@@ -26,6 +26,21 @@ public class CharacterManager : MonoBehaviour {
 		ARRAY_CHARIC.Clear();
 	}
 
+	public int SearchTypeCount(E_Type _type)
+	{
+		int nCount = 0;
+
+		foreach (Character charic in ARRAY_CHARIC) 
+		{
+			if (charic.E_CHARIC_TYPE == _type) 
+			{
+				nCount++;	
+			}
+		}
+
+		return nCount;
+	}
+
 	public void Actions()
 	{
 		foreach (Character obj in ARRAY_CHARIC) 
@@ -198,6 +213,67 @@ public class CharacterManager : MonoBehaviour {
 
 		return TargetArray;
 	}
+
+
+	//범위 스킬을 위함, _vecTargetPosition에 생성 되며 범위 안의 적 캐릭터를 반환
+	public ArrayList FindEnemyDistanceArea(Vector3 _vecTargetPosition, float _fDistance, E_Type _skillerType)
+	{
+		ArrayList TargetArray = new ArrayList();
+		ArrayList SortArray = new ArrayList(); //조건에 맞추어 정렬.
+
+		foreach (Character kCharic in ARRAY_CHARIC)
+		{
+			if (kCharic.IsDead() == true) continue;
+			if (kCharic.E_CHARIC_TYPE == _skillerType) continue; //아군이 아닐 경우
+
+			float fDistance = Vector3.Distance(kCharic.gameObject.transform.position, _vecTargetPosition);
+
+			if(fDistance < _fDistance)
+				SortArray.Add(new SortunitClass() { m_value1 = fDistance, m_charic = kCharic });
+		}
+
+		ArraySort (SortArray, TargetArray);
+
+		return TargetArray;
+	}
+
+	//범위 스킬을 위함, _vecTargetPosition에 생성 되며 범위 안의 아군 캐릭터를 반환
+	public ArrayList FindFriendDistanceArea(Vector3 _vecTargetPosition, float _fDistance, E_Type _skillerType)
+	{
+		ArrayList TargetArray = new ArrayList();
+		ArrayList SortArray = new ArrayList(); //조건에 맞추어 정렬.
+
+		foreach (Character kCharic in ARRAY_CHARIC)
+		{
+			if (kCharic.IsDead() == true) continue;
+			if (kCharic.E_CHARIC_TYPE != _skillerType) continue; //아군이 아닐 경우
+
+			float fDistance = Vector3.Distance(kCharic.gameObject.transform.position, _vecTargetPosition);
+
+			if(fDistance < _fDistance)
+				SortArray.Add(new SortunitClass() { m_value1 = fDistance, m_charic = kCharic });
+		}
+
+		ArraySort (SortArray, TargetArray);
+
+		return TargetArray;
+	}
+		
+
+	public void ArraySort(ArrayList _list,ArrayList _addList)
+	{
+		if (_list.Count > 0)
+		{
+			// 작은 순서대로 정렬.
+			_list.Sort(new SortunitClassCompare());
+
+			foreach (SortunitClass sort in _list)
+			{
+				_addList.Add(sort.m_charic);
+			}
+		}
+	}
+
 
 	// 플레이어 캐릭터들의 (공격 or 수비) 모드를 바꾼다. ------------------------------------------ 
 	public void PlayerCharacterChangeMode()

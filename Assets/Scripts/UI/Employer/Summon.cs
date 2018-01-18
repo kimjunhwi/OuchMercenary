@@ -69,7 +69,7 @@ public class Summon : MonoBehaviour {
 
 		//임시(테스트를 위함
 
-		newCharacter = new CharacterStats (GameManager.Instance.SummonCharacter (_nSummonIndex));
+		newCharacter = GameManager.Instance.SummonCharacter (_nSummonIndex);
 
 
 
