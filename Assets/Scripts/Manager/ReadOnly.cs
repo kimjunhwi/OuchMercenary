@@ -143,8 +143,7 @@ namespace ReadOnlys
 	// Type ------------------------------------
 	public enum E_Type
 	{
-		E_None = 0,
-		E_Hero,
+		E_Hero = 0,
 		E_Enemy,
 	};
 
@@ -155,6 +154,23 @@ namespace ReadOnlys
 		E_THREE,
 		E_FOUR,
 	}
+
+	//전투 진행에 관한 스테이트
+	public enum E_BATTLE_STATE
+	{
+		E_NONE,
+		E_INIT, 	//
+		E_PLAY, 	//
+		E_RESULT,	//
+	};
+
+	public enum E_SEARCH_TYPE
+	{
+		E_EXCLUDE_FRIEND = 0,
+		E_FRIENDLY,
+
+	}
+
 
 	//각 캐릭터들의 대한 상태들
 	public enum E_CHARACTER_STATE

@@ -47,6 +47,10 @@ public class LoadingPanel : MonoBehaviour
 				    ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_MERMANAGE);
 				    break;
 
+			case E_SCENE_INDEX.E_EMPLOYER:
+				ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_EMPLOYER);
+				break;
+
 			default:
 				break;
 			}
@@ -73,6 +77,10 @@ public class LoadingPanel : MonoBehaviour
 			case E_SCENE_INDEX.E_MERMANAGE:
 				    ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_MERMANAGE);
                     break;
+
+			case E_SCENE_INDEX.E_EMPLOYER:
+				ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_EMPLOYER);
+				break;
 
 			default:
 				    break;
