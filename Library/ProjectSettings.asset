@@ -591,9 +591,9 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: plugin
   apiCompatibilityLevel: 2
-  cloudProjectId: af901ea8-3d3d-4230-a297-9c7bc104a41f
-  projectName: New Unity Project (1)
-  organizationId: junhwi
+  cloudProjectId: 8110c08c-b3f7-457d-96b0-d866382e370d
+  projectName: OuchMercenary
+  organizationId: sty-9611d9b5-69f8-4d07-af84-9fd980bea2b2
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

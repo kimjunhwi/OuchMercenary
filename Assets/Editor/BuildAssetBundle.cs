@@ -12,5 +12,5 @@ public class BuildAssetBundle : MonoBehaviour
 	{
 		BuildPipeline.BuildAssetBundles ("Assets/AssetBundles", BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
 	}
-
+   
 }

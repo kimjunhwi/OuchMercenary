@@ -28,7 +28,7 @@ using UnityEngine.SocialPlatforms;
 
 //모든 데이터 및 로드, 세이브를 관리하는 클래스 
 //어디서든 사용해야 하기 때문에 제네릭싱글톤을 통해 구현
-public class GameManager : GenericMonoSingleton<GameManager>
+public class GameManager : GenericMonoSingleton<GameManager> 
 {
 	public E_SCENE_INDEX prevSceneIndex;		//이전 씬 인덱스
 	public E_SCENE_INDEX nextSceneIndex;		//다음 씬 인덱스
@@ -70,7 +70,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public List<DBFormationSkill> lDBFomationSkill = new List<DBFormationSkill>();
 
 
-
+    public List<string> lSceneIndex = new List<string>();
 
 	public List<Sprite> CharacterBoxImage_List = new List<Sprite> ();
 	//Scene 마다 있는 UpBar
@@ -85,18 +85,24 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	public AllPassiveSkillOptionData[] cAllPassiveOption = null;
 	public AllActiveSkillType[] cAllActiveType = null;
 
-
+    //load한 애셋번들을 가지고 있는다.
+    public List<AssetBundle> loadedAssetBundle = new List<AssetBundle>();
+    public List<bool> loadAssetIsDone = new List<bool>();
+    
 
 	public List<Sprite> getSpriteArray = new List<Sprite>();
 	public bool isSpriteDown;
 
+    public GameObject prefabHold_Obj;
+
 	public IEnumerator DataLoad()
     {
 		loginManager = GameObject.Find("LoginManager").GetComponent<LoginManager>();
+        prefabHold_Obj = GameObject.Find("PrefabHold");
+        DontDestroyOnLoad(prefabHold_Obj);
+        // Unicode Parsing ---------------------------------------------------------
 
-		// Unicode Parsing ---------------------------------------------------------
-
-		Load_TableInfo_AllActiveType();
+        Load_TableInfo_AllActiveType();
 
 
 		//패시브 스킬에 관한 정보들을 파싱
@@ -114,10 +120,12 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		loginManager.bIsSuccessed = true;
 
-	
+
+#elif UNITY_ANDROID
 
 
-		#elif UNITY_IOS
+
+#elif UNITY_IOS
 
 		GameCenterPlatform.ShowDefaultAchievementCompletionBanner (true);
 
@@ -133,9 +141,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		}
 		});
 
-		#endif
+#endif
 
-		m_Player = new Player ();
+        m_Player = new Player ();
 
 		m_Player.Init ();
 
@@ -344,10 +352,10 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	}
 
+    #endregion
 
-
-	#region Upbar
-	public void InitUpbar()
+    #region Upbar
+    public void InitUpbar()
 	{
 		if (upBar == null) 
 		{	
@@ -359,13 +367,12 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			{
 
 				StartCoroutine (LoadFromMemoryAsync ("Assets/AssetBundles/bundle/upbar"));
-				StartCoroutine (LoadSpriteFromAssetBundel ("Assets/AssetBundles/mainsceneicon"));
+				//StartCoroutine (LoadSpriteFromAssetBundel ("Assets/AssetBundles/mainsceneicon"));
 
+                //StartCoroutine(LoadAnimationDataFromAssetBundel("Assets/AssetBundles/characteranim/archer"));
+                //StartCoroutine(LoadAnimationDataFromAssetBundel("Assets/AssetBundles/characteranim/assassin"));
 
-                StartCoroutine(LoadAnimationDataFromAssetBundel("Assets/AssetBundles/characteranim/archer"));
-
-                StartCoroutine(LoadAnimationDataFromAssetBundel("Assets/AssetBundles/characteranim/assassin"));
-
+              
 
                 Debug.Log ("경로에 해당 파일이 있음.");
 
@@ -501,6 +508,108 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
     #endregion
 
+    #region LoadAssetBundle
+    public IEnumerator LoadAssetBundle(string _path, E_CHECK_ASSETDATA _assetData)
+    { 
+        AssetBundle bundle = AssetBundle.LoadFromMemory(File.ReadAllBytes(_path));
+
+        var bundles = bundle.LoadAllAssets();
+
+        //해당 번들을 리스트에 저장(해제시 사용)
+        loadedAssetBundle.Add(bundle);
+
+        switch (_assetData)
+        {
+            case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABDATA:
+                Debug.Log("MainScenePrefabData Load Complete");
+                break;
+
+            case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS:
+
+                GameObject mainbackground = Instantiate(bundle.LoadAsset<GameObject>("MainBackground"));
+                mainbackground.transform.SetParent(prefabHold_Obj.transform);
+                mainbackground.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                mainbackground.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+
+                GameObject activeButton = Instantiate(bundle.LoadAsset<GameObject>("ActiveButton"));
+                activeButton.transform.SetParent(prefabHold_Obj.transform);
+                activeButton.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                activeButton.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+
+                GameObject mercenaryHealPanel = Instantiate(bundle.LoadAsset<GameObject>("MercenaryHealPanel"));
+                mercenaryHealPanel.transform.SetParent(prefabHold_Obj.transform);
+                mercenaryHealPanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                mercenaryHealPanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+
+                GameObject TrainningPanel = Instantiate(bundle.LoadAsset<GameObject>("TrainningPanel"));
+                TrainningPanel.transform.SetParent(prefabHold_Obj.transform);
+                TrainningPanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                TrainningPanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+
+                GameObject infoUI = Instantiate(bundle.LoadAsset<GameObject>("InfoUI"));
+                infoUI.transform.SetParent(prefabHold_Obj.transform);
+                infoUI.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                infoUI.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+
+                GameObject fadePanel = Instantiate(bundle.LoadAsset<GameObject>("FadePanel"));
+                fadePanel.transform.SetParent(prefabHold_Obj.transform);
+                fadePanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                fadePanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                fadePanel.AddComponent<FadeInOut>();
+                FadeInOut fadeInOut = fadePanel.GetComponent<FadeInOut>();
+                fadeInOut.panel_Image = fadePanel.GetComponent<Image>();
+                fadeInOut.fMultipleValue = 7f;
+
+           
+
+                Debug.Log("MainScenePrefabs Load Complete");
+                break;
+
+
+            default:
+                break;
+
+
+        }
+
+
+        //로드가 다 됬는지 체크
+        while (true)
+        {
+            switch (_assetData)
+            {
+                //메인씬 프리팹 데이터 로드
+                case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABDATA:
+          
+                    if (bundle != null)
+                    {
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABDATA, true);
+                        Debug.Log("MainScenePrefabData Load Complete");
+                        break;
+                    }
+                    break;
+                //메인씬 프리팹 오브젝트 로드
+                case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS:
+                    if (bundle != null)
+                    {
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS, true);
+                        Debug.Log("MainScenePrefabs Load Complete");
+                        break;
+                    }
+                    Debug.Log("MainScenePrefabs Load Complete");
+                    break;
+            }
+
+            
+            yield return null;
+        }
+
+    }
+
+    #endregion
+
+
+    #region LoadFromAssetBundle_Character
     public IEnumerator LoadSpriteFromAssetBundel(string _path)
     {
         isSpriteDown = false;
@@ -544,58 +653,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 
         var bundles = bundle.LoadAllAssets();
-
-        /*
-        characterAnimationFromAssetBundle = new CharacterAnimationContain();
-
-        for (int i = 0; i < 29; i++)
-        {
-            //Debug.Log (prefab [i].name);
-
-            int index = int.Parse(bundles[i].name.Substring(0, bundles[i].name.IndexOf(".")));
-
-
-            if (index == 1)
-                characterAnimationFromAssetBundle.animator = bundles[i] as RuntimeAnimatorController;
-            if (index != 1 && index < 6)
-                characterAnimationFromAssetBundle.AnimationClip.Add( bundles[i] as AnimationClip);
-            else
-            {
-                characterAnimationFromAssetBundle.sprites.Add(bundles[i] as Sprite);
-            }
-
-        }
-
-        for (int i = 0; i < characterAnimationFromAssetBundle.sprites.Count; i++)
-        {
-            if (characterAnimationFromAssetBundle.sprites[i] == null)
-            {
-                characterAnimationFromAssetBundle.sprites.Remove(characterAnimationFromAssetBundle.sprites[i]);
-                //확실하게 null을 없애기 위해서.
-                i = 0;
-            }  
-        }
-
-        //정렬
-
-        characterAnimationFromAssetBundle.sprites.Sort(delegate (Sprite A, Sprite B)
-        {
-            if (int.Parse(A.name.Substring(0, A.name.IndexOf("."))) > int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return 1;
-            else if (int.Parse(A.name.Substring(0, A.name.IndexOf("."))) < int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return -1;
-            return 0;
-        });
-
-        Debug.Log(characterAnimationFromAssetBundle);
-        */
     }
 
 
-    //해당 씬의 정보와 캔버스에 Upbar를 붙힌.
-    public void SetUpCharacter(Transform _trans)
-    {
-        //testCharacter.transform.SetParent(_trans, false);
-       // testCharacter.SetActive(true);
-    }
 
     public IEnumerator LoadAnimationFromAssetBundel(string _path)
     {
@@ -604,8 +664,10 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
         yield return createRequest;
 
+
         AssetBundle bundle = createRequest.assetBundle;
 
+        
 
         GameObject go = Instantiate(bundle.LoadAsset<GameObject>("Archer_Basic"));
 
@@ -614,28 +676,116 @@ public class GameManager : GenericMonoSingleton<GameManager>
         GameObject go2 = Instantiate(bundle.LoadAsset<GameObject>("Assassin_Basic"));
 
         go2.transform.position = Vector3.zero;
-        /*
-        go.GetComponent<Animator>().runtimeAnimatorController = characterAnimationFromAssetBundle.animator;
-        RuntimeAnimatorController anim = go.GetComponent<Animator>().runtimeAnimatorController;
-        // go.GetComponent<Animator>().GetCurrentAnimatorClipInfo[]
-        for(int i=0; i< characterAnimationFromAssetBundle.AnimationClip.Count; i++)
+
+    }
+    #endregion
+    //메인씬의 프리팹에 대한 데이터 로드
+    public IEnumerator LoadMainScenePrefabsDataFromAssetBundel(string _path)
+    {
+        AssetBundle bundle = AssetBundle.LoadFromMemory(File.ReadAllBytes(_path));
+        loadedAssetBundle.Add(bundle);
+
+        var bundles = bundle.LoadAllAssets();
+      
+        //로드가 다 됬는지 체크
+        while (true)
         {
-            anim.animationClips[i] = characterAnimationFromAssetBundle.AnimationClip[i];
+            if (bundle != null)
+            {
+                loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABDATA, true);
+                break;
+            }
+            yield return null;
         }
-        for (int i = 0; i < characterAnimationFromAssetBundle.AnimationClip.Count; i++)
-            Debug.Log(anim.animationClips[i]);
-        */
 
-
-        //testCharacter = go;
 
     }
 
+    public IEnumerator LoadMainScenePrefabsFromAssetBundel(string _path)
+    {
+        isSpriteDown = false;
+        //AssetBundleCreateRequest createRequest = AssetBundle.LoadFromMemoryAsync(File.ReadAllBytes(_path));
 
-	//현재 씬과 이전 씬을 설정하여 로딩 후 씬을 불러온다
-	public void LoadScene(E_SCENE_INDEX _sceneIndex, E_SCENE_INDEX _prevSceneIndex, bool _isNoTip)
+        //yield return createRequest;
+
+
+
+        //AssetBundle bundle = createRequest.assetBundle;
+
+        AssetBundle bundle = AssetBundle.LoadFromMemory(File.ReadAllBytes(_path));
+
+        loadedAssetBundle.Add(bundle);
+
+        var bundles = bundle.LoadAllAssets();
+        
+
+        GameObject mainbackground = Instantiate(bundle.LoadAsset<GameObject>("MainBackground"));
+        mainbackground.transform.SetParent(prefabHold_Obj.transform);
+        mainbackground.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+        mainbackground.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+
+        GameObject activeButton = Instantiate(bundle.LoadAsset<GameObject>("ActiveButton"));
+        activeButton.transform.SetParent(prefabHold_Obj.transform);
+        activeButton.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+        activeButton.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+
+        GameObject mercenaryHealPanel = Instantiate(bundle.LoadAsset<GameObject>("MercenaryHealPanel"));
+        mercenaryHealPanel.transform.SetParent(prefabHold_Obj.transform);
+        mercenaryHealPanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+        mercenaryHealPanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+
+        GameObject TrainningPanel = Instantiate(bundle.LoadAsset<GameObject>("TrainningPanel"));
+        TrainningPanel.transform.SetParent(prefabHold_Obj.transform);
+        TrainningPanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+        TrainningPanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+
+        GameObject infoUI = Instantiate(bundle.LoadAsset<GameObject>("InfoUI"));
+        infoUI.transform.SetParent(prefabHold_Obj.transform);
+        infoUI.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+        infoUI.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+
+        GameObject fadePanel = Instantiate(bundle.LoadAsset<GameObject>("FadePanel"));
+        fadePanel.transform.SetParent(prefabHold_Obj.transform);
+        fadePanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+        fadePanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+        fadePanel.AddComponent<FadeInOut>();
+        FadeInOut fadeInOut =  fadePanel.GetComponent<FadeInOut>();
+        fadeInOut.panel_Image = fadePanel.GetComponent<Image>();
+        fadeInOut.fMultipleValue = 7f;
+        
+        //로드가 다 됬는지 체크
+        while (true)
+        {
+            if (bundle != null)
+            {
+                loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS, true);
+                break;
+            }
+            yield return null;
+        }
+    }
+
+    #region MainScenePrefabs
+
+    #endregion
+
+    public void InitLoadedAssetBundle()
+    {
+        AssetBundle bundle;
+        for (int i = 0; i < loadedAssetBundle.Count; i++)
+        {
+            bundle = loadedAssetBundle[i];
+            bundle.Unload(true);
+            loadedAssetBundle.Remove(bundle) ;
+        }
+    }
+
+    //현재 씬과 이전 씬을 설정하여 로딩 후 씬을 불러온다
+    public void LoadScene(E_SCENE_INDEX _sceneIndex, E_SCENE_INDEX _prevSceneIndex, bool _isNoTip)
 	{
-		prevSceneIndex = _prevSceneIndex;
+       
+
+        prevSceneIndex = _prevSceneIndex;
 		nextSceneIndex = _sceneIndex;
 
 		//메인 씬이 아니면 Upbar초기화 (싱글턴 오브젝트로 빼놓는다)
@@ -650,13 +800,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	}
 
 
+    #region LoadTableInfo
 
-	#endregion
-
-
-	#region LoadTableInfo
-	
-	void Load_TableInfo_AllPassive()
+    void Load_TableInfo_AllPassive()
 	{
 		if (cAllPassiveSkill != null) return;
 
@@ -897,7 +1043,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 			PassiveSkill newPassiveSkill = new PassiveSkill (GameManager.Instance.lDbPassiveSkill [nRandomIndex]);
 
-			newPassiveSkill.optionData = new DBPassiveSkillOptionIndex(GameManager.Instance.lDbPassiveSkillOptionIndex[newPassiveSkill.nOptionIndex]);
+			//newPassiveSkill.optionData = new DBPassiveSkillOptionIndex(GameManager.Instance.lDbPassiveSkillOptionIndex[newPassiveSkill.nOptionIndex]);
 
 			_summonCharacter.passiveSkill.Add (newPassiveSkill);
 		}

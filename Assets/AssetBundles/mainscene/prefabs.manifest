@@ -1,0 +1,57 @@
+ManifestFileVersion: 0
+CRC: 2332519240
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 953c23b7f5f3669632fe648baadb6c72
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2fa26793167f8c8044675364b4ba0aa5
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -2095666955, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -1200242548, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 1367256648, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 34db1815ec9214e2c84eb826763953f4, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/UI/MainScene/FadePanel.prefab
+- Assets/Resources/Prefabs/UI/MainScene/TrainningPanel.prefab
+- Assets/Resources/Prefabs/UI/MainScene/MainBackground.prefab
+- Assets/Resources/Prefabs/UI/MainScene/ActiveButton.prefab
+- Assets/Resources/Prefabs/UI/MainScene/MercenaryHealPanel.prefab
+- Assets/Resources/Prefabs/UI/MainScene/InfoUI.prefab
+Dependencies:
+- C:/Users/ksyy2/Documents/OuchMercenary/Assets/AssetBundles/bundle/upbar
+- C:/Users/ksyy2/Documents/OuchMercenary/Assets/AssetBundles/mainscene/images

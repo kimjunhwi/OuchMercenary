@@ -365,6 +365,7 @@ MonoBehaviour:
   totalSlider: {fileID: 1228436033}
   progress_Text: {fileID: 218300750}
   nCurProgressValue: 0
+  progressBar_Panel: {fileID: 338029550}
   loginState_Text: {fileID: 899139273}
 --- !u!4 &289017148
 Transform:
@@ -379,6 +380,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &338029550 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1138337874800464, guid: 4ff4e231a0fcb409c9046cdfcf942250,
+    type: 2}
+  m_PrefabInternal: {fileID: 1197763553}
 --- !u!1 &437320381
 GameObject:
   m_ObjectHideFlags: 0
@@ -1739,7 +1745,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1600096522}
   m_Layer: 0
-  m_Name: MercenaryManageHold
+  m_Name: PrefabHold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

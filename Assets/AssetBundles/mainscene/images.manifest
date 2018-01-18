@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 2876042110
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 5451e9eb16390b186a143a6e6e9e5cd7
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 21f0dc8ebad690f009368069428e0a1a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/UI/MainScene/MainBackground.png
+- Assets/Resources/UI/MainScene/10.main_option.png
+- Assets/Resources/UI/MainScene/5.main_menu_healing_button.png
+- Assets/Resources/UI/MainScene/backgrond.png
+- Assets/Resources/UI/MainScene/8.main_menu_shop_button.png
+- Assets/Resources/UI/MainScene/6.main_menu_employment_button.png
+- Assets/Resources/UI/MainScene/7.main_menu_book_button.png
+- Assets/Resources/UI/MainScene/9.main_menu_stage_button.png
+- Assets/Resources/UI/MainScene/2.main_menu_inven_button.png
+- Assets/Resources/UI/MainScene/1.main_menu_management_button.png
+- Assets/Resources/UI/MainScene/3.main_menu_blacksmith_button.png
+- Assets/Resources/UI/MainScene/4.main_menu_training_button.png
+Dependencies: []

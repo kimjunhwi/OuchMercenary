@@ -6,6 +6,15 @@ using UnityEngine.SceneManagement;
 
 using ReadOnlys;
 
+enum E_CANVAS_UI_ORDER
+{
+    E_CANVAS_UI_BACKGROUND = 0,
+    E_CANVAS_UI_ACTIVEBUTTON,
+    E_CANVAS_UI_MERCENARYHEAL,
+    E_CANVAS_UI_MERCENARYTRAINNING,
+    E_CANVAS_UI_INFO,
+    E_CANVAS_UI_FADEPANEL,
+}
 
 
 public class MainSceneManager : MonoBehaviour 
@@ -21,33 +30,27 @@ public class MainSceneManager : MonoBehaviour
 	public GameObject[] activeButtonPanel;
 
     //씬을 나누지 않은 것들에 대한 중간 효과 페이드 테스트(완료)
-    public FadeInOut fadeInOutTest;
+    public FadeInOut fadeInOut;
 
     //메인메뉴에 있는 아이콘의 개수
     private const int nMenuIconCount = 10;
 
     void Awake () 
 	{
-		fadeInOutTest.mainSceneManager = this;
-        //MercenaryManage_Button.onClick.AddListener(() => GameManager.Instance.SetUpMercenaryManage (canvas));
-        //Debug.Log ("총 캐릭터 개수 : " +  GameManager.Instance.lDbBasicCharacter.Count);
-
-        //for (int i = 0; i < GameManager.Instance.getSpriteArray.Count; i++)
-        //	Debug.Log (GameManager.Instance.getSpriteArray[i]);
-
+        //메인 씬 프리팹 배치
+        DispatchMenuScenePrefab();
         //저장된 데이터를 제대로 불러왔는지 체크
         //CheckSaveDataIsSure();
 
-        StartCoroutine(GameManager.Instance.LoadAnimationFromAssetBundel("Assets/AssetBundles/character"));
-
-
-        //메인 UI 버튼 초기화
-        InitActiveButton();
-		if (!bInitCheck) 
-		{
-			LoadSprtieAndDispatch ();
-		}
+        //테스트용(캐릭터들 임시로 불러옴)
+        //StartCoroutine(GameManager.Instance.LoadAnimationFromAssetBundel("Assets/AssetBundles/character"));
 	}
+
+    private void Start()
+    {
+        //MainScene에 있는 각종 변수 할당
+        StartCoroutine(MainSceneInit());
+    }
 
     //저장된 데이터를 제대로 불러왔는지 체크
     void CheckSaveDataIsSure()
@@ -68,10 +71,20 @@ public class MainSceneManager : MonoBehaviour
         Debug.Log("lDBFormationSkill : " + GameManager.Instance.lDBFomationSkill.Count);
     }
 
-
-    //메인 UI 버튼 초기화
-    void InitActiveButton()
+    IEnumerator MainSceneInit()
     {
+        yield return new WaitForSeconds(0.1f);
+           
+
+        //페이드 인 아웃 효과를 위한 할당
+        fadeInOut = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_FADEPANEL).GetComponent<FadeInOut>();
+        fadeInOut.mainSceneManager = this;
+
+        //버튼 할당
+        for (int i = 0; i < 10; i++)
+            activeButton[i] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_ACTIVEBUTTON).GetChild(i).GetComponent<Button>();
+
+        //해당 버튼에 따른 function 할당
         //StageButton
         activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE].onClick.AddListener(() => GameManager.Instance.LoadScene(ReadOnlys.E_SCENE_INDEX.E_STAGE, E_SCENE_INDEX.E_MENU, true));
         //Mercenary Manage(용병관리)
@@ -79,21 +92,35 @@ public class MainSceneManager : MonoBehaviour
         //Mercenary Manage(용병고용)
         activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT].onClick.AddListener(() => GameManager.Instance.LoadScene(ReadOnlys.E_SCENE_INDEX.E_EMPLOYER, E_SCENE_INDEX.E_MENU, false));
         //치료소
-        activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING].onClick.AddListener(() => StartCoroutine(fadeInOutTest.FadeInOutOnce(E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, false)));
+        activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING].onClick.AddListener(() => StartCoroutine(fadeInOut.FadeInOutOnce(E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, false)));
         //훈련소
-        activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING].onClick.AddListener(() => StartCoroutine(fadeInOutTest.FadeInOutOnce(E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING, false)));
-    }
+        activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING].onClick.AddListener(() => StartCoroutine(fadeInOut.FadeInOutOnce(E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING, false)));
 
-    void LoadSprtieAndDispatch()
-    {
-        someImage.sprite = GameManager.Instance.getSpriteArray[0];
-        for (int i = 0; i < nMenuIconCount; i++)
-            activeButton[i].image.sprite = GameManager.Instance.getSpriteArray[i];
+        //Active될 panel 할당
+        //치료소
+        activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_MERCENARYHEAL).gameObject;
+
+        //훈련소
+        activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_MERCENARYTRAINNING).gameObject;
+
+
     }
+    //메인 씬 프리팹 배치
+    void DispatchMenuScenePrefab()
+    {
+        int nPrefabHoldCount = GameManager.Instance.prefabHold_Obj.transform.childCount;
+        for (int i = 0; i < nPrefabHoldCount; i++)
+        {
+            GameObject prefab = GameManager.Instance.prefabHold_Obj.transform.GetChild(0).gameObject;
+            prefab.transform.SetParent(canvas);
+            prefab.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+            prefab.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+        }
+    }
+    
 
     public void ActivePanelBack(E_ACTIVEBUTTON _button , bool _isback)
 	{
-		StartCoroutine (fadeInOutTest.FadeInOutOnce (_button, _isback));
-
+		StartCoroutine (fadeInOut.FadeInOutOnce (_button, _isback));
 	}
 }
