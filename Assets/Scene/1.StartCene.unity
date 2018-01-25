@@ -366,6 +366,8 @@ MonoBehaviour:
   progress_Text: {fileID: 218300750}
   nCurProgressValue: 0
   progressBar_Panel: {fileID: 338029550}
+  bIsPlayerDataLoaded: 0
+  bIsPlayerDeleteLoaded: 0
   loginState_Text: {fileID: 899139273}
 --- !u!4 &289017148
 Transform:

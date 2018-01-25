@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2332519240
+CRC: 2057544725
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 953c23b7f5f3669632fe648baadb6c72
+    Hash: c5a447d893ef9c80df08dd2eafe58b49
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 2fa26793167f8c8044675364b4ba0aa5
+    Hash: 0ba9fbfb6fa33ec53bf1a8d2d0ecb0bc
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -34,6 +34,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
+  Script: {fileID: 1297475563, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 34db1815ec9214e2c84eb826763953f4, type: 3}
 - Class: 115
   Script: {instanceID: 0}
@@ -46,7 +48,9 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
+- Assets/Resources/Prefabs/UI/MainScene/PostPanel.prefab
 - Assets/Resources/Prefabs/UI/MainScene/FadePanel.prefab
+- Assets/Resources/Prefabs/UI/MainScene/CalenderPanel.prefab
 - Assets/Resources/Prefabs/UI/MainScene/TrainningPanel.prefab
 - Assets/Resources/Prefabs/UI/MainScene/MainBackground.prefab
 - Assets/Resources/Prefabs/UI/MainScene/ActiveButton.prefab

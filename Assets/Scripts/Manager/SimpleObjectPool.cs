@@ -26,7 +26,7 @@ public class SimpleObjectPool : MonoBehaviour
             pooledObject.pool = this;
 
             obj.transform.SetParent(transform, false);
-
+            obj.name = prefab.name;
             obj.SetActive(false);
 
             inactiveInstances.Push(obj);
