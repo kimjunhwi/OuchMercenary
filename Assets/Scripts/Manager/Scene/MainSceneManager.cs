@@ -4,20 +4,49 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
 using ReadOnlys;
+
+#region enums
+//메인씬 UI버튼의 인덱스들
+public enum E_ACTIVEBUTTON
+{
+    E_ACTIVEBUTTON_MERCENARY_MANAGEMENT = 0,
+    E_ACTIVEBUTTON_INVEN,
+    E_ACTIVEBUTTON_BLACKSMITH,
+    E_ACTIVEBUTTON_TRAINNING,
+    E_ACTIVEBUTTON_HEALING,
+    E_ACTIVEBUTTON_EMPLOYMENT,
+    E_ACTIVEBUTTON_BOOK,
+    E_ACTIVEBUTTON_SHOP,
+    E_ACTIVEBUTTON_STAGE,
+    E_ACTIVEBUTTON_OPTION,
+    E_ACTIVEBUTTON_POST,
+    E_ACTIVEBUTTON_CALENDER,
+}
 
 enum E_CANVAS_UI_ORDER
 {
-    E_CANVAS_UI_BACKGROUND = 0,
-    E_CANVAS_UI_ACTIVEBUTTON,
-    E_CANVAS_UI_MERCENARYHEAL,
-    E_CANVAS_UI_MERCENARYTRAINNING,
-    E_CANVAS_UI_INFO,
-    E_CANVAS_UI_FADEPANEL,
+    E_CANVAS_UI_BACKGROUND = 0,             //배경
+    E_CANVAS_UI_ACTIVEBUTTON,               //엑티브 버튼
+    E_CANVAS_UI_MERCENARYHEAL,              //치료소
+    E_CANVAS_UI_MERCENARYTRAINNING,         //훈련소
+    E_CANVAS_UI_INFO,                       //플레이어 정보
+    E_CANVAS_UI_POST,                       //우편
+    E_CANVAS_UI_CALENDER,                   //출석 보상
+    E_CANVAS_UI_FADEPANEL,                  //사라지는 효과
+    E_CANVAS_UI_POSTGETPANEL,               //우편 얻을때 슬롯
 }
 
+enum E_MAINSCENE_OBJECTPOOL
+{
+    E_MAINSCENE_OBJECTPOOL_POSTSLOT = 0,    //우편슬롯
+    E_MAINSCENE_OBJECTPOOL_POSTGETSLOT,     //우편 얻을때 사용되는 슬롯
+}
+#endregion
 
-public class MainSceneManager : MonoBehaviour 
+
+public class MainSceneManager : MonoBehaviour
 {
 	public Transform canvas;
 	//Test용 이미지
@@ -32,6 +61,13 @@ public class MainSceneManager : MonoBehaviour
     //씬을 나누지 않은 것들에 대한 중간 효과 페이드 테스트(완료)
     public FadeInOut fadeInOut;
 
+    //SimpleObjectPools
+    public SimpleObjectPool[] simpleObjectpools;
+    //우편 알림
+    public GameObject postExpression;
+    private PostPanel postPanel;
+    private PostGetPanel postGetPanel;
+
     //메인메뉴에 있는 아이콘의 개수
     private const int nMenuIconCount = 10;
 
@@ -42,6 +78,10 @@ public class MainSceneManager : MonoBehaviour
         //저장된 데이터를 제대로 불러왔는지 체크
         //CheckSaveDataIsSure();
 
+        Debug.Log(GameManager.Instance.GetPlayer().mail);
+        
+    
+
         //테스트용(캐릭터들 임시로 불러옴)
         //StartCoroutine(GameManager.Instance.LoadAnimationFromAssetBundel("Assets/AssetBundles/character"));
 	}
@@ -50,6 +90,8 @@ public class MainSceneManager : MonoBehaviour
     {
         //MainScene에 있는 각종 변수 할당
         StartCoroutine(MainSceneInit());
+        
+       
     }
 
     //저장된 데이터를 제대로 불러왔는지 체크
@@ -74,15 +116,31 @@ public class MainSceneManager : MonoBehaviour
     IEnumerator MainSceneInit()
     {
         yield return new WaitForSeconds(0.1f);
-           
+
 
         //페이드 인 아웃 효과를 위한 할당
         fadeInOut = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_FADEPANEL).GetComponent<FadeInOut>();
         fadeInOut.mainSceneManager = this;
 
+
         //버튼 할당
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 12; i++)
             activeButton[i] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_ACTIVEBUTTON).GetChild(i).GetComponent<Button>();
+
+
+        //Active될 panel Object 할당
+        //치료소
+        activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_MERCENARYHEAL).gameObject;
+        //훈련소
+        activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_MERCENARYTRAINNING).gameObject;
+        //우편
+        activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_POST] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_POST).gameObject;
+        //달력
+        activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_CALENDER] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_CALENDER).gameObject;
+
+
+        //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
         //해당 버튼에 따른 function 할당
         //StageButton
@@ -95,14 +153,50 @@ public class MainSceneManager : MonoBehaviour
         activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING].onClick.AddListener(() => StartCoroutine(fadeInOut.FadeInOutOnce(E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, false)));
         //훈련소
         activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING].onClick.AddListener(() => StartCoroutine(fadeInOut.FadeInOutOnce(E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING, false)));
+        //우편
+        activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_POST].onClick.AddListener(() => ActivePanelNoEffect(activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_POST], E_ACTIVEBUTTON.E_ACTIVEBUTTON_POST));
+        postExpression = activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_POST].transform.GetChild(0).gameObject;
+       
+    
+        //달력
+        activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_CALENDER].onClick.AddListener(() => ActivePanelNoEffect(activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_CALENDER], E_ACTIVEBUTTON.E_ACTIVEBUTTON_CALENDER));
 
-        //Active될 panel 할당
-        //치료소
-        activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_MERCENARYHEAL).gameObject;
+        //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //ObjectPool 할당
+       
+        for(E_MAINSCENE_OBJECTPOOL objectPool =0; (int)objectPool < 2; objectPool++)
+        {
+            switch (objectPool)
+            {
+                case E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTSLOT:
+                    simpleObjectpools[(int)E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTSLOT].strPrefabName = "PostSlot";
+                    simpleObjectpools[(int)E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTSLOT].prefab = simpleObjectpools[0].gameObject.transform.GetChild(0).gameObject;
+                    simpleObjectpools[(int)E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTSLOT].PreloadPool();
+                    simpleObjectpools[(int)E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTSLOT].nPoolSize = 20;
+                    //유동적으로 바뀔수 있음.
+                    postPanel.m_PostSimpleObject = simpleObjectpools[(int)E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTSLOT];
+                    break;
 
-        //훈련소
-        activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_MERCENARYTRAINNING).gameObject;
+                case E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTGETSLOT:
+                    simpleObjectpools[(int)E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTGETSLOT].strPrefabName = "PostGetSlot";
+                    simpleObjectpools[(int)E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTGETSLOT].prefab = simpleObjectpools[1].gameObject.transform.GetChild(0).gameObject;
+                    simpleObjectpools[(int)E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTGETSLOT].PreloadPool();
+                    simpleObjectpools[(int)E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTGETSLOT].nPoolSize = 20;
+                    postGetPanel.m_PostGetSimpleObject = simpleObjectpools[(int)E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTGETSLOT];
+                    break;
+                default:
+                    break;
+            }
 
+        }
+
+        //우편 체크
+        postPanel.postGetPanel = postGetPanel;
+        //우편 체크 표시 활성화
+        if (GameManager.Instance.GetPlayer().mail != null)
+        {
+            postExpression.SetActive(true);
+        }
 
     }
     //메인 씬 프리팹 배치
@@ -115,9 +209,42 @@ public class MainSceneManager : MonoBehaviour
             prefab.transform.SetParent(canvas);
             prefab.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
             prefab.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+
+
+            if (prefab.gameObject.name == "PostPanel")
+            {
+                postPanel = prefab.gameObject.GetComponent<PostPanel>();
+                postGetPanel = prefab.gameObject.transform.GetChild(4).gameObject.GetComponent<PostGetPanel>();
+                postGetPanel.postPanel = postPanel;
+            }
+                        
+            if (prefab.gameObject.name == "PostSlot")
+            {
+                prefab.transform.SetParent(simpleObjectpools[(int)E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTSLOT].transform);
+            }
+                
+
+            if (prefab.gameObject.name == "PostGetSlot")
+                prefab.transform.SetParent(simpleObjectpools[(int)E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTGETSLOT].transform);
+
         }
     }
-    
+    public void ActivePanelNoEffect(GameObject _obj , E_ACTIVEBUTTON _activeButton)
+    {
+        _obj.SetActive(true);  
+
+        switch (_activeButton)
+        {
+            case E_ACTIVEBUTTON.E_ACTIVEBUTTON_POST:
+                postPanel.CheckDataAndDispatchPostSlot();
+                break;
+
+            default:
+                break;
+        }
+
+
+    }
 
     public void ActivePanelBack(E_ACTIVEBUTTON _button , bool _isback)
 	{

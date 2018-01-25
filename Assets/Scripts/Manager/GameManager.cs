@@ -28,76 +28,78 @@ using UnityEngine.SocialPlatforms;
 
 //모든 데이터 및 로드, 세이브를 관리하는 클래스 
 //어디서든 사용해야 하기 때문에 제네릭싱글톤을 통해 구현
-public class GameManager : GenericMonoSingleton<GameManager> 
+public class GameManager : GenericMonoSingleton<GameManager>
 {
-	public E_SCENE_INDEX prevSceneIndex;		//이전 씬 인덱스
-	public E_SCENE_INDEX nextSceneIndex;		//다음 씬 인덱스
-	public Transform curSceneCanvas;			//현재씬의 캔버스
-	public bool isPrevLoad;						//이전씬을 로드 할건지 아닌지
+    public E_SCENE_INDEX prevSceneIndex;        //이전 씬 인덱스
+    public E_SCENE_INDEX nextSceneIndex;        //다음 씬 인덱스
+    public Transform curSceneCanvas;            //현재씬의 캔버스
+    public bool isPrevLoad;                     //이전씬을 로드 할건지 아닌지
 
-	Player m_Player;
+    Player m_Player;
+    public DBPlayersCharacter playerData;
 
-	public LoginManager loginManager;
+    public LoginManager loginManager;
 
-	public bool bIsLoad = false;
+    public bool bIsLoad = false;
 
-	public List<DBBasicCharacter> assasinList = new List<DBBasicCharacter>();
-	public List<DBBasicCharacter> warriorList = new List<DBBasicCharacter>();
-	public List<DBBasicCharacter> archerList = new List<DBBasicCharacter>();
-	public List<DBBasicCharacter> knightList = new List<DBBasicCharacter>();
-	public List<DBBasicCharacter> priestList = new List<DBBasicCharacter>();
-	public List<DBBasicCharacter> wizzardList = new List<DBBasicCharacter> ();
-	public List<DBBasicCharacter> commandList = new List<DBBasicCharacter>();
+    public List<DBBasicCharacter> assasinList = new List<DBBasicCharacter>();
+    public List<DBBasicCharacter> warriorList = new List<DBBasicCharacter>();
+    public List<DBBasicCharacter> archerList = new List<DBBasicCharacter>();
+    public List<DBBasicCharacter> knightList = new List<DBBasicCharacter>();
+    public List<DBBasicCharacter> priestList = new List<DBBasicCharacter>();
+    public List<DBBasicCharacter> wizzardList = new List<DBBasicCharacter>();
+    public List<DBBasicCharacter> commandList = new List<DBBasicCharacter>();
 
-	//DB에서 게임내에 저장할 리스트 (기본 데이터들)
-	public List<DBBasicCharacter> lDbBasicCharacter = new List<DBBasicCharacter>();
-	public List<DBActiveSkill> lDbActiveSkill = new List<DBActiveSkill> ();
-	public List<DBActiveSkillType> lDbActiveSkillType = new List<DBActiveSkillType> ();
-	public List<DBPassiveSkill> lDbPassiveSkill = new List <DBPassiveSkill>();
-	public List<DBPassiveSkillOptionIndex> lDbPassiveSkillOptionIndex = new List<DBPassiveSkillOptionIndex> ();
-	public List<DBBasicSkill> lDbBasickill = new List<DBBasicSkill> ();
+    //DB에서 게임내에 저장할 리스트 (기본 데이터들)
+    public List<DBBasicCharacter> lDbBasicCharacter = new List<DBBasicCharacter>();
+    public List<DBActiveSkill> lDbActiveSkill = new List<DBActiveSkill>();
+    public List<DBActiveSkillType> lDbActiveSkillType = new List<DBActiveSkillType>();
+    public List<DBPassiveSkill> lDbPassiveSkill = new List<DBPassiveSkill>();
+    public List<DBPassiveSkillOptionIndex> lDbPassiveSkillOptionIndex = new List<DBPassiveSkillOptionIndex>();
+    public List<DBBasicSkill> lDbBasickill = new List<DBBasicSkill>();
 
-	public List<DBWeapon> lDbWeapon = new List<DBWeapon> ();
-	public List<DBArmor> lDBArmor = new List<DBArmor> ();
-	public List<DBGlove> lDBGlove = new List<DBGlove> ();
-	public List<DBAccessory> lDBAccessory = new List<DBAccessory> ();
-	public List<DBEquipment_RandomOption> lDBEquipmentRandomOption = new List<DBEquipment_RandomOption> ();
-	public List<DBCraftMaterial> lDBCraftMaterial = new List<DBCraftMaterial> ();
-	public List<DBBreakMaterial> lDBBreakMaterial = new List<DBBreakMaterial> ();
-	//Stage
-	public List<DBStageData> lDBStageData = new List<DBStageData> ();
-	//FormationSkill
-	public List<DBFormationSkill> lDBFomationSkill = new List<DBFormationSkill>();
+    public List<DBWeapon> lDbWeapon = new List<DBWeapon>();
+    public List<DBArmor> lDBArmor = new List<DBArmor>();
+    public List<DBGlove> lDBGlove = new List<DBGlove>();
+    public List<DBAccessory> lDBAccessory = new List<DBAccessory>();
+    public List<DBEquipment_RandomOption> lDBEquipmentRandomOption = new List<DBEquipment_RandomOption>();
+    public List<DBCraftMaterial> lDBCraftMaterial = new List<DBCraftMaterial>();
+    public List<DBBreakMaterial> lDBBreakMaterial = new List<DBBreakMaterial>();
+    //Stage
+    public List<DBStageData> lDBStageData = new List<DBStageData>();
+    //FormationSkill
+    public List<DBFormationSkill> lDBFomationSkill = new List<DBFormationSkill>();
+    public List<DBMaterialData> lDBMaterialData = new List<DBMaterialData>();
 
 
     public List<string> lSceneIndex = new List<string>();
 
-	public List<Sprite> CharacterBoxImage_List = new List<Sprite> ();
-	//Scene 마다 있는 UpBar
-	public Upbar upBar;
-	public GameObject upBarHold_obj;			//UpBarHoldrer
-	//용병관리창 hold 하는 obj
-	public MercenaryManagePanel mercenaryManagePanel;
-	public GameObject mercenaryManageHold_Obj;	//MercenaryManageHolder
+    public List<Sprite> CharacterBoxImage_List = new List<Sprite>();
+    //Scene 마다 있는 UpBar
+    public Upbar upBar;
+    public GameObject upBarHold_obj;            //UpBarHoldrer
+                                                //용병관리창 hold 하는 obj
+    public MercenaryManagePanel mercenaryManagePanel;
+    public GameObject mercenaryManageHold_Obj;  //MercenaryManageHolder
 
-	//PassiveSkill의 대한 데이터를 파싱
-	public AllPassiveSkillData[] cAllPassiveSkill = null;
-	public AllPassiveSkillOptionData[] cAllPassiveOption = null;
-	public AllActiveSkillType[] cAllActiveType = null;
+    //PassiveSkill의 대한 데이터를 파싱
+    public AllPassiveSkillData[] cAllPassiveSkill = null;
+    public AllPassiveSkillOptionData[] cAllPassiveOption = null;
+    public AllActiveSkillType[] cAllActiveType = null;
 
     //load한 애셋번들을 가지고 있는다.
     public List<AssetBundle> loadedAssetBundle = new List<AssetBundle>();
     public List<bool> loadAssetIsDone = new List<bool>();
-    
 
-	public List<Sprite> getSpriteArray = new List<Sprite>();
-	public bool isSpriteDown;
+
+    public List<Sprite> getSpriteArray = new List<Sprite>();
+    public bool isSpriteDown;
 
     public GameObject prefabHold_Obj;
 
-	public IEnumerator DataLoad()
+    public IEnumerator DataLoad()
     {
-		loginManager = GameObject.Find("LoginManager").GetComponent<LoginManager>();
+        loginManager = GameObject.Find("LoginManager").GetComponent<LoginManager>();
         prefabHold_Obj = GameObject.Find("PrefabHold");
         DontDestroyOnLoad(prefabHold_Obj);
         // Unicode Parsing ---------------------------------------------------------
@@ -105,20 +107,20 @@ public class GameManager : GenericMonoSingleton<GameManager>
         Load_TableInfo_AllActiveType();
 
 
-		//패시브 스킬에 관한 정보들을 파싱
-		Load_TableInfo_AllPassive();
+        //패시브 스킬에 관한 정보들을 파싱
+        Load_TableInfo_AllPassive();
 
-		//패시브 스킬등의 옵션등을 위한 파싱
-		Load_TableInfo_AllPassiveOption();
+        //패시브 스킬등의 옵션등을 위한 파싱
+        Load_TableInfo_AllPassiveOption();
 
-		//CharacterBox Image 
+        //CharacterBox Image 
 
 
-		// -------------------------------------------------------------------------
+        // -------------------------------------------------------------------------
 
-		#if UNITY_EDITOR
+#if UNITY_EDITOR
 
-		loginManager.bIsSuccessed = true;
+        loginManager.bIsSuccessed = true;
 
 
 #elif UNITY_ANDROID
@@ -143,17 +145,16 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 #endif
 
-        m_Player = new Player ();
 
-		m_Player.Init ();
-
-		SortJobIndex ();
+        SortJobIndex();
 
 
         yield break;
     }
 
-	public Player GetPlayer() { return m_Player; }
+    public Player GetPlayer() { return m_Player; }
+    public void SetPlayer(Player _player) { m_Player = _player; }
+
 
 	void SortJobIndex()
 	{
@@ -530,42 +531,94 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 mainbackground.transform.SetParent(prefabHold_Obj.transform);
                 mainbackground.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
                 mainbackground.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                mainbackground.name = "MainBackground";
 
                 GameObject activeButton = Instantiate(bundle.LoadAsset<GameObject>("ActiveButton"));
                 activeButton.transform.SetParent(prefabHold_Obj.transform);
                 activeButton.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
                 activeButton.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                activeButton.name = "ActiveButton";
 
                 GameObject mercenaryHealPanel = Instantiate(bundle.LoadAsset<GameObject>("MercenaryHealPanel"));
                 mercenaryHealPanel.transform.SetParent(prefabHold_Obj.transform);
                 mercenaryHealPanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
                 mercenaryHealPanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                mercenaryHealPanel.name = "MercenaryHealPanel";
 
                 GameObject TrainningPanel = Instantiate(bundle.LoadAsset<GameObject>("TrainningPanel"));
                 TrainningPanel.transform.SetParent(prefabHold_Obj.transform);
                 TrainningPanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
                 TrainningPanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                TrainningPanel.name = "TrainningPanel";
+
 
                 GameObject infoUI = Instantiate(bundle.LoadAsset<GameObject>("InfoUI"));
                 infoUI.transform.SetParent(prefabHold_Obj.transform);
                 infoUI.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
                 infoUI.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                infoUI.name = "InfoUI";
+
+                GameObject PostPanel = Instantiate(bundle.LoadAsset<GameObject>("PostPanel"));
+                PostPanel.transform.SetParent(prefabHold_Obj.transform);
+                PostPanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                PostPanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                PostPanel.AddComponent<PostPanel>();
+                PostPanel.name = "PostPanel";
+                PostPanel.GetComponent<PostPanel>().InitPostPanel();
+                //PostGetPanel
+                PostPanel.transform.GetChild(4).gameObject.AddComponent<PostGetPanel>();
+                PostPanel.transform.GetChild(4).gameObject.GetComponent<PostGetPanel>().InitPostGetPanel();
+                
+
+                GameObject CalenderPanel = Instantiate(bundle.LoadAsset<GameObject>("CalenderPanel"));
+                CalenderPanel.transform.SetParent(prefabHold_Obj.transform);
+                CalenderPanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                CalenderPanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                CalenderPanel.AddComponent<CalenderPanel>();
+                CalenderPanel.name = "CalenderPanel";
 
                 GameObject fadePanel = Instantiate(bundle.LoadAsset<GameObject>("FadePanel"));
                 fadePanel.transform.SetParent(prefabHold_Obj.transform);
                 fadePanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
                 fadePanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
                 fadePanel.AddComponent<FadeInOut>();
+                fadePanel.name = "FadePanel";
+
                 FadeInOut fadeInOut = fadePanel.GetComponent<FadeInOut>();
                 fadeInOut.panel_Image = fadePanel.GetComponent<Image>();
                 fadeInOut.fMultipleValue = 7f;
 
-           
+                
+
 
                 Debug.Log("MainScenePrefabs Load Complete");
                 break;
 
+            case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_SLOTS:
 
+                GameObject postSlot = Instantiate(bundle.LoadAsset<GameObject>("PostSlot"));
+                postSlot.transform.SetParent(prefabHold_Obj.transform);
+                postSlot.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                postSlot.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                postSlot.AddComponent<PostSlot>();
+                postSlot.SetActive(true);
+                postSlot.name = "PostSlot";
+
+                PostSlot slotPost = postSlot.GetComponent<PostSlot>();
+                slotPost.InitSlot();
+
+                GameObject postGetSlot = Instantiate(bundle.LoadAsset<GameObject>("PostGetSlot"));
+                postGetSlot.transform.SetParent(prefabHold_Obj.transform);
+                postGetSlot.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                postGetSlot.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                postGetSlot.AddComponent<PostGetSlot>();
+                postGetSlot.SetActive(true);
+                postGetSlot.name = "PostGetSlot";
+
+                PostGetSlot slotPostGet = postGetSlot.GetComponent<PostGetSlot>();
+                slotPostGet.InitSlot();
+
+                break;
             default:
                 break;
 
@@ -679,6 +732,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
     }
     #endregion
+
     //메인씬의 프리팹에 대한 데이터 로드
     public IEnumerator LoadMainScenePrefabsDataFromAssetBundel(string _path)
     {

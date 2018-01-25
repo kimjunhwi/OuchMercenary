@@ -5,13 +5,24 @@ using ReadOnlys;
 
 public class Player : MonoBehaviour 
 {
-	private const string characterBoxStr01 = "Character/CharacterBox/1Tier_Ancher_130";
-	private const string characterBoxStr02 = "Character/CharacterBox/1Tier_Asassin_130";
-	private const string characterBoxStr03 = "Character/CharacterBox/1Tier_Commander_130";
-	private const string characterBoxStr04 = "Character/CharacterBox/1Tier_Knight_130";
-	private const string characterBoxStr05 = "Character/CharacterBox/1Tier_Magics_130";
-	private const string characterBoxStr06 = "Character/CharacterBox/1Tier_Priest_130";
-	private const string characterBoxStr07 = "Character/CharacterBox/1Tier_Warrior_130";
+    //New Adds For Test
+    //해당플레이어의 캐릭터가 맞는지 체크 하는 2개의 변수
+    public string UserNick { get; set; }            // Hash key.
+    public string UserEmail { get; set; }
+
+    public List<DBEquipment> Equipments { get; set; }
+    public List<DBBasicCharacter> Characters { get; set; }
+    public List<Mail> mail { get; set; }
+    
+    //-----------------------------------------------------------------------------------------------
+
+    private const string characterBoxStr01 = "UI/BoxImages/Character/1Tier_Ancher_130";
+	private const string characterBoxStr02 = "UI/BoxImages/Character/1Tier_Asassin_130";
+	private const string characterBoxStr03 = "UI/BoxImages/Character/1Tier_Commander_130";
+	private const string characterBoxStr04 = "UI/BoxImages/Character/1Tier_Knight_130";
+	private const string characterBoxStr05 = "UI/BoxImages/Character/1Tier_Magics_130";
+	private const string characterBoxStr06 = "UI/BoxImages/Character/1Tier_Priest_130";
+	private const string characterBoxStr07 = "UI/BoxImages/Character/1Tier_Warrior_130";
 
 
 	public List<Equipment> LIST_ITEM = new List<Equipment>();
@@ -30,8 +41,9 @@ public class Player : MonoBehaviour
 
 	public void Init()
 	{
-		//임시 스킬을 부여함 --------------------------------------------------- 나중에 스킬이 확정 됐을 경우 싸악 수정(Unicode파싱 해서 처리)
-		List<ActiveSkill> Warrior_Acitve_List = new List<ActiveSkill>();
+
+        //임시 스킬을 부여함 --------------------------------------------------- 나중에 스킬이 확정 됐을 경우 싸악 수정(Unicode파싱 해서 처리)
+        List<ActiveSkill> Warrior_Acitve_List = new List<ActiveSkill>();
 		List<ActiveSkill> Archer_Acitve_List = new List<ActiveSkill>();
 		List<ActiveSkill> Wizard_Active_List = new List<ActiveSkill> ();
 
@@ -84,12 +96,7 @@ public class Player : MonoBehaviour
 		});
 
 		_charic.activeSkill = Warrior_Acitve_List;
-
-		LIST_HERO.Add (_charic);
-
-
-
-
+        LIST_HERO.Add(_charic);
 		_charic = new CharacterStats ();
 
 		_charic.m_nIndex = 1;
@@ -115,7 +122,7 @@ public class Player : MonoBehaviour
 		_charic.m_fCritical_Damage = 1.5f;
 		_charic.m_nBatchIndex = 2;
 
-		_charic.basicSkill.Add(new BasicSkill(1,1001,"a","attack",0,1,"archer",1,1,100,0,1.0f,"enemy",1,1,"close","p_attack rating의 100%로 공격"));
+		_charic.basicSkill.Add(new BasicSkill(1,1001,"a","attack",0,1,"archer",1,1,100,0,1.0f,"enemy",1,1,"close", "-1", "p_attack rating의 100%로 공격"));
 
 //		//Active
 //		tempActiveSkill = new ActiveSkill(1,1001,"Power Attack","9",2,1,"archer",1,1,0,20,0,0,0,0,0,6,0,120,0,1,1.5f,1.5f,1,"close",0,0,"","","pAttack ratring의 120%로 2회 공격",false);
@@ -151,7 +158,7 @@ public class Player : MonoBehaviour
 		_charic.m_fCritical_Damage = 1.5f;
 		_charic.m_nBatchIndex = 3;
 
-		_charic.basicSkill.Add(new BasicSkill(5,1005,"a","attack",0,1,"priest",1,1,100,100,1.0f,"allay",1,1,"close",""));
+		_charic.basicSkill.Add(new BasicSkill(5,1005,"a","attack",0,1,"priest",1,1,100,100,1.0f,"allay",1,1,"close", "-1",""));
 
 		LIST_HERO.Add (_charic);
 
@@ -181,7 +188,7 @@ public class Player : MonoBehaviour
 		_charic.m_fCritical_Damage = 1.5f;
 		_charic.m_nBatchIndex = 5;
 
-		_charic.basicSkill.Add(new BasicSkill(5,1005,"a","attack",0,1,"priest",1,1,100,100,1.0f,"allay",1,1,"close",""));
+		_charic.basicSkill.Add(new BasicSkill(5,1005,"a","attack",0,1,"priest",1,1,100,100,1.0f,"allay",1,1,"close", "-1", ""));
 
 		LIST_HERO.Add (_charic);
 
@@ -210,7 +217,7 @@ public class Player : MonoBehaviour
 		_charic.m_fCritical_Damage = 1.5f;
 		_charic.m_nBatchIndex = 6;
 
-		_charic.basicSkill.Add(new BasicSkill(1,1001,"a","attack",0,1,"archer",1,1,100,0,1.0f,"enemy",1,1,"close","p_attack rating의 100%로 공격"));
+		_charic.basicSkill.Add(new BasicSkill(1,1001,"a","attack",0,1,"archer",1,1,100,0,1.0f,"enemy",1,1,"close", "-1", "p_attack rating의 100%로 공격"));
 
 		LIST_HERO.Add (_charic);
 
@@ -239,7 +246,7 @@ public class Player : MonoBehaviour
 		_charic.m_fCritical_Damage = 1.5f;
 		_charic.m_nBatchIndex = 9;
 
-		_charic.basicSkill.Add(new BasicSkill(1,1000,"a","attack",0,1,"wizard",1,1,100,0,1.0f,"enemy",1,1,"close","p_attack rating의 100%로 공격"));
+		_charic.basicSkill.Add(new BasicSkill(1,1000,"a","attack",0,1,"wizard",1,1,100,0,1.0f,"enemy",1,1,"close", "-1", "p_attack rating의 100%로 공격"));
 
 //		tempActiveSkill = new ActiveSkill(1,1001,"Power Attack","9",2,1,"wizard",1,1,0,100,0,0,0,0,0,6,10,120,0,1,1.5f,1.5f,1,"close",0,0,"","","pAttack ratring의 120%로 2회 공격",false);
 //

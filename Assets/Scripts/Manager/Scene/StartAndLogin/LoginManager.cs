@@ -62,14 +62,19 @@ public class LoginManager : MonoBehaviour
 	private Player m_Player;
 
 	//Loading Progress bar
-	private const int ntotalBasicDataCount = 15;	//전체 데이터 갯수 
+	private const int ntotalBasicDataCount = 16;	//전체 데이터 갯수 
 	public Slider curSlider;						//현재 진행도
 	public Slider totalSlider;						//전체 진행도
 	public Text progress_Text;						//전체 진행도 텍스트
 	public int nCurProgressValue = 0;				//현재 진행도 값
     public GameObject progressBar_Panel;            //로딩바 패널
 
-	//Aws에서 받는 리스트
+    //Aws에서 받는 리스트
+    //PlayerDatas
+    public DBPlayersCharacter_Personal_ForGet DBPlayersInfo_ForGet = new DBPlayersCharacter_Personal_ForGet();
+    public bool bIsPlayerDataLoaded = false;
+    public bool bIsPlayerDeleteLoaded = false;
+    //Datas
 	public List<DBBaiscCharacter_ForGet> lDBBasicCheacter_GetList = new List<DBBaiscCharacter_ForGet> ();
 	public List<DBActiveSkill_ForGet> lDBActiveSkill_GetList = new List<DBActiveSkill_ForGet> ();
 	public List<DBActiveSkillType_ForGet> lDBActiveSkillType_GetList = new List<DBActiveSkillType_ForGet> ();
@@ -85,6 +90,8 @@ public class LoginManager : MonoBehaviour
 	public List<DBCraftMaterial_ForGet> lDBCraftMaterial_GetList = new List<DBCraftMaterial_ForGet> ();
 	public List<DBBreakMaterial_ForGet> lDBBreakMaterial_GetList = new List<DBBreakMaterial_ForGet> ();
 	public List<DBFormationSkill_ForGet> lDBFormationSkill_GetList = new List<DBFormationSkill_ForGet> ();
+    public List<DBMaterialData_ForGet> lDBMaterialData_GetList = new List<DBMaterialData_ForGet>();
+
 
 
 
@@ -104,9 +111,10 @@ public class LoginManager : MonoBehaviour
 	private const int nCraftMaterialCount = 3;
 	private const int nBreakMaterialCount = 3;
 	private const int nFormationSkillCount = 5;
+    private const int nMaterialDataCount = 7;
 
-	//DB정보 경로
-	private const string sDBBasicCharacterInfoPath = "/BasicCharacter.data";
+    //DB정보 경로
+    private const string sDBBasicCharacterInfoPath = "/BasicCharacter.data";
 	private const string sDBActiveSkillPath = "/ActiveSkill.data";
 	private const string sDBActiveSkilLTypePath = "/ActiveSkilLType.data";
 	private const string sDBPassiveSkillPath = "/PassiveSkill.data";
@@ -123,11 +131,11 @@ public class LoginManager : MonoBehaviour
 	private const string sDBCraftMaterialPath = "/CraftMaterial.data";
 	private const string sDBBreakMaterialPath = "/BreakMaterial.data";
 	private const string sDBFormationSkillPath = "/FormationSkill.data";
+    private const string sDBMaterialDataPath = "/MaterialData.data";
 
 
-
-	//모든 데이터가 로드 됬는지 않됬는지
-	bool bIsFinishLoadDate = false;
+    //모든 데이터가 로드 됬는지 않됬는지
+    bool bIsFinishLoadDate = false;
 
 	//정보 불러올때 띄우는 텍스트
 	public Text loginState_Text;
@@ -314,18 +322,20 @@ public class LoginManager : MonoBehaviour
 
 		_context = Context;
 
+        
 
-		//playerInfo.Put ("Nick", "Smaet");
-		//playerInfo.Put ("Provider", "Google");
-		//playerInfo.Put ("Email", "dkan56@naver.com");
+        //playerInfo.Put ("Nick", "Smaet");
+        //playerInfo.Put ("Provider", "Google");
+        //playerInfo.Put ("Email", "dkan56@naver.com");
 
-		//playerInfo.SynchronizeAsync ();
+        //playerInfo.SynchronizeAsync ();
 
-    
 
-	}
 
-	IEnumerator LoadScene(){
+    }
+
+	IEnumerator LoadScene()
+    {
 		yield return new WaitForSeconds (0.3f);
 
 		ao = SceneManager.LoadSceneAsync ((int)E_SCENE_INDEX.E_MENU);
@@ -345,106 +355,186 @@ public class LoginManager : MonoBehaviour
 		}
 	}
 
-    public void Test()
-    {
-       
 
+    //Playerdata 업데이트
+    public void StartUpdatePlayerData()
+    {
+      
+
+        StartCoroutine(UpdatePlayerData());
+    }
+   
+
+    IEnumerator UpdatePlayerData()
+    {
+
+        DBPlayersCharacter_Personal_ForGet playerdata = new DBPlayersCharacter_Personal_ForGet();
+        playerdata.UserNick     = GameManager.Instance.GetPlayer().UserNick;
+        playerdata.UserEamil    = GameManager.Instance.GetPlayer().UserEmail;
+        playerdata.Characters   = GameManager.Instance.GetPlayer().Characters;
+        playerdata.mail         = GameManager.Instance.GetPlayer().mail;
+
+
+        bool bIsComplete = false;
+
+        yield return null;
+
+
+        Context.SaveAsync(playerdata, (res) =>
+        {
+            if (res.Exception == null)
+            {
+                Debug.Log("Saved Player Mail");
+                bIsComplete = true;
+            }
+            else
+                Debug.Log(res.Exception.ToString());
+
+        });
+    }
+
+    IEnumerator LoadDeletePlayerMail()
+    {
+        yield return null;
+
+        DBPlayersCharacter_Personal_ForGet player = null;
+        
+
+        //Load Table Info
+        Context.LoadAsync<DBPlayersCharacter_Personal_ForGet>("김스맷_0", (result) =>
+        {
+            if (result.Exception == null)
+            {
+                player = result.Result as DBPlayersCharacter_Personal_ForGet;
+                // Update few properties.
+
+                Debug.Log("Nick : " + player.UserNick + "\n");
+
+                //player.mail.character_List.Clear();
+               // player.mail.equipmnet_List.Clear();
+
+                // Update To Save
+                Context.SaveAsync(player, (res) =>
+                {
+                    if (res.Exception == null)
+                    {
+                        //Debug.Log("Player Saved! ->  Mail contents : " + player.mail.nMoney);
+                        //bIsComplete = true;
+                    }
+
+                    else
+                        Debug.Log(res.Exception.ToString());
+
+                });
+                //StartCoroutine(SaveDeletePlayerMail(player));
+            }
+
+        });
 
     }
 
 
 
-    public void StartTestDataSetSave()
+    public void StartGetPlayersData()
     {
-       // StartCoroutine(DataSetSaveInCognito());
-        DBBasicCharacter basicCharacter = new DBBasicCharacter();
-        basicCharacter = GameManager.Instance.lDbBasicCharacter[0];
+        StartCoroutine(GetPlayerData());
+    }
 
+    
+    public IEnumerator GetPlayerData()
+    {
+        yield return null;
+
+        DBPlayersCharacter_Personal_ForGet player = null;
+
+            //Load Table Info
+            Context.LoadAsync<DBPlayersCharacter_Personal_ForGet>("김스맷_0", (result) => {
+            if (result.Exception == null)
+            {
+                player = result.Result as DBPlayersCharacter_Personal_ForGet;
+                // Update few properties.
+
+                Debug.Log("Nick : " + player.UserNick + "\n");
+                //GetCharacter= character;
+                DBPlayersInfo_ForGet = player;
+                bIsPlayerDataLoaded = true;
+                //Index++;
+                player = null;
+
+            }
+        });
+    }
+
+    //player데이터 받기를 완료 했으면 다시 GameManager에 있는 player클래스에 넣어준다.
+    public IEnumerator CheckIsPlayerDataLoaded()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        InitPlayerData();
+        while (true)
+        {
+            if (bIsPlayerDataLoaded == true)
+            {
+                GameManager.Instance.GetPlayer().UserNick  = DBPlayersInfo_ForGet.UserNick;
+                GameManager.Instance.GetPlayer().UserEmail = DBPlayersInfo_ForGet.UserEamil;
+                GameManager.Instance.GetPlayer().Characters = DBPlayersInfo_ForGet.Characters;
+                GameManager.Instance.GetPlayer().mail = DBPlayersInfo_ForGet.mail;
+
+                //만약 메일에서 시간이 날짜를 초과한 것이 있으면 삭제한다.
+                int nMailCount = GameManager.Instance.GetPlayer().mail.Count;
+
+                for (int nLoopCount=0 , nMailIndex = 0; nLoopCount < nMailCount; nLoopCount++)
+                {
+                    DateTime mailTime = GameManager.Instance.GetPlayer().mail[nMailIndex].dateTime;
+                    DateTime curTime = System.DateTime.Now;
+
+                    TimeSpan resultTime = curTime - mailTime;
+
+                    //지정한 기간 이상 지났으면 삭제가 되게 (삭제하는 건 다시 나중에 손보기로 함)
+                    if (resultTime.TotalDays > GameManager.Instance.GetPlayer().mail[nMailIndex].nDays)
+                    {
+                        GameManager.Instance.GetPlayer().mail.Remove(GameManager.Instance.GetPlayer().mail[nMailIndex]);
+                    }
+                    else
+                    {
+                        nMailIndex++;
+                    }
+
+                }
+
+
+                StartCoroutine(GameManager.Instance.DataLoad());
+                GameManager.Instance.LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, false);
+
+                break;
+            }
+            yield return null;
+        }
+    }
+
+    public void InitPlayerData()
+    {
+        //Test
+        //GameManager.Instance.playerData = new DBPlayersCharacter();
+        ////init playerData
+        //GameManager.Instance.playerData.UserNick = "empty";
+        //GameManager.Instance.playerData.UserEmail = "empty";
+        //GameManager.Instance.playerData.Characters = new List<DBBasicCharacter>();
+        //GameManager.Instance.playerData.mail = new List<Mail>();
+
+        Player player = new Player();
+        GameManager.Instance.SetPlayer(player);
         
-        Debug.Log(GameManager.Instance.lDbBasicCharacter[0].Index);
     }
 
     public void StartDataSetSave()
     {
-        //StartCoroutine(DataSetSaveInCognito_FirstLogin());
-       
-
+        StartCoroutine(DataSetSaveInCognito_FirstLogin());
     }
-    //처음 로그인후 닉 과 해당 이메일을 확인조건으로 저장한다
-    IEnumerator DataSetSaveInCognito()
-    {
-
-        
-        DBPlayersCharacter players = new DBPlayersCharacter();
-
-        players.Characters = new List<DBBasicCharacter_Test>();
-        //임시 캐릭터를 집어 넣는다.
-        List<DBBasicCharacter_Test> characters = new List<DBBasicCharacter_Test>();
-
-      
-
-        DBBasicCharacter_Test character = new DBBasicCharacter_Test();
-        character.activeSkills = new List <DBActiveSkill>();
-        character.passiveSkills = new List <DBPassiveSkill>();
-
-        DBActiveSkill activeSkill = new DBActiveSkill(); 
-        activeSkill = GameManager.Instance.lDbActiveSkill[0];
-        character.activeSkills.Add(activeSkill);
-
-
-        DBPassiveSkill passiveSkill = new DBPassiveSkill();
-        passiveSkill = GameManager.Instance.lDbPassiveSkill[0];
-        character.passiveSkills.Add(passiveSkill);
-
-        /*
-        BasicSkill basicSkill = new BasicSkill(GameManager.Instance.lDbBasickill[0]);
-        character.basicSkill.Add(basicSkill);
-        */
-        characters.Add(character);
-
-        players.Index = 0;
-        players.UserEmail = "Empty";
-        players.UserNick = "Empty";
-        players.Characters.Add(character);
-
-        //Debug.Log("Index : " + players.Index + "players Email : " + sEmail + "players Nick : " + sNick + "players Character : " +
-       //     players.Characters[0].Jobs);
-
-        yield return new WaitForSeconds(0.1f);
-
-        // Save the Character.
-        Context.SaveAsync(players, (result) =>
-        {
-            if (result.Exception == null)
-            {
-                Debug.Log("playerInfoSaved");
-                bIsNickInput = true;
-            }
-
-            else
-                Debug.Log(result.Exception.ToString());
-        });
-
-
-        //string myValue = dataset.Get("myKey");
-        //dataset.Put("myKey", "newValue");
-        //playerInfo.Get("");
-        //playerInfo.Put("","");
-
-        //dataset.Remove("myKey");
-
-        //CharacterDBLoadAndPutOperation ();
-
-        nickInputObj.SetActive(false);
-    }
-
     //처음 로그인후 닉 과 해당 이메일을 확인조건으로 저장한다
     IEnumerator DataSetSaveInCognito_FirstLogin()
 	{
-        yield return null;
-        /*
         //playerInfo = SyncManager.OpenOrCreateDataset("PlayerInfo");
-
         sNick = nickInputField.text;
 
 		playerInfo.Put ("Nick", sNick);
@@ -465,17 +555,22 @@ public class LoginManager : MonoBehaviour
         DBBasicCharacter character = new DBBasicCharacter();
         character = GameManager.Instance.lDbBasicCharacter[0];
 
-        ActiveSkill activeSkill = new ActiveSkill(GameManager.Instance.lDbActiveSkill[0]);
+        DBActiveSkill activeSkill = new DBActiveSkill();
+        activeSkill = GameManager.Instance.lDbActiveSkill[0];
         character.activeSkills.Add(activeSkill);
  
-        BasicSkill basicSkill = new BasicSkill(GameManager.Instance.lDbBasickill[0]);
+        DBBasicSkill basicSkill = new DBBasicSkill();
+        basicSkill = GameManager.Instance.lDbBasickill[0];
         character.basicSkill.Add(basicSkill);
      
-        PassiveSkill passiveSkill = new PassiveSkill(GameManager.Instance.lDbPassiveSkill[0]);
+        DBPassiveSkill passiveSkill = new DBPassiveSkill();
+        passiveSkill = GameManager.Instance.lDbPassiveSkill[0];
         character.passiveSkills.Add(passiveSkill);
       
         characters.Add(character);
 
+        yield return null;
+        /*
         players.Index = 0;
         players.UserEmail = sEmail;
         players.UserNick = sNick;
@@ -511,6 +606,7 @@ public class LoginManager : MonoBehaviour
 
         nickInputObj.SetActive (false);
         */
+        
 	}
 
 	//연동이 되어있으면 이메일과 닉을 체크 해서 연동을 한다
@@ -776,14 +872,32 @@ public class LoginManager : MonoBehaviour
 			if (File.Exists (Application.persistentDataPath + sDBFormationSkillPath))
 			{
 				SaveAndLoadBinaryFile(sDBFormationSkillPath, E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA);
-				return;
+                LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_MATERIALDATA);
+                return;
 			}
 			StartCoroutine (isFinishLoadData (_state));
 			for (int i = 0; i < nFormationSkillCount; i++)
 				DBLoadAndPutOperation (_state, i);
 
 			break;
-		default:
+
+            case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
+                curSlider.maxValue = nMaterialDataCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(Application.persistentDataPath + sDBMaterialDataPath))
+                {
+                    SaveAndLoadBinaryFile(sDBMaterialDataPath, E_LOAD_STATE.E_LOAD_GET_MATERIALDATA);
+                    return;
+                }
+
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nMaterialDataCount; i++)
+                    DBLoadAndPutOperation(_state, i);
+
+                break;
+
+
+            default:
 			break;
 
 		}
@@ -1115,7 +1229,31 @@ public class LoginManager : MonoBehaviour
 			});
 
 		}
-	}
+
+        if (_state == E_LOAD_STATE.E_LOAD_GET_MATERIALDATA)
+        {
+            DBMaterialData_ForGet DBMaterialData = null;
+
+            //Load Table Info
+            Context.LoadAsync<DBMaterialData_ForGet>(_index, (result) => {
+                if (result.Exception == null)
+                {
+                    DBMaterialData = result.Result as DBMaterialData_ForGet;
+                    // Update few properties.
+
+                    Debug.Log("DBMaterialData : " + DBMaterialData.Index + "\n");
+                    //GetCharacter= character;
+                    lDBMaterialData_GetList.Add(DBMaterialData);
+
+                    //Index++;
+                    DBMaterialData = null;
+
+                    curSlider.value++;
+                }
+            });
+
+        }
+    }
 
 
 IEnumerator isFinishLoadData(E_LOAD_STATE _state)
@@ -1172,7 +1310,10 @@ IEnumerator isFinishLoadData(E_LOAD_STATE _state)
 	case E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA:
 		sInputText = "포메이션 스킬 정보 받아오는중";
 		break;
-	default:
+    case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
+        sInputText = "재료 정보 받아오는중";
+        break;
+            default:
 		break;
 
 	}
@@ -1407,7 +1548,23 @@ IEnumerator isFinishLoadData(E_LOAD_STATE _state)
 				break;
 			}
 
-			yield return new WaitForSeconds (0.2f);
+            if (lDBMaterialData_GetList.Count == nMaterialDataCount && _state == E_LOAD_STATE.E_LOAD_GET_MATERIALDATA)
+            {
+                totalSlider.value++;
+                loginState_Text.text = " MaterialData 불러오기 완료";
+                #if UNITY_EDITOR
+                LoginCategory_Panel.SetActive(false);
+                InsertInfoToUsingListInGameManager(_state);
+
+
+                #elif UNITY_ANDROID
+			    //LoginCategory_Panel.SetActive (true);
+			    InsertInfoToUsingListInGameManager(_state);
+                #endif
+                break;
+            }
+
+            yield return new WaitForSeconds (0.2f);
 
 			if (nPotCount == 0) {
 				loginState_Text.text = sInputText + ".";
@@ -1455,7 +1612,7 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
 			dbBaseCharacters.Dodge 			        = lDBBasicCheacter_GetList [i].Dodge;
 			dbBaseCharacters.Exp 			        = lDBBasicCheacter_GetList [i].Exp;
 			dbBaseCharacters.ExpMax 		        = lDBBasicCheacter_GetList [i].ExpMax;
-			dbBaseCharacters.Health 		        = lDBBasicCheacter_GetList [i].Exp;
+			dbBaseCharacters.Health 		        = lDBBasicCheacter_GetList [i].Health;
 			dbBaseCharacters.Index 			        = lDBBasicCheacter_GetList [i].Index;
 			dbBaseCharacters.Jobs 			        = lDBBasicCheacter_GetList [i].Jobs;
 			dbBaseCharacters.Levels 		        = lDBBasicCheacter_GetList [i].Levels;
@@ -1930,9 +2087,34 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
 		ListAdjustSort (_state);
 		//로컬 저장
 		SaveAndLoadBinaryFile (sDBFormationSkillPath, _state);
+        //다음 데이터 불러오기
+        LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_MATERIALDATA);
+        break;
 
-		break;
-	default:
+
+        case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
+
+                DBMaterialData DBMaterialData = new DBMaterialData();
+                //용량 설정 (캐릭터의 개수 만큼) 
+                GameManager.Instance.lDBFomationSkill.Capacity = nFormationSkillCount;
+                for (int i = 0; i < nBreakMaterialCount; i++)
+                {
+                    DBMaterialData = new DBMaterialData();
+                    DBMaterialData.nIndex = lDBMaterialData_GetList[i].Index;
+                    DBMaterialData.sMaterialName = lDBMaterialData_GetList[i].MaterialName;
+                    DBMaterialData.sImagePath = lDBMaterialData_GetList[i].MaterialImagePath;
+                    DBMaterialData.sExplanation = lDBMaterialData_GetList[i].MaterialExplanation;
+                    GameManager.Instance.lDBMaterialData.Add(DBMaterialData);
+
+                    DBFormationSkills = null;
+                }
+                //정렬
+                ListAdjustSort(_state);
+                //로컬 저장
+                SaveAndLoadBinaryFile(sDBMaterialDataPath, _state);
+
+                break;
+            default:
 		break;
 	}
 
@@ -1999,9 +2181,12 @@ public void SaveAndLoadBinaryFile(string _path, E_LOAD_STATE _loadState)
 			break;
 		case E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA:
 			bf.Serialize (fileStream, GameManager.Instance.lDBFomationSkill);
-			bIsFinishLoadDate = true;
 			break;
-		default:
+        case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
+            bf.Serialize(fileStream, GameManager.Instance.lDBMaterialData);
+            bIsFinishLoadDate = true;
+            break;
+        default:
 			break;
 		}
 
@@ -2060,20 +2245,21 @@ public void SaveAndLoadBinaryFile(string _path, E_LOAD_STATE _loadState)
 		case E_LOAD_STATE.E_LOAD_GET_STAGEDATA:
 			GameManager.Instance.lDBStageData = (List<DBStageData>)bf.Deserialize (fileStream);
 			break;
-
 		case E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA:
 			GameManager.Instance.lDBCraftMaterial = (List<DBCraftMaterial>)bf.Deserialize (fileStream);
 			break;
-
 		case E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA:
 			GameManager.Instance.lDBBreakMaterial = (List<DBBreakMaterial>)bf.Deserialize (fileStream);
 			break;
 		case E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA:
 			GameManager.Instance.lDBFomationSkill = (List<DBFormationSkill>)bf.Deserialize (fileStream);
-			bIsFinishLoadDate = true;
 			break;
+        case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
+            GameManager.Instance.lDBMaterialData = (List<DBMaterialData>)bf.Deserialize(fileStream);
+            bIsFinishLoadDate = true;
+            break;
 
-		default:
+        default:
 			break;
 		}
 
@@ -2095,15 +2281,16 @@ IEnumerator CheckBasicDataLoadEnd()
 	{
 		if(bIsFinishLoadDate== true)
 		{
-                StartTestDataSetSave();
                 //Test();
                 //로그인 관련 패널 온(구글, 페이스북, Guest)
                 //LoginCategory_Panel.SetActive(true);
                 ////로딩바 false
+                //TestUserData (김스맷_0)
+                StartGetPlayersData();
+                StartCoroutine(CheckIsPlayerDataLoaded());
+                //GetTestPlayerData();
                 progressBar_Panel.SetActive(false);
-                StartCoroutine (GameManager.Instance.DataLoad ());
-			    GameManager.Instance.LoadScene (E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, false);
-			break;
+			    break;
 		}
 		else
 			yield return null;
@@ -2285,8 +2472,18 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 			});
 			Debug.Log ("FormationSkill Sort Confirm!!");
 			break;
+        case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
+            GameManager.Instance.lDBMaterialData.Sort(delegate (DBMaterialData A, DBMaterialData B) {
+                if (A.nIndex > B.nIndex)
+                    return 1;
+                else if (A.nIndex < B.nIndex)
+                    return -1;
+                return 0;
+            });
+            Debug.Log("MaterialData Sort Confirm!!");
+            break;
 
-		default:
+            default:
 			break;
 		}
 }
@@ -2547,21 +2744,21 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 #endif
     #endregion
 
-  
-    //각각의 플레이어 마다 가지고 있는 캐릭터들
-    [DynamoDBTable("PlayersInfoTable")]
-    public class DBPlayersCharacter
+
+
+    //특정플레이어를 검색하기 위한 테이블
+    [DynamoDBTable("PlayersInfoTable_Personal")]
+    public class DBPlayersCharacter_Personal_ForGet
     {
         [DynamoDBHashKey]
-        public int Index { get; set; }                      // Hash key.
-        [DynamoDBProperty("UserEmail")]
-        public string UserEmail { get; set; }               // Hash key.
-        [DynamoDBProperty("UserNick")]
         public string UserNick { get; set; }
+        [DynamoDBProperty("UserEmail")]
+        public string UserEamil { get; set; }               // Hash key.
         [DynamoDBProperty("CharactersInfo")]
-        public List<DBBasicCharacter_Test> Characters { get; set; }
+        public List<DBBasicCharacter> Characters { get; set; }
+        [DynamoDBProperty("UserMailInfo")]
+        public List<Mail> mail { get; set; }
     }
-
 
 
     [DynamoDBTable("CharacterBasicInfoTable")]
@@ -2855,31 +3052,31 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 	public class DBbasicSkill_ForGet
 	{
 		[DynamoDBHashKey]   
-		public int Index { get; set; } 					// Hash key.
+		public int Index { get; set; } 					        // Hash key.
 
 		[DynamoDBProperty("C_Index")]
-		public int C_Index { get; set; }				// CharacterIndex 
+		public int C_Index { get; set; }				        // CharacterIndex 
 
 		[DynamoDBProperty("BasicSkill_Name")]
-		public string BasicSkill_Name { get; set;}		// BasicSkill_Name
+		public string BasicSkill_Name { get; set;}		        // BasicSkill_Name
 
 		[DynamoDBProperty("BasicSkill_Type")]
-		public string BasicSkill_Type { get; set;}		// BasicSkill_Type
+		public string BasicSkill_Type { get; set;}		        // BasicSkill_Type
 
 		[DynamoDBProperty("BasicSkill_Class")]
-		public int BasicSkill_Class{ get; set;}			// BasicSkill_Class
+		public int BasicSkill_Class{ get; set;}			        // BasicSkill_Class
 
 		[DynamoDBProperty("BasicSkill_Tier")]
-		public int BasicSkill_Tier { get; set;}			// BasicSkill_Name
+		public int BasicSkill_Tier { get; set;}			        // BasicSkill_Name
 
 		[DynamoDBProperty("BasicSkill_Job")]
-		public string BasicSkill_Job { get; set;}			// BasicSkill_Job
+		public string BasicSkill_Job { get; set;}			    // BasicSkill_Job
 
 		[DynamoDBProperty("BasicSkill_Attribute")]
-		public int BasicSkill_Attribute { get; set;}	// BasicSkill_Attribute
+		public int BasicSkill_Attribute { get; set;}	        // BasicSkill_Attribute
 
 		[DynamoDBProperty("BasicSkill_AttackType")]
-		public int BasicSkill_AttackType { get; set;}	// BasicSkill_AttackType
+		public int BasicSkill_AttackType { get; set;}	        // BasicSkill_AttackType
 
 		[DynamoDBProperty("BasicSkill_PhysicMagnification")]
 		public int BasicSkill_PhysicMagnification { get; set;}	// BasicSkill_PhysicMagnification
@@ -2888,25 +3085,25 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 		public int BasicSkill_MagicMagnification { get; set;}	// BasicSkill_MagicMagnification
 
 		[DynamoDBProperty("BasicSkill_AttackArea")]
-		public float BasicSkill_AttackArea { get; set;}	// BasicSkill_공격범위
+		public float BasicSkill_AttackArea { get; set;}	        // BasicSkill_공격범위
 
 		[DynamoDBProperty("BasicSkill_SkillTarget")]
-		public string BasicSkill_SkillTarget { get; set;}	// BasicSkill_SkillTarget
+		public string BasicSkill_SkillTarget { get; set;}	    // BasicSkill_SkillTarget
 
 		[DynamoDBProperty("BasicSkill_MaxTargetNumber")]
-		public int BasicSkill_MaxTargetNumber { get; set;}	// BasicSkill_MaxTargetNumber
+		public int BasicSkill_MaxTargetNumber { get; set;}	    // BasicSkill_MaxTargetNumber
 
 		[DynamoDBProperty("BasicSkill_AttackNumber")]
-		public int BasicSkill_AttackNumber { get; set;}		// BasicSkill_AttackNumber
+		public int BasicSkill_AttackNumber { get; set;}		    // BasicSkill_AttackNumber
 
 		[DynamoDBProperty("BasicSkill_AttackPriority")]
-		public string BasicSkill_AttackPriority { get; set;} // BasicSkill_AtttackPriority
+		public string BasicSkill_AttackPriority { get; set;}    // BasicSkill_AtttackPriority
 
-		[DynamoDBProperty("BasicSkill_Explanation")]
-		public string BasicSkill_Explanation { get; set;}	// BasicSkill_Explanationxw
+        [DynamoDBProperty("BasicSkill_RangeSprite")]
+        public string BasicSkill_RangeSprite { get; set; }      // BasicSkill_RangeSprite
 
-
-
+        [DynamoDBProperty("BasicSkill_Explanation")]
+		public string BasicSkill_Explanation { get; set;}	    // BasicSkill_Explanation
 
 	}
 
@@ -3254,6 +3451,23 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 		public string FormationSkill_Explanation { get; set; }		// EpicStone 
 
 	}
+
+    [DynamoDBTable("DBMaterialData")]
+    public class DBMaterialData_ForGet
+    {
+        [DynamoDBHashKey]
+        public int Index { get; set; }                              // Hash key.
+
+        [DynamoDBProperty("MaterialName")]
+        public string MaterialName { get; set; }
+
+        [DynamoDBProperty("MaterialImagePath")]
+        public string MaterialImagePath { get; set; }
+
+        [DynamoDBProperty("MaterialExplanation")]
+        public string MaterialExplanation { get; set; }
+
+    }
 }
 
 

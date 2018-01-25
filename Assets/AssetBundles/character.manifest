@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1445289480
+CRC: 3452186279
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b7fc008b27c648154777c4e9b7e3af95
+    Hash: deab26137273c5e4da06e24300ad6190
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5397b51db353127180bd030ffe711ac4
@@ -32,4 +32,3 @@ Assets:
 - Assets/Resources/Prefabs/Character/Assassin_Basic.prefab
 Dependencies:
 - C:/Users/ksyy2/Documents/OuchMercenary/Assets/AssetBundles/characteranim/archer
-- C:/Users/ksyy2/Documents/OuchMercenary/Assets/AssetBundles/characteranim/assassin
