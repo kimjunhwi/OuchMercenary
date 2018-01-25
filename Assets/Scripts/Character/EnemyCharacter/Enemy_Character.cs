@@ -135,7 +135,7 @@ public class Enemy_Character : Character {
 				animator.SetTrigger ("Walk");
 
 				if (targetCharacter == null)
-					CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
+					CheckCharacterState (E_CHARACTER_STATE.E_WALK);
 
 				//자신 보다 오른쪽에 있을 경우 
 				if (transform.position.x < targetCharacter.transform.position.x) {
@@ -175,7 +175,7 @@ public class Enemy_Character : Character {
 				else 
 					StartCoroutine(TweenMove(new Vector3(transform.position.x - 0.5f,transform.position.y,transform.position.z),1.0f));
 
-				animator.SetBool("Dead",true);
+				animator.SetTrigger("Die");
 			}
 			break;
 		}
@@ -188,42 +188,7 @@ public class Enemy_Character : Character {
 		switch (E_CHARIC_STATE) {
 		case E_CHARACTER_STATE.E_WAIT:
 			{
-				//공격 모드
-				if (bIsMode) 
-				{
-					//현재 활성화 된 캐릭터들 중에서 인식 범위 안에 들어온 리스트 들을 반환 
-					ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fSite);
-
-					//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
-					if (targetLists.Count > 0) {
-
-						//제일 가까운 캐릭터를 반환한다.
-						targetCharacter = (Character)targetLists [0];
-
-						//찾은 캐릭터로 이동 
-						CheckCharacterState (E_CHARACTER_STATE.E_TARGET_CHARACTER_MOVE);
-
-						break;
-					}
-				} 
-				//자유 모드
-				else 
-				{
-					//현재 활성화 된 캐릭터들 중에서 인식 범위 안에 들어온 리스트 들을 반환 
-					ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
-
-					//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
-					if (targetLists.Count > 0) {
-
-						//제일 가까운 캐릭터를 반환한다.
-						targetCharacter = (Character)targetLists [0];
-
-						//찾은 캐릭터로 이동 
-						CheckCharacterState (E_CHARACTER_STATE.E_ATTACK);
-
-						break;
-					}
-				}
+				CheckCharacterState (E_CHARACTER_STATE.E_WALK);
 			}
 			break;
 		case E_CHARACTER_STATE.E_WALK:
@@ -266,7 +231,7 @@ public class Enemy_Character : Character {
 				//타겟 캐릭터가 도중에 없어졌을 경우 
 				if (targetCharacter == null) {
 
-					CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
+					CheckCharacterState (E_CHARACTER_STATE.E_WALK);
 					break;
 				}
 
@@ -303,7 +268,7 @@ public class Enemy_Character : Character {
 				//타겟 캐릭터가 도중에 없어졌을 경우 
 				if (targetCharacter == null) {
 
-					CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
+					CheckCharacterState (E_CHARACTER_STATE.E_WALK);
 					yield break;
 				}
 
@@ -332,7 +297,7 @@ public class Enemy_Character : Character {
 
 					CastObject.SetActive (false);
 
-					CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
+					CheckCharacterState (E_CHARACTER_STATE.E_WALK);
 				}
 			}
 			break;

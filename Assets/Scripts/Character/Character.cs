@@ -16,6 +16,9 @@ public class Character : MonoBehaviour {
 	protected bool m_bIsPoison = false;			//중독상태
 	protected bool m_bIsSturn = false;			//스턴상태
 
+	protected float m_fDestoryTime = 0.0f;
+	protected const float m_fConstDestroyTime = 0.5f;
+
 	protected float m_fBleedTime = 0.0f;
 	protected float m_fBurnTime = 0.0f;
 	protected float m_fPoisonTime = 0.0f;
@@ -29,6 +32,10 @@ public class Character : MonoBehaviour {
 	protected GameObject PoisonObject;
 	protected GameObject SturnObject;
 	protected GameObject CastObject;
+
+	public ParticleSystem PhysicalParticle;
+	public ParticleSystem MagicParticle;
+
 	//------------------------------------------------------------------
 
 	protected int m_nAttackCount = 0;			//n횟수 공격시 발동하는 엑티브 스킬을 위함
@@ -85,6 +92,8 @@ public class Character : MonoBehaviour {
 		PoisonObject = transform.GetChild (4).gameObject;
 		SturnObject = transform.GetChild (5).gameObject;
 		CastObject = transform.GetChild (6).gameObject;
+		PhysicalParticle = transform.GetChild (7).GetComponent<ParticleSystem> ();
+		MagicParticle = transform.GetChild (8).GetComponent<ParticleSystem> ();
 	}
 
 	protected virtual void OnEnable()
@@ -136,8 +145,6 @@ public class Character : MonoBehaviour {
 
 			gameObject.transform.position = _vecPosition;
 
-			CheckCharacterState (E_CHARACTER_STATE.E_WALK);
-
 			spriteRender.flipX = true;
 		}
 	
@@ -145,7 +152,9 @@ public class Character : MonoBehaviour {
 		m_fCurrentHp = charicStats.m_fHealth;
 		m_fMaxHp = m_fCurrentHp;
 
-		animator.runtimeAnimatorController = ObjectCashing.Instance.LoadAnimationController("Animation/" + charicStats.m_strJob);
+		animator.runtimeAnimatorController = ObjectCashing.Instance.LoadAnimationController("Animation/Character/" + charicStats.m_strJob);
+
+		CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
 	 }
 
 	//액션이 변경이 됐을때 초기화를 진행
@@ -295,6 +304,9 @@ public class Character : MonoBehaviour {
 		//Parsing된 스킬에서 SkillType과 Target을 받아옴
 		//cf
 
+		if(charicStats.activeSkill[_nActiveSkillIndex].m_strAnimationClip != "-1")
+			animator.SetTrigger (charicStats.activeSkill [_nActiveSkillIndex].m_strAnimationClip);
+
 		string[] strActiveTypes = charicStats.activeSkill[_nActiveSkillIndex].m_strSkillType.Split(',');
 
 		for(int nIndex = 0; nIndex < strActiveTypes.Length; nIndex++)
@@ -363,7 +375,7 @@ public class Character : MonoBehaviour {
 				SetPoison(_fDamage,_fTime);
 			}
 			break;
-			case E_ACTIVE_TYPE.E_STRUN:
+		case E_ACTIVE_TYPE.E_STURN:
 			{
 				SetSturn(_fDamage,_fTime);
 			}

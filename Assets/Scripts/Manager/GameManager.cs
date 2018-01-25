@@ -1032,7 +1032,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	{
 		GameObject Root_ui = GameObject.Find("Canvas"); //ui attach
 		GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Window_POPUP/Window_yesno"), Vector3.zero, Quaternion.identity) as GameObject;
-		go.transform.parent = Root_ui.transform;
+		go.transform.SetParent (Root_ui.transform, false);
 		go.transform.localPosition = Vector3.zero;
 		go.transform.localRotation = Quaternion.identity;
 		go.transform.localScale = Vector3.one;
@@ -1076,38 +1076,51 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 		_summonCharacter.passiveSkill = new List<PassiveSkill> ();
 
-//		DBBasicSkill basicSkill = GameManager.Instance.lDbBasickill.Find (x => x.nCharacterIndex == _summonCharacter.m_nCharacterIndex);
-//
-//		_summonCharacter.basicSkill.Add (new BasicSkill (basicSkill));
+		DBBasicSkill basicSkill = GameManager.Instance.lDbBasickill.Find (x => x.nCharacterIndex == _summonCharacter.m_nCharacterIndex);
+
+		_summonCharacter.basicSkill.Add (new BasicSkill (basicSkill));
 
 		for (int nIndex = _summonCharacter.m_nTier; nIndex > 0; nIndex--) 
 		{
-//			int nRandomIndex = 0;
-//			
-//			List<DBActiveSkill> active_List = GameManager.Instance.lDbActiveSkill.FindAll (x => x.m_nTier == nIndex);
-//
-//			nRandomIndex = Random.Range (0, active_List.Count);
-//
-//			_summonCharacter.activeSkill.Add (new ActiveSkill (active_List [nRandomIndex]));
-//
-//
-//			List<DBPassiveSkill> passive_List = GameManager.Instance.lDbPassiveSkill.FindAll (x => x.nCharacterIndex == -1 && nIndex == x.nTier);
-//
-//			passive_List.AddRange (GameManager.Instance.lDbPassiveSkill.FindAll (x => x.nCharacterIndex == _summonCharacter.m_nCharacterIndex));
-//
-//			nRandomIndex = Random.Range (0, passive_List.Count);
-//
-//			PassiveSkill newPassiveSkill = new PassiveSkill (passive_List [nRandomIndex]);
-//
-//			//newPassiveSkill.optionData = new DBPassiveSkillOptionIndex(GameManager.Instance.lDbPassiveSkillOptionIndex[newPassiveSkill.nOptionIndex]);
-//
-//			_summonCharacter.passiveSkill.Add (newPassiveSkill);
+			int nRandomIndex = 0;
+			
+			List<DBActiveSkill> active_List = GameManager.Instance.lDbActiveSkill.FindAll (x => x.m_nTier == nIndex);
+
+			nRandomIndex = Random.Range (0, active_List.Count);
+
+			_summonCharacter.activeSkill.Add (new ActiveSkill (active_List [nRandomIndex]));
+
+
+			List<DBPassiveSkill> passive_List = GameManager.Instance.lDbPassiveSkill.FindAll (x => x.nCharacterIndex == -1 && nIndex == x.nTier);
+
+			passive_List.AddRange (GameManager.Instance.lDbPassiveSkill.FindAll (x => x.nCharacterIndex == _summonCharacter.m_nCharacterIndex));
+
+			nRandomIndex = Random.Range (0, passive_List.Count - 1);
+
+			PassiveSkill newPassiveSkill = new PassiveSkill (passive_List [nRandomIndex]);
+
+			newPassiveSkill.optionData = new PassiveSkillOptionIndex(GameManager.Instance.lDbPassiveSkillOptionIndex[newPassiveSkill.nOptionIndex]);
+
+			_summonCharacter.passiveSkill.Add (newPassiveSkill);
 		}
 
 		_summonCharacter.m_nBatchIndex = 5;
 
 		return _summonCharacter;
 	}
+
+
+	public string GetConvertString(int _nTribeIndex)
+	{
+		switch (_nTribeIndex) {
+		case (int)E_TRIBE.E_HUMAN:
+			return "인간종";
+			break;
+		}
+
+		return null;
+	}
+
 	#endregion
 
 }

@@ -27,6 +27,9 @@ public class SkillManager : MonoBehaviour {
 		}
 		
 		_skillee.TakeDamage (GetResultBasicDamage(_skiller,_skillee,_bIsCritical));
+
+		if (_skiller.GetStats ().basicSkill [0].nAttribute == 1) _skillee.PhysicalParticle.Play ();
+		else 													 _skillee.MagicParticle.Play ();
 	}
 
 	public void ActiveAttack(ActiveSkill _activeSkill, Character _skiller, Character _skillee,bool _bIsCritical)
@@ -115,7 +118,7 @@ public class SkillManager : MonoBehaviour {
 				}
 			}
 			break;
-			case (int)E_ACTIVE_TYPE.E_BUFF_HP:
+		case (int)E_ACTIVE_TYPE.E_BUFF_SHIELD:
 			{
 
 			}
@@ -185,17 +188,23 @@ public class SkillManager : MonoBehaviour {
 
 			}
 			break;
-			case (int)E_ACTIVE_TYPE.E_STRUN:
+		case (int)E_ACTIVE_TYPE.E_STURN:
 			{
 
 			}
 			break;
-			case (int)E_ACTIVE_TYPE.E_MIN_HEAL:
-			{
 
-			}
-			break;
 			case (int)E_ACTIVE_TYPE.E_HEAL:
+			{
+
+			}
+			break;
+		case (int)E_ACTIVE_TYPE.E_TAUNT:
+			{
+
+			}
+			break;
+		case (int)E_ACTIVE_TYPE.E_INVULNERABLE:
 			{
 
 			}

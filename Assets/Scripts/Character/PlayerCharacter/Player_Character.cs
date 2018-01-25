@@ -141,13 +141,13 @@ public class Player_Character : Character {
 			break;
 		case E_CHARACTER_STATE.E_DEAD:
 			{
-				characterManager.Remove(this);
+				if (spriteRender.flipX == true)
+					StartCoroutine(TweenMove(new Vector3(transform.position.x + 1.5f,transform.position.y,transform.position.z),1.0f));
 
-				battleManager.CharacterDie (E_Type.E_Hero);
+				else 
+					StartCoroutine(TweenMove(new Vector3(transform.position.x - 1.5f,transform.position.y,transform.position.z),1.0f));
 
-				spriteRender.flipX = false;
-
-				animator.SetBool("Dead",true);
+				animator.SetTrigger("Die");
 			}
 			break;
 		}
@@ -304,6 +304,8 @@ public class Player_Character : Character {
 					nActiveSkillIndex = -1;
 
 					Attack ();
+
+					animator.Rebind ();
 				}
 			}
 			break;
@@ -335,14 +337,12 @@ public class Player_Character : Character {
 
 		case E_CHARACTER_STATE.E_DEAD:
 			{
-				alphaColor.a = Mathf.Lerp(spriteRender.color.a,0,m_fDisableSpeed * Time.deltaTime);
+				m_fDestoryTime += Time.deltaTime;
 
-				spriteRender.color = alphaColor;
-
-				if(spriteRender.color.a == 0.0f)
+				if (m_fDestoryTime > m_fConstDestroyTime) 
 				{
-					
-
+					characterManager.Remove (this);
+					battleManager.CharacterDie (E_Type.E_Hero);
 				}
 			}
 			break;

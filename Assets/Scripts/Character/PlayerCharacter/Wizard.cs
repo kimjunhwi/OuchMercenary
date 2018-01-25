@@ -8,7 +8,6 @@ public class Wizard : Player_Character
 	protected override void Awake ()
 	{
 		base.Awake ();
-
 	}
 
 	protected override void OnEnable()

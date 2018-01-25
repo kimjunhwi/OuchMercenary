@@ -12,56 +12,34 @@ public enum StageChapterInfo
 	Chapter02 ,
 }
 
-public class StageDefensePanel : ToggleUIBase 
+public class StageDefensePanel :MonoBehaviour
 {
-	public StagePanel stagePanel;
+	public Button StartButton;
+
+	public Player player;
+
+	public DefenceStageButton[] forestButtons;
+
+
+	void Awake()
+	{
+		player = GameManager.Instance.GetPlayer ();
+	}
 
 	void Start()
 	{
-		togglePanel[0].SetActive (true);
-		togglePanel[1].SetActive (false);
+		StartButton.onClick.AddListener(() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_BATTLE, ReadOnlys.E_SCENE_INDEX.E_STAGE,false));
 
-		toggle[0].onValueChanged.AddListener((x)=>ActivePanel(StageChapterInfo.Chapter01));
-		toggle[1].onValueChanged.AddListener((x)=>ActivePanel(StageChapterInfo.Chapter02));
+		AllDisableDefenceButtons ();
 
+		forestButtons [player.nDefenceChapterOne].SetUpSprite (true);
 	}
 
-	public override void ActivePanel<T> (T _chapterIndex) 
+	public void AllDisableDefenceButtons()
 	{
-		//base.ActivePanel (ref _chapterIndex);
-
-		//Enum.Parse(타입, T의 스트링)
-		var eType = Enum.Parse(typeof( StageChapterInfo), _chapterIndex.ToString());
-
-
-		switch ((StageChapterInfo)eType) 
+		for (int nIndex = 0; nIndex < forestButtons.Length; nIndex++) 
 		{
-		case StageChapterInfo.Chapter01:
-			Debug.Log ("Active Chapter01 Panel!!");
-
-			togglePanel [1].SetActive (false);
-			togglePanel [0].SetActive (true);
-
-			break;
-		case StageChapterInfo.Chapter02:
-			Debug.Log ("Active Chapter01 Panel!!");
-
-			togglePanel [1].SetActive (true);
-			togglePanel [0].SetActive (false);
-
-			break;
-
-		default:
-			break;
+			forestButtons [nIndex].SetUpSprite (false);	
 		}
 	}
-
-	public void ActivePreBattlePanel()
-	{
-		this.gameObject.SetActive (false);
-		stagePanel.preBattle_Obj.SetActive (true);
-	}
-
-
-
 }

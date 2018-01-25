@@ -204,7 +204,7 @@ namespace ReadOnlys
 		E_BLEED,
 		E_BURN,
 		E_POISON,
-		E_BUFF_HP,
+		E_BUFF_SHIELD,
 		E_BUFF_ACCURACY,
 		E_BUFF_ATTACK_RANGE,
 		E_BUFF_P_ATTACK_RATING,
@@ -218,9 +218,10 @@ namespace ReadOnlys
 		E_BUFF_P_PENETRATE,
 		E_BUFF_M_PENETRATE,
 		E_BUFF_COOLTIME,
-		E_STRUN,
-		E_MIN_HEAL,
+		E_STURN,
 		E_HEAL,
+		E_TAUNT,
+		E_INVULNERABLE,
 	}
 
 	public enum E_CHARACTER_TYPE
@@ -236,43 +237,74 @@ namespace ReadOnlys
 	}
 
 
+	public enum E_EQUIMENT_TYPE
+	{
+		E_WEAPON = 0,
+		E_ARMOR,
+		E_GLOVE,
+		E_ACCESSORY,
+	}
+
+	public enum E_RANDOM_OPTION
+	{
+		E_HP = 0,
+		E_ACCURACY,
+		E_ALL_ATTACK_RATING,
+		E_PHSYICAL_ATTACK_RATING,
+		E_MAGIC_ATTACK_RATING,
+		E_ALL_PENETRATE,
+		E_PHSYICAL_PENETRATE,
+		E_MAGIC_PENETRATE,
+		E_ALL_DEFENSE,
+		E_PHSYICAL_DEFENSE,
+		E_MAGIC_DEFENSE,
+		E_DODGE,
+		E_CRITICAL_RATING,
+		E_CRITICAL_DAMAGE,
+		E_ATTACK_SPEED,
+		E_COOLTIME,
+		E_EXP_BOOST,
+	}
+
+
 	#region Class 
 
-
-[System.Serializable]
+	[System.Serializable]
 	public class CharacterStats
 	{
 
 		public int m_nIndex;				//인덱스
-		
+
+		public int m_nCharacterIndex;
+
 		public string m_strJobName; 		//주 직업
-		
+
 		public string m_strCharicName;		//캐릭 이름
-		
+
 		public int m_nEnhace;				//강화 횟수
-		
+
 		public string m_strJob;				//직업 
-		
+
 		public int m_nLevel;				//레벨
-		
+
 		public int m_nTier;					//티어 
 
 		public int m_nAttribute;			//공격 속성 (물리 , 마법 , x)
-		
+
 		public int m_nAttackType;			//공격 타입 (근거리, 원거리) 
-		
+
 		public int m_nTribe;				//종족 (인간 등..)
 
 		public float m_fSite;				//적 인식 범위 
-		
+
 		public float m_fHealth;				//체력
-		
+
 		public float m_fAccuracy;			//명중률
 
 		public float m_fAttack_Range;		//공격 사거리
 
 		public float m_fPhyiscal_Rating;	//물리 공격력(%)
-		
+
 		public float m_fMagic_Rating;		//마법 공격력(%)
 
 		public float m_fAttackSpeed;		//공격 속도
@@ -280,13 +312,13 @@ namespace ReadOnlys
 		public float m_fMoveSpeed;			//이동 속도
 
 		public float m_fPhysical_Defence;	//물리 방어력
-		
+
 		public float m_fMasic_Defence;		//마법 방어력
 
 		public float m_fDodge;				//회피율
-		
+
 		public float m_fCritical_Rating;	//크리 확률
-		
+
 		public float m_fCritical_Damage;	//크리 데미지
 
 		public float m_fPhysicalPenetrate;	//물리 관통
@@ -310,6 +342,7 @@ namespace ReadOnlys
 		public CharacterStats(CharacterStats _charic)
 		{
 			m_nIndex 			= _charic.m_nIndex;
+			m_nCharacterIndex	= _charic.m_nCharacterIndex;
 			m_strJobName 		= _charic.m_strJobName;
 			m_strCharicName 	= _charic.m_strCharicName;
 			m_nEnhace 			= _charic.m_nEnhace;
@@ -341,6 +374,7 @@ namespace ReadOnlys
 		public CharacterStats(DBBasicCharacter _charic)
 		{
 			m_nIndex 			= _charic.Index;
+			m_nCharacterIndex	= _charic.C_Index;
 			m_strJobName 		= _charic.C_JobNames;
 			m_strCharicName 	= _charic.C_Name;
 			m_nEnhace 			= _charic.C_Enhance;
@@ -364,7 +398,7 @@ namespace ReadOnlys
 			m_fCritical_Rating 	= _charic.Crit_Rating;
 			m_fCritical_Damage 	= _charic.Crit_Dmg;
 			m_nBatchIndex 		= _charic.Betch_Index;
-			
+
 		}
 
 		public CharacterStats()
@@ -409,9 +443,9 @@ namespace ReadOnlys
 		public int m_bIsCooltime;				//사용 할 수 있는가 
 
 		public ActiveSkill(int _nIndex,int _nCharacterIndex,string _strName,string _strSkillType , int _nSkillClass,int _nTier,string _strJob,
-							int _nAttribute,int _nAttackType, int _nActivePriority,float _fAttack_ActiveRating,float _fCriticalAttack_ActiveRating,
+			int _nAttribute,int _nAttackType, int _nActivePriority,float _fAttack_ActiveRating,float _fCriticalAttack_ActiveRating,
 			int _nAttackCount_ActiveRating,float _fMiss_ActiveRating, float _fDodgy_ActiveRating,float _fHit_ActiveRating,float _fCoolTime,float _fCastTime,
-							float _fPhysicalMagnification,float _fMagicMagnification,int _nAttackNumber,float _fAttackRange,float _fAttackArea, 
+			float _fPhysicalMagnification,float _fMagicMagnification,int _nAttackNumber,float _fAttackRange,float _fAttackArea, 
 			int _nMaxTargetNumber,string _strAttackPriority,float  _fKnockback_Power, float _fDuration,string _strEffectName,string _strAnimationClip, string _strExplanation,int _bIsCooltime)
 		{
 			m_nIndex = _nIndex;
@@ -476,50 +510,49 @@ namespace ReadOnlys
 	[System.Serializable]
 	public class BasicSkill {
 
-    public int nIndex;             //스킬에 대한 인덱스
-    public int nCharacterIndex;    //소유가능한 캐릭터 인덱스
-    public string strSkillName;    //스킬 이름
-    public string strSkillType;    //스킬 타입 0 =basic attack,1= formation, 2 = active attack, 3 =  buff, 4 = debuff,
-    public int nTier;              //캐릭터 전직 단계
-    public int nSkillClass;        //스킬 분류
-    public string strJob;          //소유 가능한 직업
-    public int nAttribute;         //속성 물리,마법인지
-    public int nAttackType;        //공격 타입 (근접, 원거리, 0)
-    public float fPhsyicMagnification;   //물리 속성 공격
-    public float fMagicMagnification;    //마법 속성 공격
-	public float fAttackArea;
-    public string strSkillTarget;      //대상
-    public int nMaxTargetNumber;       //최대 공격 개수
-    public int nAttackNumber;          //공격 횟수
-    public string strAttackPriority;   //공격 우선순위
-    public string strRangeSprite;
-    public string strExplanation;      //스킬 설명
+		public int nIndex;             //스킬에 대한 인덱스
+		public int nCharacterIndex;    //소유가능한 캐릭터 인덱스
+		public string strSkillName;    //스킬 이름
+		public string strSkillType;    //스킬 타입 0 =basic attack,1= formation, 2 = active attack, 3 =  buff, 4 = debuff,
+		public int nTier;              //캐릭터 전직 단계
+		public int nSkillClass;        //스킬 분류
+		public string strJob;          //소유 가능한 직업
+		public int nAttribute;         //속성 물리,마법인지
+		public int nAttackType;        //공격 타입 (근접, 원거리, 0)
+		public float fPhsyicMagnification;   //물리 속성 공격
+		public float fMagicMagnification;    //마법 속성 공격
+		public float fAttackArea;
+		public string strSkillTarget;      //대상
+		public int nMaxTargetNumber;       //최대 공격 개수
+		public int nAttackNumber;          //공격 횟수
+		public string strAttackPriority;   //공격 우선순위
+		public string strRangeSprite;
+		public string strExplanation;      //스킬 설명
 
-    public BasicSkill(int _nindex,int _nCharacterIndex,string _strSkillName,string _strSkillType,int _nTier, int _nSkillClass,
-                        string _strJob,int _nAttribute, int _nAttackType, int _nPhsyicMagnification, int _nMagicMagnification,float _fAttackArea,
-						string _strSkillTarget, int _nMaxTargetNumber, int _nAttackNumber,string _strAttackPriority, string _strRangeSprite, string _strExplain)
-                        {
-                                nIndex = _nindex;
-                                nCharacterIndex = _nCharacterIndex;
-                                strSkillName = _strSkillName;
-                                strSkillType = _strSkillType;
-                                nTier = _nTier;
-                                nSkillClass = _nSkillClass;
-                                strJob = _strJob;
-                                nAttribute = _nAttribute;
-                                nAttackType = _nAttackType;
-                                fPhsyicMagnification = _nPhsyicMagnification;
-                                fMagicMagnification = _nMagicMagnification;
-								fAttackArea = _fAttackArea;
-                                strSkillTarget = _strSkillTarget;
-                                nMaxTargetNumber = _nMaxTargetNumber;
-                                nAttackNumber = _nAttackNumber;
-                                strAttackPriority = _strAttackPriority;
-            strRangeSprite = _strRangeSprite;
-                                strExplanation = _strExplain;
+		public BasicSkill(int _nindex,int _nCharacterIndex,string _strSkillName,string _strSkillType,int _nTier, int _nSkillClass,
+			string _strJob,int _nAttribute, int _nAttackType, int _nPhsyicMagnification, int _nMagicMagnification,float _fAttackArea,
+			string _strSkillTarget, int _nMaxTargetNumber, int _nAttackNumber,string _strAttackPriority,string _strExplain)
+		{
+			nIndex = _nindex;
+			nCharacterIndex = _nCharacterIndex;
+			strSkillName = _strSkillName;
+			strSkillType = _strSkillType;
+			nTier = _nTier;
+			nSkillClass = _nSkillClass;
+			strJob = _strJob;
+			nAttribute = _nAttribute;
+			nAttackType = _nAttackType;
+			fPhsyicMagnification = _nPhsyicMagnification;
+			fMagicMagnification = _nMagicMagnification;
+			fAttackArea = _fAttackArea;
+			strSkillTarget = _strSkillTarget;
+			nMaxTargetNumber = _nMaxTargetNumber;
+			nAttackNumber = _nAttackNumber;
+			strAttackPriority = _strAttackPriority;
+			strExplanation = _strExplain;
 
-                        }
-	
+		}
+
 		public BasicSkill(DBBasicSkill _skill)
 		{
 			nIndex = _skill.nIndex;
@@ -538,10 +571,9 @@ namespace ReadOnlys
 			nMaxTargetNumber = _skill.nMaxTargetNumber;
 			nAttackNumber = _skill.nAttackNumber;
 			strAttackPriority = _skill.strAttackPriority;
-            strRangeSprite = _skill.strRangeSprite;
 			strExplanation = _skill.strExplanation;
 		}
-	
+
 	}
 
 
@@ -575,7 +607,7 @@ namespace ReadOnlys
 		public int nAttribute;         //속성 물리,마법인지,두개다
 		public int nAttackType;        //공격 타입 (근접, 원거리, 두개 =다)
 		public int nOptionIndex;
-		public DBPassiveSkillOptionIndex optionData;
+		public PassiveSkillOptionIndex optionData;
 		public string strExplanation;  //스킬 설명
 
 		public PassiveSkill(DBPassiveSkill _skill)
@@ -591,6 +623,38 @@ namespace ReadOnlys
 			nOptionIndex = int.Parse( _skill.strOption_List);
 			nAttackType = _skill.nAttackType;
 			strExplanation = _skill.strExplanation;
+		}
+	}
+
+	[System.Serializable]
+	public class PassiveSkillOptionIndex
+	{
+		public int nIndex;
+
+		public int nOptionIndex;
+
+		public float fValue;
+
+		public float fPlus;
+
+		public int nCalculate;
+
+		public PassiveSkillOptionIndex()
+		{
+
+		}
+
+		public PassiveSkillOptionIndex(DBPassiveSkillOptionIndex _skill)
+		{
+			nIndex = _skill.nIndex;
+
+			nOptionIndex = _skill.nOptionIndex;
+
+			fValue = _skill.fValue;
+
+			fPlus = _skill.fPlus;
+
+			nCalculate = _skill.nCalculate;
 		}
 
 	}
@@ -832,7 +896,7 @@ namespace ReadOnlys
 		public int nQulity;
 		public string strPossibleJob;
 		public int nEnhance;
-		public int nEquimnetType;
+		public string strEquimnetType;
 		public float fPhysical_Attack_Rating;
 		public float fMagic_Attack_Rating;
 		public float fHp;
