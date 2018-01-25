@@ -221,7 +221,7 @@ namespace ReadOnlys
 		E_BLEED,
 		E_BURN,
 		E_POISON,
-		E_BUFF_HP,
+		E_BUFF_SHIELD,
 		E_BUFF_ACCURACY,
 		E_BUFF_ATTACK_RANGE,
 		E_BUFF_P_ATTACK_RATING,
@@ -235,9 +235,10 @@ namespace ReadOnlys
 		E_BUFF_P_PENETRATE,
 		E_BUFF_M_PENETRATE,
 		E_BUFF_COOLTIME,
-		E_STRUN,
-		E_MIN_HEAL,
+		E_STURN,
 		E_HEAL,
+		E_TAUNT,
+		E_INVULNERABLE,
 	}
 
 	public enum E_CHARACTER_TYPE
@@ -252,6 +253,34 @@ namespace ReadOnlys
 		E_COMMAND,
 	}
 
+	public enum E_EQUIMENT_TYPE
+	{
+		E_WEAPON = 0,
+		E_ARMOR,
+		E_GLOVE,
+		E_ACCESSORY,
+	}
+
+	public enum E_RANDOM_OPTION
+	{
+		E_HP = 0,
+		E_ACCURACY,
+		E_ALL_ATTACK_RATING,
+		E_PHSYICAL_ATTACK_RATING,
+		E_MAGIC_ATTACK_RATING,
+		E_ALL_PENETRATE,
+		E_PHSYICAL_PENETRATE,
+		E_MAGIC_PENETRATE,
+		E_ALL_DEFENSE,
+		E_PHSYICAL_DEFENSE,
+		E_MAGIC_DEFENSE,
+		E_DODGE,
+		E_CRITICAL_RATING,
+		E_CRITICAL_DAMAGE,
+		E_ATTACK_SPEED,
+		E_COOLTIME,
+		E_EXP_BOOST,
+	}
 
 	#region Class 
 
@@ -261,6 +290,8 @@ namespace ReadOnlys
 	{
 
 		public int m_nIndex;				//인덱스
+
+		public int m_nCharacterIndex;
 		
 		public string m_strJobName; 		//주 직업
 		
@@ -327,6 +358,7 @@ namespace ReadOnlys
 		public CharacterStats(CharacterStats _charic)
 		{
 			m_nIndex 			= _charic.m_nIndex;
+			m_nCharacterIndex	= _charic.m_nCharacterIndex;
 			m_strJobName 		= _charic.m_strJobName;
 			m_strCharicName 	= _charic.m_strCharicName;
 			m_nEnhace 			= _charic.m_nEnhace;
@@ -358,6 +390,7 @@ namespace ReadOnlys
 		public CharacterStats(DBBasicCharacter _charic)
 		{
 			m_nIndex 			= _charic.Index;
+			m_nCharacterIndex	= _charic.C_Index;
 			m_strJobName 		= _charic.C_JobNames;
 			m_strCharicName 	= _charic.C_Name;
 			m_nEnhace 			= _charic.C_Enhance;
@@ -509,6 +542,7 @@ namespace ReadOnlys
     public int nMaxTargetNumber;       //최대 공격 개수
     public int nAttackNumber;          //공격 횟수
     public string strAttackPriority;   //공격 우선순위
+	public string strRangeSprite;
     public string strExplanation;      //스킬 설명
 
     public BasicSkill(int _nindex,int _nCharacterIndex,string _strSkillName,string _strSkillType,int _nTier, int _nSkillClass,
@@ -589,7 +623,7 @@ namespace ReadOnlys
 		public int nAttribute;         //속성 물리,마법인지,두개다
 		public int nAttackType;        //공격 타입 (근접, 원거리, 두개 =다)
 		public int nOptionIndex;
-		public DBPassiveSkillOptionIndex optionData;
+		public PassiveSkillOptionIndex optionData;
 		public string strExplanation;  //스킬 설명
 
 		public PassiveSkill(DBPassiveSkill _skill)
@@ -605,6 +639,38 @@ namespace ReadOnlys
 			nOptionIndex = int.Parse( _skill.strOption_List);
 			nAttackType = _skill.nAttackType;
 			strExplanation = _skill.strExplanation;
+		}
+	}
+
+	[System.Serializable]
+	public class PassiveSkillOptionIndex
+	{
+		public int nIndex;
+
+		public int nOptionIndex;
+
+		public float fValue;
+
+		public float fPlus;
+
+		public int nCalculate;
+
+		public PassiveSkillOptionIndex()
+		{
+
+		}
+
+		public PassiveSkillOptionIndex(DBPassiveSkillOptionIndex _skill)
+		{
+			nIndex = _skill.nIndex;
+
+			nOptionIndex = _skill.nOptionIndex;
+
+			fValue = _skill.fValue;
+
+			fPlus = _skill.fPlus;
+
+			nCalculate = _skill.nCalculate;
 		}
 
 	}
@@ -902,13 +968,14 @@ namespace ReadOnlys
 	[System.Serializable]
 	public class Equipment
 	{
+		public int nUniqueIndex;
 		public int nIndex;
 		public string strName;
 		public int nTier;
 		public int nQulity;
 		public string strPossibleJob;
 		public int nEnhance;
-		public int nEquimnetType;
+		public string strEquimnetType;
 		public float fPhysical_Attack_Rating;
 		public float fMagic_Attack_Rating;
 		public float fHp;

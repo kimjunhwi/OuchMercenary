@@ -1455,7 +1455,7 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
 			dbBaseCharacters.Dodge 			        = lDBBasicCheacter_GetList [i].Dodge;
 			dbBaseCharacters.Exp 			        = lDBBasicCheacter_GetList [i].Exp;
 			dbBaseCharacters.ExpMax 		        = lDBBasicCheacter_GetList [i].ExpMax;
-			dbBaseCharacters.Health 		        = lDBBasicCheacter_GetList [i].Exp;
+			dbBaseCharacters.Health 		        = lDBBasicCheacter_GetList [i].Health;
 			dbBaseCharacters.Index 			        = lDBBasicCheacter_GetList [i].Index;
 			dbBaseCharacters.Jobs 			        = lDBBasicCheacter_GetList [i].Jobs;
 			dbBaseCharacters.Levels 		        = lDBBasicCheacter_GetList [i].Levels;
@@ -2901,6 +2901,9 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 
 		[DynamoDBProperty("BasicSkill_AttackPriority")]
 		public string BasicSkill_AttackPriority { get; set;} // BasicSkill_AtttackPriority
+
+		[DynamoDBProperty("BasicSkill_RangeSprite")]
+		public string BasicSkill_RangeSprite { get; set; } // BasicSkill_RangeSprite
 
 		[DynamoDBProperty("BasicSkill_Explanation")]
 		public string BasicSkill_Explanation { get; set;}	// BasicSkill_Explanationxw

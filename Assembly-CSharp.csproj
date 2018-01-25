@@ -267,6 +267,7 @@
      <Compile Include="Assets\Scripts\AssetBundle\LoadAssetBundle.cs" />
      <Compile Include="Assets\Scripts\Character\Character.cs" />
      <Compile Include="Assets\Scripts\Character\EnemyCharacter\Enemy_Archer.cs" />
+     <Compile Include="Assets\Scripts\Character\EnemyCharacter\Enemy_Assasin.cs" />
      <Compile Include="Assets\Scripts\Character\EnemyCharacter\Enemy_Character.cs" />
      <Compile Include="Assets\Scripts\Character\EnemyCharacter\Enemy_Knight.cs" />
      <Compile Include="Assets\Scripts\Character\EnemyCharacter\Enemy_Mechanic.cs" />
@@ -274,6 +275,7 @@
      <Compile Include="Assets\Scripts\Character\EnemyCharacter\Enemy_Warrior.cs" />
      <Compile Include="Assets\Scripts\Character\EnemyCharacter\Enemy_Wizard.cs" />
      <Compile Include="Assets\Scripts\Character\PlayerCharacter\Archer.cs" />
+     <Compile Include="Assets\Scripts\Character\PlayerCharacter\Assasin.cs" />
      <Compile Include="Assets\Scripts\Character\PlayerCharacter\Commander.cs" />
      <Compile Include="Assets\Scripts\Character\PlayerCharacter\Knight.cs" />
      <Compile Include="Assets\Scripts\Character\PlayerCharacter\Mechanic.cs" />
@@ -327,6 +329,8 @@
      <Compile Include="Assets\Scripts\UI\PreBattle\MercenaryDispatchSlot.cs" />
      <Compile Include="Assets\Scripts\UI\PreBattle\PreBattleScenePanel.cs" />
      <Compile Include="Assets\Scripts\UI\Stage\Defense\Chapter.cs" />
+     <Compile Include="Assets\Scripts\UI\Stage\Defense\DefenceStageButton.cs" />
+     <Compile Include="Assets\Scripts\UI\Stage\Defense\DefenceStageInfo.cs" />
      <Compile Include="Assets\Scripts\UI\Stage\Defense\StageDefensePanel.cs" />
      <Compile Include="Assets\Scripts\UI\Stage\StageBase.cs" />
      <Compile Include="Assets\Scripts\UI\Stage\StagePanel.cs" />

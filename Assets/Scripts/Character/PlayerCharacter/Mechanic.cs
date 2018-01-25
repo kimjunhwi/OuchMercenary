@@ -27,77 +27,75 @@ public class Mechanic : Player_Character {
 
 	public override void Attack ()
 	{
-		nActiveSkillIndex = CheckActiveAttack ();
+		nActiveSkillIndex = (int)E_SKILL_TYPE.E_NONE;
 
-		if (nActiveSkillIndex == (int)E_SKILL_TYPE.E_NONE) {
+		for (int nAttackCount = 0; nAttackCount < charicStats.basicSkill [0].nAttackNumber; nAttackCount++) {
 
-			Debug.Log ("BaseAttack");
+			bool bIsCritical = false;
 
-			for (int nAttackCount = 0; nAttackCount < charicStats.basicSkill[0].nAttackNumber; nAttackCount++) {
+			//만약 공격 하려던 캐릭터가 죽어있다면
+			if (targetCharacter.IsDead ()) { 
+				CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
+				return;
+			}
 
-				bool bIsCritical = false;
+			nAttackCount++;
 
-				//만약 공격 하려던 캐릭터가 죽어있다면
-				if(targetCharacter.IsDead())
-				{ 
-					//다시 공격범위 안에 있는 캐릭터를 탐색
-					ResetTargetCharacter(charicStats.m_fAttack_Range);
+			//크리 확률체크
+			if (Random.Range (0, 100) < charicStats.m_fCritical_Rating) {
+				bIsCritical = true;
 
-					//공격 범위안에 있는 캐릭이 null일 경우 종료
-					if (targetCharacter == null)
-						return;
-				}
+				for (int nIndex = 0; nIndex < charicStats.activeSkill.Count; nIndex++) {
+					if (Random.Range (0, 100) < charicStats.activeSkill [nIndex].m_fCriticalAttack_ActiveRating) {
+						nActiveSkillIndex = nIndex;
 
-				nAttackCount++;
-
-				//
-				if(Random.Range(0,100) < charicStats.m_fCritical_Rating)
-				{
-					bIsCritical = true;
-
-					for(int nIndex = 0; nIndex < charicStats.activeSkill.Count;nIndex++)
-					{
-						if(Random.Range(0,100) < charicStats.activeSkill[nIndex].m_fCriticalAttack_ActiveRating)
-						{
-							nActiveSkillIndex = nIndex;
-
-							break;
-						}
-					}
-
-					if(nActiveSkillIndex != (int)E_SKILL_TYPE.E_NONE)
-					{
-
-						continue;
+						break;
 					}
 				}
+			}
 
+			//크리엑티브 스킬발동 
+			if (nActiveSkillIndex != (int)E_SKILL_TYPE.E_NONE) {
+
+				StartCoroutine (SkillCoolTime ());
+
+				if (charicStats.activeSkill [nActiveSkillIndex].m_fCastTime == 0) {
+					base.PlayActiveSkill (nActiveSkillIndex, false);
+
+				} else {
+					CheckCharacterState (E_CHARACTER_STATE.E_CAST);
+				}
+
+				continue;
+			}
+
+			nActiveSkillIndex = CheckActiveAttack ();
+
+			//기본 스킬
+			if (nActiveSkillIndex == (int)E_SKILL_TYPE.E_NONE) {
 				//1.사거리안에 들어온 캐릭터가 1개 이상일 경우
 				//2.적 캐릭터에서 공격 범위 만큼의 리스트를 구한 후
 				//3.그 안에 있는 캐릭터에게 공격 횟수 만큼 데미지를 준다.
-				ArrayList targetLists = characterManager.FindTargetArea(this,targetCharacter,charicStats.basicSkill[0].fAttackArea);
+				ArrayList targetLists = characterManager.FindMyCharacterArea(this,targetCharacter,charicStats.basicSkill[0].fAttackArea);
 
-				for (int nIndex = 0; nIndex < charicStats.basicSkill[0].nMaxTargetNumber; nIndex++) {
+				for (int nIndex = 0; nIndex < charicStats.basicSkill[0].nMaxTargetNumber; nIndex++) 
+				{
 					//만약 타겟수가 공격 해야할 캐릭터 수보다 적을 경우 종료
 					if (targetLists.Count <= nIndex) {
 						break;
 					}
 
-					skillManager.BasicAttack (this, (Character)targetLists [nIndex],bIsCritical);
+					skillManager.TargetHeal (this, (Character)targetLists [nIndex], bIsCritical);
 				}
-			}
-		} 
-		else 
-		{
-			StartCoroutine(SkillCoolTime());
+			} else {
+				StartCoroutine (SkillCoolTime ());
 
-			if (charicStats.activeSkill [nActiveSkillIndex].m_fCastTime == 0) 
-			{
-				base.PlayActiveSkill (nActiveSkillIndex, false);
-			} 
-			else 
-			{
-				CheckCharacterState (E_CHARACTER_STATE.E_CAST);
+				if (charicStats.activeSkill [nActiveSkillIndex].m_fCastTime == 0) {
+					base.PlayActiveSkill (nActiveSkillIndex, false);
+
+				} else {
+					CheckCharacterState (E_CHARACTER_STATE.E_CAST);
+				}
 			}
 		}
 	}

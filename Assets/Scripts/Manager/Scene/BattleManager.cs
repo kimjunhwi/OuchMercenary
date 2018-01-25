@@ -118,6 +118,9 @@ public class BattleManager : MonoBehaviour {
 		nMaxWaveIndex 	= 0;
 
 
+		player.TEST_MY_HERO [1].m_nBatchIndex = 13;
+
+
 		stageData = GameManager.Instance.lDBStageData [0];
 
 		StageInit ();
@@ -181,14 +184,14 @@ public class BattleManager : MonoBehaviour {
 			_stWave.Enemy_Queue = new Queue<stEnemyData> ();
 
 			string[] strEnemies = strWaveEnemies [nIndex].Split (','); 
-			string[] strCreateTimes = strWaveEnemies [nIndex].Split (',');
+			string[] strCreateTimes = strWaveCreateTimes [nIndex].Split (',');
 			string[] strPlusYPosition = strWavePlusYPosition [nIndex].Split (',');
 
 			for (int nEnemyIndex = 0; nEnemyIndex < strEnemies.Length; nEnemyIndex++) {
 
-				_stEnemyData.fCreateTime = float.Parse (strCreateTimes [nIndex]);
-				_stEnemyData.fPlusYPosition = float.Parse (strPlusYPosition [nIndex]);
-				_stEnemyData.Enemy_Data = new CharacterStats(GameManager.Instance.lDbBasicCharacter [int.Parse (strEnemies [nIndex])]);
+				_stEnemyData.fCreateTime = float.Parse (strCreateTimes [nEnemyIndex]);
+				_stEnemyData.fPlusYPosition = float.Parse (strPlusYPosition [nEnemyIndex]);
+				_stEnemyData.Enemy_Data = GameManager.Instance.SummonCharacter( int.Parse (strEnemies [nEnemyIndex]));
 
 				_stWave.Enemy_Queue.Enqueue (_stEnemyData);
 			}
@@ -209,13 +212,14 @@ public class BattleManager : MonoBehaviour {
 
 			//각 직업에 맞는 클래스를 추가해줌
 			//if(characterStats.m_strJob.Contains("Assassin")) 
-			if (characterStats.m_strJob.Contains ("Warrior")) 		charic = characterObject.AddComponent<Warrior> ();
-			else if (characterStats.m_strJob.Contains ("Archer"))	charic = characterObject.AddComponent<Archer> ();
-			else if (characterStats.m_strJob.Contains ("Priest"))	charic = characterObject.AddComponent<Priest> ();
-			else if (characterStats.m_strJob.Contains ("Commander"))charic = characterObject.AddComponent<Commander> ();
-			else if (characterStats.m_strJob.Contains ("Knight"))	charic = characterObject.AddComponent<Knight> ();
-			else if (characterStats.m_strJob.Contains ("Wizard")) 	charic = characterObject.AddComponent<Wizard> ();
-			else if( characterStats.m_strJob.Contains("Mechanic")) 	charic = characterObject.AddComponent<Mechanic> ();
+			if (characterStats.m_strJob.Contains ("warrior"))		charic = characterObject.AddComponent<Warrior> ();
+			else if (characterStats.m_strJob.Contains ("assassin") || characterStats.m_strJob.Contains("clown"))	charic = characterObject.AddComponent<Assasin> ();
+			else if (characterStats.m_strJob.Contains ("archer"))	charic = characterObject.AddComponent<Archer> ();
+			else if (characterStats.m_strJob.Contains ("priest"))	charic = characterObject.AddComponent<Priest> ();
+			else if (characterStats.m_strJob.Contains ("commander"))charic = characterObject.AddComponent<Commander> ();
+			else if (characterStats.m_strJob.Contains ("knight"))	charic = characterObject.AddComponent<Knight> ();
+			else if (characterStats.m_strJob.Contains ("wizard") || characterStats.m_strJob.Contains ("mage")) 	charic = characterObject.AddComponent<Wizard> ();
+			else if( characterStats.m_strJob.Contains("mechanic")) 	charic = characterObject.AddComponent<Mechanic> ();
 
 			//4x4배치이므로 x,y위치를 구하고 그 위치를 저장
 			int nValue = characterStats.m_nBatchIndex / 4;
@@ -241,18 +245,18 @@ public class BattleManager : MonoBehaviour {
 			if (Wave_List [nNowWaveIndex].Enemy_Queue.Count == 0) 
 			{
 
-				if (nNowWaveIndex > nMaxWaveIndex) 
-				{
-					break;
-				}
+				yield return null;
 			}
-
-			if (Wave_List [nNowWaveIndex].Enemy_Queue.Peek ().fCreateTime < fPlusTimer) 
+			else if (Wave_List [nNowWaveIndex].Enemy_Queue.Peek ().fCreateTime < fPlusTimer) 
 			{
 				stEnemyData _charicData = Wave_List [nNowWaveIndex].Enemy_Queue.Dequeue ();
 
 				CreateEnemyCharacter (_charicData.Enemy_Data, _charicData.fPlusYPosition);
+
+				yield return null;
 			}
+
+			yield return null;
 		}
 	}
 
@@ -264,13 +268,13 @@ public class BattleManager : MonoBehaviour {
 
 		Character charic = null;
 
-		if (characterStats.m_strJob.Contains ("Warrior")) 		charic = characterObject.AddComponent<Enemy_Warrior> ();
-		else if (characterStats.m_strJob.Contains ("Archer"))	charic = characterObject.AddComponent<Enemy_Archer> ();
-		else if (characterStats.m_strJob.Contains ("Priest"))	charic = characterObject.AddComponent<Enemy_Priest> ();
-		else if (characterStats.m_strJob.Contains ("Commander"))charic = characterObject.AddComponent<Commander> ();
-		else if (characterStats.m_strJob.Contains ("Knight"))	charic = characterObject.AddComponent<Enemy_Knight> ();
-		else if (characterStats.m_strJob.Contains ("Wizard")) 	charic = characterObject.AddComponent<Enemy_Wizard> ();
-		else if( characterStats.m_strJob.Contains("Mechanic")) 	charic = characterObject.AddComponent<Enemy_Mechanic> ();
+		if (characterStats.m_strJob.Contains ("warrior"))		charic = characterObject.AddComponent<Enemy_Warrior> ();
+		else if (characterStats.m_strJob.Contains ("assassin") || characterStats.m_strJob.Contains("clown"))	charic = characterObject.AddComponent<Enemy_Assasin> ();
+		else if (characterStats.m_strJob.Contains ("archer"))	charic = characterObject.AddComponent<Enemy_Archer> ();
+		else if (characterStats.m_strJob.Contains ("priest"))	charic = characterObject.AddComponent<Enemy_Priest> ();
+		else if (characterStats.m_strJob.Contains ("knight"))	charic = characterObject.AddComponent<Enemy_Knight> ();
+		else if (characterStats.m_strJob.Contains ("wizard") || characterStats.m_strJob.Contains ("mage")) 	charic = characterObject.AddComponent<Enemy_Wizard> ();
+		else if( characterStats.m_strJob.Contains("mechanic")) 	charic = characterObject.AddComponent<Enemy_Mechanic> ();
 
 		vecPosition = new Vector3 (7 , 5 - _fPlusYPosition, 0);
 
@@ -303,7 +307,7 @@ public class BattleManager : MonoBehaviour {
 		nCurMin = 0;
 		fCurSec = _fTime;
 
-		while (fCurSec < 60) 
+		while (fCurSec > 60) 
 		{
 			nCurMin++;
 			fCurSec -= 60.0f;
@@ -311,6 +315,9 @@ public class BattleManager : MonoBehaviour {
 			
 		while (true) 
 		{
+			if (E_BATTLE_STATE.E_RESULT == Battle_State)
+				yield break;
+
 			fCurSec -= Time.deltaTime;
 			fPlusTimer += Time.deltaTime;
 
@@ -336,7 +343,7 @@ public class BattleManager : MonoBehaviour {
 					nCurMin = 0;
 					fCurSec = Wave_List[nNowWaveIndex].fWaveTime;
 
-					while (fCurSec < 60) 
+					while (fCurSec > 60) 
 					{
 						nCurMin++;
 						fCurSec -= 60.0f;
@@ -376,7 +383,7 @@ public class BattleManager : MonoBehaviour {
 				nCurMin = 0;
 				fCurSec =Wave_List[nNowWaveIndex].fWaveTime;
 
-				while (fCurSec < 60) 
+				while (fCurSec > 60) 
 				{
 					nCurMin++;
 					fCurSec -= 60.0f;
