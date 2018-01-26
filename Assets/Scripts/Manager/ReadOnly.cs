@@ -11,6 +11,7 @@ namespace ReadOnlys
         E_CHECK_ASSETDATA_MAINSCENE_PREFABDATA = 0,
         E_CHECK_ASSETDATA_MAINSCENE_PREFABS,
         E_CHECK_ASSETDATA_MAINSCENE_SLOTS,
+        E_CHECK_ASSETDATA_WINDOW,
     }
 
     #region LoginManager
@@ -87,13 +88,12 @@ namespace ReadOnlys
 		E_BATTLE,
 		E_STAGE,
 		E_MERMANAGE,
-		E_EMPLOYER,
 		E_LOADING,
 		E_LOADING_SHORT,
 		E_STAGE_HEALING,
 		E_STAGE_TRAINNIG,
-
-	};
+        E_EMPLOYER,
+    };
 
 	//물리 타입, 마법 타입, 무
 	enum E_ATTRIBUTE : int

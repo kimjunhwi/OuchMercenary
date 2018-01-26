@@ -77,8 +77,6 @@ public class Summon : MonoBehaviour {
 
 
 		//주
-//		
-//
 //		if (Random.Range (0, 100) < nOneTierPercent) 			nSummonTier = (int)E_CHARACTER_TIER.E_ONE;
 //		else if (Random.Range (0, 100) < nTwoTierPercent) 		nSummonTier = (int)E_CHARACTER_TIER.E_TWO;
 //		else if (Random.Range (0, 100) < nThreeTierPercent) 	nSummonTier = (int)E_CHARACTER_TIER.E_THREE;
