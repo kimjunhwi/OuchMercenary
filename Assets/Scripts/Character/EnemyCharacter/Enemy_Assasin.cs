@@ -31,8 +31,6 @@ public class Enemy_Assasin : Enemy_Character {
 	{
 		nActiveSkillIndex = (int)E_SKILL_TYPE.E_NONE;
 
-		Debug.Log ("BaseAttack");
-
 		for (int nAttackCount = 0; nAttackCount < charicStats.basicSkill [0].nAttackNumber; nAttackCount++) {
 
 			bool bIsCritical = false;

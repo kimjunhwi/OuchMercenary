@@ -19,7 +19,7 @@ public class StageDefensePanel :MonoBehaviour
 	public Player player;
 
 	public DefenceStageButton[] forestButtons;
-
+	public GameObject PrepareBattleTotalPanel;
 
 	void Awake()
 	{
@@ -28,7 +28,9 @@ public class StageDefensePanel :MonoBehaviour
 
 	void Start()
 	{
-		StartButton.onClick.AddListener(() => GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_BATTLE, ReadOnlys.E_SCENE_INDEX.E_STAGE,false));
+		StartButton.onClick.AddListener(() => PrepareBattleTotalPanel.SetActive(true));
+
+		//GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_BATTLE, ReadOnlys.E_SCENE_INDEX.E_STAGE,false));
 
 		AllDisableDefenceButtons ();
 

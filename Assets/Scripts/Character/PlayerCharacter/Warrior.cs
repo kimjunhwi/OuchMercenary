@@ -28,7 +28,7 @@ public class Warrior : Player_Character {
 
 		if (nActiveSkillIndex == (int)E_SKILL_TYPE.E_NONE) {
 
-			Debug.Log ("BaseAttack");
+
 
 			for (int nAttackCount = 0; nAttackCount < charicStats.basicSkill[0].nAttackNumber; nAttackCount++) {
 
@@ -71,6 +71,10 @@ public class Warrior : Player_Character {
 					}
 				}
 
+				animator.SetTrigger ("Attack");
+
+				Debug.Log ("BaseAttack");
+
 				//1.사거리안에 들어온 캐릭터가 1개 이상일 경우
 				//2.적 캐릭터에서 공격 범위 만큼의 리스트를 구한 후
 				//3.그 안에 있는 캐릭터에게 공격 횟수 만큼 데미지를 준다.
@@ -88,6 +92,8 @@ public class Warrior : Player_Character {
 		} 
 		else 
 		{
+			Debug.Log (charicStats.activeSkill [nActiveSkillIndex].m_strAnimationClip);
+
 			StartCoroutine(SkillCoolTime());
 
 			if (charicStats.activeSkill [nActiveSkillIndex].m_fCastTime == 0) 

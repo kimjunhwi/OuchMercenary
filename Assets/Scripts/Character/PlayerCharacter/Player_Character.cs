@@ -299,13 +299,9 @@ public class Player_Character : Character {
 
 					m_fAttackTime = 0.0f;
 
-					animator.SetTrigger ("Attack");
-
 					nActiveSkillIndex = -1;
 
 					Attack ();
-
-					animator.Rebind ();
 				}
 			}
 			break;

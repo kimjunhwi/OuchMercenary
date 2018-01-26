@@ -1084,7 +1084,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		{
 			int nRandomIndex = 0;
 			
-			List<DBActiveSkill> active_List = GameManager.Instance.lDbActiveSkill.FindAll (x => x.m_nTier == nIndex);
+		List<DBActiveSkill> active_List = GameManager.Instance.lDbActiveSkill.FindAll (x => x.m_nCharacterIndex == _summonCharacter.m_nCharacterIndex);
 
 			nRandomIndex = Random.Range (0, active_List.Count);
 

@@ -39,19 +39,19 @@ public class StagePanel : MonoBehaviour
 		switch (_index) 
 		{
 		case E_STAGE_INDEX.E_STAGE_INDEX_DEFENSE:
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_DEFENSE].SetActive (true);
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_ATTACK].SetActive (false);
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_INFINITE].SetActive (false);
+			{
+
+			}
 			break;
 		case E_STAGE_INDEX.E_STAGE_INDEX_ATTACK:
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_DEFENSE].SetActive (false);
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_ATTACK].SetActive (true);
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_INFINITE].SetActive (false);
+			{
+
+			}
 			break;
 		case E_STAGE_INDEX.E_STAGE_INDEX_INFINITE:
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_DEFENSE].SetActive (false);
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_ATTACK].SetActive (false);
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_INFINITE].SetActive (true);
+			{
+
+			}
 			break;
 		default:
 			break;

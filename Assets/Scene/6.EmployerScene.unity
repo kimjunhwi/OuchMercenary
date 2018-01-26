@@ -435,7 +435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nSummonTier: 0
-  nSummonIndex: 1033
+  nSummonIndex: 1032
   nOneTierPercent: 70
   nTwoTierPercent: 25
   nThreeTierPercent: 5

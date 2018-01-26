@@ -28,8 +28,6 @@ public class Enemy_Wizard : Enemy_Character {
 		if (nActiveSkillIndex == (int)E_SKILL_TYPE.E_NONE) 
 		{
 
-			Debug.Log ("BaseAttack");
-
 			for (int nAttackCount = 0; nAttackCount < charicStats.basicSkill[0].nAttackNumber; nAttackCount++) {
 
 				bool bIsCritical = false;

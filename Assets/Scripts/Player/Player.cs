@@ -41,6 +41,8 @@ public class Player : MonoBehaviour
 	public int nDefenceChapterOne = 0;
 	public int nDefenceChapterTwo = 0;
 
+	public int m_nChapterType = (int)E_STAGE_INDEX.E_STAGE_INDEX_ATTACK;
+
 	public void Init()
 	{
 
