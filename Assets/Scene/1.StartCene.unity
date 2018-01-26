@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -665,68 +665,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 600321830}
---- !u!1001 &693568208
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4539189567653450, guid: ba03f5399ce694cff923db1a60027fc6, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -7.38
-      objectReference: {fileID: 0}
-    - target: {fileID: 4539189567653450, guid: ba03f5399ce694cff923db1a60027fc6, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -0.23
-      objectReference: {fileID: 0}
-    - target: {fileID: 4539189567653450, guid: ba03f5399ce694cff923db1a60027fc6, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4539189567653450, guid: ba03f5399ce694cff923db1a60027fc6, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4539189567653450, guid: ba03f5399ce694cff923db1a60027fc6, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4539189567653450, guid: ba03f5399ce694cff923db1a60027fc6, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4539189567653450, guid: ba03f5399ce694cff923db1a60027fc6, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4539189567653450, guid: ba03f5399ce694cff923db1a60027fc6, type: 2}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1421981109743502, guid: ba03f5399ce694cff923db1a60027fc6, type: 2}
-      propertyPath: m_Name
-      value: BaseCharacter (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 212891737365539554, guid: ba03f5399ce694cff923db1a60027fc6,
-        type: 2}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: f913a936534cf45c482b9ca446145127,
-        type: 3}
-    - target: {fileID: 95762702041705950, guid: ba03f5399ce694cff923db1a60027fc6,
-        type: 2}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 95e44b92f4d344d539fb8940bd5cbeca, type: 2}
-    - target: {fileID: 212891737365539554, guid: ba03f5399ce694cff923db1a60027fc6,
-        type: 2}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: ba03f5399ce694cff923db1a60027fc6, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &734754105
 GameObject:
   m_ObjectHideFlags: 0

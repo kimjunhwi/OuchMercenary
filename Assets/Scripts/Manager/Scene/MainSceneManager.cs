@@ -31,6 +31,8 @@ enum E_CANVAS_UI_ORDER
     E_CANVAS_UI_ACTIVEBUTTON,               //엑티브 버튼
     E_CANVAS_UI_MERCENARYHEAL,              //치료소
     E_CANVAS_UI_MERCENARYTRAINNING,         //훈련소
+    E_CANVAS_UI_MERCENARYEMPLOY,            //용병 소환
+    E_CANVAS_UI_STAGE,                      //스테이지
     E_CANVAS_UI_INFO,                       //플레이어 정보
     E_CANVAS_UI_POST,                       //우편
     E_CANVAS_UI_CALENDER,                   //출석 보상
@@ -78,7 +80,7 @@ public class MainSceneManager : MonoBehaviour
         //저장된 데이터를 제대로 불러왔는지 체크
         //CheckSaveDataIsSure();
 
-        Debug.Log(GameManager.Instance.GetPlayer().mail);
+        //Debug.Log(GameManager.Instance.GetPlayer().mail);
         
     
 
@@ -117,7 +119,6 @@ public class MainSceneManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
 
-
         //페이드 인 아웃 효과를 위한 할당
         fadeInOut = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_FADEPANEL).GetComponent<FadeInOut>();
         fadeInOut.mainSceneManager = this;
@@ -133,6 +134,10 @@ public class MainSceneManager : MonoBehaviour
         activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_MERCENARYHEAL).gameObject;
         //훈련소
         activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_MERCENARYTRAINNING).gameObject;
+        //용병 고용소
+        activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_MERCENARYEMPLOY).gameObject;
+        //용병 고용소
+        activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_STAGE).gameObject;
         //우편
         activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_POST] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_POST).gameObject;
         //달력
@@ -143,21 +148,24 @@ public class MainSceneManager : MonoBehaviour
 
 
         //해당 버튼에 따른 function 할당
-        //StageButton
-        activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE].onClick.AddListener(() => GameManager.Instance.LoadScene(ReadOnlys.E_SCENE_INDEX.E_STAGE, E_SCENE_INDEX.E_MENU, true));
         //Mercenary Manage(용병관리)
         activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_MERCENARY_MANAGEMENT].onClick.AddListener(() => GameManager.Instance.LoadScene(ReadOnlys.E_SCENE_INDEX.E_MERMANAGE, E_SCENE_INDEX.E_MENU, true));
-        //Mercenary Manage(용병고용)
-        activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT].onClick.AddListener(() => GameManager.Instance.LoadScene(ReadOnlys.E_SCENE_INDEX.E_EMPLOYER, E_SCENE_INDEX.E_MENU, false));
         //치료소
         activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING].onClick.AddListener(() => StartCoroutine(fadeInOut.FadeInOutOnce(E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, false)));
         //훈련소
         activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING].onClick.AddListener(() => StartCoroutine(fadeInOut.FadeInOutOnce(E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING, false)));
+        //용병고용
+        activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT].onClick.AddListener(() => StartCoroutine(fadeInOut.FadeInOutOnce(E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT, false)));
+        //스테이지
+        activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE].onClick.AddListener(() => StartCoroutine(fadeInOut.FadeInOutOnce(E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE, false)));
+
         //우편
         activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_POST].onClick.AddListener(() => ActivePanelNoEffect(activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_POST], E_ACTIVEBUTTON.E_ACTIVEBUTTON_POST));
         postExpression = activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_POST].transform.GetChild(0).gameObject;
-       
-    
+        //용병고용
+        //activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_SHOP].onClick.AddListener(() => StartCoroutine(fadeInOut.FadeInOutOnce(E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING, false)));
+
+
         //달력
         activeButton[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_CALENDER].onClick.AddListener(() => ActivePanelNoEffect(activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_CALENDER], E_ACTIVEBUTTON.E_ACTIVEBUTTON_CALENDER));
 

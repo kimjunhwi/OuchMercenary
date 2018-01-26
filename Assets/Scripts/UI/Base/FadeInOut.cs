@@ -40,13 +40,13 @@ public class FadeInOut : MonoBehaviour
 		{
 			if (bCompleteAlpha == true && bNonAlpha == true) {
 				this.gameObject.SetActive (false);
-				Debug.Log ("FadeInOut 종료");
+				//Debug.Log ("FadeInOut 종료");
 				break;
 			}
 
 			if (bCompleteAlpha == false && bNonAlpha == false && panel_Image.color.a != 255f) 
 			{
-				Debug.Log ("차는중" + fImageAlpha);
+				//Debug.Log ("차는중" + fImageAlpha);
 				if(panel_Image.color.a >= 1.0f)
 					bCompleteAlpha = true;
 				
@@ -56,7 +56,7 @@ public class FadeInOut : MonoBehaviour
 
 			if (bCompleteAlpha == true && bNonAlpha == false && panel_Image.color.a != 0) 
 			{
-				Debug.Log ("빠지는중" + fImageAlpha);
+				//Debug.Log ("빠지는중" + fImageAlpha);
 				if (panel_Image.color.a <= 0f)
 					bNonAlpha = true;
 				
@@ -133,7 +133,61 @@ public class FadeInOut : MonoBehaviour
 				
 					break;
 
-				default:
+                    //용병고용소
+                    case E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT:
+
+                        if (isBack == false)
+                        {
+                            if (onceCheck == false)
+                            {
+                                Debug.Log("용병고용소 활성화!!");
+                                GameManager.Instance.SetUpbar(ReadOnlys.E_SCENE_INDEX.E_EMPLOYER, mainSceneManager.canvas, "용병고용", mainSceneManager);
+                                mainSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT].SetActive(true);
+                                onceCheck = true;
+                            }
+                        }
+                        else
+                        {
+                            if (onceCheck == false)
+                            {
+                                Debug.Log("용병고용소 비활성화!!");
+                                GameManager.Instance.InitUpbar();
+                                mainSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT].SetActive(false);
+                                onceCheck = true;
+                            }
+                        }
+
+
+                        break;
+                    //스테이지
+                    case E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE:
+
+                        if (isBack == false)
+                        {
+                            if (onceCheck == false)
+                            {
+                                Debug.Log("스테이지 활성화!!");
+                                GameManager.Instance.SetUpbar(ReadOnlys.E_SCENE_INDEX.E_EMPLOYER, mainSceneManager.canvas, "스테이지", mainSceneManager);
+                                mainSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE].SetActive(true);
+                                onceCheck = true;
+                            }
+                        }
+                        else
+                        {
+                            if (onceCheck == false)
+                            {
+                                Debug.Log("스테이지 비활성화!!");
+                                GameManager.Instance.InitUpbar();
+                                mainSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE].SetActive(false);
+                                onceCheck = true;
+                            }
+                        }
+
+
+                        break;
+
+
+                    default:
 					break;
 
 				}

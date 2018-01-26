@@ -33,26 +33,36 @@ public class StagePanel : MonoBehaviour
 		stageInfinite_Button.onClick.AddListener(()=> StageActive(E_STAGE_INDEX.E_STAGE_INDEX_INFINITE));
 	}
 
+    public void Init()
+    {
+        stageDefense_Button = gameObject.transform.GetChild(1).transform.GetChild(2).GetComponent<Button>();
+        stageAttack_Button = gameObject.transform.GetChild(1).transform.GetChild(2).GetComponent<Button>();
+        stageInfinite_Button = gameObject.transform.GetChild(1).transform.GetChild(2).GetComponent<Button>();
+    }
+
 	public void StageActive(E_STAGE_INDEX _index)
 	{
 		this.gameObject.SetActive (false);
 		switch (_index) 
 		{
 		case E_STAGE_INDEX.E_STAGE_INDEX_DEFENSE:
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_DEFENSE].SetActive (true);
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_ATTACK].SetActive (false);
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_INFINITE].SetActive (false);
-			break;
+                GameManager.Instance.LoadScene(ReadOnlys.E_SCENE_INDEX.E_STAGE, E_SCENE_INDEX.E_MENU, false);
+                //Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_DEFENSE].SetActive (true);
+                //Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_ATTACK].SetActive (false);
+                //Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_INFINITE].SetActive (false);
+                break;
 		case E_STAGE_INDEX.E_STAGE_INDEX_ATTACK:
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_DEFENSE].SetActive (false);
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_ATTACK].SetActive (true);
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_INFINITE].SetActive (false);
-			break;
+                GameManager.Instance.LoadScene(ReadOnlys.E_SCENE_INDEX.E_STAGE, E_SCENE_INDEX.E_MENU, false);
+                //Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_DEFENSE].SetActive (false);
+                //Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_ATTACK].SetActive (true);
+                //Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_INFINITE].SetActive (false);
+                break;
 		case E_STAGE_INDEX.E_STAGE_INDEX_INFINITE:
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_DEFENSE].SetActive (false);
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_ATTACK].SetActive (false);
-			Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_INFINITE].SetActive (true);
-			break;
+                GameManager.Instance.LoadScene(ReadOnlys.E_SCENE_INDEX.E_STAGE, E_SCENE_INDEX.E_MENU, false);
+                //Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_DEFENSE].SetActive (false);
+                //Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_ATTACK].SetActive (false);
+                //Stage [(int)E_STAGE_INDEX.E_STAGE_INDEX_INFINITE].SetActive (true);
+                break;
 		default:
 			break;
 		}

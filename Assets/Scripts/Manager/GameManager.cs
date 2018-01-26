@@ -97,6 +97,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
     public GameObject prefabHold_Obj;
 
+    public CustomWindowYesNo customWindowYesNo;
+
     public IEnumerator DataLoad()
     {
         loginManager = GameObject.Find("LoginManager").GetComponent<LoginManager>();
@@ -416,18 +418,25 @@ public class GameManager : GenericMonoSingleton<GameManager>
         upBar.mainSceneManager = _mainScene;
         upBar.gameObject.transform.SetParent(_trans, false);
 
+        RectTransform upBarRT = upBar.gameObject.GetComponent<RectTransform>();
+        //upBarRT.localPosition = new Vector3(0, 0, 0);
+        upBarRT.localScale = new Vector3(1f, 1f, 1f);
+        
         //뒤에 더미도 같이 만든다 (로딩시 비는 것을 막기 위해)
         //GameObject upbar_Dummy = (GameObject)Instantiate (Resources.Load ("Prefabs/UpBar_Dummy", typeof(GameObject)));
         //upbar_Dummy.gameObject.transform.SetParent (_trans, false);
         //upbar_Dummy.GetComponent<Upbar> ().stageInfo_Text.text = _str;
 
         upBar.gameObject.transform.SetSiblingIndex(_trans.childCount - 2);
+
+
         upBar.UpbarChangeInfo(_sIndex, _str);
     }
 
     public void SetUpbar(Transform _trans)
     {
         upBar.gameObject.transform.SetParent(_trans, false);
+
 
         upBar.gameObject.transform.SetAsLastSibling();
 
@@ -551,6 +560,20 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 TrainningPanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
                 TrainningPanel.name = "TrainningPanel";
 
+                GameObject mercenarySummonPanel = Instantiate(bundle.LoadAsset<GameObject>("MercenarySummonPanel"));
+                mercenarySummonPanel.transform.SetParent(prefabHold_Obj.transform);
+                mercenarySummonPanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                mercenarySummonPanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                mercenarySummonPanel.name = "MercenarySummonPanel";
+                mercenarySummonPanel.AddComponent<EmployPanel>();
+
+                GameObject stagePanel = Instantiate(bundle.LoadAsset<GameObject>("StagePanel"));
+                stagePanel.transform.SetParent(prefabHold_Obj.transform);
+                stagePanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                stagePanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                stagePanel.name = "StagePanel";
+                stagePanel.AddComponent<StagePanel>();
+                stagePanel.GetComponent<StagePanel>().Init();
 
                 GameObject infoUI = Instantiate(bundle.LoadAsset<GameObject>("InfoUI"));
                 infoUI.transform.SetParent(prefabHold_Obj.transform);
@@ -617,6 +640,22 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
                 PostGetSlot slotPostGet = postGetSlot.GetComponent<PostGetSlot>();
                 slotPostGet.InitSlot();
+
+                break;
+
+           //윈도우 창
+            case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_WINDOW:
+
+                GameObject customYesNo = Instantiate(bundle.LoadAsset<GameObject>("Custom_YesNo"));
+                customYesNo.transform.SetParent(prefabHold_Obj.transform);
+                customYesNo.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                customYesNo.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                customYesNo.AddComponent<PostGetSlot>();
+                customYesNo.SetActive(true);
+                customYesNo.name = "Custom_YesNo";
+
+                CustomWindowYesNo customYesNoWindow = customYesNo.GetComponent<CustomWindowYesNo>();
+                customYesNoWindow.initWindow();
 
                 break;
             default:

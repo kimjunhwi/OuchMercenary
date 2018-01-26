@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2057544725
+CRC: 2969503155
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: c5a447d893ef9c80df08dd2eafe58b49
+    Hash: e4724a5273c881cabd06f5d66a3430b5
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 0ba9fbfb6fa33ec53bf1a8d2d0ecb0bc
+    Hash: 64b778491578c98ad6530afeee34c320
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -22,11 +22,15 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -2095666955, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
+  Script: {fileID: -405508275, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
   Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
   Script: {fileID: -1200242548, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
   Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
   Script: {fileID: 1367256648, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
@@ -34,9 +38,19 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
+  Script: {fileID: 2109663825, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -1184210157, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
   Script: {fileID: 1297475563, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 34db1815ec9214e2c84eb826763953f4, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4ac4c5acfb083314488da94fa3942eab, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6db4705d0fb8b3041baed8301c3be9bd, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f6b5f8fd450b9465ab14d680fa0853ea, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -48,7 +62,10 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
+- Assets/Resources/Prefabs/UI/MainScene/Custom_YesNo.prefab
 - Assets/Resources/Prefabs/UI/MainScene/PostPanel.prefab
+- Assets/Resources/Prefabs/UI/MainScene/StagePanel.prefab
+- Assets/Resources/Prefabs/UI/MainScene/MercenarySummonPanel.prefab
 - Assets/Resources/Prefabs/UI/MainScene/FadePanel.prefab
 - Assets/Resources/Prefabs/UI/MainScene/CalenderPanel.prefab
 - Assets/Resources/Prefabs/UI/MainScene/TrainningPanel.prefab
