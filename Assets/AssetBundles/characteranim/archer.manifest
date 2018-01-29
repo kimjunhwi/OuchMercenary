@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 498097032
+CRC: 2647120036
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0b63e4c606e5d87aa2327f1b96788f39
+    Hash: 9cd8b2a61b693c2554f603cbd225ab96
   TypeTreeHash:
     serializedVersion: 2
     Hash: 1f44cdb7fbbf4a5dc2e5ce63ceabbee1
@@ -27,12 +27,11 @@ Assets:
 - Assets/Resources/Character/Archer/Archer_Walk1.png
 - Assets/Resources/Character/Archer/Archer_Attack2.png
 - Assets/Resources/Character/Archer/Archer_Walk3.png
-- Assets/Resources/Character/Archer/Archer_Idle1.png
 - Assets/Resources/Animation/Archer/Archer_Walk.anim
 - Assets/Resources/Character/Archer/Archer_Death3.png
 - Assets/Resources/Character/Archer/Archer_Death1.png
 - Assets/Resources/Character/Archer/Archer_Attack1.png
 - Assets/Resources/Animation/Archer/Archer_Attack.anim
-- Assets/Resources/Character/Archer/Archer_Idle2.png
 - Assets/Resources/Animation/Archer/Archer_Dead.anim
-Dependencies: []
+Dependencies:
+- C:/Users/ksyy2/Documents/OuchMercenary/Assets/AssetBundles/mainscene/images

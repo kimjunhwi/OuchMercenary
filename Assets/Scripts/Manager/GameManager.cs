@@ -70,6 +70,12 @@ public class GameManager : GenericMonoSingleton<GameManager>
     //FormationSkill
     public List<DBFormationSkill> lDBFomationSkill = new List<DBFormationSkill>();
     public List<DBMaterialData> lDBMaterialData = new List<DBMaterialData>();
+    //Etc
+    public List<DBCalendar> lDBCalendar = new List<DBCalendar>();
+    public List<DBCharacterTicket> lDBCharacterTicket = new List<DBCharacterTicket>();
+    public List<DBWeaponTicket> lDBWeaponTicket = new List<DBWeaponTicket>();
+    public List<DBEmployGacha> lDBEmployGacha = new List<DBEmployGacha>();
+
 
 
     public List<string> lSceneIndex = new List<string>();
@@ -95,7 +101,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
     public List<Sprite> getSpriteArray = new List<Sprite>();
     public bool isSpriteDown;
 
+    //prefab hold
     public GameObject prefabHold_Obj;
+    public GameObject employCharacterHold_Obj;
 
     public CustomWindowYesNo customWindowYesNo;
 
@@ -103,7 +111,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
     {
         loginManager = GameObject.Find("LoginManager").GetComponent<LoginManager>();
         prefabHold_Obj = GameObject.Find("PrefabHold");
+        employCharacterHold_Obj = GameObject.Find("EmployCharacterHold");
         DontDestroyOnLoad(prefabHold_Obj);
+        DontDestroyOnLoad(employCharacterHold_Obj);
         // Unicode Parsing ---------------------------------------------------------
 
         Load_TableInfo_AllActiveType();
@@ -150,6 +160,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
         SortJobIndex();
 
+        LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, false);
 
         yield break;
     }
@@ -362,8 +373,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	{
 		if (upBar == null) 
 		{	
-			string assetBundleDirectory = "Assets/AssetBundles";
-		
 			upBarHold_obj = GameObject.Find ("UpBarHold");
 			DontDestroyOnLoad (upBarHold_obj);
 			if (System.IO.File.Exists ("Assets/AssetBundles/bundle/upbar"))
@@ -421,7 +430,11 @@ public class GameManager : GenericMonoSingleton<GameManager>
         RectTransform upBarRT = upBar.gameObject.GetComponent<RectTransform>();
         //upBarRT.localPosition = new Vector3(0, 0, 0);
         upBarRT.localScale = new Vector3(1f, 1f, 1f);
-        
+
+        //홈버튼 추가 및 함수 할당
+        upBar.Home_Button.onClick.RemoveAllListeners();
+        upBar.Home_Button.onClick.AddListener(()=> upBar.SetUpHomeButton(_sIndex));
+
         //뒤에 더미도 같이 만든다 (로딩시 비는 것을 막기 위해)
         //GameObject upbar_Dummy = (GameObject)Instantiate (Resources.Load ("Prefabs/UpBar_Dummy", typeof(GameObject)));
         //upbar_Dummy.gameObject.transform.SetParent (_trans, false);
@@ -474,8 +487,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
         upBar.SetSprite();
 
         go.transform.SetParent(upBarHold_obj.transform);
-        //홈버튼 추가 및 함수 할당
-        upBar.Home_Button.onClick.AddListener(upBar.SetUpHomeButton);
+     
 
         go.SetActive(false);
         DontDestroyOnLoad(go);
@@ -560,12 +572,22 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 TrainningPanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
                 TrainningPanel.name = "TrainningPanel";
 
-                GameObject mercenarySummonPanel = Instantiate(bundle.LoadAsset<GameObject>("MercenarySummonPanel"));
+
+                //용병고용
+                GameObject mercenarySummonPanel = Instantiate(bundle.LoadAsset<GameObject>("MercenaryEmployPanel"));
                 mercenarySummonPanel.transform.SetParent(prefabHold_Obj.transform);
                 mercenarySummonPanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
                 mercenarySummonPanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-                mercenarySummonPanel.name = "MercenarySummonPanel";
+                mercenarySummonPanel.name = "MercenaryEmployPanel";
                 mercenarySummonPanel.AddComponent<EmployPanel>();
+
+                mercenarySummonPanel.transform.GetChild(3).gameObject.AddComponent<EmployFinishPanel>();
+                mercenarySummonPanel.transform.GetChild(3).gameObject.GetComponent<EmployFinishPanel>().Init();
+                mercenarySummonPanel.GetComponent<EmployPanel>().employFinishPanel = mercenarySummonPanel.transform.GetChild(3).gameObject.GetComponent<EmployFinishPanel>();
+
+
+
+
 
                 GameObject stagePanel = Instantiate(bundle.LoadAsset<GameObject>("StagePanel"));
                 stagePanel.transform.SetParent(prefabHold_Obj.transform);
@@ -591,6 +613,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 //PostGetPanel
                 PostPanel.transform.GetChild(4).gameObject.AddComponent<PostGetPanel>();
                 PostPanel.transform.GetChild(4).gameObject.GetComponent<PostGetPanel>().InitPostGetPanel();
+
+
                 
 
                 GameObject CalenderPanel = Instantiate(bundle.LoadAsset<GameObject>("CalenderPanel"));
@@ -611,7 +635,16 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 fadeInOut.panel_Image = fadePanel.GetComponent<Image>();
                 fadeInOut.fMultipleValue = 7f;
 
-                
+
+                GameObject customYesNo = Instantiate(bundle.LoadAsset<GameObject>("Custom_YesNo"));
+                customYesNo.transform.SetParent(prefabHold_Obj.transform);
+                customYesNo.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                customYesNo.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                customYesNo.AddComponent<CustomWindowYesNo>();
+                customYesNo.name = "Custom_YesNo";
+
+                CustomWindowYesNo customYesNoWindow = customYesNo.GetComponent<CustomWindowYesNo>();
+                customYesNoWindow.initWindow();
 
 
                 Debug.Log("MainScenePrefabs Load Complete");
@@ -643,19 +676,71 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
                 break;
 
-           //윈도우 창
-            case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_WINDOW:
+            //용병고용 캐릭터들.
+            case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_EMPLOYCHARACTER:
 
-                GameObject customYesNo = Instantiate(bundle.LoadAsset<GameObject>("Custom_YesNo"));
-                customYesNo.transform.SetParent(prefabHold_Obj.transform);
-                customYesNo.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
-                customYesNo.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-                customYesNo.AddComponent<PostGetSlot>();
-                customYesNo.SetActive(true);
-                customYesNo.name = "Custom_YesNo";
+                GameObject employCharacter_Assasin = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_Assasin"));
+                employCharacter_Assasin.transform.SetParent(employCharacterHold_Obj.transform);
+                employCharacter_Assasin.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                employCharacter_Assasin.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                employCharacter_Assasin.SetActive(false);
+                employCharacter_Assasin.name = "UI_Character_Assasin";
+                employCharacter_Assasin.AddComponent<UI_CharacterInfo>();
+                employCharacter_Assasin.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[0];
 
-                CustomWindowYesNo customYesNoWindow = customYesNo.GetComponent<CustomWindowYesNo>();
-                customYesNoWindow.initWindow();
+                GameObject employCharacter_Warrior = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_Warrior"));
+                employCharacter_Warrior.transform.SetParent(employCharacterHold_Obj.transform);
+                employCharacter_Warrior.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                employCharacter_Warrior.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                employCharacter_Warrior.SetActive(false);
+                employCharacter_Warrior.name = "UI_Character_Warrior";
+                employCharacter_Warrior.AddComponent<UI_CharacterInfo>();
+                employCharacter_Warrior.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[1];
+
+                GameObject employCharacter_Archer = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_Archer"));
+                employCharacter_Archer.transform.SetParent(employCharacterHold_Obj.transform);
+                employCharacter_Archer.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                employCharacter_Archer.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                employCharacter_Archer.SetActive(false);
+                employCharacter_Archer.name = "UI_Character_Archer";
+                employCharacter_Archer.AddComponent<UI_CharacterInfo>();
+                employCharacter_Archer.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[2];
+
+                GameObject employCharacter_Wizard = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_Wizard"));
+                employCharacter_Wizard.transform.SetParent(employCharacterHold_Obj.transform);
+                employCharacter_Wizard.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                employCharacter_Wizard.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                employCharacter_Wizard.SetActive(false);
+                employCharacter_Wizard.name = "UI_Character_Wizard";
+                employCharacter_Wizard.AddComponent<UI_CharacterInfo>();
+                employCharacter_Wizard.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[3];
+
+                GameObject employCharacter_Knight = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_Knight"));
+                employCharacter_Knight.transform.SetParent(employCharacterHold_Obj.transform);
+                employCharacter_Knight.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                employCharacter_Knight.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                employCharacter_Knight.SetActive(false);
+                employCharacter_Knight.name = "UI_Character_Knight";
+                employCharacter_Knight.AddComponent<UI_CharacterInfo>();
+                employCharacter_Knight.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[4];
+
+                GameObject employCharacter_Priest = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_Priest"));
+                employCharacter_Priest.transform.SetParent(employCharacterHold_Obj.transform);
+                employCharacter_Priest.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                employCharacter_Priest.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                employCharacter_Priest.SetActive(false);
+                employCharacter_Priest.name = "UI_Character_Priest";
+                employCharacter_Priest.AddComponent<UI_CharacterInfo>();
+                employCharacter_Priest.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[5];
+
+                GameObject employCharacter_Commander = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_Commander"));
+                employCharacter_Commander.transform.SetParent(employCharacterHold_Obj.transform);
+                employCharacter_Commander.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                employCharacter_Commander.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                employCharacter_Commander.SetActive(false);
+                employCharacter_Commander.name = "UI_Character_Commander";
+                employCharacter_Commander.AddComponent<UI_CharacterInfo>();
+                employCharacter_Commander.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[6];
 
                 break;
             default:
@@ -689,6 +774,25 @@ public class GameManager : GenericMonoSingleton<GameManager>
                         break;
                     }
                     Debug.Log("MainScenePrefabs Load Complete");
+                    break;
+                case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_SLOTS:
+                    if (bundle != null)
+                    {
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS, true);
+                        Debug.Log("MainSceneSlot Load Complete");
+                        break;
+                    }
+                    Debug.Log("MainSceneSlot Load Complete");
+                    break;
+
+                case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_EMPLOYCHARACTER:
+                    if (bundle != null)
+                    {
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS, true);
+                        Debug.Log("MainSceneEmployCharacterLoad Complete");
+                        break;
+                    }
+                    Debug.Log("MainSceneEmployCharacterLoad Load Complete");
                     break;
             }
 

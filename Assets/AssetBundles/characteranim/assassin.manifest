@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3518448860
+CRC: 4163530230
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 6aedf7434a6afa5f1f401f518cf943e8
+    Hash: 11a0a48d345a205c58c2bbd04546b77f
   TypeTreeHash:
     serializedVersion: 2
     Hash: 1f44cdb7fbbf4a5dc2e5ce63ceabbee1
@@ -22,7 +22,6 @@ Assets:
 - Assets/Resources/Animation/Character/Thunder Mage.controller
 - Assets/Resources/Character/Assasin/High Assassin 2048x2048_256x256 (1).png
 - Assets/Resources/Animation/Character/Assasin_BleedAttack.anim
-- Assets/Resources/Character/Assasin/Basic Assassin 2048x2048_256x256 (2).png
 - Assets/Resources/Character/Assasin/Assassin 2048x2048_256x256 (1).png
 - Assets/Resources/Animation/Character/Assasin_Walk.anim
 - Assets/Resources/Character/Assasin/Hero Assassin 2048x2048_256x256 (1).png

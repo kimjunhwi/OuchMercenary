@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1409638503
+CRC: 1975315617
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 683b06ea54020ee8d3e0a9cb0980ca83
+    Hash: 7f492b21cbde349bb2676b4e456e59c5
   TypeTreeHash:
     serializedVersion: 2
     Hash: 21f0dc8ebad690f009368069428e0a1a
@@ -16,22 +16,31 @@ ClassTypes:
 Assets:
 - Assets/Resources/UI/MainScene/MainBackground.png
 - Assets/Resources/UI/MainScene/10.main_option.png
+- Assets/Resources/Character/Priest/Hero Priest 2048x2048_256x256.png
 - Assets/Resources/UI/MainScene/5.main_menu_healing_button.png
 - Assets/Resources/UI/Post/post_slot.png
 - Assets/Resources/UI/Calender/calinder_back.png
 - Assets/Resources/UI/Post/post_back.png
+- Assets/Resources/Character/Archer/Archer_Idle1.png
 - Assets/Resources/UI/MainScene/backgrond.png
+- Assets/Resources/Character/Assasin/Basic Assassin 2048x2048_256x256 (2).png
 - Assets/Resources/UI/Calender/calinder_icon.png
 - Assets/Resources/UI/MainScene/8.main_menu_shop_button.png
 - Assets/Resources/UI/Post/post_slot_get_button.png
 - Assets/Resources/UI/MainScene/6.main_menu_employment_button.png
 - Assets/Resources/UI/MainScene/7.main_menu_book_button.png
+- Assets/Resources/Character/Commander/Idle1.png
 - Assets/Resources/UI/Post/post_icon.png
 - Assets/Resources/UI/MainScene/9.main_menu_stage_button.png
+- Assets/Resources/Character/Warrior/Basic Warrior 2048x2048_256x256.png
+- Assets/Resources/Character/Wizard/Basic Mage 2048x2048_256x256.png
+- Assets/Resources/Character/Archer/Archer_Idle2.png
 - Assets/Resources/UI/MainScene/2.main_menu_inven_button.png
 - Assets/Resources/UI/Post/post_expression.png
 - Assets/Resources/UI/Post/post_all_get_button.png
 - Assets/Resources/UI/MainScene/1.main_menu_management_button.png
+- Assets/Resources/Character/Commander/Idle2.png
 - Assets/Resources/UI/MainScene/3.main_menu_blacksmith_button.png
 - Assets/Resources/UI/MainScene/4.main_menu_training_button.png
+- Assets/Resources/Character/Knight/Knight.png
 Dependencies: []

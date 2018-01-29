@@ -19,11 +19,39 @@ public class Upbar : MonoBehaviour
 
 	public MainSceneManager mainSceneManager;
 
-	public void SetUpHomeButton()
+	public void SetUpHomeButton(E_SCENE_INDEX _curSceneIndex)
 	{
 		GameManager.Instance.InitUpbar ();
-		GameManager.Instance.LoadScene( E_SCENE_INDEX.E_MENU , E_SCENE_INDEX.E_NONE, false);
-	}
+
+
+        switch (_curSceneIndex)
+        {
+            case E_SCENE_INDEX.E_STAGE:
+                //SetUpBar 초기화
+                GameManager.Instance.LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_NONE, false);
+                break;
+            case E_SCENE_INDEX.E_MERMANAGE:
+                GameManager.Instance.LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_NONE, false);
+                break;
+            case E_SCENE_INDEX.E_STAGE_HEALING:
+                mainSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, true);
+                break;
+            case E_SCENE_INDEX.E_STAGE_TRAINNIG:
+                mainSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING, true);
+                break;
+            case E_SCENE_INDEX.E_EMPLOYER:
+                mainSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT, true);
+                break;
+            case E_SCENE_INDEX.E_MAINSCENE_STAGE:
+                mainSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE, true);
+                break;
+              
+
+            default:
+                break;
+        }
+
+    }
 
 	public void SetSprite()
 	{
@@ -43,9 +71,9 @@ public class Upbar : MonoBehaviour
 		switch (_curSceneIndex) 
 		{
 		case E_SCENE_INDEX.E_STAGE:
-			//SetUpBar 초기화
-			GameManager.Instance.LoadScene( _curSceneIndex , _prevSceneIndex, true);
-			break;
+            //SetUpBar 초기화
+            GameManager.Instance.LoadScene(_curSceneIndex, _prevSceneIndex, true);
+            break;
 		case E_SCENE_INDEX.E_MERMANAGE:
 			GameManager.Instance.LoadScene (_curSceneIndex, _prevSceneIndex , true);
 			break;
@@ -58,6 +86,11 @@ public class Upbar : MonoBehaviour
         case E_SCENE_INDEX.E_EMPLOYER:
             mainSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT, true);
             break;
+        case E_SCENE_INDEX.E_MAINSCENE_STAGE:
+            mainSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE, true);
+            break;
+           
+
             default:
 			break;
 		}
@@ -72,8 +105,18 @@ public class Upbar : MonoBehaviour
 		//StopCoroutine (mainSceneManager.fadeInOutTest.FadeInOutOnce (E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, true));
 		switch (_eSceneIndex) 
 		{
-		//스테이지 씬
-		case E_SCENE_INDEX.E_STAGE:
+
+         case E_SCENE_INDEX.E_MAINSCENE_STAGE:
+             //이전 씬의 정보
+             ePrev_SceneIndex = GameManager.Instance.prevSceneIndex;
+             //현재 씬의 정보
+             stageInfo_Text.text = _stageInfo;
+             //셋팅되는 씬을 입력해야됨 (해당씬, 이전씬)
+             Back_Button.onClick.AddListener(() => SetBackButtonLoadScene(E_SCENE_INDEX.E_MAINSCENE_STAGE, ePrev_SceneIndex));
+             break;
+            
+            //스테이지 씬
+            case E_SCENE_INDEX.E_STAGE:
 			//이전 씬의 정보
 			ePrev_SceneIndex = GameManager.Instance.prevSceneIndex;
 			//현재 씬의 정보
@@ -112,12 +155,12 @@ public class Upbar : MonoBehaviour
 
             case E_SCENE_INDEX.E_EMPLOYER:
 
-                //이전 씬의 정보
-                ePrev_SceneIndex = GameManager.Instance.prevSceneIndex;
-                //현재 씬의 정보
-                stageInfo_Text.text = _stageInfo;
-                Back_Button.onClick.AddListener(() => SetBackButtonLoadScene(E_SCENE_INDEX.E_EMPLOYER, ePrev_SceneIndex));
-                break;
+           //이전 씬의 정보
+           ePrev_SceneIndex = GameManager.Instance.prevSceneIndex;
+           //현재 씬의 정보
+           stageInfo_Text.text = _stageInfo;
+           Back_Button.onClick.AddListener(() => SetBackButtonLoadScene(E_SCENE_INDEX.E_EMPLOYER, ePrev_SceneIndex));
+           break;
 
 
             default:

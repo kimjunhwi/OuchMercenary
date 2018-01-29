@@ -379,11 +379,13 @@
     <Compile Include="Assets\Scripts\UI\Base\ToggleUIBase.cs" />
     <Compile Include="Assets\Scripts\UI\Battle\CharacterUI.cs" />
     <Compile Include="Assets\Scripts\UI\Battle\DamageTextPool.cs" />
-    <Compile Include="Assets\Scripts\UI\Employer\EmployPanel.cs" />
-    <Compile Include="Assets\Scripts\UI\Employer\EmploySlot.cs" />
-    <Compile Include="Assets\Scripts\UI\Employer\Summon.cs" />
     <Compile Include="Assets\Scripts\UI\LoadingPanel.cs" />
     <Compile Include="Assets\Scripts\UI\MainScene\Calender\CalenderPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\MainScene\Employer\EmployFinishPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\MainScene\Employer\EmployPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\MainScene\Employer\EmploySlot.cs" />
+    <Compile Include="Assets\Scripts\UI\MainScene\Employer\Summon.cs" />
+    <Compile Include="Assets\Scripts\UI\MainScene\Employer\UI_CharacterInfo.cs" />
     <Compile Include="Assets\Scripts\UI\MainScene\Healing\HealSlot.cs" />
     <Compile Include="Assets\Scripts\UI\MainScene\Healing\MercenaryHealPanel.cs" />
     <Compile Include="Assets\Scripts\UI\MainScene\Post\PostGetPanel.cs" />

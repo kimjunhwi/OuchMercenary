@@ -69,9 +69,15 @@ public class MainSceneManager : MonoBehaviour
     public GameObject postExpression;
     private PostPanel postPanel;
     private PostGetPanel postGetPanel;
-
+    //용병고용
+    public EmployPanel employPanel;
     //메인메뉴에 있는 아이콘의 개수
     private const int nMenuIconCount = 10;
+    //CustomWindow
+    private CustomWindowYesNo customWindowYesNo;
+    //InfoUI
+    public GameObject InfoUI_Obj;
+  
 
     void Awake () 
 	{
@@ -113,6 +119,12 @@ public class MainSceneManager : MonoBehaviour
         Debug.Log("lDBCraftMaterial : " + GameManager.Instance.lDBCraftMaterial.Count);
         Debug.Log("lDBBreakMaterial : " + GameManager.Instance.lDBBreakMaterial.Count);
         Debug.Log("lDBFormationSkill : " + GameManager.Instance.lDBFomationSkill.Count);
+        Debug.Log("lDBMaterialData : " + GameManager.Instance.lDBMaterialData.Count);
+        Debug.Log("lDBCalendar : " + GameManager.Instance.lDBCalendar.Count);
+        Debug.Log("lDBCharacterTicket : " + GameManager.Instance.lDBCharacterTicket.Count);
+        Debug.Log("lDBWeaponTicket : " + GameManager.Instance.lDBWeaponTicket.Count);
+        Debug.Log("lDEmployGacha : " + GameManager.Instance.lDBEmployGacha.Count);
+
     }
 
     IEnumerator MainSceneInit()
@@ -136,7 +148,7 @@ public class MainSceneManager : MonoBehaviour
         activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_MERCENARYTRAINNING).gameObject;
         //용병 고용소
         activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_MERCENARYEMPLOY).gameObject;
-        //용병 고용소
+        //스테이지
         activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_STAGE).gameObject;
         //우편
         activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_POST] = canvas.transform.GetChild((int)E_CANVAS_UI_ORDER.E_CANVAS_UI_POST).gameObject;
@@ -211,6 +223,7 @@ public class MainSceneManager : MonoBehaviour
     void DispatchMenuScenePrefab()
     {
         int nPrefabHoldCount = GameManager.Instance.prefabHold_Obj.transform.childCount;
+        int nEmployCharacterHoldCount = GameManager.Instance.employCharacterHold_Obj.transform.childCount;
         for (int i = 0; i < nPrefabHoldCount; i++)
         {
             GameObject prefab = GameManager.Instance.prefabHold_Obj.transform.GetChild(0).gameObject;
@@ -218,6 +231,14 @@ public class MainSceneManager : MonoBehaviour
             prefab.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
             prefab.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
 
+            if (prefab.gameObject.name == "MercenaryEmployPanel")
+            {
+                employPanel = prefab.gameObject.GetComponent<EmployPanel>();
+                employPanel.mainSceneManager = this;
+                employPanel.employFinishPanel.mainSceneManager = this;
+            }
+            if (prefab.gameObject.name == "InfoUI")
+                InfoUI_Obj = prefab;
 
             if (prefab.gameObject.name == "PostPanel")
             {
@@ -225,18 +246,33 @@ public class MainSceneManager : MonoBehaviour
                 postGetPanel = prefab.gameObject.transform.GetChild(4).gameObject.GetComponent<PostGetPanel>();
                 postGetPanel.postPanel = postPanel;
             }
-                        
+
             if (prefab.gameObject.name == "PostSlot")
             {
                 prefab.transform.SetParent(simpleObjectpools[(int)E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTSLOT].transform);
             }
-                
 
             if (prefab.gameObject.name == "PostGetSlot")
                 prefab.transform.SetParent(simpleObjectpools[(int)E_MAINSCENE_OBJECTPOOL.E_MAINSCENE_OBJECTPOOL_POSTGETSLOT].transform);
 
+            if (prefab.gameObject.name == "Custom_YesNo")
+            {
+                customWindowYesNo = prefab.gameObject.GetComponent<CustomWindowYesNo>();
+                customWindowYesNo.employPanel = employPanel;
+            }
+
+        }
+
+        for (int i = 0; i < nEmployCharacterHoldCount; i++)
+        {
+            GameObject prefab = GameManager.Instance.employCharacterHold_Obj.transform.GetChild(0).gameObject;
+            prefab.transform.SetParent(employPanel.employFinishPanel.employCharacterHold_Obj.transform);
+            prefab.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+            prefab.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
         }
     }
+
+    //패널을 활성화 할때 아무런 효과 없이 그냥 띄울때 
     public void ActivePanelNoEffect(GameObject _obj , E_ACTIVEBUTTON _activeButton)
     {
         _obj.SetActive(true);  
@@ -250,12 +286,20 @@ public class MainSceneManager : MonoBehaviour
             default:
                 break;
         }
-
-
     }
 
+    //활성화되어 있는 패널이 뒤로 갈때의 효과
     public void ActivePanelBack(E_ACTIVEBUTTON _button , bool _isback)
 	{
 		StartCoroutine (fadeInOut.FadeInOutOnce (_button, _isback));
 	}
+
+    //팝업 창에 대한 셋팅
+    public void SetCustomWindow(E_CUSTOMWINDOW _state, string _Title)
+    {
+        customWindowYesNo.eCurState = _state;
+        customWindowYesNo.contents_Text.text = _Title;
+        customWindowYesNo.gameObject.SetActive(true);
+
+    }
 }

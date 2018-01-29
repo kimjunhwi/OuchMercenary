@@ -6,12 +6,41 @@ using System;
 namespace ReadOnlys
 {
 
+    //용병고용 추후 바꿔야함.
+    public enum E_EMPLOY
+    {
+        E_EMPLOY_1_2TIER = 0,
+        //E_EMPLOY_1_3TIER = 0,
+        //E_EMPLOY_2_3TIER = 0,
+        E_EMPLOY_2_4TIER_MELEE = 1,
+        E_EMPLOY_2_4TIER_RANGE = 2,
+        E_EMPLOY_2_4TIER_ASSISTANT = 3,
+        E_EMPLOY_2_4TIER_COMMANDER = 4,
+    }
+    public enum E_CHARACTERINDEX
+    {
+        E_CHARACTERINDEX_BASIC_ASSASSIN = 1000,
+        E_CHARACTERINDEX_BASIC_WARRIOR,
+        E_CHARACTERINDEX_BASIC_ARCHER,
+        E_CHARACTERINDEX_BASIC_WIZARD,
+        E_CHARACTERINDEX_BASIC_KNIGHT,
+        E_CHARACTERINDEX_BASIC_PRIEST,
+        E_CHARACTERINDEX_BASIC_COMMANDER,
+    }
+
+    //상황에 따른 커스텀 윈도우
+    public enum E_CUSTOMWINDOW
+    {
+        E_CUSTOMWINDOW_EMPLOY_GACHA_1_2TIER = 0,
+    }
+
+
     public enum E_CHECK_ASSETDATA
     {
         E_CHECK_ASSETDATA_MAINSCENE_PREFABDATA = 0,
         E_CHECK_ASSETDATA_MAINSCENE_PREFABS,
         E_CHECK_ASSETDATA_MAINSCENE_SLOTS,
-        E_CHECK_ASSETDATA_WINDOW,
+        E_CHECK_ASSETDATA_MAINSCENE_EMPLOYCHARACTER,
     }
 
     #region LoginManager
@@ -35,6 +64,10 @@ namespace ReadOnlys
         E_LOAD_GET_BREAKMATERIALDATA,
         E_LOAD_GET_FORMATIONSKILLDATA,
         E_LOAD_GET_MATERIALDATA,
+        E_LOAD_GET_CALENDARDATA,
+        E_LOAD_GET_CHARACTERTICKETDATA,
+        E_LOAD_GET_WEAPONTICKETDATA,
+        E_LOAD_GET_EMPLOYGACHADATA,
     }
 
     #endregion
@@ -93,6 +126,7 @@ namespace ReadOnlys
 		E_STAGE_HEALING,
 		E_STAGE_TRAINNIG,
         E_EMPLOYER,
+        E_MAINSCENE_STAGE,
     };
 
 	//물리 타입, 마법 타입, 무
@@ -752,9 +786,15 @@ namespace ReadOnlys
 
 		public float ExpMax {	get; set; }					// Character 최대 경험치
 
-		public int Betch_Index {	get; set; }				// Character 배치위치 
-					
-		public List<DBBasicSkill> basicSkill {get; set;}
+		public int Betch_Index {	get; set; }             // Character 배치위치 
+
+        public int m_nStamina { get; set; }              //캐릭터 스태미나
+
+        public string m_sImage { get; set; }               //캐릭터 이미지
+
+        public int m_nFavorite { get; set; }
+
+        public List<DBBasicSkill> basicSkill {get; set;}
 
 		public List<DBActiveSkill> activeSkills {get; set;}
 
@@ -1053,6 +1093,68 @@ namespace ReadOnlys
         public string sExplanation;             // 재료들에 대한 설명
 
     }
+
+    [System.Serializable]
+    public class DBCalendar
+    {
+        public int nIndex;                      // Index
+        public int nGold;                       // 돈
+        public int nGem;                        // Gem
+        public int nWeaponTicket;               // 무기 티켓
+        public int nCharacterTicket;            // 캐릭터 티켓
+        public int nWeapon;                     // 무기
+        public int nCharacter;                  // 캐릭터
+        public int nIron;                       // 철
+        public int nFabric;                     // 옷감
+        public int nWood;                       // 나무
+        public int nWeaponStone;                // 무기석
+        public int ArmorStone;                  // 방어구석
+        public int AccessoryStone;              // 악세서리석
+
+    }
+
+    [System.Serializable]
+    public class DBCharacterTicket
+    {
+        public int nIndex;                      // Index
+        public string sName;                    // 캐릭터 티켓 이름
+        public string sJob;                     // 나오는 직업들
+        public string sPercentage;              // 확률
+        public string sTier;                    // 나오는 티어
+        public string nTribe;
+        public string sImage;
+        public string sExplanation;             // 설명
+    }
+
+    [System.Serializable]
+    public class DBWeaponTicket
+    {
+        public int nIndex;                      // Index
+        public string sName;                    // 무기 티켓 이름
+        public string sEquipType;               // 무기 타입
+        public string sPercentage;              // 확률
+        public string sTier;                    // 나오는 티어
+        public string sQulity;
+        public string sImage;
+        public string sExplanation;             // 설명
+    }
+
+    [System.Serializable]
+    public class DBEmployGacha
+    {
+        public int nIndex;                      // Index
+        public string sName;                    // 캐릭터 티켓 이름
+        public string sJob;                     // 나오는 직업들
+        public string sPercentage;              // 확률
+        public string sTier;                    // 나오는 티어
+        public string nTribe;
+        public int nCost_Gold;                  // 뽑을때 돈
+        public int nCost_Gem;                   // 뽑을때 젬
+        public string sImage;                   // 이미지
+        public string sExplanation;             // 설명
+    }
+
+
 
     [System.Serializable]
     public class Mail

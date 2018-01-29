@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3700943882
+CRC: 4055995931
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -7,7 +7,8 @@ AssetBundleManifest:
       Dependencies: {}
     Info_1:
       Name: characteranim/archer
-      Dependencies: {}
+      Dependencies:
+        Dependency_0: mainscene/images
     Info_2:
       Name: characteranim/assassin
       Dependencies: {}
@@ -15,6 +16,7 @@ AssetBundleManifest:
       Name: character
       Dependencies:
         Dependency_0: characteranim/archer
+        Dependency_1: mainscene/images
     Info_4:
       Name: mainscene/images
       Dependencies: {}
@@ -25,5 +27,9 @@ AssetBundleManifest:
         Dependency_1: mainscene/images
     Info_6:
       Name: mainscene/slot
+      Dependencies:
+        Dependency_0: mainscene/images
+    Info_7:
+      Name: mainscene/employcharacter
       Dependencies:
         Dependency_0: mainscene/images
