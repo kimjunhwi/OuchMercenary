@@ -266,6 +266,13 @@ namespace ReadOnlys
 		E_EXP_BOOST,
 	}
 
+	public enum E_SLOT_STATE
+	{
+		E_NONE = 0,
+		E_BATCH_READY,
+		E_BATCH,
+		E_CANCLE,
+	}
 
 	#region Class 
 
