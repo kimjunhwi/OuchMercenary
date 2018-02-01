@@ -32,6 +32,13 @@ namespace ReadOnlys
     public enum E_CUSTOMWINDOW
     {
         E_CUSTOMWINDOW_EMPLOY_GACHA_1_2TIER = 0,
+<<<<<<< HEAD
+        E_CUSTOMWINDOW_EMPLOY_2_4TIER_MELEE,
+        E_CUSTOMWINDOW_EMPLOY_2_4TIER_RANGE,
+        E_CUSTOMWINDOW_EMPLOY_2_4TIER_ASSISTANT,
+        E_CUSTOMWINDOW_EMPLOY_2_4TIER_COMMANDER,
+=======
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
     }
 
 
@@ -40,7 +47,12 @@ namespace ReadOnlys
         E_CHECK_ASSETDATA_MAINSCENE_PREFABDATA = 0,
         E_CHECK_ASSETDATA_MAINSCENE_PREFABS,
         E_CHECK_ASSETDATA_MAINSCENE_SLOTS,
+<<<<<<< HEAD
+        E_CHECK_ASSETDATA_MAINSCENE_EMPLOY_CHARACTERS,
+        E_CHECK_ASSETDATA_MAINSCENE_EMPLOY_IMAGES,
+=======
         E_CHECK_ASSETDATA_MAINSCENE_EMPLOYCHARACTER,
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
     }
 
     #region LoginManager
@@ -374,13 +386,6 @@ namespace ReadOnlys
 
 		public int m_nBatchIndex;			//배치 인덱스 
 
-
-		public int m_nStamina;              //캐릭터 스태미나
-
-		public string m_sImage;               //캐릭터 이미지
-
-		public int m_nFavorite;
-
 		public List<BasicSkill> basicSkill = new List<BasicSkill>();
 
 		public List<ActiveSkill> activeSkill = new List<ActiveSkill>();
@@ -446,11 +451,7 @@ namespace ReadOnlys
 			m_fCritical_Rating 	= _charic.Crit_Rating;
 			m_fCritical_Damage 	= _charic.Crit_Dmg;
 			m_nBatchIndex 		= _charic.Betch_Index;
-			m_nStamina			= _charic.m_nStamina;              //캐릭터 스태미나
 
-			m_sImage			= _charic.m_sImage;               //캐릭터 이미지
-
-			m_nFavorite 		= _charic.m_nFavorite;
 		}
 
 		public CharacterStats()
@@ -1139,7 +1140,11 @@ namespace ReadOnlys
         public string sJob;                     // 나오는 직업들
         public string sPercentage;              // 확률
         public string sTier;                    // 나오는 티어
+<<<<<<< HEAD
+        public string sTribe;
+=======
         public string nTribe;
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         public string sImage;
         public string sExplanation;             // 설명
     }
@@ -1165,7 +1170,11 @@ namespace ReadOnlys
         public string sJob;                     // 나오는 직업들
         public string sPercentage;              // 확률
         public string sTier;                    // 나오는 티어
+<<<<<<< HEAD
+        public string sTribe;
+=======
         public string nTribe;
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         public int nCost_Gold;                  // 뽑을때 돈
         public int nCost_Gem;                   // 뽑을때 젬
         public string sImage;                   // 이미지

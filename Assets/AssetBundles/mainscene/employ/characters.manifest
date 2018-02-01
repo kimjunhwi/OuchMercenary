@@ -1,0 +1,86 @@
+ManifestFileVersion: 0
+CRC: 3280803841
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 22bf0893f31dabcc8adfe7c1a37794a8
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 3e441a7bf2bac0ab398c634ded7b3b9e
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: af74407b2baaab5419743277c2fe4af1, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/UI/EmployCharacter/5_Priest/41.UI_Character_HeroAlchemist.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/6_Commander/49.UI_Character_Named3.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/2_Archer/23.UI_Character_HighMechanic.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/2_Archer/35.UI_Character_HeroMechanic.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/0_Assasin/18.UI_Character_HighAssasin.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/1_Warrior/32.UI_Character_HeroWarrior.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/4_Knight/15.UI_Character_Crusader.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/1_Warrior/8.UI_Character_Warrior.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/2_Archer/10.UI_Character_Archer.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/1_Warrior/33.UI_Character_HeroMagicWarrior.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/2_Archer/11.UI_Character_Mechanic.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/4_Knight/39.UI_Character_HeroCrusader.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/0_Assasin/7.UI_Character_Clown.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/3_Wizard/13.UI_Character_ThunderWizard.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/1_Warrior/21.UI_Character_HighMagicWarrior.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/6_Commander/42.UI_Character_BasicCommander.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/3_Wizard/12.UI_Character_FireWizard.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/3_Wizard/36.UI_Character_HeroFireWizard.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/1_Warrior/1.UI_Character_BasicWarrior.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/2_Archer/34.UI_Character_HeroArcher.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/5_Priest/28.UI_Character_HighPriest.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/2_Archer/2.UI_Character_BasicArcher.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/6_Commander/43.UI_Character_Commander.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/5_Priest/29.UI_Character_HighAlchemist.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/6_Commander/46.UI_Character_HighMagicCommander.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/5_Priest/17.UI_Character_Alchemist.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/0_Assasin/6.UI_Character_Assasin.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/1_Warrior/9.UI_Character_MagicWarrior.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/6_Commander/44.UI_Character_MagicCommander.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/3_Wizard/25.UI_Character_HighThunderWizard.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/6_Commander/50.UI_Character_Named4.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/3_Wizard/37.UI_Character_HeroThunderWizard.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/4_Knight/38.UI_Character_HeroKnight.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/4_Knight/27.UI_Character_HighCrusader.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/6_Commander/47.UI_Character_Named1.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/4_Knight/26.UI_Character_HighKnight.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/0_Assasin/30.UI_Character_HeroAssasin.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/5_Priest/16.UI_Character_Priest.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/5_Priest/40.UI_Character_HeroPriest.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/4_Knight/14.UI_Character_Knight.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/6_Commander/48.UI_Character_Named2.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/0_Assasin/31.UI_Character_HeroClown.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/0_Assasin/0.UI_Character_BasicAssasin.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/1_Warrior/20.UI_Character_HighWarrior.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/3_Wizard/3.UI_Character_BasicWizard.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/6_Commander/45.UI_Character_HighCommander.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/5_Priest/5.UI_Character_BasicPriest.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/4_Knight/4.UI_Character_BasicKnight.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/2_Archer/22.UI_Character_HighArcher.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/0_Assasin/19.UI_Character_HighClown.prefab
+- Assets/Resources/Prefabs/UI/EmployCharacter/3_Wizard/24.UI_Character_HighFireWizard.prefab
+Dependencies:
+- C:/Users/ksyy2/Documents/OuchMercenary/Assets/AssetBundles/mainscene/images
+- C:/Users/ksyy2/Documents/OuchMercenary/Assets/AssetBundles/mainscene/employ/images

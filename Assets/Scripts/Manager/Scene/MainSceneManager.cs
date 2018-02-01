@@ -85,8 +85,9 @@ public class MainSceneManager : MonoBehaviour
         DispatchMenuScenePrefab();
         //저장된 데이터를 제대로 불러왔는지 체크
         //CheckSaveDataIsSure();
+    
 
-        //Debug.Log(GameManager.Instance.GetPlayer().mail);
+        //Debug.Log(GameManager.Instance.enemy_archerList);
         
     
 
@@ -99,7 +100,6 @@ public class MainSceneManager : MonoBehaviour
         //MainScene에 있는 각종 변수 할당
         StartCoroutine(MainSceneInit());
         
-       
     }
 
     //저장된 데이터를 제대로 불러왔는지 체크
@@ -261,6 +261,8 @@ public class MainSceneManager : MonoBehaviour
                 customWindowYesNo.employPanel = employPanel;
             }
 
+<<<<<<< HEAD
+=======
         }
 
         for (int i = 0; i < nEmployCharacterHoldCount; i++)
@@ -269,7 +271,18 @@ public class MainSceneManager : MonoBehaviour
             prefab.transform.SetParent(employPanel.employFinishPanel.employCharacterHold_Obj.transform);
             prefab.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
             prefab.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         }
+        //용병 고용에 쓰일 캐릭터 프리팹 처리
+        
+        for (int i = 0; i < nEmployCharacterHoldCount; i++)
+        {
+            GameObject prefab = GameManager.Instance.employCharacterHold_Obj.transform.GetChild(0).gameObject;
+            prefab.transform.SetParent(employPanel.employFinishPanel.employCharacterHold_Obj.transform);
+            prefab.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+            prefab.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+        }
+        
     }
 
     //패널을 활성화 할때 아무런 효과 없이 그냥 띄울때 

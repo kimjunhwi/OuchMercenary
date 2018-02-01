@@ -1,9 +1,17 @@
 ManifestFileVersion: 0
+<<<<<<< HEAD
+CRC: 2325219832
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 0b99ae9e414c882032dcad0a4e913e67
+=======
 CRC: 1975315617
 Hashes:
   AssetFileHash:
     serializedVersion: 2
     Hash: 7f492b21cbde349bb2676b4e456e59c5
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
   TypeTreeHash:
     serializedVersion: 2
     Hash: 21f0dc8ebad690f009368069428e0a1a
@@ -32,8 +40,11 @@ Assets:
 - Assets/Resources/Character/Commander/Idle1.png
 - Assets/Resources/UI/Post/post_icon.png
 - Assets/Resources/UI/MainScene/9.main_menu_stage_button.png
+<<<<<<< HEAD
+=======
 - Assets/Resources/Character/Warrior/Basic Warrior 2048x2048_256x256.png
 - Assets/Resources/Character/Wizard/Basic Mage 2048x2048_256x256.png
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 - Assets/Resources/Character/Archer/Archer_Idle2.png
 - Assets/Resources/UI/MainScene/2.main_menu_inven_button.png
 - Assets/Resources/UI/Post/post_expression.png

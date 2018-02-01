@@ -6,8 +6,69 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using ReadOnlys;
 
+<<<<<<< HEAD
+#region enum
+//1,2티어 소환(하급소환) 
+public enum E_GACHA_1_2TIER_CATEGORY
+{
+    E_GACHA_1_2TIER_CATEGORY_2TIER = 0,
+    E_GACHA_1_2TIER_CATEGORY_1TIER,
+}
+//2,4티어 소환(근거리)
+public enum E_GACHA_2_4TIER_MEELE_CATEGORY
+{
+    E_GACHA_2_4TIER_MEELE_CATEGORY_4TIER = 0,
+    E_GACHA_2_4TIER_MEELE_CATEGORY_3TIER = 1,
+    E_GACHA_2_4TIER_MEELE_CATEGORY_2TIER = 2,
+}
+//2,4티어 소환(원거리)
+public enum E_GACHA_2_4TIER_RANGE_CATEGORY
+{
+    E_GACHA_2_4TIER_RANGE_CATEGORY_4TIER = 0,
+    E_GACHA_2_4TIER_RANGE_CATEGORY_3TIER = 1,
+    E_GACHA_2_4TIER_RANGE_CATEGORY_2TIER = 2,
+}
+//2,4티어 소환(보조)
+public enum E_GACHA_2_4TIER_ASSISTANT_CATEGORY
+{
+    E_GACHA_2_4TIER_ASSISTANT_CATEGORY_4TIER = 0,
+    E_GACHA_2_4TIER_ASSISTANT_CATEGORY_3TIER = 1,
+    E_GACHA_2_4TIER_ASSISTANT_CATEGORY_2TIER = 2,
+}
+//2,4티어 소환(지휘관)
+public enum E_GACHA_2_4TIER_COMMANDER_CATEGORY
+{
+    E_GACHA_2_4TIER_COMMANDER_CATEGORY_4TIER = 0,
+    E_GACHA_2_4TIER_COMMANDER_CATEGORY_3TIER = 1,
+    E_GACHA_2_4TIER_COMMANDER_CATEGORY_2TIER = 2,
+}
+//인간형 소환 티어 
+public enum E_EMPLOY_HUMMAN_TIER
+{
+    E_EMPLOY_HUMMAN_TIER_1 = 0,
+    E_EMPLOY_HUMMAN_TIER_2_1,
+    E_EMPLOY_HUMMAN_TIER_2_2,
+    E_EMPLOY_HUMMAN_TIER_3_1,
+    E_EMPLOY_HUMMAN_TIER_3_2,
+    E_EMPLOY_HUMMAN_TIER_4_1,
+    E_EMPLOY_HUMMAN_TIER_4_2,
+}
+//
+public enum E_EMPLOY_TRIBE
+{
+    E_EMPLOY_TRIBE_HUMAN = 0,
+    E_EMPLOY_TRIBE_ORC,
+    E_EMPLOY_TRIBE_BEAST,
+    E_EMPLOY_TRIBE_ELF,
+    E_EMPLOY_TRIBE_UNDEAD,
+}
+
+
+public enum E_EMPLOY_GACHA
+=======
 
 enum E_EMPLOY_GACHA
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 {
     E_EMPLOY_GACHA_1_2Tier = 0,
     E_EMPLOY_GACHA_2_4TIER_MELEE,
@@ -15,7 +76,11 @@ enum E_EMPLOY_GACHA
     E_EMPLOY_GACHA_2_4TIER_ASSISTANT,
     E_EMPLOY_GACHA_2_4TIER_COMMANDER,
 }
+<<<<<<< HEAD
+#endregion
+=======
 
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 
 public class EmployPanel : ButtonUIBase
 {
@@ -37,22 +102,56 @@ public class EmployPanel : ButtonUIBase
         int randomMin = 0;
         int randomMax = 0;
         int nJobIndex = 0;
+<<<<<<< HEAD
+        string job = "";
         //Percentage
+        float resultPercentage = 0f;
+        float percentageCheck = 0f;
+=======
+        //Percentage
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         List<float> percentageList = null;
         //Character
         DBBasicCharacter character = new DBBasicCharacter();
 
         switch (_employCharacter)
         {
+<<<<<<< HEAD
+           
+            case E_EMPLOY.E_EMPLOY_1_2TIER:
+                //Jobs
+                job = GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_1_2TIER].sJob;
+=======
             case E_EMPLOY.E_EMPLOY_1_2TIER:
                 //Jobs
                 string job = GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_1_2TIER].sJob;
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                 //맨처음 인덱스 
                 randomMin = int.Parse(job.Substring(0, job.IndexOf(",")));
                 //마지막 인덱스
                 job = job.Remove(0, job.Length - 1);
                 randomMax = int.Parse(job);
                 //직업 인덱스
+<<<<<<< HEAD
+                nJobIndex = Random.RandomRange(randomMin, randomMax + 1);
+                //Percentage
+                percentageList = GetPercentage(_employCharacter);
+                //확률 계산 해야함
+                resultPercentage = Random.RandomRange(0, 100f);
+                Debug.Log("확률 수치 : " + resultPercentage);
+                percentageCheck = 0f;
+
+
+
+                //현재 오름 차순 (낮은 것 부터 체크)
+                for (int nTier = 0; nTier < percentageList.Count; nTier++)
+                {
+                    percentageCheck += percentageList[nTier];
+                    if (resultPercentage <= percentageCheck)
+                    {
+                        //해당 캐릭터 종류, 티어, 직업 인덱스
+                        character = GetCharacterCategory(_employCharacter, nTier, nJobIndex);
+=======
                 nJobIndex = Random.RandomRange(randomMin, randomMax);
                 //Percentage
                 percentageList = GetPercentage(_employCharacter);
@@ -67,6 +166,7 @@ public class EmployPanel : ButtonUIBase
                     if (resultPercentage <= percentageCheck)
                     {
                         character = GetCharacterCategory(_employCharacter, i, nJobIndex);
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                         employFinishPanel.SetUpResult(character);
                         break;
                     }
@@ -74,6 +174,134 @@ public class EmployPanel : ButtonUIBase
                 break;
 
             case E_EMPLOY.E_EMPLOY_2_4TIER_MELEE:
+<<<<<<< HEAD
+                //Jobs
+                job = GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_MELEE].sJob;
+                //맨처음 인덱스 
+                randomMin = int.Parse(job.Substring(0, job.IndexOf(",")));
+                //마지막 인덱스
+                job = job.Remove(0, job.Length - 1);
+                randomMax = int.Parse(job);
+                //직업 인덱스
+                nJobIndex = Random.RandomRange(randomMin, randomMax + 1);
+                Debug.Log("직업 : " + nJobIndex);
+                //Percentage
+                percentageList = GetPercentage(_employCharacter);
+                //확률 계산 해야함
+                resultPercentage = Random.RandomRange(0, 100f);
+                Debug.Log("확률 수치 : " + resultPercentage);
+                percentageCheck = 0f;
+                //낮은 것 부터 체크
+                for (int nTier = 0; nTier < percentageList.Count; nTier++)
+                {
+                    percentageCheck += percentageList[nTier];
+                    if (resultPercentage <= percentageCheck)
+                    {
+                        character = GetCharacterCategory(_employCharacter, nTier, nJobIndex);
+                        employFinishPanel.SetUpResult(character);
+                        break;
+                    }
+                }
+
+            
+                break;
+
+            case E_EMPLOY.E_EMPLOY_2_4TIER_RANGE:
+                //Jobs
+                job = GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_RANGE].sJob;
+                //맨처음 인덱스 
+                randomMin = int.Parse(job.Substring(0, job.IndexOf(",")));
+                //마지막 인덱스
+                job = job.Remove(0, job.Length - 1);
+                randomMax = int.Parse(job);
+                //직업 인덱스
+                nJobIndex = Random.RandomRange(randomMin, randomMax + 1);
+                Debug.Log("직업 : " + nJobIndex);
+                //Percentage
+                percentageList = GetPercentage(_employCharacter);
+                //확률 계산 해야함
+                resultPercentage = Random.RandomRange(0, 100f);
+                Debug.Log("확률 수치 : " + resultPercentage);
+                percentageCheck = 0f;
+                //낮은 것 부터 체크
+                for (int nTier = 0; nTier < percentageList.Count; nTier++)
+                {
+                    percentageCheck += percentageList[nTier];
+                    if (resultPercentage <= percentageCheck)
+                    {
+                        character = GetCharacterCategory(_employCharacter, nTier, nJobIndex);
+                        employFinishPanel.SetUpResult(character);
+                        break;
+                    }
+                }
+
+
+                break;
+
+            case E_EMPLOY.E_EMPLOY_2_4TIER_ASSISTANT:
+                //Jobs
+                job = GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_ASSISTANT].sJob;
+                //맨처음 인덱스 
+                randomMin = int.Parse(job.Substring(0, job.IndexOf(",")));
+                //마지막 인덱스
+                job = job.Remove(0, job.Length - 1);
+                randomMax = int.Parse(job);
+                //직업 인덱스
+                nJobIndex = Random.RandomRange(randomMin, randomMax + 1);
+                Debug.Log("직업 : " + nJobIndex);
+                //Percentage
+                percentageList = GetPercentage(_employCharacter);
+                //확률 계산 해야함
+                resultPercentage = Random.RandomRange(0, 100f);
+                Debug.Log("확률 수치 : " + resultPercentage);
+                percentageCheck = 0f;
+                //낮은 것 부터 체크
+                for (int nTier = 0; nTier < percentageList.Count; nTier++)
+                {
+                    percentageCheck += percentageList[nTier];
+                    if (resultPercentage <= percentageCheck)
+                    {
+                        character = GetCharacterCategory(_employCharacter, nTier, nJobIndex);
+                        employFinishPanel.SetUpResult(character);
+                        break;
+                    }
+                }
+
+
+                break;
+
+
+            case E_EMPLOY.E_EMPLOY_2_4TIER_COMMANDER:
+                //Jobs
+                job = GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_COMMANDER].sJob;
+                //맨처음 인덱스 
+                randomMin = int.Parse(job.Substring(0, job.IndexOf(",")));
+                //마지막 인덱스
+                job = job.Remove(0, job.Length - 1);
+                randomMax = int.Parse(job);
+                //직업 인덱스
+                nJobIndex = Random.RandomRange(randomMin, randomMax + 1);
+                Debug.Log("직업 : " + nJobIndex);
+                //Percentage
+                percentageList = GetPercentage(_employCharacter);
+                //확률 계산 해야함
+                resultPercentage = Random.RandomRange(0, 100f);
+                Debug.Log("확률 수치 : " + resultPercentage);
+                percentageCheck = 0f;
+                //낮은 것 부터 체크
+                for (int nTier = 0; nTier < percentageList.Count; nTier++)
+                {
+                    percentageCheck += percentageList[nTier];
+                    if (resultPercentage <= percentageCheck)
+                    {
+                        character = GetCharacterCategory(_employCharacter, nTier, nJobIndex);
+                        employFinishPanel.SetUpResult(character);
+                        break;
+                    }
+                }
+
+=======
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 
                 break;
 
@@ -86,6 +314,28 @@ public class EmployPanel : ButtonUIBase
     public DBBasicCharacter GetCharacterCategory(E_EMPLOY _employCharacter, int _tier ,  int _jobIndex)
     {
         DBBasicCharacter character = new DBBasicCharacter();
+<<<<<<< HEAD
+        int nTribe = 0;
+        int random = 0;
+        switch (_employCharacter)
+        {
+            case E_EMPLOY.E_EMPLOY_1_2TIER:
+                //티어 체크는 높은 순 대로 체크
+                if (_tier == 0)
+                {
+                    //0 = 2성, 
+                    //1 = 1성
+                    Debug.Log("2성 소환");
+                    //Tribe 구분
+                    //Tribe 0,1,2,3,4 로 구분을 한다.
+                    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_2);
+                }
+                else if(_tier == 1)
+                {
+                    Debug.Log("1성 소환");
+                    random = (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_1;
+                }
+=======
 
         switch (_employCharacter)
         {
@@ -104,6 +354,7 @@ public class EmployPanel : ButtonUIBase
                     random = 0;
                 }
 
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                 switch (_jobIndex)
                 {
                     case (int)E_CHARACTER_TYPE.E_ASSASIN:
@@ -127,6 +378,474 @@ public class EmployPanel : ButtonUIBase
                         break;
                     case (int)E_CHARACTER_TYPE.E_COMMAND:
                         character = GetCharacter(GameManager.Instance.commandList[random]);
+<<<<<<< HEAD
+                        break;
+                }
+                break;
+            case E_EMPLOY.E_EMPLOY_2_4TIER_MELEE:
+                //티어 체크는 높은 순 대로 체크
+             
+                if (_tier == 0)
+                {
+                    //0 = 4성, 
+                    //1 = 3성,
+                    //2 = 2성
+                    Debug.Log("4성 소환");
+                    //Tribe 구분
+                    //Tribe 0,1,2,3,4 로 구분을 한다.
+                    nTribe = GetCharacterTribe(_employCharacter);
+                    //일반형 (4성)
+                    //if(nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                    //    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_2);
+                    ////특수형 (오크)
+                    //else if(nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                    //{
+                    //    random = 2;
+                    //}
+
+                    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_2);
+
+                }
+                else if (_tier == 1)
+                {
+                    //일반형 (3성)
+                    Debug.Log("3성 소환");
+                    //nTribe = GetCharacterTribe(_employCharacter);
+                    //if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                    //    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_2);
+                    //특수형  (오크)
+                    // else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                    //    random = 1;
+
+                    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_2);
+
+                }
+
+                else if (_tier == 2)
+                {
+                    Debug.Log("2성 소환");
+                    //nTribe = GetCharacterTribe(_employCharacter);
+                    //일반형 (인간)
+                    //if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                    //    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_2);
+                    //특수형 (오크)
+                    //else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                     //   random = 0;
+
+                    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_2);
+
+                }
+
+                nTribe = (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN;
+
+                switch (_jobIndex)
+                {
+                    case (int)E_CHARACTER_TYPE.E_ASSASIN:
+                        //각 직업 리스트의 첫번째 껄 참조
+                        //nTribe추가 식으로 앞으로 추가
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.assasinList[random]);
+                        else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_assasinList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_WARRIOR:
+                        if(nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                             character = GetCharacter(GameManager.Instance.warriorList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_warriorList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_ARCHER:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.archerList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_archerList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_WIZZARD:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.wizzardList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_wizzardList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_KNIGHT:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.knightList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_knightList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_PRIEST:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.priestList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_priestList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_COMMAND:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.commandList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_commandList[random]);
+                        break;
+                }
+                break;
+
+            case E_EMPLOY.E_EMPLOY_2_4TIER_RANGE:
+                //티어 체크는 높은 순 대로 체크
+                if (_tier == 0)
+                {
+                    //0 = 4성, 
+                    //1 = 3성,
+                    //2 = 2성
+                    Debug.Log("4성 소환");
+                    //Tribe 구분
+                    //Tribe 0,1,2,3,4 로 구분을 한다.
+                   // nTribe = GetCharacterTribe(_employCharacter);
+                    //일반형 (4성)
+                    //if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                    //    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_2);
+                    //특수형 (오크)
+                    //else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                    //    random = 2;
+                    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_2);
+                    
+                }
+                else if (_tier == 1)
+                {
+                    //일반형 (3성)
+                    Debug.Log("3성 소환");
+                    // nTribe = GetCharacterTribe(_employCharacter);
+                    //if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                    //    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_2);
+                    //특수형  (오크)
+                    //else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                    //    random = 1;
+                    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_2);
+
+                }
+
+                else if (_tier == 2)
+                {
+                    Debug.Log("2성 소환");
+                    //nTribe = GetCharacterTribe(_employCharacter);
+                    //일반형 (인간)
+                    //if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                    //    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_2);
+                    //특수형 (오크)
+                    //else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                    //    random = 0;
+
+                    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_2);
+
+                }
+
+                nTribe = (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN;
+
+                switch (_jobIndex)
+                {
+                    case (int)E_CHARACTER_TYPE.E_ASSASIN:
+                        //각 직업 리스트의 첫번째 껄 참조
+                        //nTribe추가 식으로 앞으로 추가
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.assasinList[random]);
+                        else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_assasinList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_WARRIOR:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.warriorList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_warriorList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_ARCHER:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.archerList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_archerList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_WIZZARD:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.wizzardList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_wizzardList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_KNIGHT:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.knightList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_knightList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_PRIEST:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.priestList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_priestList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_COMMAND:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.commandList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_commandList[random]);
+                        break;
+                }
+                break;
+
+            case E_EMPLOY.E_EMPLOY_2_4TIER_ASSISTANT:
+                //티어 체크는 높은 순 대로 체크
+                if (_tier == 0)
+                {
+                    //0 = 4성, 
+                    //1 = 3성,
+                    //2 = 2성
+                    Debug.Log("4성 소환");
+                    //Tribe 구분
+                    //Tribe 0,1,2,3,4 로 구분을 한다.
+                    //nTribe = GetCharacterTribe(_employCharacter);
+                    //일반형 (4성)
+                    //if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                     //   random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_2);
+                    //특수형 (오크)
+                    //else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                    //    random = 2;
+
+                    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_2);
+
+                }
+                else if (_tier == 1)
+                {
+                    //일반형 (3성)
+                    Debug.Log("3성 소환");
+                    //nTribe = GetCharacterTribe(_employCharacter);
+                    // if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                    //    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_2);
+                    //특수형  (오크)
+                    //else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                    //    random = 1;
+
+                    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_2);
+
+
+                }
+
+                else if (_tier == 2)
+                {
+                    Debug.Log("2성 소환");
+                    //nTribe = GetCharacterTribe(_employCharacter);
+                    //일반형 (인간)
+                    //if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                    //    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_2);
+                    //특수형 (오크)
+                    //else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                    //    random = 0;
+
+                    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_2);
+
+                }
+
+                nTribe = (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN;
+
+                switch (_jobIndex)
+                {
+                    case (int)E_CHARACTER_TYPE.E_ASSASIN:
+                        //각 직업 리스트의 첫번째 껄 참조
+                        //nTribe추가 식으로 앞으로 추가
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.assasinList[random]);
+                        else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_assasinList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_WARRIOR:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.warriorList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_warriorList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_ARCHER:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.archerList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_archerList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_WIZZARD:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.wizzardList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_wizzardList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_KNIGHT:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.knightList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_knightList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_PRIEST:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.priestList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_priestList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_COMMAND:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.commandList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_commandList[random]);
+                        break;
+                }
+                break;
+
+            case E_EMPLOY.E_EMPLOY_2_4TIER_COMMANDER:
+                //티어 체크는 높은 순 대로 체크
+                if (_tier == 0)
+                {
+                    //0 = 4성, 
+                    //1 = 3성,
+                    //2 = 2성
+                    Debug.Log("4성 소환");
+                    //Tribe 구분
+                    //Tribe 0,1,2,3,4 로 구분을 한다.
+                    //nTribe = GetCharacterTribe(_employCharacter);
+                    //일반형 (4성)
+                    //if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                    //    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_2);
+                    //특수형 (오크)
+                    //else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                    //    random = 2;
+
+                    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_4_2);
+
+                }
+                else if (_tier == 1)
+                {
+                    //일반형 (3성)
+                    Debug.Log("3성 소환");
+                    //nTribe = GetCharacterTribe(_employCharacter);
+                    //if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                    //    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_2);
+                    //특수형  (오크)
+                    //else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                    //    random = 1;
+
+                    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_3_2);
+
+
+                }
+
+                else if (_tier == 2)
+                {
+                    Debug.Log("2성 소환");
+                    //nTribe = GetCharacterTribe(_employCharacter);
+                    //일반형 (인간)
+                   // if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                    //    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_2);
+                    //특수형 (오크)
+                   // else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                    //    random = 0;
+
+                    random = Random.RandomRange((int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_1, (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_2_2);
+
+                }
+
+                nTribe = (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN;
+
+
+                switch (_jobIndex)
+                {
+                    case (int)E_CHARACTER_TYPE.E_ASSASIN:
+                        //각 직업 리스트의 첫번째 껄 참조
+                        //nTribe추가 식으로 앞으로 추가
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.assasinList[random]);
+                        else if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_assasinList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_WARRIOR:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.warriorList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_warriorList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_ARCHER:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.archerList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_archerList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_WIZZARD:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.wizzardList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_wizzardList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_KNIGHT:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.knightList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_knightList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_PRIEST:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.priestList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_priestList[random]);
+                        break;
+
+                    case (int)E_CHARACTER_TYPE.E_COMMAND:
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_HUMAN)
+                            character = GetCharacter(GameManager.Instance.commandList[random]);
+                        if (nTribe == (int)E_EMPLOY_TRIBE.E_EMPLOY_TRIBE_ORC)
+                            character = GetCharacter(GameManager.Instance.enemy_orc_commandList[random]);
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+        return character;
+    }
+    //Tribe check
+    public int GetCharacterTribe(E_EMPLOY _employCharacter)
+    {
+        string tribe = GameManager.Instance.lDBEmployGacha[(int)_employCharacter].sTribe;
+        List<int> tribeList = new List<int>();
+        for (int i = 0; i <= tribe.Length; i++)
+        {
+            //마지막
+            if (tribe.Contains(",") == false)
+            {
+                tribeList.Add(int.Parse(tribe.Substring(0, tribe.Length)));
+                break;
+            }
+            else
+            {
+                tribeList.Add(int.Parse(tribe.Substring(0, tribe.IndexOf(","))));
+                tribe = tribe.Remove(0, tribe.IndexOf(",") + 1);
+            }
+        }
+
+        int random = Random.RandomRange(tribeList[0], tribeList[tribeList.Count - 1] + 1);
+        return random;
+    }
+=======
 
                         break;
                 }
@@ -140,17 +859,31 @@ public class EmployPanel : ButtonUIBase
 
         return character;
     }
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 
     //확률 파싱해서 뽑아오기
     public List<float> GetPercentage(E_EMPLOY _emplayCharacter)
     {
         string sPercenstage = GameManager.Instance.lDBEmployGacha[(int)_emplayCharacter].sPercentage;
         List<float> percentageList = new List<float>();
+<<<<<<< HEAD
+      
+        for (int i = 0; i <= sPercenstage.Length; i++)
+        {
+            //마지막
+            if (sPercenstage.Contains(",") == false)
+            {
+                percentageList.Add(float.Parse(sPercenstage.Substring(0, sPercenstage.Length)));
+                break;
+            }
+               
+=======
         for (int i = 0; i < sPercenstage.Length; i++)
         {
             //마지막
             if (sPercenstage.Contains(",") == false)
                 percentageList.Add(float.Parse(sPercenstage.Substring(0, sPercenstage.Length)));
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
             else
             {
                 percentageList.Add(float.Parse(sPercenstage.Substring(0, sPercenstage.IndexOf(","))));
@@ -158,6 +891,8 @@ public class EmployPanel : ButtonUIBase
 
             }
         }
+<<<<<<< HEAD
+=======
         /*
         //오름차순 정렬(엑셀에서 값 수정으로 없앨수 있음)
         percentageList.Sort(delegate (float A, float B)
@@ -170,6 +905,7 @@ public class EmployPanel : ButtonUIBase
         });
         */
 
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         return percentageList;
 
     }
@@ -182,8 +918,11 @@ public class EmployPanel : ButtonUIBase
         //passive   ->  1Tier 1개 2Tier 2개 3Tier 3개 4Tier 3개 
         //Active    ->  최대 3개 1Tier 1개 2Tier 2개 3Tier 3개 4Tier 3개 (단 2,3,4Tier)
         //tribe     
+<<<<<<< HEAD
+=======
         
 
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         DBBasicCharacter character = new DBBasicCharacter();
         character = _character;
 
@@ -241,24 +980,48 @@ public class EmployPanel : ButtonUIBase
         else if (eventData.pointerCurrentRaycast.gameObject.name == "2,4TierMeleeEmploySlot_Button")
         {
             Debug.Log("2~4성 암살자, 전사 캐릭터가 등장합니다");
+<<<<<<< HEAD
+            mainSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_MELEE, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_MELEE].sName + "을 하시겠습니까?");
+
+
+=======
            
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         }
         else if (eventData.pointerCurrentRaycast.gameObject.name == "2,4TierRangeEmploySlot_Button")
         {
             Debug.Log("2~4성 궁수, 마법사 캐릭터가 등장합니다");
+<<<<<<< HEAD
+            mainSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_RANGE, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_RANGE].sName + "을 하시겠습니까?");
+
+
+=======
          
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         }
         else if (eventData.pointerCurrentRaycast.gameObject.name == "2,4TierAssistentEmploySlot_Button")
         {
             Debug.Log("2~4성 , 기사,사제 캐릭터가 등장합니다");
+<<<<<<< HEAD
+            mainSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_ASSISTANT, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_ASSISTANT].sName + "을 하시겠습니까?");
+
+=======
          
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         }
         else if (eventData.pointerCurrentRaycast.gameObject.name == "2,4TierCommenderEmploySlot_Button")
         {
             Debug.Log("2~4성 지휘관 캐릭터가 등장합니다");
+<<<<<<< HEAD
+            mainSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_COMMANDER, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_COMMANDER].sName + "을 하시겠습니까?");
+
+        }
+
+=======
         
         }
     
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         else
         {
             Debug.Log("Clicked");

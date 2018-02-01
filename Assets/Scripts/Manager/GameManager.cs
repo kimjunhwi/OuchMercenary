@@ -41,7 +41,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
     public LoginManager loginManager;
 
     public bool bIsLoad = false;
-
+    //Characer
     public List<DBBasicCharacter> assasinList = new List<DBBasicCharacter>();
     public List<DBBasicCharacter> warriorList = new List<DBBasicCharacter>();
     public List<DBBasicCharacter> archerList = new List<DBBasicCharacter>();
@@ -49,6 +49,14 @@ public class GameManager : GenericMonoSingleton<GameManager>
     public List<DBBasicCharacter> priestList = new List<DBBasicCharacter>();
     public List<DBBasicCharacter> wizzardList = new List<DBBasicCharacter>();
     public List<DBBasicCharacter> commandList = new List<DBBasicCharacter>();
+    //Enemy Character
+    public List<DBBasicCharacter> enemy_orc_assasinList = new List<DBBasicCharacter>();
+    public List<DBBasicCharacter> enemy_orc_warriorList = new List<DBBasicCharacter>();
+    public List<DBBasicCharacter> enemy_orc_archerList  = new List<DBBasicCharacter>();
+    public List<DBBasicCharacter> enemy_orc_knightList  = new List<DBBasicCharacter>();
+    public List<DBBasicCharacter> enemy_orc_priestList  = new List<DBBasicCharacter>();
+    public List<DBBasicCharacter> enemy_orc_wizzardList = new List<DBBasicCharacter>();
+    public List<DBBasicCharacter> enemy_orc_commandList = new List<DBBasicCharacter>();
 
     //DB에서 게임내에 저장할 리스트 (기본 데이터들)
     public List<DBBasicCharacter> lDbBasicCharacter = new List<DBBasicCharacter>();
@@ -106,6 +114,11 @@ public class GameManager : GenericMonoSingleton<GameManager>
     public GameObject employCharacterHold_Obj;
 
     public CustomWindowYesNo customWindowYesNo;
+
+    //playerCount
+    //EnemyCount
+    private const int nPlayerTotalCount = 51;
+    private const int nEnemyTotalCount = 8;
 
     public IEnumerator DataLoad()
     {
@@ -173,7 +186,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 	void SortJobIndex()
 	{
-		for (int nIndex = 0; nIndex < lDbBasicCharacter.Count; nIndex++) 
+		for (int nIndex = 0; nIndex < nPlayerTotalCount; nIndex++) 
 		{
 			switch (lDbBasicCharacter [nIndex].C_JobIndex) 
 			{
@@ -186,7 +199,23 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			case (int)E_CHARACTER_TYPE.E_COMMAND: 	commandList.Add (lDbBasicCharacter [nIndex]); 	break;
 			}
 		}
-	}
+        //적 캐릭에 대한 정보를 따로 처리
+        for (int nIndex = 0; nIndex < nEnemyTotalCount; nIndex++)
+        {
+            int nPlusValue = 51;
+            nPlusValue += nIndex;
+            switch (lDbBasicCharacter[nPlusValue].C_JobIndex)
+            {
+                case (int)E_CHARACTER_TYPE.E_ASSASIN:   enemy_orc_assasinList.Add(lDbBasicCharacter[nPlusValue]); break;
+                case (int)E_CHARACTER_TYPE.E_WARRIOR:   enemy_orc_warriorList.Add(lDbBasicCharacter[nPlusValue]); break;
+                case (int)E_CHARACTER_TYPE.E_ARCHER:    enemy_orc_archerList.Add(lDbBasicCharacter[nPlusValue]); break;
+                case (int)E_CHARACTER_TYPE.E_WIZZARD:   enemy_orc_wizzardList.Add(lDbBasicCharacter[nPlusValue]); break;
+                case (int)E_CHARACTER_TYPE.E_KNIGHT:    enemy_orc_knightList.Add(lDbBasicCharacter[nPlusValue]); break;
+                case (int)E_CHARACTER_TYPE.E_PRIEST:    enemy_orc_priestList.Add(lDbBasicCharacter[nPlusValue]); break;
+                case (int)E_CHARACTER_TYPE.E_COMMAND:   enemy_orc_commandList.Add(lDbBasicCharacter[nPlusValue]); break;
+            }
+        }
+    }
 
 	public List<DBBasicCharacter> GetJobList(int _E_TYPE)
 	{
@@ -654,6 +683,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
             case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_SLOTS:
 
+                
+
                 GameObject postSlot = Instantiate(bundle.LoadAsset<GameObject>("PostSlot"));
                 postSlot.transform.SetParent(prefabHold_Obj.transform);
                 postSlot.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
@@ -679,9 +710,48 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 break;
 
             //용병고용 캐릭터들.
+<<<<<<< HEAD
+            case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_EMPLOY_CHARACTERS:
+
+              
+                GameObject[] employPrefabs = bundle.LoadAllAssets<GameObject>();
+                List<GameObject> employPrefabsList = new List<GameObject>();
+                // int.Parse(employPrefabs[i].name.Substring(0, employPrefabs[i].name.IndexOf("."));
+
+                for (int i = 0; i < bundles.Length; i++)
+                {
+                    employPrefabsList.Add(employPrefabs[i]);
+                  
+                }
+
+                employPrefabsList.Sort(delegate (GameObject A, GameObject B)
+                {
+                    if (int.Parse(A.name.Substring(0, A.name.IndexOf("."))) > int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return 1;
+                    else if (int.Parse(A.name.Substring(0, A.name.IndexOf("."))) < int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return -1;
+                    return 0;
+                });
+
+                for(int j=0; j < bundles.Length; j++)
+                {
+                    GameObject employCharacter = Instantiate(employPrefabsList[j]);
+                    employCharacter.transform.SetParent(employCharacterHold_Obj.transform);
+                    employCharacter.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                    employCharacter.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                    employCharacter.SetActive(false);
+                    employCharacter.name = employPrefabsList[j].name;
+                    employCharacter.AddComponent<UI_CharacterInfo>();
+                    employCharacter.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[j];
+                }
+
+
+
+                /*
+                GameObject employCharacter_Assasin = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_BasicAssasin"));
+=======
             case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_EMPLOYCHARACTER:
 
                 GameObject employCharacter_Assasin = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_Assasin"));
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                 employCharacter_Assasin.transform.SetParent(employCharacterHold_Obj.transform);
                 employCharacter_Assasin.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
                 employCharacter_Assasin.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
@@ -690,7 +760,11 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 employCharacter_Assasin.AddComponent<UI_CharacterInfo>();
                 employCharacter_Assasin.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[0];
 
+<<<<<<< HEAD
+                GameObject employCharacter_Warrior = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_BasicWarrior"));
+=======
                 GameObject employCharacter_Warrior = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_Warrior"));
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                 employCharacter_Warrior.transform.SetParent(employCharacterHold_Obj.transform);
                 employCharacter_Warrior.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
                 employCharacter_Warrior.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
@@ -699,7 +773,11 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 employCharacter_Warrior.AddComponent<UI_CharacterInfo>();
                 employCharacter_Warrior.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[1];
 
+<<<<<<< HEAD
+                GameObject employCharacter_Archer = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_BasicArcher"));
+=======
                 GameObject employCharacter_Archer = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_Archer"));
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                 employCharacter_Archer.transform.SetParent(employCharacterHold_Obj.transform);
                 employCharacter_Archer.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
                 employCharacter_Archer.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
@@ -708,7 +786,11 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 employCharacter_Archer.AddComponent<UI_CharacterInfo>();
                 employCharacter_Archer.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[2];
 
+<<<<<<< HEAD
+                GameObject employCharacter_Wizard = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_BasicWizard"));
+=======
                 GameObject employCharacter_Wizard = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_Wizard"));
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                 employCharacter_Wizard.transform.SetParent(employCharacterHold_Obj.transform);
                 employCharacter_Wizard.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
                 employCharacter_Wizard.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
@@ -743,6 +825,19 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 employCharacter_Commander.name = "UI_Character_Commander";
                 employCharacter_Commander.AddComponent<UI_CharacterInfo>();
                 employCharacter_Commander.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[6];
+<<<<<<< HEAD
+                */
+                //"."을 기준으로 다시 정렬
+                /*
+                getSpriteArray.Sort(delegate (Sprite A, Sprite B)
+                {
+                    if (int.Parse(A.name.Substring(0, A.name.IndexOf("."))) > int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return 1;
+                    else if (int.Parse(A.name.Substring(0, A.name.IndexOf("."))) < int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return -1;
+                    return 0;
+                });
+                */
+=======
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 
                 break;
             default:
@@ -787,7 +882,11 @@ public class GameManager : GenericMonoSingleton<GameManager>
                     Debug.Log("MainSceneSlot Load Complete");
                     break;
 
+<<<<<<< HEAD
+                case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_EMPLOY_CHARACTERS:
+=======
                 case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_EMPLOYCHARACTER:
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                     if (bundle != null)
                     {
                         loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS, true);

@@ -381,6 +381,10 @@
     <Compile Include="Assets\Scripts\UI\Battle\DamageTextPool.cs" />
     <Compile Include="Assets\Scripts\UI\LoadingPanel.cs" />
     <Compile Include="Assets\Scripts\UI\MainScene\Calender\CalenderPanel.cs" />
+<<<<<<< HEAD
+    <Compile Include="Assets\Scripts\UI\MainScene\Employer\EmployAnimation.cs" />
+=======
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
     <Compile Include="Assets\Scripts\UI\MainScene\Employer\EmployFinishPanel.cs" />
     <Compile Include="Assets\Scripts\UI\MainScene\Employer\EmployPanel.cs" />
     <Compile Include="Assets\Scripts\UI\MainScene\Employer\EmploySlot.cs" />

@@ -38,6 +38,21 @@ public class CustomWindowYesNo : ButtonUIBase
                 case E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_GACHA_1_2TIER:
                     employPanel.EmployCharacter(E_EMPLOY.E_EMPLOY_1_2TIER);
                     break;
+<<<<<<< HEAD
+                case E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_MELEE:
+                    employPanel.EmployCharacter(E_EMPLOY.E_EMPLOY_2_4TIER_MELEE);
+                    break;
+                case E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_RANGE:
+                    employPanel.EmployCharacter(E_EMPLOY.E_EMPLOY_2_4TIER_RANGE);
+                    break;
+                case E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_ASSISTANT:
+                    employPanel.EmployCharacter(E_EMPLOY.E_EMPLOY_2_4TIER_ASSISTANT);
+                    break;
+                case E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_COMMANDER:
+                    //employPanel.EmployCharacter(E_EMPLOY.E_EMPLOY_2_4TIER_COMMANDER);
+                    break;
+=======
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                 default:
                     break;
             }

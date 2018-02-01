@@ -1,16 +1,22 @@
 ManifestFileVersion: 0
+<<<<<<< HEAD
+CRC: 1102184513
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d62391bedea47d39307e9b30859ae4c9
+=======
 CRC: 4163530230
 Hashes:
   AssetFileHash:
     serializedVersion: 2
     Hash: 11a0a48d345a205c58c2bbd04546b77f
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 1f44cdb7fbbf4a5dc2e5ce63ceabbee1
+    Hash: 99ae409610123f9b5068f20f3b9ceb35
 HashAppended: 0
 ClassTypes:
-- Class: 28
-  Script: {instanceID: 0}
 - Class: 74
   Script: {instanceID: 0}
 - Class: 91
@@ -20,9 +26,11 @@ ClassTypes:
 Assets:
 - Assets/Resources/Animation/Character/Assasin_Idle.anim
 - Assets/Resources/Animation/Character/Thunder Mage.controller
-- Assets/Resources/Character/Assasin/High Assassin 2048x2048_256x256 (1).png
 - Assets/Resources/Animation/Character/Assasin_BleedAttack.anim
+<<<<<<< HEAD
+=======
 - Assets/Resources/Character/Assasin/Assassin 2048x2048_256x256 (1).png
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 - Assets/Resources/Animation/Character/Assasin_Walk.anim
-- Assets/Resources/Character/Assasin/Hero Assassin 2048x2048_256x256 (1).png
-Dependencies: []
+Dependencies:
+- C:/Users/ksyy2/Documents/OuchMercenary/Assets/AssetBundles/mainscene/employ/images

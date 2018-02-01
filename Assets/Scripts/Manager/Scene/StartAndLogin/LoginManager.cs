@@ -2419,7 +2419,11 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
                     DBCharacterTicket.sJob = lDBCharacterTicket_GetList[i].Job;
                     DBCharacterTicket.sPercentage = lDBCharacterTicket_GetList[i].Percentage;
                     DBCharacterTicket.sTier = lDBCharacterTicket_GetList[i].Tier;
+<<<<<<< HEAD
+                    DBCharacterTicket.sTribe = lDBCharacterTicket_GetList[i].Tribe;
+=======
                     DBCharacterTicket.nTribe = lDBCharacterTicket_GetList[i].Tribe;
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                     DBCharacterTicket.sImage = lDBCharacterTicket_GetList[i].Image;
                     DBCharacterTicket.sExplanation = lDBCharacterTicket_GetList[i].Explanation;
                     GameManager.Instance.lDBCharacterTicket.Add(DBCharacterTicket);
@@ -2475,7 +2479,11 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
                     DBEmployGacha.sJob = lDBEmployGacha_GetList[i].Job;
                     DBEmployGacha.sPercentage = lDBEmployGacha_GetList[i].Percentage;
                     DBEmployGacha.sTier = lDBEmployGacha_GetList[i].Tier;
+<<<<<<< HEAD
+                    DBEmployGacha.sTribe = lDBEmployGacha_GetList[i].Tribe;
+=======
                     DBEmployGacha.nTribe = lDBEmployGacha_GetList[i].Tribe;
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                     DBEmployGacha.nCost_Gold = lDBEmployGacha_GetList[i].Cost_Gold;
                     DBEmployGacha.nCost_Gem = lDBEmployGacha_GetList[i].Cost_Gem;
                     DBEmployGacha.sImage = lDBEmployGacha_GetList[i].Image;
