@@ -14,7 +14,11 @@ public class CustomWindowYesNo : ButtonUIBase
     public Image CloseButton_Image;
     public Text contents_Text;
 
-    public E_ACTIVEBUTTON eCurActivePanel;
+    public EmployPanel employPanel;
+
+
+    //현재 창이 보여주는 정보의 상태
+    public E_CUSTOMWINDOW eCurState;
 
     public void initWindow()
     {
@@ -29,6 +33,27 @@ public class CustomWindowYesNo : ButtonUIBase
     {
         if (eventData.pointerCurrentRaycast.gameObject.name == "Button_yes")
         {
+            switch (eCurState)
+            {
+                case E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_GACHA_1_2TIER:
+                    employPanel.EmployCharacter(E_EMPLOY.E_EMPLOY_1_2TIER);
+                    break;
+                case E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_MELEE:
+                    employPanel.EmployCharacter(E_EMPLOY.E_EMPLOY_2_4TIER_MELEE);
+                    break;
+                case E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_RANGE:
+                    employPanel.EmployCharacter(E_EMPLOY.E_EMPLOY_2_4TIER_RANGE);
+                    break;
+                case E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_ASSISTANT:
+                    employPanel.EmployCharacter(E_EMPLOY.E_EMPLOY_2_4TIER_ASSISTANT);
+                    break;
+                case E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_COMMANDER:
+                    //employPanel.EmployCharacter(E_EMPLOY.E_EMPLOY_2_4TIER_COMMANDER);
+                    break;
+                default:
+                    break;
+            }
+
             this.gameObject.SetActive(false);
         }
         else if (eventData.pointerCurrentRaycast.gameObject.name == "Button_no")
@@ -36,9 +61,14 @@ public class CustomWindowYesNo : ButtonUIBase
             Debug.Log("Clicked");
             this.gameObject.SetActive(false);
         }
+        else if(eventData.pointerCurrentRaycast.gameObject.name == "Button_Close")
+        {
+            Debug.Log("Clicked");
+            this.gameObject.SetActive(false);
+        }
         else
         {
-            this.gameObject.SetActive(false);
+            Debug.Log("Clicked");
         }
     }
 
@@ -47,4 +77,8 @@ public class CustomWindowYesNo : ButtonUIBase
 
     }
     #endregion 
+
+    
+
+
 }

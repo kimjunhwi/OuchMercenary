@@ -92,6 +92,7 @@ public class FadeInOut : MonoBehaviour
 							Debug.Log ("치료소 활성화!!");
 							GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_STAGE_HEALING, mainSceneManager.canvas, "치료소", mainSceneManager);
 							mainSceneManager.activeButtonPanel [(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING].SetActive (true);
+                            
 							onceCheck = true;
 						}
 					} 
@@ -167,7 +168,7 @@ public class FadeInOut : MonoBehaviour
                             if (onceCheck == false)
                             {
                                 Debug.Log("스테이지 활성화!!");
-                                GameManager.Instance.SetUpbar(ReadOnlys.E_SCENE_INDEX.E_EMPLOYER, mainSceneManager.canvas, "스테이지", mainSceneManager);
+                                GameManager.Instance.SetUpbar(ReadOnlys.E_SCENE_INDEX.E_MAINSCENE_STAGE, mainSceneManager.canvas, "스테이지", mainSceneManager);
                                 mainSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE].SetActive(true);
                                 onceCheck = true;
                             }

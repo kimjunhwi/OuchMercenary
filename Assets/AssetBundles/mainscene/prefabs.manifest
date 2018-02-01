@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2969503155
+CRC: 2219826821
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e4724a5273c881cabd06f5d66a3430b5
+    Hash: 41812d89dbf8c3679c790ff2c2c7417a
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 64b778491578c98ad6530afeee34c320
+    Hash: d309a70f220756481bbd35aca5d6e554
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -45,12 +45,6 @@ ClassTypes:
   Script: {fileID: 1297475563, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 34db1815ec9214e2c84eb826763953f4, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 4ac4c5acfb083314488da94fa3942eab, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 6db4705d0fb8b3041baed8301c3be9bd, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: f6b5f8fd450b9465ab14d680fa0853ea, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -65,11 +59,11 @@ Assets:
 - Assets/Resources/Prefabs/UI/MainScene/Custom_YesNo.prefab
 - Assets/Resources/Prefabs/UI/MainScene/PostPanel.prefab
 - Assets/Resources/Prefabs/UI/MainScene/StagePanel.prefab
-- Assets/Resources/Prefabs/UI/MainScene/MercenarySummonPanel.prefab
 - Assets/Resources/Prefabs/UI/MainScene/FadePanel.prefab
 - Assets/Resources/Prefabs/UI/MainScene/CalenderPanel.prefab
 - Assets/Resources/Prefabs/UI/MainScene/TrainningPanel.prefab
 - Assets/Resources/Prefabs/UI/MainScene/MainBackground.prefab
+- Assets/Resources/Prefabs/UI/MainScene/MercenaryEmployPanel.prefab
 - Assets/Resources/Prefabs/UI/MainScene/ActiveButton.prefab
 - Assets/Resources/Prefabs/UI/MainScene/MercenaryHealPanel.prefab
 - Assets/Resources/Prefabs/UI/MainScene/InfoUI.prefab
