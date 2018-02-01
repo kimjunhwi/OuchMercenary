@@ -8,6 +8,8 @@ using ReadOnlys;
 
 public class MercenaryDispatchSlot : MonoBehaviour
 {
+	public int m_nIndex ;
+
 	public MercenaryDispatchPanel mDispatchPanel;
 
 	public Image CharacterBox_Image;
@@ -22,26 +24,71 @@ public class MercenaryDispatchSlot : MonoBehaviour
 
 	public void OnClick()
 	{
-		//만약 배치준비 상태라면 
-		if (eSlot_State == E_SLOT_STATE.E_BATCH_READY) 
+		switch (eSlot_State) 
 		{
-			eSlot_State = E_SLOT_STATE.E_BATCH;
-
-			characterSlot = mDispatchPanel.read_Batch_Charic;
-
-			mDispatchPanel.Init ();
+		case E_SLOT_STATE.E_BATCH: 			E_SWITCH (E_SLOT_STATE.E_CANCLE); 	break;
+		case E_SLOT_STATE.E_BATCH_READY: 	E_SWITCH (E_SLOT_STATE.E_BATCH); 	break;
+		case E_SLOT_STATE.E_CANCLE: 		E_SWITCH (E_SLOT_STATE.E_BATCH); 	break;
 		}
+	}
 
-		//만약 배치가 돼있다면 
-		if (eSlot_State == E_SLOT_STATE.E_BATCH) 
+	public void E_SWITCH(E_SLOT_STATE _State)
+	{
+		eSlot_State = _State;
+
+		switch (_State) 
 		{
-			eSlot_State = E_SLOT_STATE.E_CANCLE;
+		case E_SLOT_STATE.E_BATCH:
+			{
+				characterSlot = (mDispatchPanel.read_Batch_Charic == null) ? characterSlot : mDispatchPanel.read_Batch_Charic;
 
-		}
+				mDispatchPanel.IsCheckCompare (m_nIndex);
 
-		if (eSlot_State == E_SLOT_STATE.E_CANCLE) 
-		{
+				characterSlot.charicData.m_nBatchIndex = m_nIndex;
 
+				characterSlot.IsBatch (true);
+
+				CharacterBox_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache("UI/BoxImages/Character/" + characterSlot.charicData.m_sImage);
+
+				CharacterDispatchCancel_Image.gameObject.SetActive (false);
+
+				mDispatchPanel.Init ();
+			}
+			break;
+		case E_SLOT_STATE.E_BATCH_READY:
+			{
+			}
+			break;
+		case E_SLOT_STATE.E_CANCLE:
+			{
+				mDispatchPanel.IsDifferentCheckCancel (m_nIndex);
+
+				mDispatchPanel.read_Batch_Charic = characterSlot;
+
+				characterSlot.Active (true);
+
+				CharacterBox_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache("UI/BoxImages/Character/" + characterSlot.charicData.m_sImage);
+
+				CharacterDispatchCancel_Image.gameObject.SetActive (true);
+
+				mDispatchPanel.ChangeSpriteToDispatchingImage (true);
+			}
+			break;
+		case E_SLOT_STATE.E_NONE:
+			{
+				characterSlot.charicData.m_nBatchIndex = -1;
+
+				characterSlot.IsBatch (false);
+
+				characterSlot.Active (false);
+
+				CharacterDispatchCancel_Image.gameObject.SetActive (false);
+
+				characterSlot = null;
+
+				mDispatchPanel.Init ();
+			}
+			break;
 		}
 	}
 }

@@ -374,6 +374,13 @@ namespace ReadOnlys
 
 		public int m_nBatchIndex;			//배치 인덱스 
 
+
+		public int m_nStamina;              //캐릭터 스태미나
+
+		public string m_sImage;               //캐릭터 이미지
+
+		public int m_nFavorite;
+
 		public List<BasicSkill> basicSkill = new List<BasicSkill>();
 
 		public List<ActiveSkill> activeSkill = new List<ActiveSkill>();
@@ -439,7 +446,11 @@ namespace ReadOnlys
 			m_fCritical_Rating 	= _charic.Crit_Rating;
 			m_fCritical_Damage 	= _charic.Crit_Dmg;
 			m_nBatchIndex 		= _charic.Betch_Index;
+			m_nStamina			= _charic.m_nStamina;              //캐릭터 스태미나
 
+			m_sImage			= _charic.m_sImage;               //캐릭터 이미지
+
+			m_nFavorite 		= _charic.m_nFavorite;
 		}
 
 		public CharacterStats()

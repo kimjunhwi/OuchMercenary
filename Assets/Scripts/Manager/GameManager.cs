@@ -1249,7 +1249,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
 			_summonCharacter.passiveSkill.Add (newPassiveSkill);
 		}
 
-		_summonCharacter.m_nBatchIndex = 5;
+		_summonCharacter.m_nBatchIndex = -1;
 
 		return _summonCharacter;
 	}
