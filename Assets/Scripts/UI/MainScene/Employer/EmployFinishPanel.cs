@@ -36,8 +36,13 @@ public class EmployFinishPanel : EmployPanel
         //정보 표시
         job_Text.text = _character.C_JobNames;
         name_Text.text = _character.C_Name;
+<<<<<<< HEAD
 
         if(nCharacterIndex <= 50)
+=======
+        //임시 처리
+        if(nCharacterIndex <= 7)
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
             employCharacterHold_Obj.transform.GetChild(nCharacterIndex).gameObject.SetActive(true);
 
         this.gameObject.SetActive(true);
@@ -52,7 +57,11 @@ public class EmployFinishPanel : EmployPanel
             Debug.Log("용병고용 확인 버튼 클릭!");
             mainSceneManager.InfoUI_Obj.SetActive(true);
             GameManager.Instance.upBar.gameObject.SetActive(true);
+<<<<<<< HEAD
             if(nCharacterIndex <= 50)
+=======
+            if (nCharacterIndex <= 7)
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                 employCharacterHold_Obj.transform.GetChild(nCharacterIndex).gameObject.SetActive(false);
 
             this.gameObject.SetActive(false);

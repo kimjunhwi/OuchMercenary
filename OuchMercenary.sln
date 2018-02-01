@@ -1,9 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OuchMercenary", "OuchMercenary.csproj", "{ABDB6780-48B2-7F58-4D2D-FA17B93C1C71}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OuchMercenary", "Assembly-CSharp.csproj", "{DF12550A-0120-4A22-B406-5F3C93165125}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OuchMercenary.Editor", "OuchMercenary.Editor.csproj", "{B328BFB2-0C13-B013-3902-C36A42404D2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OuchMercenary", "Assembly-CSharp-Editor.csproj", "{7B8BA0D6-8292-3232-1D6A-01997EAFF1B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,16 +11,37 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ABDB6780-48B2-7F58-4D2D-FA17B93C1C71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ABDB6780-48B2-7F58-4D2D-FA17B93C1C71}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ABDB6780-48B2-7F58-4D2D-FA17B93C1C71}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ABDB6780-48B2-7F58-4D2D-FA17B93C1C71}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B328BFB2-0C13-B013-3902-C36A42404D2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B328BFB2-0C13-B013-3902-C36A42404D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B328BFB2-0C13-B013-3902-C36A42404D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B328BFB2-0C13-B013-3902-C36A42404D2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF12550A-0120-4A22-B406-5F3C93165125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF12550A-0120-4A22-B406-5F3C93165125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF12550A-0120-4A22-B406-5F3C93165125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF12550A-0120-4A22-B406-5F3C93165125}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B8BA0D6-8292-3232-1D6A-01997EAFF1B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B8BA0D6-8292-3232-1D6A-01997EAFF1B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B8BA0D6-8292-3232-1D6A-01997EAFF1B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B8BA0D6-8292-3232-1D6A-01997EAFF1B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
+		$0.TextStylePolicy = $2
+		$2.inheritsSet = null
+		$2.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $3
+		$3.AfterDelegateDeclarationParameterComma = True
+		$3.inheritsSet = Mono
+		$3.inheritsScope = text/x-csharp
+		$3.scope = text/x-csharp
+		$0.TextStylePolicy = $4
+		$4.FileWidth = 120
+		$4.TabsToSpaces = False
+		$4.EolMarker = Windows
+		$4.inheritsSet = VisualStudio
+		$4.inheritsScope = text/plain
+		$4.scope = text/plain
 	EndGlobalSection
 EndGlobal

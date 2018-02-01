@@ -304,5 +304,9 @@ TextureImporter:
     physicsShape: []
   spritePackingTag: 
   userData: 
+<<<<<<< HEAD:Assets/Resources/Character/0_Assasin/Basic Assassin 2048x2048_256x256.png.meta
   assetBundleName: mainscene/employ/images
+=======
+  assetBundleName: mainscene/images
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b:Assets/Resources/Character/Assasin/Basic Assassin 2048x2048_256x256 (2).png.meta
   assetBundleVariant: 

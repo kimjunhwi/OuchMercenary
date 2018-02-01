@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using ReadOnlys;
 
+<<<<<<< HEAD
 #region enum
 //1,2티어 소환(하급소환) 
 public enum E_GACHA_1_2TIER_CATEGORY
@@ -64,6 +65,10 @@ public enum E_EMPLOY_TRIBE
 
 
 public enum E_EMPLOY_GACHA
+=======
+
+enum E_EMPLOY_GACHA
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 {
     E_EMPLOY_GACHA_1_2Tier = 0,
     E_EMPLOY_GACHA_2_4TIER_MELEE,
@@ -71,7 +76,11 @@ public enum E_EMPLOY_GACHA
     E_EMPLOY_GACHA_2_4TIER_ASSISTANT,
     E_EMPLOY_GACHA_2_4TIER_COMMANDER,
 }
+<<<<<<< HEAD
 #endregion
+=======
+
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 
 public class EmployPanel : ButtonUIBase
 {
@@ -93,26 +102,37 @@ public class EmployPanel : ButtonUIBase
         int randomMin = 0;
         int randomMax = 0;
         int nJobIndex = 0;
+<<<<<<< HEAD
         string job = "";
         //Percentage
         float resultPercentage = 0f;
         float percentageCheck = 0f;
+=======
+        //Percentage
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         List<float> percentageList = null;
         //Character
         DBBasicCharacter character = new DBBasicCharacter();
 
         switch (_employCharacter)
         {
+<<<<<<< HEAD
            
             case E_EMPLOY.E_EMPLOY_1_2TIER:
                 //Jobs
                 job = GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_1_2TIER].sJob;
+=======
+            case E_EMPLOY.E_EMPLOY_1_2TIER:
+                //Jobs
+                string job = GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_1_2TIER].sJob;
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                 //맨처음 인덱스 
                 randomMin = int.Parse(job.Substring(0, job.IndexOf(",")));
                 //마지막 인덱스
                 job = job.Remove(0, job.Length - 1);
                 randomMax = int.Parse(job);
                 //직업 인덱스
+<<<<<<< HEAD
                 nJobIndex = Random.RandomRange(randomMin, randomMax + 1);
                 //Percentage
                 percentageList = GetPercentage(_employCharacter);
@@ -131,6 +151,22 @@ public class EmployPanel : ButtonUIBase
                     {
                         //해당 캐릭터 종류, 티어, 직업 인덱스
                         character = GetCharacterCategory(_employCharacter, nTier, nJobIndex);
+=======
+                nJobIndex = Random.RandomRange(randomMin, randomMax);
+                //Percentage
+                percentageList = GetPercentage(_employCharacter);
+                //확률 계산 해야함
+                float resultPercentage = Random.RandomRange(0, 100f);
+                Debug.Log("확률 수치 : " + resultPercentage);
+                float percentageCheck = 0f;
+                //현재 오름 차순 (낮은 것 부터 체크)
+                for (int i = 0; i < percentageList.Count; i++)
+                {
+                    percentageCheck += percentageList[i];
+                    if (resultPercentage <= percentageCheck)
+                    {
+                        character = GetCharacterCategory(_employCharacter, i, nJobIndex);
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                         employFinishPanel.SetUpResult(character);
                         break;
                     }
@@ -138,6 +174,7 @@ public class EmployPanel : ButtonUIBase
                 break;
 
             case E_EMPLOY.E_EMPLOY_2_4TIER_MELEE:
+<<<<<<< HEAD
                 //Jobs
                 job = GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_MELEE].sJob;
                 //맨처음 인덱스 
@@ -263,6 +300,8 @@ public class EmployPanel : ButtonUIBase
                     }
                 }
 
+=======
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 
                 break;
 
@@ -275,6 +314,7 @@ public class EmployPanel : ButtonUIBase
     public DBBasicCharacter GetCharacterCategory(E_EMPLOY _employCharacter, int _tier ,  int _jobIndex)
     {
         DBBasicCharacter character = new DBBasicCharacter();
+<<<<<<< HEAD
         int nTribe = 0;
         int random = 0;
         switch (_employCharacter)
@@ -295,6 +335,26 @@ public class EmployPanel : ButtonUIBase
                     Debug.Log("1성 소환");
                     random = (int)E_EMPLOY_HUMMAN_TIER.E_EMPLOY_HUMMAN_TIER_1;
                 }
+=======
+
+        switch (_employCharacter)
+        {
+            case E_EMPLOY.E_EMPLOY_1_2TIER:
+                int random = 0;
+                //티어 체크는 높은 순 대로 체크
+                if (_tier == 0)
+                {
+                    Debug.Log("2성 소환");
+                    random = Random.RandomRange(1, 2);
+                }
+                
+                else if(_tier == 1)
+                {
+                    Debug.Log("1성 소환");
+                    random = 0;
+                }
+
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
                 switch (_jobIndex)
                 {
                     case (int)E_CHARACTER_TYPE.E_ASSASIN:
@@ -318,6 +378,7 @@ public class EmployPanel : ButtonUIBase
                         break;
                     case (int)E_CHARACTER_TYPE.E_COMMAND:
                         character = GetCharacter(GameManager.Instance.commandList[random]);
+<<<<<<< HEAD
                         break;
                 }
                 break;
@@ -784,12 +845,28 @@ public class EmployPanel : ButtonUIBase
         int random = Random.RandomRange(tribeList[0], tribeList[tribeList.Count - 1] + 1);
         return random;
     }
+=======
+
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+
+
+       
+
+        return character;
+    }
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 
     //확률 파싱해서 뽑아오기
     public List<float> GetPercentage(E_EMPLOY _emplayCharacter)
     {
         string sPercenstage = GameManager.Instance.lDBEmployGacha[(int)_emplayCharacter].sPercentage;
         List<float> percentageList = new List<float>();
+<<<<<<< HEAD
       
         for (int i = 0; i <= sPercenstage.Length; i++)
         {
@@ -800,6 +877,13 @@ public class EmployPanel : ButtonUIBase
                 break;
             }
                
+=======
+        for (int i = 0; i < sPercenstage.Length; i++)
+        {
+            //마지막
+            if (sPercenstage.Contains(",") == false)
+                percentageList.Add(float.Parse(sPercenstage.Substring(0, sPercenstage.Length)));
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
             else
             {
                 percentageList.Add(float.Parse(sPercenstage.Substring(0, sPercenstage.IndexOf(","))));
@@ -807,6 +891,21 @@ public class EmployPanel : ButtonUIBase
 
             }
         }
+<<<<<<< HEAD
+=======
+        /*
+        //오름차순 정렬(엑셀에서 값 수정으로 없앨수 있음)
+        percentageList.Sort(delegate (float A, float B)
+        {
+            if (A > B)
+                return 1;
+            else if (A < B)
+                return -1;
+            return 0;
+        });
+        */
+
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         return percentageList;
 
     }
@@ -819,6 +918,11 @@ public class EmployPanel : ButtonUIBase
         //passive   ->  1Tier 1개 2Tier 2개 3Tier 3개 4Tier 3개 
         //Active    ->  최대 3개 1Tier 1개 2Tier 2개 3Tier 3개 4Tier 3개 (단 2,3,4Tier)
         //tribe     
+<<<<<<< HEAD
+=======
+        
+
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         DBBasicCharacter character = new DBBasicCharacter();
         character = _character;
 
@@ -876,30 +980,48 @@ public class EmployPanel : ButtonUIBase
         else if (eventData.pointerCurrentRaycast.gameObject.name == "2,4TierMeleeEmploySlot_Button")
         {
             Debug.Log("2~4성 암살자, 전사 캐릭터가 등장합니다");
+<<<<<<< HEAD
             mainSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_MELEE, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_MELEE].sName + "을 하시겠습니까?");
 
 
+=======
+           
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         }
         else if (eventData.pointerCurrentRaycast.gameObject.name == "2,4TierRangeEmploySlot_Button")
         {
             Debug.Log("2~4성 궁수, 마법사 캐릭터가 등장합니다");
+<<<<<<< HEAD
             mainSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_RANGE, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_RANGE].sName + "을 하시겠습니까?");
 
 
+=======
+         
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         }
         else if (eventData.pointerCurrentRaycast.gameObject.name == "2,4TierAssistentEmploySlot_Button")
         {
             Debug.Log("2~4성 , 기사,사제 캐릭터가 등장합니다");
+<<<<<<< HEAD
             mainSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_ASSISTANT, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_ASSISTANT].sName + "을 하시겠습니까?");
 
+=======
+         
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         }
         else if (eventData.pointerCurrentRaycast.gameObject.name == "2,4TierCommenderEmploySlot_Button")
         {
             Debug.Log("2~4성 지휘관 캐릭터가 등장합니다");
+<<<<<<< HEAD
             mainSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_COMMANDER, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_COMMANDER].sName + "을 하시겠습니까?");
 
         }
 
+=======
+        
+        }
+    
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
         else
         {
             Debug.Log("Clicked");

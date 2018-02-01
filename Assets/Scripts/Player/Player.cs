@@ -45,6 +45,9 @@ public class Player : MonoBehaviour
 
 	public void Init()
 	{
+		TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1032));
+		TEST_MY_HERO.Add (GameManager.Instance.SummonCharacter (1006));
+
 
 		for (int i = 0; i < 53; i++) {
 			LIST_CHARACTER.Add ( GameManager.Instance.lDbBasicCharacter [i]);

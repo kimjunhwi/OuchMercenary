@@ -28,13 +28,20 @@ public class StageDefensePanel :MonoBehaviour
 
 	void Start()
 	{
-		StartButton.onClick.AddListener(() => PrepareBattleTotalPanel.SetActive(true));
+		StartButton.onClick.AddListener(NextStage);
 
 		//GameManager.Instance.LoadScene (ReadOnlys.E_SCENE_INDEX.E_BATTLE, ReadOnlys.E_SCENE_INDEX.E_STAGE,false));
 
 		AllDisableDefenceButtons ();
 
 		forestButtons [player.nDefenceChapterOne].SetUpSprite (true);
+	}
+
+	public void NextStage()
+	{
+		gameObject.SetActive (false);
+
+		PrepareBattleTotalPanel.SetActive (true);
 	}
 
 	public void AllDisableDefenceButtons()

@@ -1,5 +1,9 @@
 ManifestFileVersion: 0
+<<<<<<< HEAD
 CRC: 3538778428
+=======
+CRC: 4055995931
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -31,6 +35,7 @@ AssetBundleManifest:
       Dependencies:
         Dependency_0: mainscene/images
     Info_7:
+<<<<<<< HEAD
       Name: mainscene/employ/characters
       Dependencies:
         Dependency_0: mainscene/images
@@ -38,3 +43,8 @@ AssetBundleManifest:
     Info_8:
       Name: mainscene/employ/images
       Dependencies: {}
+=======
+      Name: mainscene/employcharacter
+      Dependencies:
+        Dependency_0: mainscene/images
+>>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
