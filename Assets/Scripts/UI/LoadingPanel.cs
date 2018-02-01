@@ -36,13 +36,13 @@ public class LoadingPanel : MonoBehaviour
                     StartCoroutine( GameManager.Instance.LoadAssetBundle("Assets/AssetBundles/mainscene/images", E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABDATA));
                     StartCoroutine( GameManager.Instance.LoadAssetBundle("Assets/AssetBundles/mainscene/prefabs", E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS));
                     StartCoroutine(GameManager.Instance.LoadAssetBundle("Assets/AssetBundles/mainscene/slot", E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_SLOTS));
-<<<<<<< HEAD
+
                     //용병고용 
                     StartCoroutine(GameManager.Instance.LoadAssetBundle("Assets/AssetBundles/mainscene/employ/characters", E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_EMPLOY_CHARACTERS));
                     StartCoroutine(GameManager.Instance.LoadAssetBundle("Assets/AssetBundles/mainscene/employ/images", E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_EMPLOY_IMAGES));
-=======
+
                     StartCoroutine(GameManager.Instance.LoadAssetBundle("Assets/AssetBundles/mainscene/employcharacter", E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_EMPLOYCHARACTER));
->>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
+
 
                     break;
 			case E_SCENE_INDEX.E_STAGE:

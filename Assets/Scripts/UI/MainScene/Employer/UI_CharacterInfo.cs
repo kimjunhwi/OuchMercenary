@@ -1,17 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-<<<<<<< HEAD
 using UnityEngine.UI;
-=======
->>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 using ReadOnlys;
 
 public class UI_CharacterInfo : MonoBehaviour {
 
     //소환 상점에서 필요한 캐릭터 인포를 담아놓는곳
     public DBBasicCharacter basicCharacter;
-<<<<<<< HEAD
 
     public Animator animator;
     public AnimationClip[] animationClip;
@@ -69,6 +65,4 @@ public class UI_CharacterInfo : MonoBehaviour {
 
 
     }
-=======
->>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 }

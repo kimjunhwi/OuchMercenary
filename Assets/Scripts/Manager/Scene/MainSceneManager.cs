@@ -261,8 +261,6 @@ public class MainSceneManager : MonoBehaviour
                 customWindowYesNo.employPanel = employPanel;
             }
 
-<<<<<<< HEAD
-=======
         }
 
         for (int i = 0; i < nEmployCharacterHoldCount; i++)
@@ -271,7 +269,7 @@ public class MainSceneManager : MonoBehaviour
             prefab.transform.SetParent(employPanel.employFinishPanel.employCharacterHold_Obj.transform);
             prefab.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
             prefab.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
->>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
+
         }
         //용병 고용에 쓰일 캐릭터 프리팹 처리
         

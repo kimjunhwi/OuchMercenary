@@ -313,6 +313,7 @@
      <Compile Include="Assets\Scripts\UI\Battle\DamageTextPool.cs" />
      <Compile Include="Assets\Scripts\UI\LoadingPanel.cs" />
      <Compile Include="Assets\Scripts\UI\MainScene\Calender\CalenderPanel.cs" />
+     <Compile Include="Assets\Scripts\UI\MainScene\Employer\EmployAnimation.cs" />
      <Compile Include="Assets\Scripts\UI\MainScene\Employer\EmployFinishPanel.cs" />
      <Compile Include="Assets\Scripts\UI\MainScene\Employer\EmployPanel.cs" />
      <Compile Include="Assets\Scripts\UI\MainScene\Employer\EmploySlot.cs" />

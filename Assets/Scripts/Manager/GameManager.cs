@@ -710,7 +710,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 break;
 
             //용병고용 캐릭터들.
-<<<<<<< HEAD
             case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_EMPLOY_CHARACTERS:
 
               
@@ -836,8 +835,6 @@ public class GameManager : GenericMonoSingleton<GameManager>
                     return 0;
                 });
                 */
-=======
->>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
 
                 break;
             default:
@@ -882,11 +879,10 @@ public class GameManager : GenericMonoSingleton<GameManager>
                     Debug.Log("MainSceneSlot Load Complete");
                     break;
 
-<<<<<<< HEAD
                 case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_EMPLOY_CHARACTERS:
-=======
+
                 case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_EMPLOYCHARACTER:
->>>>>>> 541b302419a6df2beb66b970948fecc6a12b366b
+
                     if (bundle != null)
                     {
                         loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS, true);
