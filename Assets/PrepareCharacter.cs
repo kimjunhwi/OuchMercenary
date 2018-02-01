@@ -53,7 +53,7 @@ public class PrepareCharacter : MonoBehaviour, IPointerClickHandler
 		charicData = _charicData;
 		preBattleClass = _preBattleClass;
 
-		characterImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache("UI/BoxImages/Character/" + charicData.m_sImage);
+		//characterImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache("UI/BoxImages/Character/" + charicData.mI);
 
 		NameText.text = charicData.m_strCharicName;
 		levelText.text = string.Format("Lv.{0}", charicData.m_nEnhace);

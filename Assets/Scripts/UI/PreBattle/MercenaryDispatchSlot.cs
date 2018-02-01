@@ -48,7 +48,7 @@ public class MercenaryDispatchSlot : MonoBehaviour
 
 				characterSlot.IsBatch (true);
 
-				CharacterBox_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache("UI/BoxImages/Character/" + characterSlot.charicData.m_sImage);
+				//CharacterBox_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache("UI/BoxImages/Character/" + characterSlot.charicData.m_sImage);
 
 				CharacterDispatchCancel_Image.gameObject.SetActive (false);
 
@@ -67,7 +67,7 @@ public class MercenaryDispatchSlot : MonoBehaviour
 
 				characterSlot.Active (true);
 
-				CharacterBox_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache("UI/BoxImages/Character/" + characterSlot.charicData.m_sImage);
+				//CharacterBox_Image.sprite = ObjectCashing.Instance.LoadSpriteFromCache("UI/BoxImages/Character/" + characterSlot.charicData.m_sImage);
 
 				CharacterDispatchCancel_Image.gameObject.SetActive (true);
 

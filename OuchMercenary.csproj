@@ -333,6 +333,7 @@
     <Compile Include="Assets\GooglePlayGames\Platforms\TokenClient.cs" />
     <Compile Include="Assets\GooglePlayGames\PluginVersion.cs" />
     <Compile Include="Assets\GPGS.cs" />
+    <Compile Include="Assets\PrepareCharacter.cs" />
     <Compile Include="Assets\Scripts\AssetBundle\LoadAssetBundle.cs" />
     <Compile Include="Assets\Scripts\Character\Character.cs" />
     <Compile Include="Assets\Scripts\Character\EnemyCharacter\Enemy_Archer.cs" />
@@ -415,6 +416,7 @@
     <Compile Include="Assets\Scripts\UI\Stage\Defense\StageDefensePanel.cs" />
     <Compile Include="Assets\Scripts\UI\Stage\StageBase.cs" />
     <Compile Include="Assets\Scripts\UI\Stage\StagePanel.cs" />
+    <Compile Include="Assets\Scripts\UI\UiDisable.cs" />
     <Compile Include="Assets\Scripts\UI\Upbar.cs" />
     <Compile Include="Assets\Scripts\Window\CustomWindowYesNo.cs" />
     <Compile Include="Assets\Scripts\Window\CWindow.cs" />
@@ -422,6 +424,7 @@
     <Compile Include="Assets\Scripts\Window\CWindowNotice.cs" />
     <Compile Include="Assets\Scripts\Window\CWindowOk.cs" />
     <Compile Include="Assets\Scripts\Window\CWindowYesNo.cs" />
+    <Compile Include="Assets\StageInfoPanel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Examples\License.txt" />

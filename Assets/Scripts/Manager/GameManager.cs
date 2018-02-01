@@ -170,6 +170,8 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 #endif
 
+        m_Player.Init();
+
 
         SortJobIndex();
 

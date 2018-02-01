@@ -5,6 +5,14 @@ using System;
 
 namespace ReadOnlys
 {
+    public enum E_SLOT_STATE
+    {
+        E_BATCH =0,
+        E_BATCH_READY,
+        E_CANCLE,
+        E_NONE,
+    }
+
 
     //용병고용 추후 바꿔야함.
     public enum E_EMPLOY

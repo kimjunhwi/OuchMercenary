@@ -47,6 +47,8 @@ public class PreBattleScenePanel : MonoBehaviour {
 
 			CharacterStats item = player.TEST_MY_HERO [nIndex];
 
+            item.m_nBatchIndex = -1;
+
 			GameObject obj = Instantiate (prepareCharicObject);
 			obj.transform.SetParent (contentsPanel, false);
 			obj.transform.localScale = Vector3.one;
