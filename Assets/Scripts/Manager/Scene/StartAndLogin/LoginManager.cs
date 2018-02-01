@@ -62,7 +62,7 @@ public class LoginManager : MonoBehaviour
 	private Player m_Player;
 
 	//Loading Progress bar
-	private const int ntotalBasicDataCount = 16;	//전체 데이터 갯수 
+	private const int ntotalBasicDataCount = 20;	//전체 데이터 갯수 
 	public Slider curSlider;						//현재 진행도
 	public Slider totalSlider;						//전체 진행도
 	public Text progress_Text;						//전체 진행도 텍스트
@@ -91,6 +91,10 @@ public class LoginManager : MonoBehaviour
 	public List<DBBreakMaterial_ForGet> lDBBreakMaterial_GetList = new List<DBBreakMaterial_ForGet> ();
 	public List<DBFormationSkill_ForGet> lDBFormationSkill_GetList = new List<DBFormationSkill_ForGet> ();
     public List<DBMaterialData_ForGet> lDBMaterialData_GetList = new List<DBMaterialData_ForGet>();
+    public List<DBCalendarData_ForGet> lDBCalendar_GetList = new List<DBCalendarData_ForGet>();
+    public List<DBCharacterTicketData_ForGet> lDBCharacterTicket_GetList = new List<DBCharacterTicketData_ForGet>();
+    public List<DBWeaponTicketData_ForGet> lDBWeaponTicket_GetList = new List<DBWeaponTicketData_ForGet>();
+    public List<DBEmployGachaData_ForGet> lDBEmployGacha_GetList = new List<DBEmployGachaData_ForGet>();
 
 
 
@@ -112,6 +116,10 @@ public class LoginManager : MonoBehaviour
 	private const int nBreakMaterialCount = 3;
 	private const int nFormationSkillCount = 5;
     private const int nMaterialDataCount = 7;
+    private const int nCalendarCount = 28;
+    private const int nCharacterTicketCount = 5;
+    private const int nWeaponTicketCount = 4;
+    private const int nEmployGachaCount = 5;
 
     //DB정보 경로
     private const string sDBBasicCharacterInfoPath = "/BasicCharacter.data";
@@ -132,6 +140,12 @@ public class LoginManager : MonoBehaviour
 	private const string sDBBreakMaterialPath = "/BreakMaterial.data";
 	private const string sDBFormationSkillPath = "/FormationSkill.data";
     private const string sDBMaterialDataPath = "/MaterialData.data";
+
+    private const string sDBCalendarPath = "/CalendarData.data"; 
+    private const string sDBCharacterTickectPath = "/CharacterTicket.data";
+    private const string sDBWeaponTicketPath = "/WeaponTicket.data";
+    private const string sDBEmployGachaPath = "/EmployGacha.data";
+
 
 
     //모든 데이터가 로드 됬는지 않됬는지
@@ -504,7 +518,7 @@ public class LoginManager : MonoBehaviour
 
 
                 StartCoroutine(GameManager.Instance.DataLoad());
-                GameManager.Instance.LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, false);
+           
 
                 break;
             }
@@ -887,11 +901,76 @@ public class LoginManager : MonoBehaviour
                 if (File.Exists(Application.persistentDataPath + sDBMaterialDataPath))
                 {
                     SaveAndLoadBinaryFile(sDBMaterialDataPath, E_LOAD_STATE.E_LOAD_GET_MATERIALDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_CALENDARDATA);
                     return;
                 }
 
                 StartCoroutine(isFinishLoadData(_state));
                 for (int i = 0; i < nMaterialDataCount; i++)
+                    DBLoadAndPutOperation(_state, i);
+
+                break;
+
+            case E_LOAD_STATE.E_LOAD_GET_CALENDARDATA:
+                curSlider.maxValue = nCalendarCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(Application.persistentDataPath + sDBCalendarPath))
+                {
+                    SaveAndLoadBinaryFile(sDBCalendarPath, E_LOAD_STATE.E_LOAD_GET_CALENDARDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_CHARACTERTICKETDATA);
+                    return;
+                }
+
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nCalendarCount; i++)
+                    DBLoadAndPutOperation(_state, i);
+
+                break;
+
+            case E_LOAD_STATE.E_LOAD_GET_CHARACTERTICKETDATA:
+                curSlider.maxValue = nCharacterTicketCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(Application.persistentDataPath + sDBCharacterTickectPath))
+                {
+                    SaveAndLoadBinaryFile(sDBCharacterTickectPath, E_LOAD_STATE.E_LOAD_GET_CHARACTERTICKETDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_WEAPONTICKETDATA);
+                    return;
+                }
+
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nCharacterTicketCount; i++)
+                    DBLoadAndPutOperation(_state, i);
+
+                break;
+
+            case E_LOAD_STATE.E_LOAD_GET_WEAPONTICKETDATA:
+                curSlider.maxValue = nWeaponTicketCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(Application.persistentDataPath + sDBWeaponTicketPath))
+                {
+                    SaveAndLoadBinaryFile(sDBWeaponTicketPath, E_LOAD_STATE.E_LOAD_GET_WEAPONTICKETDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_EMPLOYGACHADATA);
+
+                    return;
+                }
+
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nWeaponTicketCount; i++)
+                    DBLoadAndPutOperation(_state, i);
+
+                break;
+
+            case E_LOAD_STATE.E_LOAD_GET_EMPLOYGACHADATA:
+                curSlider.maxValue = nEmployGachaCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(Application.persistentDataPath + sDBEmployGachaPath))
+                {
+                    SaveAndLoadBinaryFile(sDBEmployGachaPath, E_LOAD_STATE.E_LOAD_GET_EMPLOYGACHADATA);
+                    return;
+                }
+
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nEmployGachaCount; i++)
                     DBLoadAndPutOperation(_state, i);
 
                 break;
@@ -1253,6 +1332,104 @@ public class LoginManager : MonoBehaviour
             });
 
         }
+
+        if (_state == E_LOAD_STATE.E_LOAD_GET_CALENDARDATA)
+        {
+            DBCalendarData_ForGet DBCalendarData = null;
+
+            //Load Table Info
+            Context.LoadAsync<DBCalendarData_ForGet>(_index, (result) => {
+                if (result.Exception == null)
+                {
+                    DBCalendarData = result.Result as DBCalendarData_ForGet;
+                    // Update few properties.
+
+                    Debug.Log("DBCalendarData : " + DBCalendarData.Index + "\n");
+                    //GetCharacter= character;
+                    lDBCalendar_GetList.Add(DBCalendarData);
+
+                    //Index++;
+                    DBCalendarData = null;
+
+                    curSlider.value++;
+                }
+            });
+
+        }
+
+        if (_state == E_LOAD_STATE.E_LOAD_GET_CHARACTERTICKETDATA)
+        {
+            DBCharacterTicketData_ForGet DBCharacterTicketData = null;
+
+            //Load Table Info
+            Context.LoadAsync<DBCharacterTicketData_ForGet>(_index, (result) => {
+                if (result.Exception == null)
+                {
+                    DBCharacterTicketData = result.Result as DBCharacterTicketData_ForGet;
+                    // Update few properties.
+
+                    Debug.Log("DBCharacterTicketData : " + DBCharacterTicketData.Index + "\n");
+                    //GetCharacter= character;
+                    lDBCharacterTicket_GetList.Add(DBCharacterTicketData);
+
+                    //Index++;
+                    DBCharacterTicketData = null;
+
+                    curSlider.value++;
+                }
+            });
+
+        }
+
+
+        if (_state == E_LOAD_STATE.E_LOAD_GET_WEAPONTICKETDATA)
+        {
+            DBWeaponTicketData_ForGet DBWeaponTicketData = null;
+
+            //Load Table Info
+            Context.LoadAsync<DBWeaponTicketData_ForGet>(_index, (result) => {
+                if (result.Exception == null)
+                {
+                    DBWeaponTicketData = result.Result as DBWeaponTicketData_ForGet;
+                    // Update few properties.
+
+                    Debug.Log("DBWeaponTicketData : " + DBWeaponTicketData.Index + "\n");
+                    //GetCharacter= character;
+                    lDBWeaponTicket_GetList.Add(DBWeaponTicketData);
+
+                    //Index++;
+                    DBWeaponTicketData = null;
+
+                    curSlider.value++;
+                }
+            });
+
+        }
+
+        if (_state == E_LOAD_STATE.E_LOAD_GET_EMPLOYGACHADATA)
+        {
+            DBEmployGachaData_ForGet DBEmployGachaData = null;
+
+            //Load Table Info
+            Context.LoadAsync<DBEmployGachaData_ForGet>(_index, (result) => {
+                if (result.Exception == null)
+                {
+                    DBEmployGachaData = result.Result as DBEmployGachaData_ForGet;
+                    // Update few properties.
+
+                    Debug.Log("DBEmployGachaData : " + DBEmployGachaData.Index + "\n");
+                    //GetCharacter= character;
+                    lDBEmployGacha_GetList.Add(DBEmployGachaData);
+
+                    //Index++;
+                    DBEmployGachaData = null;
+
+                    curSlider.value++;
+                }
+            });
+
+        }
+
     }
 
 
@@ -1265,54 +1442,66 @@ IEnumerator isFinishLoadData(E_LOAD_STATE _state)
 	string sInputText = null;
 	switch (_state) 
 	{
-	case E_LOAD_STATE.E_LOAD_GET_BASICCHARACTERDATA:
-		sInputText = "기본 캐릭터 받아오는중 ";
-		break;
-	case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLDATA:
-		sInputText = "기본 액티브스킬 정보 받아오는중";
-		break;
-	case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLTYPEDATA:
-		sInputText = "기본 액티브스킬 타입 정보 받아오는중";
-		break;
-	case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLDATA:
-		sInputText = "기본 패시브스킬 정보 받아오는중";
-		break;
-	case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA:
-		sInputText = "기본 패시브스킬 옵션인덱스 정보 받아오는중";
-		break;
-	case E_LOAD_STATE.E_LOAD_GET_BASICSKILLDATA:
-		sInputText = "기본 베이직스킬 정보 받아오는중";
-		break;
-	case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTWEAPONDATA:
-		sInputText = "기본 무기 정보 받아오는중";
-		break;
-	case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTARMORDATA:
-		sInputText = "기본 아머 정보 받아오는중";
-		break;
-	case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTGLOVEDATA:
-		sInputText = "기본 장갑 정보 받아오는중";
-		break;
-	case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTACCESSORYDATA:
-		sInputText = "기본 악세사리 정보 받아오는중";
-		break;
-	case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA:
-		sInputText = "기본 장비 랜덤옵션 정보 받아오는중";
-		break;
-	case E_LOAD_STATE.E_LOAD_GET_STAGEDATA:
-		sInputText = "스테이지 정보 받아오는중";
-		break;
-	case E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA:
-		sInputText = "제작 정보 받아오는중";
-		break;
-	case E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA:
-		sInputText = "분해 정보 받아오는중";
-		break;
-	case E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA:
-		sInputText = "포메이션 스킬 정보 받아오는중";
-		break;
-    case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
-        sInputText = "재료 정보 받아오는중";
-        break;
+	        case E_LOAD_STATE.E_LOAD_GET_BASICCHARACTERDATA:
+	        	sInputText = "기본 캐릭터 받아오는중 ";
+	        	break;
+	        case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLDATA:
+	        	sInputText = "기본 액티브스킬 정보 받아오는중";
+	        	break;
+	        case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLTYPEDATA:
+	        	sInputText = "기본 액티브스킬 타입 정보 받아오는중";
+	        	break;
+	        case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLDATA:
+	        	sInputText = "기본 패시브스킬 정보 받아오는중";
+	        	break;
+	        case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA:
+	        	sInputText = "기본 패시브스킬 옵션인덱스 정보 받아오는중";
+	        	break;
+	        case E_LOAD_STATE.E_LOAD_GET_BASICSKILLDATA:
+	        	sInputText = "기본 베이직스킬 정보 받아오는중";
+	        	break;
+	        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTWEAPONDATA:
+	        	sInputText = "기본 무기 정보 받아오는중";
+	        	break;
+	        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTARMORDATA:
+	        	sInputText = "기본 아머 정보 받아오는중";
+	        	break;
+	        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTGLOVEDATA:
+	        	sInputText = "기본 장갑 정보 받아오는중";
+	        	break;
+	        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTACCESSORYDATA:
+	        	sInputText = "기본 악세사리 정보 받아오는중";
+	        	break;
+	        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA:
+	        	sInputText = "기본 장비 랜덤옵션 정보 받아오는중";
+	        	break;
+	        case E_LOAD_STATE.E_LOAD_GET_STAGEDATA:
+	        	sInputText = "스테이지 정보 받아오는중";
+	        	break;
+	        case E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA:
+	        	sInputText = "제작 정보 받아오는중";
+	        	break;
+	        case E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA:
+	        	sInputText = "분해 정보 받아오는중";
+	        	break;
+	        case E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA:
+	        	sInputText = "포메이션 스킬 정보 받아오는중";
+	        	break;
+            case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
+                sInputText = "재료 정보 받아오는중";
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_CALENDARDATA:
+                sInputText = "출석보상 정보 받아오는중";
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_CHARACTERTICKETDATA:
+                sInputText = "캐릭터 티켓 정보 받아오는중";
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_WEAPONTICKETDATA:
+                sInputText = "장비 티켓 정보 받아오는중";
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_EMPLOYGACHADATA:
+                sInputText = "용병고용 정보 받아오는중";
+                break;
             default:
 		break;
 
@@ -1564,6 +1753,71 @@ IEnumerator isFinishLoadData(E_LOAD_STATE _state)
                 break;
             }
 
+            if (lDBCalendar_GetList.Count == nCalendarCount && _state == E_LOAD_STATE.E_LOAD_GET_CALENDARDATA)
+            {
+                totalSlider.value++;
+                loginState_Text.text = " Calendar 불러오기 완료";
+                #if UNITY_EDITOR
+                LoginCategory_Panel.SetActive(false);
+                InsertInfoToUsingListInGameManager(_state);
+
+
+                #elif UNITY_ANDROID
+			    //LoginCategory_Panel.SetActive (true);
+			    InsertInfoToUsingListInGameManager(_state);
+                #endif
+                break;
+            }
+
+            if (lDBCharacterTicket_GetList.Count == nCharacterTicketCount && _state == E_LOAD_STATE.E_LOAD_GET_CHARACTERTICKETDATA)
+            {
+                totalSlider.value++;
+                loginState_Text.text = " CharacterTicket 불러오기 완료";
+                #if UNITY_EDITOR
+                LoginCategory_Panel.SetActive(false);
+                InsertInfoToUsingListInGameManager(_state);
+
+
+                #elif UNITY_ANDROID
+			    //LoginCategory_Panel.SetActive (true);
+			    InsertInfoToUsingListInGameManager(_state);
+                #endif
+                break;
+            }
+
+            if (lDBWeaponTicket_GetList.Count == nWeaponTicketCount && _state == E_LOAD_STATE.E_LOAD_GET_WEAPONTICKETDATA)
+            {
+                totalSlider.value++;
+                loginState_Text.text = " WeaponTicket 불러오기 완료";
+                #if UNITY_EDITOR
+                LoginCategory_Panel.SetActive(false);
+                InsertInfoToUsingListInGameManager(_state);
+
+
+                #elif UNITY_ANDROID
+			    //LoginCategory_Panel.SetActive (true);
+			    InsertInfoToUsingListInGameManager(_state);
+                #endif
+                break;
+            }
+
+            if (lDBEmployGacha_GetList.Count == nEmployGachaCount && _state == E_LOAD_STATE.E_LOAD_GET_EMPLOYGACHADATA)
+            {
+                totalSlider.value++;
+                loginState_Text.text = " EmployGacha 불러오기 완료";
+                #if UNITY_EDITOR
+                LoginCategory_Panel.SetActive(false);
+                InsertInfoToUsingListInGameManager(_state);
+
+
+                #elif UNITY_ANDROID
+			    //LoginCategory_Panel.SetActive (true);
+			    InsertInfoToUsingListInGameManager(_state);
+                #endif
+                break;
+            }
+
+
             yield return new WaitForSeconds (0.2f);
 
 			if (nPotCount == 0) {
@@ -1626,7 +1880,8 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
 			dbBaseCharacters.Site 					= lDBBasicCheacter_GetList [i].Site;
 			dbBaseCharacters.Tier 					= lDBBasicCheacter_GetList [i].Tier;
 			dbBaseCharacters.Tribe 					= lDBBasicCheacter_GetList [i].Tribe;
-            dbBaseCharacters.passiveSkills          = lDBBasicCheacter_GetList[i].passiveSkills;
+            dbBaseCharacters.m_nStamina             = lDBBasicCheacter_GetList[i].Stamina;
+            dbBaseCharacters.m_sImage               = lDBBasicCheacter_GetList[i].Image;
 
 
             GameManager.Instance.lDbBasicCharacter.Add(dbBaseCharacters);
@@ -2096,7 +2351,7 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
 
                 DBMaterialData DBMaterialData = new DBMaterialData();
                 //용량 설정 (캐릭터의 개수 만큼) 
-                GameManager.Instance.lDBFomationSkill.Capacity = nFormationSkillCount;
+                GameManager.Instance.lDBMaterialData.Capacity = nMaterialDataCount;
                 for (int i = 0; i < nBreakMaterialCount; i++)
                 {
                     DBMaterialData = new DBMaterialData();
@@ -2112,10 +2367,132 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
                 ListAdjustSort(_state);
                 //로컬 저장
                 SaveAndLoadBinaryFile(sDBMaterialDataPath, _state);
+                //다음 데이터 불러오기
+                LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_CALENDARDATA);
 
                 break;
+
+            case E_LOAD_STATE.E_LOAD_GET_CALENDARDATA:
+
+                DBCalendar DBCalendar = new DBCalendar();
+                //용량 설정 (캐릭터의 개수 만큼) 
+                GameManager.Instance.lDBCalendar.Capacity = nCalendarCount;
+                for (int i = 0; i < nCalendarCount; i++)
+                {
+                    DBCalendar = new DBCalendar();
+                    DBCalendar.nIndex = lDBCalendar_GetList[i].Index;
+                    DBCalendar.nGold = lDBCalendar_GetList[i].Gold;
+                    DBCalendar.nGem = lDBCalendar_GetList[i].Gem;
+                    DBCalendar.nWeaponTicket = lDBCalendar_GetList[i].WeaponTicket;
+                    DBCalendar.nCharacterTicket = lDBCalendar_GetList[i].CharacterTicket;
+                    DBCalendar.nWeapon = lDBCalendar_GetList[i].Weapon;
+                    DBCalendar.nCharacter = lDBCalendar_GetList[i].Character;
+                    DBCalendar.nIron = lDBCalendar_GetList[i].Iron;
+                    DBCalendar.nFabric = lDBCalendar_GetList[i].Fabric;
+                    DBCalendar.nWood = lDBCalendar_GetList[i].Wood;
+                    DBCalendar.nWeaponStone = lDBCalendar_GetList[i].WeaponStone;
+                    DBCalendar.ArmorStone = lDBCalendar_GetList[i].ArmorStone;
+                    DBCalendar.AccessoryStone = lDBCalendar_GetList[i].AccessoryStone;
+
+                    GameManager.Instance.lDBCalendar.Add(DBCalendar);
+
+                    DBCalendar = null;
+                }
+                //정렬
+                ListAdjustSort(_state);
+                //로컬 저장
+                SaveAndLoadBinaryFile(sDBCalendarPath, _state);
+                //다음 데이터 불러오기
+                LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_CHARACTERTICKETDATA);
+                break;
+
+            case E_LOAD_STATE.E_LOAD_GET_CHARACTERTICKETDATA:
+
+                DBCharacterTicket DBCharacterTicket = new DBCharacterTicket();
+                //용량 설정 (캐릭터의 개수 만큼) 
+                GameManager.Instance.lDBCharacterTicket.Capacity = nCharacterTicketCount;
+                for (int i = 0; i < nCharacterTicketCount; i++)
+                {
+                    DBCharacterTicket = new DBCharacterTicket();
+                    DBCharacterTicket.nIndex = lDBCharacterTicket_GetList[i].Index;
+                    DBCharacterTicket.sName = lDBCharacterTicket_GetList[i].Name;
+                    DBCharacterTicket.sJob = lDBCharacterTicket_GetList[i].Job;
+                    DBCharacterTicket.sPercentage = lDBCharacterTicket_GetList[i].Percentage;
+                    DBCharacterTicket.sTier = lDBCharacterTicket_GetList[i].Tier;
+                    DBCharacterTicket.sTribe = lDBCharacterTicket_GetList[i].Tribe;
+                    DBCharacterTicket.sImage = lDBCharacterTicket_GetList[i].Image;
+                    DBCharacterTicket.sExplanation = lDBCharacterTicket_GetList[i].Explanation;
+                    GameManager.Instance.lDBCharacterTicket.Add(DBCharacterTicket);
+
+                    DBCharacterTicket = null;
+                }
+                //정렬
+                ListAdjustSort(_state);
+                //로컬 저장
+                SaveAndLoadBinaryFile(sDBCharacterTickectPath, _state);
+                //다음 데이터 불러오기
+                LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_WEAPONTICKETDATA);
+                break;
+
+            case E_LOAD_STATE.E_LOAD_GET_WEAPONTICKETDATA:
+
+                DBWeaponTicket DBWeaponTicket = new DBWeaponTicket();
+                //용량 설정 (캐릭터의 개수 만큼) 
+                GameManager.Instance.lDBWeaponTicket.Capacity = nWeaponTicketCount;
+                for (int i = 0; i < nWeaponTicketCount; i++)
+                {
+                    DBWeaponTicket = new DBWeaponTicket();
+                    DBWeaponTicket.nIndex       = lDBWeaponTicket_GetList[i].Index;
+                    DBWeaponTicket.sName        = lDBWeaponTicket_GetList[i].Name;
+                    DBWeaponTicket.sEquipType   = lDBWeaponTicket_GetList[i].EquipType;
+                    DBWeaponTicket.sPercentage  = lDBWeaponTicket_GetList[i].Percentage;
+                    DBWeaponTicket.sTier        = lDBWeaponTicket_GetList[i].Tier;
+                    DBWeaponTicket.sQulity      = lDBWeaponTicket_GetList[i].Qulity;
+                    DBWeaponTicket.sImage       = lDBWeaponTicket_GetList[i].Image;
+                    DBWeaponTicket.sExplanation = lDBWeaponTicket_GetList[i].Explanation;
+                    GameManager.Instance.lDBWeaponTicket.Add(DBWeaponTicket);
+
+                    DBWeaponTicket = null;
+                }
+                //정렬
+                ListAdjustSort(_state);
+                //로컬 저장
+                SaveAndLoadBinaryFile(sDBWeaponTicketPath, _state);
+                //다음 데이터 불러오기
+                LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_EMPLOYGACHADATA);
+                break;
+
+            case E_LOAD_STATE.E_LOAD_GET_EMPLOYGACHADATA:
+
+                DBEmployGacha DBEmployGacha = new DBEmployGacha();
+                //용량 설정 (캐릭터의 개수 만큼) 
+                GameManager.Instance.lDBEmployGacha.Capacity = nEmployGachaCount;
+                for (int i = 0; i < nEmployGachaCount; i++)
+                {
+                    DBEmployGacha = new DBEmployGacha();
+                    DBEmployGacha.nIndex = lDBEmployGacha_GetList[i].Index;
+                    DBEmployGacha.sName = lDBEmployGacha_GetList[i].Name;
+                    DBEmployGacha.sJob = lDBEmployGacha_GetList[i].Job;
+                    DBEmployGacha.sPercentage = lDBEmployGacha_GetList[i].Percentage;
+                    DBEmployGacha.sTier = lDBEmployGacha_GetList[i].Tier;
+                    DBEmployGacha.sTribe = lDBEmployGacha_GetList[i].Tribe;
+                    DBEmployGacha.nCost_Gold = lDBEmployGacha_GetList[i].Cost_Gold;
+                    DBEmployGacha.nCost_Gem = lDBEmployGacha_GetList[i].Cost_Gem;
+                    DBEmployGacha.sImage = lDBEmployGacha_GetList[i].Image;
+                    DBEmployGacha.sExplanation = lDBEmployGacha_GetList[i].Explanation;
+
+                    GameManager.Instance.lDBEmployGacha.Add(DBEmployGacha);
+
+                    DBEmployGacha = null;
+                }
+                //정렬
+                ListAdjustSort(_state);
+                //로컬 저장
+                SaveAndLoadBinaryFile(sDBEmployGachaPath, _state);
+              
+                break;
             default:
-		break;
+		        break;
 	}
 
 
@@ -2132,61 +2509,73 @@ public void SaveAndLoadBinaryFile(string _path, E_LOAD_STATE _loadState)
 
 		switch (_loadState)
 		{
-		case E_LOAD_STATE.E_LOAD_GET_BASICCHARACTERDATA:
+		        case E_LOAD_STATE.E_LOAD_GET_BASICCHARACTERDATA:
 
-			bf.Serialize (fileStream, GameManager.Instance.lDbBasicCharacter);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLDATA:
-			bf.Serialize (fileStream, GameManager.Instance.lDbActiveSkill);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLTYPEDATA:
-			bf.Serialize (fileStream, GameManager.Instance.lDbActiveSkillType);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLDATA:
-			bf.Serialize (fileStream, GameManager.Instance.lDbPassiveSkill);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA:
-			bf.Serialize (fileStream, GameManager.Instance.lDbPassiveSkillOptionIndex);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_BASICSKILLDATA:
-			bf.Serialize (fileStream, GameManager.Instance.lDbBasickill);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTWEAPONDATA:
-			bf.Serialize (fileStream, GameManager.Instance.lDbWeapon);
+		        	bf.Serialize (fileStream, GameManager.Instance.lDbBasicCharacter);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLDATA:
+		        	bf.Serialize (fileStream, GameManager.Instance.lDbActiveSkill);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLTYPEDATA:
+		        	bf.Serialize (fileStream, GameManager.Instance.lDbActiveSkillType);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLDATA:
+		        	bf.Serialize (fileStream, GameManager.Instance.lDbPassiveSkill);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA:
+		        	bf.Serialize (fileStream, GameManager.Instance.lDbPassiveSkillOptionIndex);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_BASICSKILLDATA:
+		        	bf.Serialize (fileStream, GameManager.Instance.lDbBasickill);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTWEAPONDATA:
+		        	bf.Serialize (fileStream, GameManager.Instance.lDbWeapon);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTARMORDATA:
-			bf.Serialize (fileStream, GameManager.Instance.lDBArmor);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTGLOVEDATA:
-			bf.Serialize (fileStream, GameManager.Instance.lDBGlove);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTACCESSORYDATA:
-			bf.Serialize (fileStream, GameManager.Instance.lDBAccessory);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA:
-			bf.Serialize (fileStream, GameManager.Instance.lDBEquipmentRandomOption);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTARMORDATA:
+		        	bf.Serialize (fileStream, GameManager.Instance.lDBArmor);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTGLOVEDATA:
+		        	bf.Serialize (fileStream, GameManager.Instance.lDBGlove);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTACCESSORYDATA:
+		        	bf.Serialize (fileStream, GameManager.Instance.lDBAccessory);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA:
+		        	bf.Serialize (fileStream, GameManager.Instance.lDBEquipmentRandomOption);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_STAGEDATA:
-			bf.Serialize (fileStream, GameManager.Instance.lDBStageData);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_STAGEDATA:
+		        	bf.Serialize (fileStream, GameManager.Instance.lDBStageData);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA:
-			bf.Serialize (fileStream, GameManager.Instance.lDBCraftMaterial);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA:
+		        	bf.Serialize (fileStream, GameManager.Instance.lDBCraftMaterial);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA:
-			bf.Serialize (fileStream, GameManager.Instance.lDBBreakMaterial);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA:
-			bf.Serialize (fileStream, GameManager.Instance.lDBFomationSkill);
-			break;
-        case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
-            bf.Serialize(fileStream, GameManager.Instance.lDBMaterialData);
-            bIsFinishLoadDate = true;
-            break;
-        default:
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA:
+		        	bf.Serialize (fileStream, GameManager.Instance.lDBBreakMaterial);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA:
+		        	bf.Serialize (fileStream, GameManager.Instance.lDBFomationSkill);
+		        	break;
+                case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
+                    bf.Serialize(fileStream, GameManager.Instance.lDBMaterialData);
+                    break;
+                case E_LOAD_STATE.E_LOAD_GET_CALENDARDATA:
+                    bf.Serialize(fileStream, GameManager.Instance.lDBCalendar);
+                    break;
+                case E_LOAD_STATE.E_LOAD_GET_CHARACTERTICKETDATA:
+                    bf.Serialize(fileStream, GameManager.Instance.lDBCharacterTicket);
+                    break;
+                case E_LOAD_STATE.E_LOAD_GET_WEAPONTICKETDATA:
+                    bf.Serialize(fileStream, GameManager.Instance.lDBWeaponTicket);
+                    break;
+                case E_LOAD_STATE.E_LOAD_GET_EMPLOYGACHADATA:
+                    bf.Serialize(fileStream, GameManager.Instance.lDBEmployGacha);
+                    bIsFinishLoadDate = true;
+                    break;
+                default:
 			break;
 		}
 
@@ -2202,64 +2591,76 @@ public void SaveAndLoadBinaryFile(string _path, E_LOAD_STATE _loadState)
 
 		switch (_loadState)
 		{
-		case E_LOAD_STATE.E_LOAD_GET_BASICCHARACTERDATA:
+		        case E_LOAD_STATE.E_LOAD_GET_BASICCHARACTERDATA:
 
-			GameManager.Instance.lDbBasicCharacter = (List<DBBasicCharacter>)bf.Deserialize (fileStream);
+		        	GameManager.Instance.lDbBasicCharacter = (List<DBBasicCharacter>)bf.Deserialize (fileStream);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLDATA:
-			GameManager.Instance.lDbActiveSkill = (List<DBActiveSkill>)bf.Deserialize(fileStream);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLDATA:
+		        	GameManager.Instance.lDbActiveSkill = (List<DBActiveSkill>)bf.Deserialize(fileStream);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLTYPEDATA:
-			GameManager.Instance.lDbActiveSkillType = (List<DBActiveSkillType>)bf.Deserialize(fileStream);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLTYPEDATA:
+		        	GameManager.Instance.lDbActiveSkillType = (List<DBActiveSkillType>)bf.Deserialize(fileStream);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLDATA:
-			GameManager.Instance.lDbPassiveSkill = (List<DBPassiveSkill>)bf.Deserialize(fileStream);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLDATA:
+		        	GameManager.Instance.lDbPassiveSkill = (List<DBPassiveSkill>)bf.Deserialize(fileStream);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA:
-			GameManager.Instance.lDbPassiveSkillOptionIndex = (List<DBPassiveSkillOptionIndex>)bf.Deserialize(fileStream);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA:
+		        	GameManager.Instance.lDbPassiveSkillOptionIndex = (List<DBPassiveSkillOptionIndex>)bf.Deserialize(fileStream);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_BASICSKILLDATA:
-			GameManager.Instance.lDbBasickill = (List<DBBasicSkill>)bf.Deserialize (fileStream);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTWEAPONDATA:
-			GameManager.Instance.lDbWeapon = (List<DBWeapon>)bf.Deserialize (fileStream);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_BASICSKILLDATA:
+		        	GameManager.Instance.lDbBasickill = (List<DBBasicSkill>)bf.Deserialize (fileStream);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTWEAPONDATA:
+		        	GameManager.Instance.lDbWeapon = (List<DBWeapon>)bf.Deserialize (fileStream);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTARMORDATA:
-			GameManager.Instance.lDBArmor = (List<DBArmor>)bf.Deserialize (fileStream);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTGLOVEDATA:
-			GameManager.Instance.lDBGlove = (List<DBGlove>)bf.Deserialize (fileStream);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTACCESSORYDATA:
-			GameManager.Instance.lDBAccessory = (List<DBAccessory>)bf.Deserialize (fileStream);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA:
-			GameManager.Instance.lDBEquipmentRandomOption = (List<DBEquipment_RandomOption>)bf.Deserialize (fileStream);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_STAGEDATA:
-			GameManager.Instance.lDBStageData = (List<DBStageData>)bf.Deserialize (fileStream);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA:
-			GameManager.Instance.lDBCraftMaterial = (List<DBCraftMaterial>)bf.Deserialize (fileStream);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA:
-			GameManager.Instance.lDBBreakMaterial = (List<DBBreakMaterial>)bf.Deserialize (fileStream);
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA:
-			GameManager.Instance.lDBFomationSkill = (List<DBFormationSkill>)bf.Deserialize (fileStream);
-			break;
-        case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
-            GameManager.Instance.lDBMaterialData = (List<DBMaterialData>)bf.Deserialize(fileStream);
-            bIsFinishLoadDate = true;
-            break;
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTARMORDATA:
+		        	GameManager.Instance.lDBArmor = (List<DBArmor>)bf.Deserialize (fileStream);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTGLOVEDATA:
+		        	GameManager.Instance.lDBGlove = (List<DBGlove>)bf.Deserialize (fileStream);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTACCESSORYDATA:
+		        	GameManager.Instance.lDBAccessory = (List<DBAccessory>)bf.Deserialize (fileStream);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA:
+		        	GameManager.Instance.lDBEquipmentRandomOption = (List<DBEquipment_RandomOption>)bf.Deserialize (fileStream);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_STAGEDATA:
+		        	GameManager.Instance.lDBStageData = (List<DBStageData>)bf.Deserialize (fileStream);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA:
+		        	GameManager.Instance.lDBCraftMaterial = (List<DBCraftMaterial>)bf.Deserialize (fileStream);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA:
+		        	GameManager.Instance.lDBBreakMaterial = (List<DBBreakMaterial>)bf.Deserialize (fileStream);
+		        	break;
+		        case E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA:
+		        	GameManager.Instance.lDBFomationSkill = (List<DBFormationSkill>)bf.Deserialize (fileStream);
+		        	break;
+                case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
+                    GameManager.Instance.lDBMaterialData = (List<DBMaterialData>)bf.Deserialize(fileStream);
+                    break;
+                case E_LOAD_STATE.E_LOAD_GET_CALENDARDATA:
+                    GameManager.Instance.lDBCalendar = (List<DBCalendar>)bf.Deserialize(fileStream);
+                    break;
+                case E_LOAD_STATE.E_LOAD_GET_CHARACTERTICKETDATA:
+                    GameManager.Instance.lDBCharacterTicket = (List<DBCharacterTicket>)bf.Deserialize(fileStream);
+                    break;
+                case E_LOAD_STATE.E_LOAD_GET_WEAPONTICKETDATA:
+                    GameManager.Instance.lDBWeaponTicket = (List<DBWeaponTicket>)bf.Deserialize(fileStream);
+                    break;
+                case E_LOAD_STATE.E_LOAD_GET_EMPLOYGACHADATA:
+                    GameManager.Instance.lDBEmployGacha = (List<DBEmployGacha>)bf.Deserialize(fileStream);
+                    bIsFinishLoadDate = true;
+                    break;
 
-        default:
+                default:
 			break;
 		}
 
@@ -2304,185 +2705,224 @@ IEnumerator CheckBasicDataLoadEnd()
 private void ListAdjustSort(E_LOAD_STATE _loadState)
 {
 		switch (_loadState) {
-		case E_LOAD_STATE.E_LOAD_GET_BASICCHARACTERDATA:
+		    case E_LOAD_STATE.E_LOAD_GET_BASICCHARACTERDATA:
 
-			GameManager.Instance.lDbBasicCharacter.Sort (delegate(DBBasicCharacter A, DBBasicCharacter B) {
-				if (A.Index > B.Index)
-					return 1;
-				else if (A.Index < B.Index)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("BasicCharacter Sort Confirm!!");
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLDATA:
-			GameManager.Instance.lDbActiveSkill.Sort (delegate(DBActiveSkill A, DBActiveSkill B) {
-				if (A.m_nIndex > B.m_nIndex)
-					return 1;
-				else if (A.m_nIndex < B.m_nIndex)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("ActiveSkill Sort Confirm!!");
+		    	GameManager.Instance.lDbBasicCharacter.Sort (delegate(DBBasicCharacter A, DBBasicCharacter B) {
+		    		if (A.Index > B.Index)
+		    			return 1;
+		    		else if (A.Index < B.Index)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("BasicCharacter Sort Confirm!!");
+		    	break;
+		    case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLDATA:
+		    	GameManager.Instance.lDbActiveSkill.Sort (delegate(DBActiveSkill A, DBActiveSkill B) {
+		    		if (A.m_nIndex > B.m_nIndex)
+		    			return 1;
+		    		else if (A.m_nIndex < B.m_nIndex)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("ActiveSkill Sort Confirm!!");
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLTYPEDATA:
+		    	break;
+		    case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLTYPEDATA:
 
-			GameManager.Instance.lDbActiveSkillType.Sort (delegate(DBActiveSkillType A, DBActiveSkillType B) {
-				if (A.nIndex > B.nIndex)
-					return 1;
-				else if (A.nIndex < B.nIndex)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("ActiveSkillType Sort Confirm!!");
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLDATA:
-			GameManager.Instance.lDbPassiveSkill.Sort (delegate(DBPassiveSkill A, DBPassiveSkill B) {
-				if (A.nIndex > B.nIndex)
-					return 1;
-				else if (A.nIndex < B.nIndex)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("PassiveSkill Sort Confirm!!");
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA:
-			GameManager.Instance.lDbPassiveSkillOptionIndex.Sort (delegate(DBPassiveSkillOptionIndex A, DBPassiveSkillOptionIndex B) {
-				if (A.nIndex > B.nIndex)
-					return 1;
-				else if (A.nIndex < B.nIndex)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("PassiveSkillOptionIndex Sort Confirm!!");
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_BASICSKILLDATA:
-			GameManager.Instance.lDbBasickill.Sort (delegate(DBBasicSkill A, DBBasicSkill B) {
-				if (A.nIndex > B.nIndex)
-					return 1;
-				else if (A.nIndex < B.nIndex)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("BasicSkill Sort Confirm!!");
-			break;
+		    	GameManager.Instance.lDbActiveSkillType.Sort (delegate(DBActiveSkillType A, DBActiveSkillType B) {
+		    		if (A.nIndex > B.nIndex)
+		    			return 1;
+		    		else if (A.nIndex < B.nIndex)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("ActiveSkillType Sort Confirm!!");
+		    	break;
+		    case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLDATA:
+		    	GameManager.Instance.lDbPassiveSkill.Sort (delegate(DBPassiveSkill A, DBPassiveSkill B) {
+		    		if (A.nIndex > B.nIndex)
+		    			return 1;
+		    		else if (A.nIndex < B.nIndex)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("PassiveSkill Sort Confirm!!");
+		    	break;
+		    case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA:
+		    	GameManager.Instance.lDbPassiveSkillOptionIndex.Sort (delegate(DBPassiveSkillOptionIndex A, DBPassiveSkillOptionIndex B) {
+		    		if (A.nIndex > B.nIndex)
+		    			return 1;
+		    		else if (A.nIndex < B.nIndex)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("PassiveSkillOptionIndex Sort Confirm!!");
+		    	break;
+		    case E_LOAD_STATE.E_LOAD_GET_BASICSKILLDATA:
+		    	GameManager.Instance.lDbBasickill.Sort (delegate(DBBasicSkill A, DBBasicSkill B) {
+		    		if (A.nIndex > B.nIndex)
+		    			return 1;
+		    		else if (A.nIndex < B.nIndex)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("BasicSkill Sort Confirm!!");
+		    	break;
 
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTWEAPONDATA:
-			GameManager.Instance.lDbWeapon.Sort (delegate(DBWeapon A, DBWeapon B) {
-				if (A.nIndex > B.nIndex)
-					return 1;
-				else if (A.nIndex < B.nIndex)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("DBweapon Sort Confirm!!");
-			break;
-
-
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTARMORDATA:
-			GameManager.Instance.lDBArmor.Sort (delegate(DBArmor A, DBArmor B) {
-				if (A.nIndex > B.nIndex)
-					return 1;
-				else if (A.nIndex < B.nIndex)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("DBArmor Sort Confirm!!");
-			break;
+		    case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTWEAPONDATA:
+		    	GameManager.Instance.lDbWeapon.Sort (delegate(DBWeapon A, DBWeapon B) {
+		    		if (A.nIndex > B.nIndex)
+		    			return 1;
+		    		else if (A.nIndex < B.nIndex)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("DBweapon Sort Confirm!!");
+		    	break;
 
 
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTGLOVEDATA:
-			GameManager.Instance.lDBGlove.Sort (delegate(DBGlove A, DBGlove B) {
-				if (A.nIndex > B.nIndex)
-					return 1;
-				else if (A.nIndex < B.nIndex)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("DBGlove Sort Confirm!!");
-			break;
+		    case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTARMORDATA:
+		    	GameManager.Instance.lDBArmor.Sort (delegate(DBArmor A, DBArmor B) {
+		    		if (A.nIndex > B.nIndex)
+		    			return 1;
+		    		else if (A.nIndex < B.nIndex)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("DBArmor Sort Confirm!!");
+		    	break;
 
 
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTACCESSORYDATA:
-			GameManager.Instance.lDBAccessory.Sort (delegate(DBAccessory A, DBAccessory B) {
-				if (A.nIndex > B.nIndex)
-					return 1;
-				else if (A.nIndex < B.nIndex)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("DBAccessory Sort Confirm!!");
-			break;
+		    case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTGLOVEDATA:
+		    	GameManager.Instance.lDBGlove.Sort (delegate(DBGlove A, DBGlove B) {
+		    		if (A.nIndex > B.nIndex)
+		    			return 1;
+		    		else if (A.nIndex < B.nIndex)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("DBGlove Sort Confirm!!");
+		    	break;
 
 
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA:
-			GameManager.Instance.lDBEquipmentRandomOption.Sort (delegate(DBEquipment_RandomOption A, DBEquipment_RandomOption B) {
-				if (A.nIndex > B.nIndex)
-					return 1;
-				else if (A.nIndex < B.nIndex)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("DBEquipmet_RandomOption Sort Confirm!!");
-			break;
+		    case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTACCESSORYDATA:
+		    	GameManager.Instance.lDBAccessory.Sort (delegate(DBAccessory A, DBAccessory B) {
+		    		if (A.nIndex > B.nIndex)
+		    			return 1;
+		    		else if (A.nIndex < B.nIndex)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("DBAccessory Sort Confirm!!");
+		    	break;
+
+
+		    case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA:
+		    	GameManager.Instance.lDBEquipmentRandomOption.Sort (delegate(DBEquipment_RandomOption A, DBEquipment_RandomOption B) {
+		    		if (A.nIndex > B.nIndex)
+		    			return 1;
+		    		else if (A.nIndex < B.nIndex)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("DBEquipmet_RandomOption Sort Confirm!!");
+		    	break;
 
 
 
-		case E_LOAD_STATE.E_LOAD_GET_STAGEDATA:
-			GameManager.Instance.lDBStageData.Sort (delegate(DBStageData A, DBStageData B) {
-				if (A.nIndex > B.nIndex)
-					return 1;
-				else if (A.nIndex < B.nIndex)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("StageData Sort Confirm!!");
-			break;
+		    case E_LOAD_STATE.E_LOAD_GET_STAGEDATA:
+		    	GameManager.Instance.lDBStageData.Sort (delegate(DBStageData A, DBStageData B) {
+		    		if (A.nIndex > B.nIndex)
+		    			return 1;
+		    		else if (A.nIndex < B.nIndex)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("StageData Sort Confirm!!");
+		    	break;
 
 
-		case E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA:
-			GameManager.Instance.lDBCraftMaterial.Sort (delegate(DBCraftMaterial A, DBCraftMaterial B) {
-				if (A.nIndex > B.nIndex)
-					return 1;
-				else if (A.nIndex < B.nIndex)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("CraftMaterial Sort Confirm!!");
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA:
-			GameManager.Instance.lDBBreakMaterial.Sort (delegate(DBBreakMaterial A, DBBreakMaterial B) {
-				if (A.nIndex > B.nIndex)
-					return 1;
-				else if (A.nIndex < B.nIndex)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("BreakMaterial Sort Confirm!!");
-			break;
+		    case E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA:
+		    	GameManager.Instance.lDBCraftMaterial.Sort (delegate(DBCraftMaterial A, DBCraftMaterial B) {
+		    		if (A.nIndex > B.nIndex)
+		    			return 1;
+		    		else if (A.nIndex < B.nIndex)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("CraftMaterial Sort Confirm!!");
+		    	break;
+		    case E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA:
+		    	GameManager.Instance.lDBBreakMaterial.Sort (delegate(DBBreakMaterial A, DBBreakMaterial B) {
+		    		if (A.nIndex > B.nIndex)
+		    			return 1;
+		    		else if (A.nIndex < B.nIndex)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("BreakMaterial Sort Confirm!!");
+		    	break;
 
-		case E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA:
-			GameManager.Instance.lDBFomationSkill.Sort (delegate(DBFormationSkill A, DBFormationSkill B) {
-				if (A.nIndex > B.nIndex)
-					return 1;
-				else if (A.nIndex < B.nIndex)
-					return -1;
-				return 0;
-			});
-			Debug.Log ("FormationSkill Sort Confirm!!");
-			break;
-        case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
-            GameManager.Instance.lDBMaterialData.Sort(delegate (DBMaterialData A, DBMaterialData B) {
-                if (A.nIndex > B.nIndex)
-                    return 1;
-                else if (A.nIndex < B.nIndex)
-                    return -1;
-                return 0;
-            });
-            Debug.Log("MaterialData Sort Confirm!!");
-            break;
-
+		    case E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA:
+		    	GameManager.Instance.lDBFomationSkill.Sort (delegate(DBFormationSkill A, DBFormationSkill B) {
+		    		if (A.nIndex > B.nIndex)
+		    			return 1;
+		    		else if (A.nIndex < B.nIndex)
+		    			return -1;
+		    		return 0;
+		    	});
+		    	Debug.Log ("FormationSkill Sort Confirm!!");
+		    	break;
+            case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
+                GameManager.Instance.lDBMaterialData.Sort(delegate (DBMaterialData A, DBMaterialData B) {
+                    if (A.nIndex > B.nIndex)
+                        return 1;
+                    else if (A.nIndex < B.nIndex)
+                        return -1;
+                    return 0;
+                });
+                Debug.Log("MaterialData Sort Confirm!!");
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_CALENDARDATA:
+                GameManager.Instance.lDBCalendar.Sort(delegate (DBCalendar A, DBCalendar B) {
+                    if (A.nIndex > B.nIndex)
+                        return 1;
+                    else if (A.nIndex < B.nIndex)
+                        return -1;
+                    return 0;
+                });
+                Debug.Log("Calendar Sort Confirm!!");
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_CHARACTERTICKETDATA:
+                GameManager.Instance.lDBCharacterTicket.Sort(delegate (DBCharacterTicket A, DBCharacterTicket B) {
+                    if (A.nIndex > B.nIndex)
+                        return 1;
+                    else if (A.nIndex < B.nIndex)
+                        return -1;
+                    return 0;
+                });
+                Debug.Log("CharacterTicket Sort Confirm!!");
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_WEAPONTICKETDATA:
+                GameManager.Instance.lDBWeaponTicket.Sort(delegate (DBWeaponTicket A, DBWeaponTicket B) {
+                    if (A.nIndex > B.nIndex)
+                        return 1;
+                    else if (A.nIndex < B.nIndex)
+                        return -1;
+                    return 0;
+                });
+                Debug.Log("WeaponTicket Sort Confirm!!");
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_EMPLOYGACHADATA:
+                GameManager.Instance.lDBEmployGacha.Sort(delegate (DBEmployGacha A, DBEmployGacha B) {
+                    if (A.nIndex > B.nIndex)
+                        return 1;
+                    else if (A.nIndex < B.nIndex)
+                        return -1;
+                    return 0;
+                });
+                Debug.Log("EmployGacha Sort Confirm!!");
+                break;
             default:
 			break;
 		}
@@ -2856,9 +3296,18 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 		public float ExpMax {	get; set; }					// Character 최대 경험치
 
 		[DynamoDBProperty("Betch_Index")]
-		public int Betch_Index {	get; set; }				// Character 배치위치 
+		public int Betch_Index {	get; set; }             // Character 배치위치 
 
-		[DynamoDBProperty("BasicSkill")]				
+        [DynamoDBProperty("Stamina")]
+        public int Stamina { get; set; }                    // Character 스태미나
+
+        [DynamoDBProperty("Image")]
+        public string Image { get; set; }                    // Character 이미지
+        
+        [DynamoDBProperty("Favorite")]
+        public int Favorite { get; set; }                    // Favorite 이미지
+
+        [DynamoDBProperty("BasicSkill")]				
 		public List<DBBasicSkill> basicSkill {get; set;}
 
 		[DynamoDBProperty("ActiveSkill")]				
@@ -3467,6 +3916,140 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
         [DynamoDBProperty("MaterialExplanation")]
         public string MaterialExplanation { get; set; }
 
+    }
+
+
+    [DynamoDBTable("DBCalendarData")]
+    public class DBCalendarData_ForGet
+    {
+        [DynamoDBHashKey]
+        public int Index { get; set; }                              // Hash key.
+
+        [DynamoDBProperty("Gold")]
+        public int Gold { get; set; }
+
+        [DynamoDBProperty("Gem")]
+        public int Gem { get; set; }
+
+        [DynamoDBProperty("WeaponTicket")]
+        public int WeaponTicket { get; set; }
+
+        [DynamoDBProperty("CharacterTicket")]
+        public int CharacterTicket { get; set; }
+
+        [DynamoDBProperty("Weapon")]
+        public int Weapon { get; set; }
+
+        [DynamoDBProperty("Character")]
+        public int Character { get; set; }
+
+        [DynamoDBProperty("Iron")]
+        public int Iron { get; set; }
+
+        [DynamoDBProperty("Fabric")]
+        public int Fabric { get; set; }
+
+        [DynamoDBProperty("Wood")]
+        public int Wood { get; set; }
+
+        [DynamoDBProperty("WeaponStone")]
+        public int WeaponStone { get; set; }
+
+        [DynamoDBProperty("ArmorStone")]
+        public int ArmorStone { get; set; }
+
+        [DynamoDBProperty("AccessoryStone")]
+        public int AccessoryStone { get; set; }
+    }
+
+    [DynamoDBTable("DBCharacterTicketData")]
+    public class DBCharacterTicketData_ForGet
+    {
+        [DynamoDBHashKey]
+        public int Index { get; set; }                              // Hash key.
+
+        [DynamoDBProperty("Name")]
+        public string Name { get; set; }
+
+        [DynamoDBProperty("Job")]
+        public string Job { get; set; }
+
+        [DynamoDBProperty("Percentage")]
+        public string Percentage { get; set; }
+
+        [DynamoDBProperty("Tier")]
+        public string Tier { get; set; }
+
+        [DynamoDBProperty("Tribe")]
+        public string Tribe { get; set; }
+
+        [DynamoDBProperty("Image")]
+        public string Image { get; set; }
+
+        [DynamoDBProperty("Explanation")]
+        public string Explanation { get; set; }
+    }
+
+    [DynamoDBTable("DBWeaponTicketData")]
+    public class DBWeaponTicketData_ForGet
+    {
+        [DynamoDBHashKey]
+        public int Index { get; set; }                              // Hash key.
+
+        [DynamoDBProperty("Name")]
+        public string Name { get; set; }
+
+        [DynamoDBProperty("EquipType")]
+        public string EquipType { get; set; }
+
+        [DynamoDBProperty("Percentage")]
+        public string Percentage { get; set; }
+
+        [DynamoDBProperty("Tier")]
+        public string Tier { get; set; }
+
+        [DynamoDBProperty("Qulity")]
+        public string Qulity { get; set; }
+
+        [DynamoDBProperty("Image")]
+        public string Image { get; set; }
+
+        [DynamoDBProperty("Explanation")]
+        public string Explanation { get; set; }
+    }
+
+    [DynamoDBTable("DBEmployGachaData")]
+    public class DBEmployGachaData_ForGet
+    {
+        [DynamoDBHashKey]
+        public int Index { get; set; }                              // Hash key.
+
+        [DynamoDBProperty("Name")]
+        public string Name { get; set; }
+
+        [DynamoDBProperty("Job")]
+        public string Job { get; set; }
+
+        [DynamoDBProperty("Percentage")]
+        public string Percentage { get; set; }
+
+        [DynamoDBProperty("Tier")]
+        public string Tier { get; set; }
+
+        [DynamoDBProperty("Tribe")]
+        public string Tribe { get; set; }
+
+        [DynamoDBProperty("Cost_Gold")]
+        public int Cost_Gold { get; set; }
+
+        [DynamoDBProperty("Cost_Gem")]
+        public int Cost_Gem { get; set; }
+
+        [DynamoDBProperty("Image")]
+        public string Image { get; set; }
+
+        [DynamoDBProperty("Explanation")]
+        public string Explanation { get; set; }
     }
 }
 

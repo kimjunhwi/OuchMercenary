@@ -54,14 +54,13 @@ GameObject:
   m_Component:
   - component: {fileID: 224205183210523860}
   - component: {fileID: 222276032404548020}
-  - component: {fileID: 114304690040632440}
   m_Layer: 5
   m_Name: Custom_YesNo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1533538540827674
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,25 +162,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: New Text
---- !u!114 &114304690040632440
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1192432233470032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6db4705d0fb8b3041baed8301c3be9bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ActivateObj: {fileID: 0}
-  DeActivateObj: []
-  mainImage: {fileID: 0}
-  yesButton_Image: {fileID: 0}
-  noButton_Image: {fileID: 0}
-  CloseButton_Image: {fileID: 0}
-  contents_Text: {fileID: 0}
-  eCurActivePanel: 0
 --- !u!114 &114546736032624298
 MonoBehaviour:
   m_ObjectHideFlags: 1

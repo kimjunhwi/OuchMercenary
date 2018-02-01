@@ -1,0 +1,35 @@
+ManifestFileVersion: 0
+CRC: 2349469168
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 14b70a78620f01e916ea59e0325151b7
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 21f0dc8ebad690f009368069428e0a1a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Character/Warrior/High Warrior 2 2048x2048_512x512.png
+- Assets/Resources/Character/Warrior/Hero Warrior 2048x2048_512x512.png
+- Assets/Resources/Character/Assasin/High Assassin 2048x2048_256x256.png
+- Assets/Resources/Character/Wizard/Thunder Mage 2048x2048_256x256.png
+- Assets/Resources/Character/Warrior/Warrior 2048x2048_512x512.png
+- Assets/Resources/Character/Assasin/Basic Assassin 2048x2048_256x256.png
+- Assets/Resources/Character/Assasin/Assassin 2048x2048_256x256.png
+- Assets/Resources/Character/Archer/High Machanic 2048x2048_256x256.png
+- Assets/Resources/Character/Wizard/Hero Thunder Mage 2048x2048_256x256.png
+- Assets/Resources/Character/Archer/Machanic 2048x2048_256x256.png
+- Assets/Resources/Character/Wizard/High Thunder Mage 2048x2048_256x256.png
+- Assets/Resources/Character/Warrior/Basic Warrior 2048x2048_256x256.png
+- Assets/Resources/Character/Assasin/Hero Assassin 2048x2048_256x256.png
+- Assets/Resources/Character/Warrior/Warrior 2 2048x2048_512x512.png
+- Assets/Resources/Character/Warrior/Hero Warrior 2 2048x2048_512x512.png
+- Assets/Resources/Character/Wizard/Basic Mage 2048x2048_256x256.png
+- Assets/Resources/Character/Archer/Hero Machanic 2048x2048_256x256.png
+- Assets/Resources/Character/Warrior/High Warrior 2048x2048_512x512.png
+Dependencies: []
