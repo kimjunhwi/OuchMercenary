@@ -21,7 +21,6 @@ public class Player : MonoBehaviour
     public List<Equipment> LIST_ITEM_ACCESSORY = new List<Equipment>();
     public List<Ingredient> LIST_ITEM_INGREDIENT = new List<Ingredient>();
 
-    public List<CharacterStats> LIST_HERO = new List<CharacterStats>();
 	public List<CharacterStats> TEST_MY_HERO = new List<CharacterStats>();
 	public List<DBBasicCharacter> LIST_CHARACTER = new List<DBBasicCharacter> ();
 
@@ -36,8 +35,17 @@ public class Player : MonoBehaviour
 
 	public void Init()
 	{
-		TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1032));
-		TEST_MY_HERO.Add (GameManager.Instance.SummonCharacter (1006));
+		TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1000)); //basic assassin
+		TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1002)); //basic assassin
+		TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1003)); //basic wizard
+		//TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1013)); //thunder mage 
+		//TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1018)); //high assassin
+		//TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1030)); //hero assassin
+		//TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1025)); //high thundermage
+		//TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1037)); //hero thunder mage
+		TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1032)); //hero warrior
+		TEST_MY_HERO.Add (GameManager.Instance.SummonCharacter (1006)); //assassin
+		TEST_MY_HERO.Add (GameManager.Instance.SummonCharacter (1040)); //hero priest
 
 		for (int i = 0; i < 53; i++) {
 			LIST_CHARACTER.Add ( GameManager.Instance.lDbBasicCharacter [i]);
