@@ -19,7 +19,7 @@ struct stWaveData
 
 public class BattleManager : MonoBehaviour {
 
-
+	//시간을 위한 변수들 
 	public int nCurMin;
 	public float fCurSec;
 
@@ -28,19 +28,23 @@ public class BattleManager : MonoBehaviour {
 	private const int nInitTime_Min = 59;
 	private const int nInitTime_Sec = 59;
 
+	//스테이지에서 각 웨이브 들을 위한 인덱스 
 	public int nStageIndex;
 	public int nNowWaveIndex;
 	public int nMaxWaveIndex;
 
-	List<stWaveData> Wave_List = new List<stWaveData> ();
-
-	DBStageData stageData;
-
-
 	public E_BATTLE_STATE Battle_State = E_BATTLE_STATE.E_NONE;
+
+	public GameObject ResultCharacterUI;
 
 	//공격, 수비 버튼 
 	public Button ToggleButton;
+
+	public Transform canvasTransform;
+	public Transform bottomTransfrom;
+	public Transform StagePanel;
+	public Transform characterUI_Parent;
+	public BattleResult ResultPanel;
 
 	//위치 임시
 	private Vector3 vecPosition;
@@ -50,27 +54,43 @@ public class BattleManager : MonoBehaviour {
 	private float m_fPlusY = 1.5f;
 
 	private bool m_bIsPause = false;
+	private bool m_bIsWin = false;
 
 	public Player player;
+	public DBStageData stageData;
 	public SkillManager skillManager;
 	public CharacterManager characterManager;
 
 	public SimpleObjectPool characterPool;
 	public SimpleObjectPool damageTextPool;
+	public SimpleObjectPool skillObjectPool;
+	public SimpleObjectPool ResultCharacterUIPool;
+	public SimpleObjectPool TakeItemPool;
 
 	public Transform damagetParentTransfrom;
-	public Transform characterUI_Parent;
 
 	public Text StageNameText;
 	public Text StageWaveText;
 	public Text NextWaveTimeText;
 
+	List<stWaveData> Wave_List = new List<stWaveData> ();
+	public List<Character> playCharacter_List = new List<Character>();
+
 	void Awake()
 	{
 		player = GameManager.Instance.GetPlayer ();
 
+		canvasTransform = GameObject.Find ("Canvas").transform;
+		bottomTransfrom = canvasTransform.GetChild(0).transform;
+		StagePanel = canvasTransform.GetChild(1).transform;
+		characterUI_Parent = canvasTransform.GetChild(2).transform.GetChild(0).transform;
+		ToggleButton = canvasTransform.GetChild (3).GetComponent<Button> ();
+		ResultPanel = canvasTransform.GetChild(4).GetComponent<BattleResult>();
+
 		ToggleButton.onClick.AddListener (ChangeMode);
 
+		ResultPanel.Init (this);
+		ResultPanel.gameObject.SetActive (false);
 		skillManager = new SkillManager ();
 
 		characterManager = gameObject.AddComponent<CharacterManager>();
@@ -117,10 +137,6 @@ public class BattleManager : MonoBehaviour {
 		nNowWaveIndex 	= 0;
 		nMaxWaveIndex 	= 0;
 
-
-		player.TEST_MY_HERO [1].m_nBatchIndex = 13;
-
-
 		stageData = GameManager.Instance.lDBStageData [0];
 
 		StageInit ();
@@ -142,6 +158,8 @@ public class BattleManager : MonoBehaviour {
 	void BattleState_result_set()
 	{
 		Debug.Log ("Result");
+
+		ResultPanel.SetUp (m_bIsWin);
 	}
 
 
@@ -206,6 +224,9 @@ public class BattleManager : MonoBehaviour {
 		{
 			CharacterStats characterStats = player.TEST_MY_HERO [nIndex];
 
+			if (characterStats.m_nBatchIndex == -1)
+				continue;
+
 			GameObject characterObject = characterPool.GetObject ();
 
 			Character charic = null;
@@ -222,14 +243,16 @@ public class BattleManager : MonoBehaviour {
 			else if( characterStats.m_strJob.Contains("mechanic")) 	charic = characterObject.AddComponent<Mechanic> ();
 
 			//4x4배치이므로 x,y위치를 구하고 그 위치를 저장
-			int nValue = characterStats.m_nBatchIndex / 4;
-			int nDight = characterStats.m_nBatchIndex % 4;
+			int nValue = characterStats.m_nBatchIndex % 4;
+			int nDight = characterStats.m_nBatchIndex / 4;
 
 			vecPosition = new Vector3(m_vecZeroPosition.x + (nValue * m_fPlusX), m_vecZeroPosition.y - (nDight * m_fPlusX),0.0f);
 
 			//캐릭터에 대한 내용을 초기화 해줌
 			charic.Setup (characterStats, characterManager, skillManager,this, E_Type.E_Hero,vecPosition);
 
+
+			playCharacter_List.Add (charic);
 			//캐릭터매니저에 추가
 			characterManager.Add (charic);
 		}
@@ -247,11 +270,13 @@ public class BattleManager : MonoBehaviour {
 
 				yield return null;
 			}
-			else if (Wave_List [nNowWaveIndex].Enemy_Queue.Peek ().fCreateTime < fPlusTimer) 
+			else if (Wave_List [nNowWaveIndex].Enemy_Queue.Peek ().fCreateTime < fPlusTimer ) 
 			{
 				stEnemyData _charicData = Wave_List [nNowWaveIndex].Enemy_Queue.Dequeue ();
 
 				CreateEnemyCharacter (_charicData.Enemy_Data, _charicData.fPlusYPosition);
+
+				fPlusTimer -=10000;
 
 				yield return null;
 			}
@@ -333,6 +358,8 @@ public class BattleManager : MonoBehaviour {
 				fPlusTimer = 0f;
 				nNowWaveIndex++;
 
+				StageWaveText.text = nNowWaveIndex.ToString ();
+
 				if (nNowWaveIndex == nMaxWaveIndex) 
 				{
 					NextWaveTimeText.text = "00:00";
@@ -367,33 +394,42 @@ public class BattleManager : MonoBehaviour {
 
 	public void CharacterDie(E_Type _type)
 	{
+		if (Battle_State == E_BATTLE_STATE.E_RESULT)
+			return;
+
 		if (_type == E_Type.E_Enemy) 
 		{
-			if (characterManager.SearchTypeCount(_type) == 0) 
-			{
-				fPlusTimer = 0f;
-				nNowWaveIndex++;
+			m_bIsWin = true;
+			BattleState_set (E_BATTLE_STATE.E_RESULT);
+			return;
 
-				if (nNowWaveIndex > nMaxWaveIndex) 
-				{
-					BattleState_set (E_BATTLE_STATE.E_RESULT);
-					return;
-				}
-
-				nCurMin = 0;
-				fCurSec =Wave_List[nNowWaveIndex].fWaveTime;
-
-				while (fCurSec > 60) 
-				{
-					nCurMin++;
-					fCurSec -= 60.0f;
-				}
-			}
+//			if (characterManager.SearchTypeCount(_type) == 0) 
+//			{
+//				fPlusTimer = 0f;
+//				nNowWaveIndex++;
+//
+//				if (nNowWaveIndex > nMaxWaveIndex) 
+//				{
+//					m_bIsWin = true;
+//					BattleState_set (E_BATTLE_STATE.E_RESULT);
+//					return;
+//				}
+//
+//				nCurMin = 0;
+//				fCurSec =Wave_List[nNowWaveIndex].fWaveTime;
+//
+//				while (fCurSec > 60) 
+//				{
+//					nCurMin++;
+//					fCurSec -= 60.0f;
+//				}
+//			}
 		} 
 		else if (_type == E_Type.E_Hero) 
 		{
 			if (characterManager.SearchTypeCount (_type) == 0) 
 			{
+				m_bIsWin = false;
 				BattleState_set (E_BATTLE_STATE.E_RESULT);
 			}
 		}

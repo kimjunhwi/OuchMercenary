@@ -80,6 +80,9 @@ public class Enemy_Assasin : Enemy_Character {
 					skillManager.BasicAttack (this, (Character)targetLists [nIndex], bIsCritical);
 				}
 			} else {
+
+				animator.SetTrigger (charicStats.activeSkill [nActiveSkillIndex].m_strAnimationClip);
+
 				StartCoroutine (SkillCoolTime ());
 
 				if (charicStats.activeSkill [nActiveSkillIndex].m_fCastTime == 0) {

@@ -69,10 +69,13 @@ public class Priest : Player_Character {
 
 			//기본 스킬
 			if (nActiveSkillIndex == (int)E_SKILL_TYPE.E_NONE) {
+
+				animator.SetTrigger ("Attack");
+
 				//1.사거리안에 들어온 캐릭터가 1개 이상일 경우
 				//2.적 캐릭터에서 공격 범위 만큼의 리스트를 구한 후
 				//3.그 안에 있는 캐릭터에게 공격 횟수 만큼 데미지를 준다.
-				ArrayList targetLists = characterManager.FindTargetArea (this, targetCharacter, charicStats.basicSkill [0].fAttackArea);
+				ArrayList targetLists = characterManager.FindMyCharacterArea(this,targetCharacter,charicStats.basicSkill[0].fAttackArea);
 
 				for (int nIndex = 0; nIndex < charicStats.basicSkill [0].nMaxTargetNumber; nIndex++) {
 					//만약 타겟수가 공격 해야할 캐릭터 수보다 적을 경우 종료
@@ -80,17 +83,20 @@ public class Priest : Player_Character {
 						break;
 					}
 
-					skillManager.BasicAttack (this, (Character)targetLists [nIndex], bIsCritical);
+					skillManager.TargetHeal (this, (Character)targetLists [nIndex], bIsCritical);
 				}
 			} else {
+
+				Debug.Log (charicStats.activeSkill [nActiveSkillIndex].m_strName);
+
 				StartCoroutine (SkillCoolTime ());
 
-				if (charicStats.activeSkill [nActiveSkillIndex].m_fCastTime == 0) {
-					base.PlayActiveSkill (nActiveSkillIndex, false);
-
-				} else {
-					CheckCharacterState (E_CHARACTER_STATE.E_CAST);
-				}
+//				if (charicStats.activeSkill [nActiveSkillIndex].m_fCastTime == 0) {
+//					base.PlayActiveSkill (nActiveSkillIndex, false);
+//
+//				} else {
+//					CheckCharacterState (E_CHARACTER_STATE.E_CAST);
+//				}
 			}
 		}
 	}

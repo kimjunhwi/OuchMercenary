@@ -32,6 +32,9 @@ public class CharacterManager : MonoBehaviour {
 
 		foreach (Character charic in ARRAY_CHARIC) 
 		{
+			if (charic.IsDead () == true) 
+				continue;
+
 			if (charic.E_CHARIC_TYPE == _type) 
 			{
 				nCount++;	

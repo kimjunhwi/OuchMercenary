@@ -9,6 +9,9 @@ public class ObjectCashing : GenericMonoSingleton<ObjectCashing> {
 	private Dictionary<string,GameObject> cachingObject = new Dictionary<string,GameObject>();
     private Dictionary<string, Sprite> cachingSprite = new Dictionary<string, Sprite>();
 
+	private Dictionary<string, Sprite> asset_CasingSprite = new Dictionary<string, Sprite> ();
+
+
 	public RuntimeAnimatorController LoadAnimationController(string path)
 	{
 		RuntimeAnimatorController objResource = null;

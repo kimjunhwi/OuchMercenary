@@ -88,7 +88,7 @@ public class Knight : Player_Character {
 		} 
 		else 
 		{
-			Debug.Log (charicStats.activeSkill[nActiveSkillIndex].m_strName);
+			animator.SetTrigger (charicStats.activeSkill [nActiveSkillIndex].m_strAnimationClip);
 
 			base.PlayActiveSkill(nActiveSkillIndex,false);
 

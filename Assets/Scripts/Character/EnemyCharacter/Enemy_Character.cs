@@ -134,8 +134,17 @@ public class Enemy_Character : Character {
 			{
 				animator.SetTrigger ("Walk");
 
+
+
 				if (targetCharacter == null)
 					CheckCharacterState (E_CHARACTER_STATE.E_WALK);
+
+				if (UpCheck (transform.position, targetCharacter.transform.position) != 0) 
+				{
+					movePosition = targetCharacter.transform.position;
+					fBetween = (transform.position.x <= targetCharacter.transform.position.x) ? 2f : -2f;
+					movePosition.x += fBetween;
+				}
 
 				//자신 보다 오른쪽에 있을 경우 
 				if (transform.position.x < targetCharacter.transform.position.x) {
@@ -156,11 +165,18 @@ public class Enemy_Character : Character {
 			break;
 		case E_CHARACTER_STATE.E_CAST:
 			{
-				animator.SetTrigger ("Idle");
+				animator.SetTrigger ("Cast");
 
 				m_fMaxCastTime = charicStats.activeSkill [nActiveSkillIndex].m_fCastTime;
+			}
+			break;
+		case E_CHARACTER_STATE.E_CAST_SUCCESSED:
+			{
+				animator.SetTrigger ("CastSuccessed");
 
-				CastObject.SetActive (true);
+				m_fCastSuccessedTime = 0.6f;
+
+				m_fCastTime = 0.0f;
 			}
 			break;
 		case E_CHARACTER_STATE.E_DEAD:
@@ -214,14 +230,28 @@ public class Enemy_Character : Character {
 
 		case E_CHARACTER_STATE.E_TARGET_CHARACTER_MOVE:
 			{
+
 				//현재 활성화 된 캐릭터들 중에서 인식 범위 안에 들어온 리스트 들을 반환 
 				ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fSite);
 
 				//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
 				if (targetLists.Count > 0) {
 
-					//제일 가까운 캐릭터를 반환한다.
-					targetCharacter = (Character)targetLists [0];
+					if (targetCharacter != (Character)targetCharacter) {
+						if (UpCheck (transform.position, targetCharacter.transform.position) != 0) {
+							movePosition = targetCharacter.transform.position;
+							fBetween = (transform.position.x <= targetCharacter.transform.position.x) ? 2f : -2f;
+						}
+					} else {
+						
+						movePosition = targetCharacter.transform.position;
+
+
+
+						//제일 가까운 캐릭터를 반환한다.
+						targetCharacter = (Character)targetLists [0];
+
+					}
 				} 
 				else 
 				{
@@ -235,10 +265,24 @@ public class Enemy_Character : Character {
 					break;
 				}
 
+				fBetween = 0;
+
+				movePosition = targetCharacter.transform.position;
+
+				if (UpCheck (transform.position, targetCharacter.transform.position) != 0) 
+				{
+					fBetween = (transform.position.x <= targetCharacter.transform.position.x) ? -2f : 2f;
+				}
+
+				if (fBetween != 0)
+					movePosition.x += fBetween;
+
+				movePosition.x += fBetween;
+
 				//캐릭터 레이어를 재정렬
 				characterManager.SortingCharacterLayer();
 
-				transform.position = Vector3.MoveTowards (transform.position, targetCharacter.transform.position, Time.deltaTime * charicStats.m_fMoveSpeed);
+				transform.position = Vector3.MoveTowards (transform.position, movePosition, Time.deltaTime * charicStats.m_fMoveSpeed);
 
 				//공격 범위안에 들어왔을 경우 
 				if (Vector3.Distance (transform.position, targetCharacter.transform.position) < charicStats.m_fAttack_Range) {
@@ -291,11 +335,19 @@ public class Enemy_Character : Character {
 
 				if (m_fMaxCastTime < m_fCastTime) 
 				{
-					m_fCastTime = 0.0f;
+					CheckCharacterState (E_CHARACTER_STATE.E_CAST_SUCCESSED);
+				}
+			}
+			break;
+		case E_CHARACTER_STATE.E_CAST_SUCCESSED:
+			{
+				m_fCastSuccessedTime -= Time.deltaTime;
 
-					base.PlayActiveSkill (nActiveSkillIndex, false);
+				if (m_fCastSuccessedTime < 0) 
+				{
+					GameObject obj = battleManager.skillObjectPool.GetObject ();
 
-					CastObject.SetActive (false);
+					obj.GetComponent<Skill>().SetUp(this,charicStats.activeSkill[nActiveSkillIndex],targetCharacter.transform.position);
 
 					CheckCharacterState (E_CHARACTER_STATE.E_WALK);
 				}

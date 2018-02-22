@@ -92,7 +92,7 @@ public class Warrior : Player_Character {
 		} 
 		else 
 		{
-			Debug.Log (charicStats.activeSkill [nActiveSkillIndex].m_strAnimationClip);
+			animator.SetTrigger (charicStats.activeSkill [nActiveSkillIndex].m_strAnimationClip);
 
 			StartCoroutine(SkillCoolTime());
 

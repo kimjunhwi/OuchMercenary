@@ -14,6 +14,13 @@ public enum StageChapterInfo
 
 public class StageDefensePanel :MonoBehaviour
 {
+	Toggle One_Chapter_Toggle;
+	Toggle Two_Chapter_Toggle;
+
+	public Transform One_Chapter_Parent;
+	public Transform Two_Chapter_Parent;
+
+
 	public Button StartButton;
 
 	public Player player;
@@ -21,9 +28,35 @@ public class StageDefensePanel :MonoBehaviour
 	public DefenceStageButton[] forestButtons;
 	public GameObject PrepareBattleTotalPanel;
 
+	public GameObject StageButton;
+	public StageInfoPanel stageInfoPanel;
+
+
 	void Awake()
 	{
 		player = GameManager.Instance.GetPlayer ();
+	}
+
+	public void SetUp(GameObject _obj)
+	{
+		One_Chapter_Toggle = transform.GetChild(0).GetComponent<Toggle> ();
+		Two_Chapter_Toggle = transform.GetChild(1).GetComponent<Toggle> ();
+
+		One_Chapter_Parent = transform.GetChild (2).GetChild (0).GetChild (0).GetChild (0).transform;
+		Two_Chapter_Parent = transform.GetChild (2).GetChild (1).GetChild (0).GetChild (0).transform;
+
+		int nStageIndex = 0;
+
+//		for(nStageIndex < 5; nStageIndex++;)
+//		{
+//			GameObject stageObject = Instantiate(_obj);
+//			transform.SetParent(One_Chapter_Parent,false);
+//
+//			DefenceStageButton buttonScript = stageObject.AddComponent<DefenceStageButton>();
+//
+//
+//				
+//		}
 	}
 
 	void Start()

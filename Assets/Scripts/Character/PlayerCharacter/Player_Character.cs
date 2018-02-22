@@ -5,6 +5,7 @@ using ReadOnlys;
 
 public class Player_Character : Character {
 
+
 	//캐릭터가 데미지를 받았을시에 호출 되는 함수이다.
 	public override void TakeDamage(float _fDamage)
 	{
@@ -30,6 +31,8 @@ public class Player_Character : Character {
 
 	public override void TakeHeal(float _fHeal)
 	{
+		HealParticle.Play ();
+
 		//데미지 계산 처리
 		m_fCurrentHp += _fHeal;
 
@@ -86,11 +89,14 @@ public class Player_Character : Character {
 				//자신 보다 오른쪽에 있을 경우 
 				if (transform.position.x <= m_VecFirstPosition.x) 
 				{
+					
 					spriteRender.flipX = false;
+
 				} 
 				//자신 보다 왼쪽에 있을 경우
 				else 
 				{
+
 					spriteRender.flipX = true;
 				}
 			}
@@ -126,8 +132,6 @@ public class Player_Character : Character {
 				animator.SetTrigger ("Cast");
 
 				m_fMaxCastTime = charicStats.activeSkill [nActiveSkillIndex].m_fCastTime;
-
-				CastObject.SetActive (true);
 			}
 			break;
 		case E_CHARACTER_STATE.E_CAST_SUCCESSED:
@@ -163,37 +167,76 @@ public class Player_Character : Character {
 				//공격 모드
 				if (bIsMode) 
 				{
-					//현재 활성화 된 캐릭터들 중에서 인식 범위 안에 들어온 리스트 들을 반환 
-					ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fSite);
+					if (charicStats.basicSkill [0].strSkillTarget == "allay") {
 
-					//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
-					if (targetLists.Count > 0) {
+						//현재 활성화 된 캐릭터들 중에서 인식 범위 안에 들어온 리스트 들을 반환 
+						ArrayList targetLists = characterManager.FindMyMinHealthTarget (this, charicStats.m_fSite);
 
-						//제일 가까운 캐릭터를 반환한다.
-						targetCharacter = (Character)targetLists [0];
+						//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
+						if (targetLists.Count > 0) {
 
-						//찾은 캐릭터로 이동 
-						CheckCharacterState (E_CHARACTER_STATE.E_TARGET_CHARACTER_MOVE);
+							//제일 가까운 캐릭터를 반환한다.
+							targetCharacter = (Character)targetLists [0];
 
-						break;
+							//찾은 캐릭터로 이동 
+							CheckCharacterState (E_CHARACTER_STATE.E_TARGET_CHARACTER_MOVE);
+
+							break;
+						}
+
+					} else {
+						//현재 활성화 된 캐릭터들 중에서 인식 범위 안에 들어온 리스트 들을 반환 
+						ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fSite);
+
+						//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
+						if (targetLists.Count > 0) {
+
+							//제일 가까운 캐릭터를 반환한다.
+							targetCharacter = (Character)targetLists [0];
+
+							//찾은 캐릭터로 이동 
+							CheckCharacterState (E_CHARACTER_STATE.E_TARGET_CHARACTER_MOVE);
+
+							break;
+						}
 					}
 				} 
 				//자유 모드
 				else 
 				{
-					//현재 활성화 된 캐릭터들 중에서 인식 범위 안에 들어온 리스트 들을 반환 
-					ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
+					if (charicStats.basicSkill [0].strSkillTarget == "allay") {
 
-					//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
-					if (targetLists.Count > 0) {
+						//현재 활성화 된 캐릭터들 중에서 인식 범위 안에 들어온 리스트 들을 반환 
+						ArrayList targetLists = characterManager.FindMyMinHealthTarget (this, charicStats.m_fSite);
 
-						//제일 가까운 캐릭터를 반환한다.
-						targetCharacter = (Character)targetLists [0];
+						//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
+						if (targetLists.Count > 0) {
 
-						//찾은 캐릭터로 이동 
-						CheckCharacterState (E_CHARACTER_STATE.E_ATTACK);
+							//제일 가까운 캐릭터를 반환한다.
+							targetCharacter = (Character)targetLists [0];
 
-						break;
+							//찾은 캐릭터로 이동 
+							CheckCharacterState (E_CHARACTER_STATE.E_TARGET_CHARACTER_MOVE);
+
+							break;
+						}
+
+					} else {
+						
+						//현재 활성화 된 캐릭터들 중에서 인식 범위 안에 들어온 리스트 들을 반환 
+						ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
+
+						//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
+						if (targetLists.Count > 0) {
+
+							//제일 가까운 캐릭터를 반환한다.
+							targetCharacter = (Character)targetLists [0];
+
+							//찾은 캐릭터로 이동 
+							CheckCharacterState (E_CHARACTER_STATE.E_ATTACK);
+
+							break;
+						}
 					}
 				}
 			}
@@ -221,6 +264,7 @@ public class Player_Character : Character {
 			{
 				if (transform.position != m_VecFirstPosition) 
 				{
+
 					//캐릭터 레이어를 재정렬
 					characterManager.SortingCharacterLayer();
 
@@ -257,10 +301,24 @@ public class Player_Character : Character {
 					break;
 				}
 
+				float fBetween = (transform.position.x <= targetCharacter.transform.position.x) ? -0.5f : 0.5f;
+
+
+
+				if (transform.position.x - targetCharacter.transform.position.x <= 1 ||
+					transform.position.x + targetCharacter.transform.position.x >= -1) 
+				{
+					movePosition = new Vector3 (targetCharacter.transform.position.x, targetCharacter.transform.position.y, targetCharacter.transform.position.z);
+
+					movePosition.x += fBetween;
+				}
+
+
+
 				//캐릭터 레이어를 재정렬
 				characterManager.SortingCharacterLayer();
 
-				transform.position = Vector3.MoveTowards (transform.position, targetCharacter.transform.position, Time.deltaTime * charicStats.m_fMoveSpeed);
+				transform.position = Vector3.MoveTowards (transform.position, movePosition, Time.deltaTime * charicStats.m_fMoveSpeed);
 
 				//공격 범위안에 들어왔을 경우 
 				if (Vector3.Distance (transform.position, targetCharacter.transform.position) < charicStats.m_fAttack_Range) {
@@ -272,9 +330,16 @@ public class Player_Character : Character {
 		case E_CHARACTER_STATE.E_ATTACK:
 			{
 				m_fAttackTime += Time.deltaTime;
+				ArrayList targetLists;
 
-				//현재 활성화 된 캐릭터들 중에서 인식 범위 안에 들어온 리스트 들을 반환 
-				ArrayList targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
+				if (charicStats.basicSkill [0].strSkillTarget == "allay") {
+
+					targetLists = characterManager.FindMyMinHealthTarget (this, charicStats.m_fAttack_Range);
+
+				} else {
+					//현재 활성화 된 캐릭터들 중에서 인식 범위 안에 들어온 리스트 들을 반환 
+					targetLists = characterManager.FindTarget (this, charicStats.m_fAttack_Range);
+				}
 
 				//만약 범위안에 들어온 캐릭터가 1개 이상일 경우 
 				if (targetLists.Count > 0) {
@@ -321,15 +386,14 @@ public class Player_Character : Character {
 
 				if (m_fCastSuccessedTime < 0) 
 				{
-					base.PlayActiveSkill (nActiveSkillIndex, false);
+					GameObject obj = battleManager.skillObjectPool.GetObject ();
 
-					CastObject.SetActive (false);
+					obj.GetComponent<Skill>().SetUp(this,charicStats.activeSkill[nActiveSkillIndex],targetCharacter.transform.position);
 
-					CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
+					CheckCharacterState (E_CHARACTER_STATE.E_WALK);
 				}
 			}
 			break;
-
 
 		case E_CHARACTER_STATE.E_DEAD:
 			{
@@ -337,7 +401,7 @@ public class Player_Character : Character {
 
 				if (m_fDestoryTime > m_fConstDestroyTime) 
 				{
-					characterManager.Remove (this);
+					//characterManager.Remove (this);
 					battleManager.CharacterDie (E_Type.E_Hero);
 				}
 			}

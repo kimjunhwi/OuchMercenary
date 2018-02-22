@@ -20,12 +20,14 @@ public class MercenaryDispatchPanel : MonoBehaviour
 
 	public PrepareCharacter read_Batch_Charic = null;
 
-	public void Awake()
+	void Awake()
 	{
 		for (int nIndex = 0; nIndex < mDispatchSlot.Length; nIndex++) 
 		{
 			mDispatchSlot [nIndex].m_nIndex = nIndex;
 		}
+
+
 	}
 
 	public void Init()
@@ -63,6 +65,36 @@ public class MercenaryDispatchPanel : MonoBehaviour
 
 			}
 		}
+	}
+
+	//시작 가능한지 체크
+	public bool IsStartCheck()
+	{
+		bool bIsCommander = false;
+		bool bIsBatch = false;
+
+		//지휘관이 있는지 
+		for (int nIndex = 0; nIndex < nMaxBatchAmount; nIndex++) 
+		{
+
+			if (mDispatchSlot [nIndex].characterSlot == null)
+				continue;
+
+
+
+			if (string.Compare (mDispatchSlot [nIndex].characterSlot.charicData.m_strJobName, "commander") == 0) {
+				bIsCommander = true;
+
+				continue;
+			}
+			bIsBatch = true;
+		
+		}
+
+		if (bIsBatch || bIsCommander)
+			return true;
+
+		return false;
 	}
 
 	public int GetCancleIndex()

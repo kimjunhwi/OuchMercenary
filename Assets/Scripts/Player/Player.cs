@@ -13,21 +13,18 @@ public class Player : MonoBehaviour
     public List<DBEquipment> Equipments { get; set; }
     public List<DBBasicCharacter> Characters { get; set; }
     public List<Mail> mail { get; set; }
-    
-
 
 	public List<Equipment> LIST_ITEM = new List<Equipment>();
 
-	public List<CharacterStats> LIST_HERO = new List<CharacterStats>();
-
 	public List<CharacterStats> TEST_MY_HERO = new List<CharacterStats>();
-
 
 	public List<DBBasicCharacter> LIST_CHARACTER = new List<DBBasicCharacter> ();
 
 	int nGold;
 
 	int nLastStageIndex;
+
+	public bool bIsStageLoop = false;
 
 	public int nDefenceChapterOne = 0;
 	public int nDefenceChapterTwo = 0;
@@ -36,8 +33,17 @@ public class Player : MonoBehaviour
 
 	public void Init()
 	{
-		TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1032));
-		TEST_MY_HERO.Add (GameManager.Instance.SummonCharacter (1006));
+		TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1000)); //basic assassin
+		TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1002)); //basic assassin
+		TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1003)); //basic wizard
+		//TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1013)); //thunder mage 
+		//TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1018)); //high assassin
+		//TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1030)); //hero assassin
+		//TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1025)); //high thundermage
+		//TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1037)); //hero thunder mage
+		TEST_MY_HERO.Add(GameManager.Instance.SummonCharacter(1032)); //hero warrior
+		TEST_MY_HERO.Add (GameManager.Instance.SummonCharacter (1006)); //assassin
+		TEST_MY_HERO.Add (GameManager.Instance.SummonCharacter (1040)); //hero priest
 
 
 		for (int i = 0; i < 53; i++) {

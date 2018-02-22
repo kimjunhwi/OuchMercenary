@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 222370868509530894}
   - component: {fileID: 114398836564745202}
   - component: {fileID: 114795289729460372}
+  - component: {fileID: 114130718436567204}
   m_Layer: 5
   m_Name: BatchCharacter
   m_TagString: Untagged
@@ -97,6 +98,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114130718436567204
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1739548693334970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: 196
+  m_MinHeight: 234
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114135027624308918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -250,7 +270,7 @@ MonoBehaviour:
     m_fAttackSpeed: 0
     m_fMoveSpeed: 0
     m_fPhysical_Defence: 0
-    m_fMasic_Defence: 0
+    m_fMagic_Defence: 0
     m_fDodge: 0
     m_fCritical_Rating: 0
     m_fCritical_Damage: 0
@@ -267,6 +287,7 @@ MonoBehaviour:
     activeSkill: []
     passiveSkill: []
   bIsBatch: 0
+  bIsActive: 0
 --- !u!114 &114806007909042240
 MonoBehaviour:
   m_ObjectHideFlags: 1

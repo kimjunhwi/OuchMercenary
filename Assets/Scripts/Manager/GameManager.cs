@@ -681,9 +681,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 Debug.Log("MainScenePrefabs Load Complete");
                 break;
 
-            case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_SLOTS:
-
-                
+		case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_SLOTS:
 
                 GameObject postSlot = Instantiate(bundle.LoadAsset<GameObject>("PostSlot"));
                 postSlot.transform.SetParent(prefabHold_Obj.transform);

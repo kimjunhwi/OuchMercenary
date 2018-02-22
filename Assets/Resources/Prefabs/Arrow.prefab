@@ -53,6 +53,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_vecMaxY: {x: 0, y: 0, z: 0}
+  m_vecEndPosition: {x: 0, y: 0}
+  m_vecStartPosition: {x: 0, y: 0}
   fTime: 0
 --- !u!212 &212945767687779878
 SpriteRenderer:

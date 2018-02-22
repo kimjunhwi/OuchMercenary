@@ -21,9 +21,9 @@ public class Arrow : Projectile {
 		fTime = 0.0f;
 	}
 
-	  public override IEnumerator BasicBezierShoot(SimpleObjectPool _simpleObjectPool,SkillManager _skillManager, Character _AttackCharacter, Character _TargetCharacter, bool _bIsCritical)
+	public override IEnumerator BasicBezierShoot(SimpleObjectPool _simpleObjectPool,SkillManager _skillManager, Character _AttackCharacter, Character _TargetCharacter,Vector3 _startPosition, bool _bIsCritical)
 	  {
-			yield return StartCoroutine(BezierCurve(_AttackCharacter.transform.position,_TargetCharacter.transform.position));
+			yield return StartCoroutine(BezierCurve(_startPosition,_TargetCharacter.transform.position));
 
 			_skillManager.BasicAttack(_AttackCharacter,_TargetCharacter,_bIsCritical);
 

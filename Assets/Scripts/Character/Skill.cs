@@ -16,7 +16,10 @@ public class Skill : MonoBehaviour {
 	SimpleObjectPool objectPool;
 
 	SkillManager skillManager;
+	BattleManager battleManager;
 	CharacterManager characterManager;
+
+
 
 	E_Type Skiller_Type;
 
@@ -25,27 +28,31 @@ public class Skill : MonoBehaviour {
 	void Awake()
 	{
 		animator = GetComponent<Animator> ();
+
 	}
 
-	public void SetUp(SimpleObjectPool _objectPool,Character _skiller, ActiveSkill _activeSkill, CharacterManager _characterManager,SkillManager _skillManager, float _fTime,Vector3 _vecPosition,E_Type _Type)
+	void Start()
 	{
-		objectPool 							= _objectPool;
+		battleManager = GameObject.Find ("BattleManager").GetComponent<BattleManager> ();
 
+		skillManager = battleManager.skillManager;
+		characterManager = battleManager.characterManager;
+		objectPool = battleManager.skillObjectPool;
+	}
+
+	public void SetUp(Character _skiller, ActiveSkill _activeSkill,Vector3 _vecPosition)
+	{
 		skiller 							= _skiller;
 
 		activeSkill 						= _activeSkill;
 
-		skillManager 						= _skillManager;
-
-		characterManager 					= _characterManager;
-
-		m_fTime 							= _fTime;
+		m_fTime 							= activeSkill.m_fDuration;
 
 		transform.position 					= _vecPosition;
 
-		Skiller_Type 						= _Type;
+		animator.runtimeAnimatorController	= ObjectCashing.Instance.LoadAnimationController("Animation/Effect/" + activeSkill.m_strEffectName);
 
-		animator.runtimeAnimatorController	= ObjectCashing.Instance.LoadAnimationController("Animation/" + activeSkill.m_strEffectName);
+		PlaySkill ();
 	}
 	
 	public void PlaySkill()
@@ -75,6 +82,10 @@ public class Skill : MonoBehaviour {
 
 			skillManager.ActiveSkill(skillData.nActiveType,activeSkill,skiller,TargetList,false);
 		}
+
+		yield return new WaitForSeconds (1.0f);
+
+		objectPool.ReturnObject (gameObject);
 	}
 
 	public IEnumerator DelaySkill()
@@ -83,9 +94,6 @@ public class Skill : MonoBehaviour {
 
 		string[] strActiveTypes = activeSkill.m_strSkillType.Split(',');
 
-
-
-		
 
 		while (m_fTime > 0) 
 		{
@@ -107,5 +115,7 @@ public class Skill : MonoBehaviour {
 
 			}
 		}
+
+		objectPool.ReturnObject (gameObject);
 	}
 }

@@ -56,7 +56,7 @@ public class SkillManager : MonoBehaviour {
 		fMagicAttackDamage = (_skiller.GetStats().m_fMagic_Rating * (_skiller.GetStats().basicSkill[0].fMagicMagnification * 0.01f) * (fCritical * 0.01f));
 
 		fPhsicalDefence = (_skillee.GetStats().m_fPhysical_Defence * 0.002f);
-		fMagicDefence = (_skillee.GetStats().m_fMasic_Defence * 0.02f);
+		fMagicDefence = (_skillee.GetStats().m_fMagic_Defence * 0.02f);
 
 		fDamage = fPhsicalAttackDamage - (fPhsicalAttackDamage * fPhsicalDefence);
 		fDamage += fMagicAttackDamage - (fMagicAttackDamage * fMagicDefence);
@@ -73,7 +73,7 @@ public class SkillManager : MonoBehaviour {
 		fMagicAttackDamage = (_skiller.GetStats().m_fMagic_Rating * (_activeSkill.m_fMagicMagnification * 0.01f) * (fCritical * 0.01f));
 
 		fPhsicalDefence = (_skillee.GetStats().m_fPhysical_Defence * 0.002f);
-		fMagicDefence = (_skillee.GetStats().m_fMasic_Defence * 0.02f);
+		fMagicDefence = (_skillee.GetStats().m_fMagic_Defence * 0.02f);
 
 		fDamage = fPhsicalAttackDamage - (fPhsicalAttackDamage * fPhsicalDefence);
 		fDamage += fMagicAttackDamage - (fMagicAttackDamage * fMagicDefence);

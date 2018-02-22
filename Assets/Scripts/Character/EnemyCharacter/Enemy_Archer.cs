@@ -87,9 +87,8 @@ public class Enemy_Archer : Enemy_Character {
 
 					Projectile projectile = Arrow.GetComponent<Projectile> ();
 
-					StartCoroutine(projectile.BasicBezierShoot(arrowPool,skillManager,this,targetCharacter,bIsCritical));
-
-					//skillManager.BasicAttack (this, (Character)targetLists [nIndex],bIsCritical);
+					StartCoroutine(projectile.BasicBezierShoot(arrowPool,skillManager, this,targetCharacter,arrowPosition.position,bIsCritical));
+	//skillManager.BasicAttack (this, (Character)targetLists [nIndex],bIsCritical);
 				}
 			}
 		} 

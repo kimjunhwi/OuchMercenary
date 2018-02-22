@@ -7,10 +7,11 @@ namespace ReadOnlys
 {
     public enum E_SLOT_STATE
     {
-        E_BATCH =0,
+		E_NONE = 0,
+        E_BATCH,
         E_BATCH_READY,
         E_CANCLE,
-        E_NONE,
+       
     }
 
 
@@ -360,7 +361,7 @@ namespace ReadOnlys
 
 		public float m_fPhysical_Defence;	//물리 방어력
 
-		public float m_fMasic_Defence;		//마법 방어력
+		public float m_fMagic_Defence;		//마법 방어력
 
 		public float m_fDodge;				//회피율
 
@@ -379,6 +380,12 @@ namespace ReadOnlys
 		public float m_fMaxExp;				//임시
 
 		public int m_nBatchIndex;			//배치 인덱스 
+
+		public int m_nStamina;             //캐릭터 스태미나
+
+		public string m_sImage;               //캐릭터 이미지
+
+		public int m_nFavorite;
 
 		public List<BasicSkill> basicSkill = new List<BasicSkill>();
 
@@ -408,11 +415,18 @@ namespace ReadOnlys
 			m_fAttackSpeed 		= _charic.m_fAttackSpeed;
 			m_fMoveSpeed 		= _charic.m_fMoveSpeed;
 			m_fPhysical_Defence = _charic.m_fPhysical_Defence;
-			m_fMasic_Defence 	= _charic.m_fMasic_Defence;
+			m_fMagic_Defence 	= _charic.m_fMagic_Defence;
 			m_fDodge 			= _charic.m_fDodge;
 			m_fCritical_Rating 	= _charic.m_fCritical_Rating;
 			m_fCritical_Damage 	= _charic.m_fCritical_Damage;
 			m_nBatchIndex 		= _charic.m_nBatchIndex;
+
+			m_nStamina			= _charic.m_nStamina;             //캐릭터 스태미나
+
+			m_sImage			= _charic.m_sImage;               //캐릭터 이미지
+
+			m_nFavorite			= _charic.m_nFavorite;
+
 			basicSkill = _charic.basicSkill;
 			activeSkill = _charic.activeSkill;
 			passiveSkill = _charic.passiveSkill;
@@ -440,12 +454,16 @@ namespace ReadOnlys
 			m_fAttackSpeed 		= _charic.AttackSpeed;
 			m_fMoveSpeed 		= _charic.MoveSpeed;
 			m_fPhysical_Defence = _charic.Physic_Defense;
-			m_fMasic_Defence 	= _charic.Magic_Defense;
+			m_fMagic_Defence 	= _charic.Magic_Defense;
 			m_fDodge 			= _charic.Dodge;
 			m_fCritical_Rating 	= _charic.Crit_Rating;
 			m_fCritical_Damage 	= _charic.Crit_Dmg;
 			m_nBatchIndex 		= _charic.Betch_Index;
+			m_nStamina			= _charic.m_nStamina;             //캐릭터 스태미나
 
+			m_sImage			= _charic.m_sImage;               //캐릭터 이미지
+
+			m_nFavorite			= _charic.m_nFavorite;
 		}
 
 		public CharacterStats()

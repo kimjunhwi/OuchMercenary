@@ -26,6 +26,8 @@ public class PrepareCharacter : MonoBehaviour, IPointerClickHandler
 
 	public bool bIsBatch = false;
 
+	public bool bIsActive = false;
+
 	void Awake()
 	{
 		ActiveImage = gameObject.GetComponent<Image> ();
@@ -45,6 +47,7 @@ public class PrepareCharacter : MonoBehaviour, IPointerClickHandler
 
 	public void Active(bool _bIsActvie)
 	{
+		bIsActive = _bIsActvie;
 		ActiveImage.sprite = (_bIsActvie == true) ? ActiveSprite : UnActiveSprite;
 	}
 
@@ -53,7 +56,7 @@ public class PrepareCharacter : MonoBehaviour, IPointerClickHandler
 		charicData = _charicData;
 		preBattleClass = _preBattleClass;
 
-		//characterImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache("UI/BoxImages/Character/" + charicData.mI);
+		characterImage.sprite = ObjectCashing.Instance.LoadSpriteFromCache("UI/BoxImages/Character/" + charicData.m_sImage);
 
 		NameText.text = charicData.m_strCharicName;
 		levelText.text = string.Format("Lv.{0}", charicData.m_nEnhace);
@@ -83,9 +86,19 @@ public class PrepareCharacter : MonoBehaviour, IPointerClickHandler
 	{
 		if (preBattleClass.InfoGameObject.activeSelf) 
 		{
+			if (preBattleClass.mercenaryDispath.read_Batch_Charic == this) {
+				return;
+			}
+
+			//현재 활성화 된 것을 비활성화 
+			preBattleClass.mercenaryDispath.read_Batch_Charic.Active (false);
+
+			//이 엑티브를 활성화
 			Active (true);
 
-			preBattleClass.stageInfoPanel.charicStats = charicData;
+			preBattleClass.mercenaryDispath.read_Batch_Charic = this;
+
+			preBattleClass.stageInfoPanel.SetUp(charicData);
 		} 
 		else 
 		{
@@ -94,10 +107,17 @@ public class PrepareCharacter : MonoBehaviour, IPointerClickHandler
 
 			if (nCheckIndex != -1)  preBattleClass.mercenaryDispath.mDispatchSlot [nCheckIndex].E_SWITCH (E_SLOT_STATE.E_BATCH);
 
-			if (bIsBatch) 
+			if (bIsActive) 
 			{
-
 				return;
+			}
+
+			if (preBattleClass.mercenaryDispath.read_Batch_Charic != null) 
+			{
+				if (preBattleClass.mercenaryDispath.read_Batch_Charic != this) 
+				{
+					preBattleClass.mercenaryDispath.read_Batch_Charic.Active (false);
+				}
 			}
 
 			Active (true);

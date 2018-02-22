@@ -6,6 +6,10 @@ using ReadOnlys;
 
 public class Character : MonoBehaviour {
 
+	protected float fBetween;
+	protected Vector3 movePosition;
+
+
 	public bool bIsMode = true;					//공격 모드 인지 수비 모드 인지 
 	protected bool m_bIsFront ;
 	protected bool m_bIsDead = false;			//캐릭터가 죽었는지
@@ -35,6 +39,8 @@ public class Character : MonoBehaviour {
 
 	public ParticleSystem PhysicalParticle;
 	public ParticleSystem MagicParticle;
+	public ParticleSystem HealParticle;
+	public ParticleSystem MechanicParticle;
 
 	//------------------------------------------------------------------
 
@@ -63,7 +69,9 @@ public class Character : MonoBehaviour {
 
 	protected Animator animator;										//애니메이션
 	protected SpriteRenderer spriteRender;								//스프라이트 
-	protected CharacterStats charicStats = null;						//캐릭터에 관한 정보 
+
+	protected CharacterStats baseCharicStats = null;					//캐릭터 원본 데이터(얕은 복사)
+	protected CharacterStats charicStats = null;						//캐릭터에 관한 정보 (깊은 복사)
 
 	protected BattleManager battleManager;
 	protected CharacterManager characterManager;						//배치된 캐릭터들을 관리
@@ -74,6 +82,8 @@ public class Character : MonoBehaviour {
 	//캐릭터가 죽운뒤 투명도를 위함
 	protected Color alphaColor;
 	protected CharacterUI characterUI;
+
+	protected Transform arrowPosition;
 
 	protected virtual void Awake()
 	{
@@ -94,6 +104,10 @@ public class Character : MonoBehaviour {
 		CastObject = transform.GetChild (6).gameObject;
 		PhysicalParticle = transform.GetChild (7).GetComponent<ParticleSystem> ();
 		MagicParticle = transform.GetChild (8).GetComponent<ParticleSystem> ();
+		HealParticle = transform.GetChild (9).GetComponent<ParticleSystem> ();
+		MechanicParticle = transform.GetChild (10).GetComponent<ParticleSystem> ();
+
+		arrowPosition = transform.GetChild (11).GetComponent<Transform> ();
 	}
 
 	protected virtual void OnEnable()
@@ -112,7 +126,7 @@ public class Character : MonoBehaviour {
 	//캐릭터에 대한 초기화 및 배치를 함
 	public virtual void Setup(CharacterStats _charic,CharacterManager _charicManager, SkillManager _skillManager,BattleManager _BattleManager,  E_Type _E_TYPE,Vector3 _vecPosition, int _nBatchIndex= 0)
 	{
-
+		baseCharicStats = _charic;
 		charicStats = new CharacterStats (_charic);
 
 		//스킬 매니저와 캐릭터 매니저를 등록
@@ -152,7 +166,7 @@ public class Character : MonoBehaviour {
 		m_fCurrentHp = charicStats.m_fHealth;
 		m_fMaxHp = m_fCurrentHp;
 
-		animator.runtimeAnimatorController = ObjectCashing.Instance.LoadAnimationController("Animation/Character/" + charicStats.m_strJob);
+		animator.runtimeAnimatorController = ObjectCashing.Instance.LoadAnimationController("Animation/Character/"  + charicStats.m_strJob);
 
 		CheckCharacterState (E_CHARACTER_STATE.E_WAIT);
 	 }
@@ -164,6 +178,7 @@ public class Character : MonoBehaviour {
 	protected virtual IEnumerator CharacterAction (){ yield return null; }
 
 	public CharacterStats GetStats(){ return charicStats;}
+	public CharacterStats GetBasicStats(){ return baseCharicStats; }
 
 	public float GetCurrentHealth() { return m_fCurrentHp; }
 
@@ -270,7 +285,7 @@ public class Character : MonoBehaviour {
 				break;
 				case (int)E_PASSIVE_TYPE.E_MAGIC_DEFENCE:				
 				
-				charicStats.m_fMasic_Defence += charicStats.passiveSkill[nIndex].optionData.fValue;
+				charicStats.m_fMagic_Defence += charicStats.passiveSkill[nIndex].optionData.fValue;
 				
 				break;
 				case (int)E_PASSIVE_TYPE.E_DODGE:						
@@ -649,4 +664,21 @@ public class Character : MonoBehaviour {
 	}
 
 	public bool IsDead() { return m_bIsDead;}
+
+	public int UpCheck(Vector3 _vecStart, Vector3 _vecEnd)
+	{
+		if (GetAngle (_vecStart, _vecEnd) >= 75 && GetAngle (_vecStart, _vecEnd) <= 115) {
+			return 1;
+		} else if (GetAngle (_vecStart, _vecEnd) <= -75 && GetAngle (_vecStart, _vecEnd) >= -115) {
+			return -1;
+		}
+		return 0;
+	}
+
+	public static float GetAngle (Vector3 vStart, Vector3 vEnd)
+	{
+		Vector3 v = vEnd - vStart;
+
+		return Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
+	}
 }

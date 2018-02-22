@@ -86,6 +86,11 @@ public class Assasin : Player_Character {
 					skillManager.BasicAttack (this, (Character)targetLists [nIndex], bIsCritical);
 				}
 			} else {
+
+				Debug.Log (charicStats.activeSkill [nActiveSkillIndex].m_strAnimationClip);
+
+				animator.SetTrigger (charicStats.activeSkill [nActiveSkillIndex].m_strAnimationClip);
+
 				StartCoroutine (SkillCoolTime ());
 
 				if (charicStats.activeSkill [nActiveSkillIndex].m_fCastTime == 0) {

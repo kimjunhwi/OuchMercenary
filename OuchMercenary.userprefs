@@ -1,30 +1,43 @@
 ﻿<Properties StartupConfiguration="{ABDB6780-48B2-7F58-4D2D-FA17B93C1C71}|" StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Manager/Scene/StageDefSceneManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Manager/Scene/MainSceneManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/GooglePlayGames/Platforms/Android/AndroidTokenClient.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/UI/Upbar.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Character/PlayerCharacter/Mechanic.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Manager/CharacterManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Manager/Scene/StageSceneManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Manager/Scene/StageDefSceneManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/Scene/StageDefSceneManager.cs" Line="18" Column="2" />
       <File FileName="Assets/Scripts/Character/PlayerCharacter/Warrior.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Manager/Scene/BattleManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Window/CWindowYesNo.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Manager/ReadOnly.cs" Line="380" Column="25" />
-      <File FileName="Assets/StageInfoPanel.cs" Line="10" Column="2" />
-      <File FileName="Assets/Scripts/UI/PreBattle/MercenaryDispatchSlot.cs" Line="44" Column="5" />
+      <File FileName="Assets/Scripts/UI/PreBattle/MercenaryDispatchCancel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/Scene/StartAndLogin/LoginManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI/LoadingPanel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Player/Player.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/PlayerCharacter/Player_Character.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/EnemyCharacter/Enemy_Priest.cs" Line="1" Column="1" />
+      <File FileName="Assets/PrepareCharacter.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/PlayerCharacter/Assasin.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/CharacterManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/EnemyCharacter/Enemy_Character.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/PlayerCharacter/Wizard.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/ObjectCashing.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/EnemyCharacter/Enemy_Assasin.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/Character.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/ReadOnly.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/PlayerCharacter/Mechanic.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/Scene/BattleManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Character/PlayerCharacter/Priest.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Manager/SkillManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI/Battle/BattleResult.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/PlayerCharacter/Warrior.cs" line="366" column="1" />
-      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/Character.cs" line="472" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/Character.cs" line="476" column="1" />
       <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/PlayerCharacter/Wizard.cs" line="93" column="1" />
-      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/UI/Stage/Defense/StageDefensePanel.cs" line="24" column="1" />
-      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/UI/PreBattle/MercenaryDispatchSlot.cs" line="37" column="1" />
-      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/UI/PreBattle/MercenaryDispatchPanel.cs" line="93" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/UI/Stage/Defense/StageDefensePanel.cs" line="35" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/UI/PreBattle/MercenaryDispatchPanel.cs" line="125" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/UI/PreBattle/PreBattleScenePanel.cs" line="143" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/UI/PreBattle/PreBattleScenePanel.cs" line="205" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/UI/PreBattle/PreBattleScenePanel.cs" line="222" column="1" />
+      <Breakpoint file="/Users/ImaiDakaki/OuchMercenary/Assets/Scripts/Character/PlayerCharacter/Warrior.cs" line="101" column="25" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.OuchMercenary PreferredExecutionTarget="Unity.Editor" />

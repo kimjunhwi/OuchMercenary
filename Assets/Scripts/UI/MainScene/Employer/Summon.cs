@@ -49,7 +49,7 @@ public class Summon : MonoBehaviour {
 
 		GameManager.Instance.Window_yesno ("정말 구매하시겠습니까", rt => {
 			if (rt == "0") {
-				if (GameManager.Instance.GetPlayer ().LIST_HERO.Count >= 300) {
+				if (GameManager.Instance.GetPlayer ().TEST_MY_HERO.Count >= 300) {
 					GameManager.Instance.Window_notice ("용병 슬롯이 가득찼습니다.", null);
 					return;
 				}
