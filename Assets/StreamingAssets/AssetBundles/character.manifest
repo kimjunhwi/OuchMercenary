@@ -1,0 +1,35 @@
+ManifestFileVersion: 0
+CRC: 770297235
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 756cebb113750a1faf98d6e88daee693
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5397b51db353127180bd030ffe711ac4
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Character/Archer_Basic.prefab
+- Assets/Resources/Prefabs/Character/Assassin_Basic.prefab
+Dependencies:
+- C:/Users/ksyy2/Documents/OuchMercenary/Assets/StreamingAssets/AssetBundles/mainscene/images
+- C:/Users/ksyy2/Documents/OuchMercenary/Assets/StreamingAssets/AssetBundles/characteranim/archer

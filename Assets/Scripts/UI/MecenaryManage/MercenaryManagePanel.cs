@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class MercenaryManagePanel : MonoBehaviour 
 {
+    //용병 탭 전체 관리 패널
+    public MercenaryManageCharacterInfo merCharacterInfoPanel;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+
+    public void Awake()
+    {
+        merCharacterInfoPanel = this.gameObject.transform.GetChild(2).GetChild(2).GetComponent<MercenaryManageCharacterInfo>();
+        merCharacterInfoPanel.Init();
+    }
 }

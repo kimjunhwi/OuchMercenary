@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 2822153636
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1332ac4131ebf176775d88c7c3c62bd0
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 21f0dc8ebad690f009368069428e0a1a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/UI/BoxImages/Equipment/Armor/HeroAmor.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/HeroLightamor.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/HighHeavyamor.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/Amor.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/BasicAmor.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/HighLightamor.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/Lightamor.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/Heavyamor.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/BasicHeavyamor.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/HeroHeavyamor.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/HighAmor.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/BasicLightamor.png
+Dependencies: []

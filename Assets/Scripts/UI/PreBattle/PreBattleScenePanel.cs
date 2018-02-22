@@ -5,8 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using ReadOnlys;
 
-public class PreBattleScenePanel : MonoBehaviour {
-
+public class PreBattleScenePanel : MonoBehaviour
+{
 	public Button StartBattle_Button;
 	public Button RepeatBattle_Button;
 

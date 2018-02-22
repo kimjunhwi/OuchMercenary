@@ -14,7 +14,7 @@ public class FadeInOut : MonoBehaviour
 	public bool isBack = false;                 //뒤로가기 버튼으로 체크하는 변수
 	public float fImageAlpha = 0f;              //이미지의 실제 알파값 임시로 담는 변수
 
-	public MainSceneManager mainSceneManager;   //메인씬 매니져
+	public MainMenuSceneManager mainMenuSceneManager;   //메인씬 매니져
 
 	public E_ACTIVEBUTTON eCurActiveButton;     //현재 실행하는 버튼의 종류
 
@@ -90,8 +90,8 @@ public class FadeInOut : MonoBehaviour
 					{
 						if (onceCheck == false) {
 							Debug.Log ("치료소 활성화!!");
-							GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_STAGE_HEALING, mainSceneManager.canvas, "치료소", mainSceneManager);
-							mainSceneManager.activeButtonPanel [(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING].SetActive (true);
+							GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_STAGE_HEALING, mainMenuSceneManager.canvas, "치료소", mainMenuSceneManager);
+							mainMenuSceneManager.activeButtonPanel [(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING].SetActive (true);
                             
 							onceCheck = true;
 						}
@@ -102,7 +102,7 @@ public class FadeInOut : MonoBehaviour
 						{
 							Debug.Log ("치료소 비활성화!!");
 							GameManager.Instance.InitUpbar ();
-							mainSceneManager.activeButtonPanel [(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING].SetActive (false);
+							mainMenuSceneManager.activeButtonPanel [(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING].SetActive (false);
 							onceCheck = true;
 						}
 					}
@@ -115,8 +115,8 @@ public class FadeInOut : MonoBehaviour
 					{
 						if (onceCheck == false) {
 							Debug.Log ("훈련소 활성화!!");
-							GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_STAGE_TRAINNIG, mainSceneManager.canvas, "훈련소", mainSceneManager);
-							mainSceneManager.activeButtonPanel [(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING].SetActive (true);
+							GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_STAGE_TRAINNIG, mainMenuSceneManager.canvas, "훈련소", mainMenuSceneManager);
+							mainMenuSceneManager.activeButtonPanel [(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING].SetActive (true);
 							onceCheck = true;	
 						} 
 					} 
@@ -126,7 +126,7 @@ public class FadeInOut : MonoBehaviour
 						{
 							Debug.Log ("훈련소 비활성화!!");
 							GameManager.Instance.InitUpbar ();
-							mainSceneManager.activeButtonPanel [(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING].SetActive (false);
+							mainMenuSceneManager.activeButtonPanel [(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING].SetActive (false);
 							onceCheck = true;
 						}
 					}
@@ -142,8 +142,8 @@ public class FadeInOut : MonoBehaviour
                             if (onceCheck == false)
                             {
                                 Debug.Log("용병고용소 활성화!!");
-                                GameManager.Instance.SetUpbar(ReadOnlys.E_SCENE_INDEX.E_EMPLOYER, mainSceneManager.canvas, "용병고용", mainSceneManager);
-                                mainSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT].SetActive(true);
+                                GameManager.Instance.SetUpbar(ReadOnlys.E_SCENE_INDEX.E_EMPLOYER, mainMenuSceneManager.canvas, "용병고용", mainMenuSceneManager);
+                                mainMenuSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT].SetActive(true);
                                 onceCheck = true;
                             }
                         }
@@ -153,7 +153,34 @@ public class FadeInOut : MonoBehaviour
                             {
                                 Debug.Log("용병고용소 비활성화!!");
                                 GameManager.Instance.InitUpbar();
-                                mainSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT].SetActive(false);
+                                mainMenuSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT].SetActive(false);
+                                onceCheck = true;
+                            }
+                        }
+
+
+                        break;
+
+                    //가방
+                    case E_ACTIVEBUTTON.E_ACTIVEBUTTON_INVEN:
+
+                        if (isBack == false)
+                        {
+                            if (onceCheck == false)
+                            {
+                                Debug.Log("가방 활성화!!");
+                                GameManager.Instance.SetUpbar(ReadOnlys.E_SCENE_INDEX.E_INVENTORY, mainMenuSceneManager.canvas, "가방", mainMenuSceneManager);
+                                mainMenuSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_INVEN].SetActive(true);
+                                onceCheck = true;
+                            }
+                        }
+                        else
+                        {
+                            if (onceCheck == false)
+                            {
+                                Debug.Log("가방 비활성화!!");
+                                GameManager.Instance.InitUpbar();
+                                mainMenuSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_INVEN].SetActive(false);
                                 onceCheck = true;
                             }
                         }
@@ -168,8 +195,8 @@ public class FadeInOut : MonoBehaviour
                             if (onceCheck == false)
                             {
                                 Debug.Log("스테이지 활성화!!");
-                                GameManager.Instance.SetUpbar(ReadOnlys.E_SCENE_INDEX.E_MAINSCENE_STAGE, mainSceneManager.canvas, "스테이지", mainSceneManager);
-                                mainSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE].SetActive(true);
+                                GameManager.Instance.SetUpbar(ReadOnlys.E_SCENE_INDEX.E_MAINSCENE_STAGE, mainMenuSceneManager.canvas, "스테이지", mainMenuSceneManager);
+                                mainMenuSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE].SetActive(true);
                                 onceCheck = true;
                             }
                         }
@@ -179,7 +206,7 @@ public class FadeInOut : MonoBehaviour
                             {
                                 Debug.Log("스테이지 비활성화!!");
                                 GameManager.Instance.InitUpbar();
-                                mainSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE].SetActive(false);
+                                mainMenuSceneManager.activeButtonPanel[(int)E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE].SetActive(false);
                                 onceCheck = true;
                             }
                         }

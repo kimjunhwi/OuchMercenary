@@ -1,0 +1,21 @@
+ManifestFileVersion: 0
+CRC: 3711651281
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: e0bc270293f7d6dd3b1559f83e2ed0e1
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 21f0dc8ebad690f009368069428e0a1a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/UI/BoxImages/Equipment/Accessory/HeroRing.png
+- Assets/Resources/UI/BoxImages/Equipment/Accessory/HighRing.png
+- Assets/Resources/UI/BoxImages/Equipment/Accessory/BasicRIng.png
+- Assets/Resources/UI/BoxImages/Equipment/Accessory/Ring.png
+Dependencies: []

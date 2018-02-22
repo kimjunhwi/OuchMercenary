@@ -1,0 +1,26 @@
+ManifestFileVersion: 0
+CRC: 3601521341
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 95c4bd3f28a61163051f94272a1a6001
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 21f0dc8ebad690f009368069428e0a1a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/UI/BoxImages/Equipment/Glove/1.glove_fabric_0.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/2.glove_fabric_0.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/2.glove_leader_1.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/2.glove_plate_2.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/1.glove_plate_2.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/1.glove_leader_1.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/3.glove_fabric_0.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/3.glove_plate_2.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/3.glove_leader_1.png
+Dependencies: []

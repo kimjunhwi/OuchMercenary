@@ -8,9 +8,9 @@ using ReadOnlys;
 
 public class ToggleUIBase : MonoBehaviour 
 {
-	public GameObject [] togglePanel;
+	protected GameObject [] togglePanel;
 
-	public Toggle [] toggle;
+    protected Toggle [] toggle;
 
 	public virtual void ActivePanel<T> (T _chapterIndex) {}
 

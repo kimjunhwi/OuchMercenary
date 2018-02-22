@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 848544045
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2b2e86df60c02cc1886bdb6a8a7884d0
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 21f0dc8ebad690f009368069428e0a1a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/HighSword.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/BasicBow.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/Staff.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/HighStaff.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/Sword.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/BasicStaff.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/BasicSword.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/HeroBow.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/Bow.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/HeroSword.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/HeroStaff.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/HighBow.png
+Dependencies: []

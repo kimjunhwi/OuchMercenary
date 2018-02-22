@@ -5,6 +5,27 @@ using System;
 
 namespace ReadOnlys
 {
+    //용병관리 용병 탭 종류
+    public enum E_MERCENARYMANAGE
+    {
+        TOTAL = 0,
+        COMMANDER,
+        MELEE,
+        RANGE,
+        FAVOIRTE,
+    }
+
+
+    //MainScene 인벤토리 탭 종류
+    public enum E_INVENTORY
+    {
+        E_INVENTORY_TOTAL = 0,
+        E_INVENTORY_WEAPON,
+        E_INVENTORY_ARMOR,
+        E_INVENTORY_ACCESSORY,
+        E_INVENTORY_INGREDIENT,
+    }
+
     public enum E_SLOT_STATE
     {
         E_BATCH =0,
@@ -49,11 +70,18 @@ namespace ReadOnlys
 
     public enum E_CHECK_ASSETDATA
     {
-        E_CHECK_ASSETDATA_MAINSCENE_PREFABDATA = 0,
-        E_CHECK_ASSETDATA_MAINSCENE_PREFABS,
-        E_CHECK_ASSETDATA_MAINSCENE_SLOTS,
-        E_CHECK_ASSETDATA_MAINSCENE_EMPLOY_CHARACTERS,
-        E_CHECK_ASSETDATA_MAINSCENE_EMPLOY_IMAGES,
+        PREFABIMAGES = 0,
+        PREFABS,
+        POST_SLOTS,
+        EMPLOY_CHARACTERS,
+        EMPLOY_IMAGES,
+        INVENTORY_ITEM_WEAPONIMAGES,
+        INVENTORY_ITEM_ARMORIMAGES,
+        INVENTORY_ITEM_GLOVEIMAGES,
+        INVENTORY_ITEM_ACCESSORYIMAGES,
+        INVENTORY_ITEM_QUALITYIMAGES,
+        INVENTORY_ITEM_MATERIAL,
+        MERCENARY_CHARACTERBOX_IMAGES,
     }
 
     #region LoginManager
@@ -140,6 +168,7 @@ namespace ReadOnlys
 		E_STAGE_TRAINNIG,
         E_EMPLOYER,
         E_MAINSCENE_STAGE,
+        E_INVENTORY,
     };
 
 	//물리 타입, 마법 타입, 무
@@ -284,12 +313,13 @@ namespace ReadOnlys
 	}
 
 
-	public enum E_EQUIMENT_TYPE
+	public enum E_ITEM_TYPE
 	{
 		E_WEAPON = 0,
 		E_ARMOR,
 		E_GLOVE,
 		E_ACCESSORY,
+        E_MATERIAL,
 	}
 
 	public enum E_RANDOM_OPTION
@@ -801,11 +831,13 @@ namespace ReadOnlys
 
 		public int Betch_Index {	get; set; }             // Character 배치위치 
 
-        public int m_nStamina { get; set; }              //캐릭터 스태미나
+        public int m_nStamina { get; set; }                 //캐릭터 스태미나
 
-        public string m_sImage { get; set; }               //캐릭터 이미지
+        public string m_sImage { get; set; }                //캐릭터 이미지
 
-        public int m_nFavorite { get; set; }
+        public int m_nFavorite { get; set; }                //즐겨찾기 인지 아닌지 체크
+
+        public int nListIndex { get; set; }                 //캐릭터 슬롯의 위치를 파악하기 위한 변수
 
         public List<DBBasicSkill> basicSkill {get; set;}
 
@@ -821,8 +853,8 @@ namespace ReadOnlys
 	public class DBActiveSkill
 	{
 		public int m_nIndex;
-		public string m_strName;
-		public int m_nCharacterIndex;
+        public int m_nCharacterIndex;
+        public string m_strName;
 		public string m_strSkillType;
 		public int m_nSkillClass;
 		public int m_nTier;
@@ -940,16 +972,25 @@ namespace ReadOnlys
 		public int nTargetIndex;	//타겟인덱스(0 :적, 1: 우리팀, 2: 자신, 3: 최소 체력)
 	}
 
-	[System.Serializable]
-	public class Equipment
+    [System.Serializable]
+    public class Item
+    {
+        public int nIndex;              //인덱스
+        public string strName;          //이름
+        public int nSellCost;           //판매비용
+        public string strItemType;
+        public string sImage;           //이미지.
+        public int nSelected;           //선택 했는지 아닌지.
+        public int nListIndex;          //배열용
+    }
+
+    [System.Serializable]
+	public class Equipment : Item
 	{
-		public int nIndex;
-		public string strName;
 		public int nTier;
 		public int nQulity;
 		public string strPossibleJob;
 		public int nEnhance;
-		public string strEquimnetType;
 		public float fPhysical_Attack_Rating;
 		public float fMagic_Attack_Rating;
 		public float fHp;
@@ -969,12 +1010,19 @@ namespace ReadOnlys
 		public float fAttack_Speed;
 		public float fCoolTime;
 		public float fExpBoost;
-		public int nSellCost;
 		public int nMakeMaterialIndex;
 		public int nBreakMaterialIndex;
 	}
 
-	[System.Serializable]
+    [System.Serializable]
+    public class Ingredient : Item
+    {
+        public int nCount;              //갯수
+        public string sExplanation;
+    }
+
+
+    [System.Serializable]
 	public class DBEquipment
 	{
 		public int nIndex;			    //인덱스
@@ -983,27 +1031,30 @@ namespace ReadOnlys
 		public int nQulity;			    //등급
 		public string sJob;			    //사용가능한 직업
 		public int nEnhanced;		    //강화 수치
-		public string sEquipType;	    //장비 타입(무기, 장갑, 갑옷, 악세사리 )
+		public string sItemType;	    //장비 타입(무기, 장갑, 갑옷, 악세사리 )
 		public string nRandomOption;	//RandomOption
 		public int nSellCost;		    //판매가격
 		public int nMakeMaterial;	    //만들때의 재료 조합식 인덱스
 		public int nBreakMaterial;	    //분해시의 재료 분해식 인덱스
+        public string sImage;
+        public int nSelected;
+        public int nListIndex;
 	}
 
 	[System.Serializable]
 	public class DBWeapon : DBEquipment
 	{
 
-		public float fPhysical_AttackRating;		//물리공격 배율
-		public float fMagic_AttackRating;			//바법공격 배율
+		public string fPhysical_AttackRating;		//물리공격 배율
+		public string fMagic_AttackRating;			//바법공격 배율
 	}
 
 	[System.Serializable]
 	public class DBArmor : DBEquipment
 	{
-		public int fPhysical_Defense;			
-		public int fMagic_Defense;			
-		public int nHp;
+		public string fPhysical_Defense;			
+		public string fMagic_Defense;			
+		public string sHp;
 
 	}
 
@@ -1011,15 +1062,15 @@ namespace ReadOnlys
 	public class DBGlove : DBEquipment
 	{
 
-		public int fPhysical_Defense;			
-		public int fMagic_Defense;		
+		public string fPhysical_Defense;			
+		public string fMagic_Defense;		
 
 	}
 
 	[System.Serializable]
 	public class DBAccessory : DBEquipment
 	{
-
+        public string sHp;
 	}
 
 	[System.Serializable]
@@ -1103,8 +1154,12 @@ namespace ReadOnlys
         public int nIndex;                      // Index
         public string sMaterialName;            // 재료 이름
         public string sImagePath;               // 이미지 경로
+        public int nCount;
         public string sExplanation;             // 재료들에 대한 설명
-
+        public int nSelected;
+        public int nSellCost;
+        public int nListIndex;
+        public string sItemType;
     }
 
     [System.Serializable]
@@ -1167,6 +1222,28 @@ namespace ReadOnlys
         public string sExplanation;             // 설명
     }
 
+    [System.Serializable]
+    public class DBPatchAsset
+    {
+        public int nIndex;
+        public string sName;
+        public int nChanged;
+    }
+
+    [System.Serializable]
+    public class DBPatchData
+    {
+        public int nIndex;
+        public string sName;
+        public int nChanged;
+    }
+
+    [System.Serializable]
+    public class DBPatchVersion
+    {
+        public int nIndex;
+        public float nVersion;
+    }
 
 
     [System.Serializable]

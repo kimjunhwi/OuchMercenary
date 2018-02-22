@@ -1,0 +1,68 @@
+ManifestFileVersion: 0
+CRC: 4155490968
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: mainscene/inventory/item/images/accessory
+      Dependencies: {}
+    Info_1:
+      Name: mainscene/inventory/item/images/weapon
+      Dependencies: {}
+    Info_2:
+      Name: mainscene/images
+      Dependencies: {}
+    Info_3:
+      Name: mainscene/inventory/item/images/armor
+      Dependencies: {}
+    Info_4:
+      Name: mercenarymanage/characterbox
+      Dependencies: {}
+    Info_5:
+      Name: mainscene/employ/images
+      Dependencies: {}
+    Info_6:
+      Name: mainscene/inventory/item/images/quality
+      Dependencies: {}
+    Info_7:
+      Name: characteranim/archer
+      Dependencies:
+        Dependency_0: mainscene/images
+    Info_8:
+      Name: mainscene/inventory/item/images/glove
+      Dependencies: {}
+    Info_9:
+      Name: mainscene/inventory/item/images/material
+      Dependencies: {}
+    Info_10:
+      Name: bundle/upbar
+      Dependencies: {}
+    Info_11:
+      Name: mainscene/employ/characters
+      Dependencies:
+        Dependency_0: mainscene/images
+        Dependency_1: mainscene/employ/images
+    Info_12:
+      Name: mainscene/employcharacter
+      Dependencies:
+        Dependency_0: mainscene/images
+        Dependency_1: mainscene/employ/images
+    Info_13:
+      Name: mainscene/prefabs
+      Dependencies:
+        Dependency_0: mainscene/images
+        Dependency_1: mainscene/inventory/item/images/quality
+        Dependency_2: mainscene/inventory/item/images/material
+        Dependency_3: bundle/upbar
+    Info_14:
+      Name: mainscene/slot
+      Dependencies:
+        Dependency_0: mainscene/images
+    Info_15:
+      Name: character
+      Dependencies:
+        Dependency_0: mainscene/images
+        Dependency_1: characteranim/archer
+    Info_16:
+      Name: characteranim/assassin
+      Dependencies:
+        Dependency_0: mainscene/employ/images

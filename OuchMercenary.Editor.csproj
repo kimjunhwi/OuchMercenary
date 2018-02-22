@@ -187,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\BuildAssetBundle.cs" />
+    <Compile Include="Assets\Editor\BuildDataToBinary.cs" />
     <Compile Include="Assets\GooglePlayGames\Editor\GPGSAndroidSetupUI.cs" />
     <Compile Include="Assets\GooglePlayGames\Editor\GPGSDocsUI.cs" />
     <Compile Include="Assets\GooglePlayGames\Editor\GPGSIOSSetupUI.cs" />
@@ -222,6 +223,29 @@
     <None Include="Assets\Plugins\Android\gpgs-plugin-support-0.9.42\res\values-v11\values-v11.xml" />
     <None Include="Assets\Plugins\Android\gpgs-plugin-support-0.9.42\res\values-v14\values-v14.xml" />
     <None Include="Assets\Plugins\Android\gpgs-plugin-support-0.9.42\res\values\values.xml" />
+    <None Include="Assets\Resources\ParsingData\ActiveSkill.txt" />
+    <None Include="Assets\Resources\ParsingData\ActiveSkillType.txt" />
+    <None Include="Assets\Resources\ParsingData\BasicSkill.txt" />
+    <None Include="Assets\Resources\ParsingData\Character.txt" />
+    <None Include="Assets\Resources\ParsingData\ETC\Calendar.txt" />
+    <None Include="Assets\Resources\ParsingData\ETC\CharacterTicket.txt" />
+    <None Include="Assets\Resources\ParsingData\ETC\Gacha.txt" />
+    <None Include="Assets\Resources\ParsingData\ETC\WeaponTicket.txt" />
+    <None Include="Assets\Resources\ParsingData\Equipment\Accessory.txt" />
+    <None Include="Assets\Resources\ParsingData\Equipment\Amor.txt" />
+    <None Include="Assets\Resources\ParsingData\Equipment\BreakMaterial.txt" />
+    <None Include="Assets\Resources\ParsingData\Equipment\Glove.txt" />
+    <None Include="Assets\Resources\ParsingData\Equipment\MakeMaterial.txt" />
+    <None Include="Assets\Resources\ParsingData\Equipment\Material.txt" />
+    <None Include="Assets\Resources\ParsingData\Equipment\RandomOption.txt" />
+    <None Include="Assets\Resources\ParsingData\Equipment\Weapon.txt" />
+    <None Include="Assets\Resources\ParsingData\FormationSkill.txt" />
+    <None Include="Assets\Resources\ParsingData\OptionIndex.txt" />
+    <None Include="Assets\Resources\ParsingData\PassiveSkill.txt" />
+    <None Include="Assets\Resources\ParsingData\PatchDatas\PatchAsset.txt" />
+    <None Include="Assets\Resources\ParsingData\PatchDatas\PatchData.txt" />
+    <None Include="Assets\Resources\ParsingData\PatchDatas\PatchVersion.txt" />
+    <None Include="Assets\Resources\ParsingData\Stage.txt" />
     <None Include="Assets\Resources\Unicode\ActiveSkillType.txt" />
     <None Include="Assets\Resources\Unicode\AllPassive.txt" />
     <None Include="Assets\Resources\Unicode\AllPassiveOption.txt" />

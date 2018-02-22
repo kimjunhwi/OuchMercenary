@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 1102184513
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d62391bedea47d39307e9b30859ae4c9
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 99ae409610123f9b5068f20f3b9ceb35
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Animation/Character/Assasin_Idle.anim
+- Assets/Resources/Animation/Character/Thunder Mage.controller
+- Assets/Resources/Animation/Character/Assasin_BleedAttack.anim
+- Assets/Resources/Animation/Character/Assasin_Walk.anim
+Dependencies:
+- C:/Users/ksyy2/Documents/OuchMercenary/Assets/StreamingAssets/AssetBundles/mainscene/employ/images
