@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using ReadOnlys;
 
-public class EmployFinishPanel : EmployPanel
+public class EmployFinishPanel : ButtonUIBase
 {
     public Text job_Text;
     public Text name_Text;
@@ -14,7 +14,7 @@ public class EmployFinishPanel : EmployPanel
     public Image confirmButton_Image;
     public Image oneMoreTimeButton_Image;
 
-    public MainSceneManager mainSceneManager;
+    public MainMenuSceneManager mainMenuSceneManager;
     public int nCharacterIndex = 0;
 
     public void Init()
@@ -30,7 +30,7 @@ public class EmployFinishPanel : EmployPanel
     {
         nCharacterIndex = _character.Index;
         //InfoUI 숨김
-        mainSceneManager.InfoUI_Obj.SetActive(false);
+        mainMenuSceneManager.InfoUI_Obj.SetActive(false);
         //Upbar 숨김
         GameManager.Instance.upBar.gameObject.SetActive(false);
         //정보 표시
@@ -50,7 +50,7 @@ public class EmployFinishPanel : EmployPanel
         if (eventData.pointerCurrentRaycast.gameObject.name == "EmployFinishButton_Image")
         {
             Debug.Log("용병고용 확인 버튼 클릭!");
-            mainSceneManager.InfoUI_Obj.SetActive(true);
+            mainMenuSceneManager.InfoUI_Obj.SetActive(true);
             GameManager.Instance.upBar.gameObject.SetActive(true);
             if(nCharacterIndex <= 50)
                 employCharacterHold_Obj.transform.GetChild(nCharacterIndex).gameObject.SetActive(false);

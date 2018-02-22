@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2219826821
+CRC: 533390048
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 41812d89dbf8c3679c790ff2c2c7417a
+    Hash: 6f936a562e3744bd4f7c7b7d4cb7af5a
   TypeTreeHash:
     serializedVersion: 2
     Hash: d309a70f220756481bbd35aca5d6e554
@@ -68,5 +68,5 @@ Assets:
 - Assets/Resources/Prefabs/UI/MainScene/MercenaryHealPanel.prefab
 - Assets/Resources/Prefabs/UI/MainScene/InfoUI.prefab
 Dependencies:
-- C:/Users/ksyy2/Documents/OuchMercenary/Assets/AssetBundles/bundle/upbar
 - C:/Users/ksyy2/Documents/OuchMercenary/Assets/AssetBundles/mainscene/images
+- C:/Users/ksyy2/Documents/OuchMercenary/Assets/AssetBundles/bundle/upbar

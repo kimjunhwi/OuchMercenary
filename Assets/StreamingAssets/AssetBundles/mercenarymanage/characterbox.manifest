@@ -1,0 +1,64 @@
+ManifestFileVersion: 0
+CRC: 1730200230
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 117d0aec3013f95468f79fa3944e95d1
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 21f0dc8ebad690f009368069428e0a1a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/UI/BoxImages/Character/BasicWarrior_icon.png
+- Assets/Resources/UI/BoxImages/Character/Archer_icon.png
+- Assets/Resources/UI/BoxImages/Character/Alchemist_icon.png
+- Assets/Resources/UI/BoxImages/Character/Mechanic_icon.png
+- Assets/Resources/UI/BoxImages/Character/Crusader_icon.png
+- Assets/Resources/UI/BoxImages/Character/HeroArcher_icon.png
+- Assets/Resources/UI/BoxImages/Character/Firemage_icon.png
+- Assets/Resources/UI/BoxImages/Character/Priest_icon.png
+- Assets/Resources/UI/BoxImages/Character/HeroCrusader_icon.png
+- Assets/Resources/UI/BoxImages/Character/HeroMagicwarrior_icon.png
+- Assets/Resources/UI/BoxImages/Character/BasicArcher_icon.png
+- Assets/Resources/UI/BoxImages/Character/HeroPriest_icon.png
+- Assets/Resources/UI/BoxImages/Character/HighAssassin_icon.png
+- Assets/Resources/UI/BoxImages/Character/HighMechanic_icon.png
+- Assets/Resources/UI/BoxImages/Character/Knight_icon.png
+- Assets/Resources/UI/BoxImages/Character/HighWarrior_icon.png
+- Assets/Resources/UI/BoxImages/Character/HeroFiremage_icon.png
+- Assets/Resources/UI/BoxImages/Character/HeroAssassin_icon.png
+- Assets/Resources/UI/BoxImages/Character/HeroThundermage_icon.png
+- Assets/Resources/UI/BoxImages/Character/Assassin_icon.png
+- Assets/Resources/UI/BoxImages/Character/Warrior_icon.png
+- Assets/Resources/UI/BoxImages/Character/HeroClown_icon.png
+- Assets/Resources/UI/BoxImages/Character/HeroWarrior_icon.png
+- Assets/Resources/UI/BoxImages/Character/BasicWizard_icon.png
+- Assets/Resources/UI/BoxImages/Character/HighCrusader_icon.png
+- Assets/Resources/UI/BoxImages/Character/Magicwarrior_icon.png
+- Assets/Resources/UI/BoxImages/Character/HighKnight_icon.png
+- Assets/Resources/UI/BoxImages/Character/Clown_icon.png
+- Assets/Resources/UI/BoxImages/Character/HeroKnight_icon.png
+- Assets/Resources/UI/BoxImages/Character/Commander_icon.png
+- Assets/Resources/UI/BoxImages/Character/HighCommander_icon.png
+- Assets/Resources/UI/BoxImages/Character/HighMagiccommander_icon.png
+- Assets/Resources/UI/BoxImages/Character/HeroMechanic_icon.png
+- Assets/Resources/UI/BoxImages/Character/BasicCommander_icon.png
+- Assets/Resources/UI/BoxImages/Character/Thundermage_icon.png
+- Assets/Resources/UI/BoxImages/Character/HighClown_icon.png
+- Assets/Resources/UI/BoxImages/Character/HighFiremage_icon.png
+- Assets/Resources/UI/BoxImages/Character/HighThundermage_icon.png
+- Assets/Resources/UI/BoxImages/Character/BasicPriest_icon.png
+- Assets/Resources/UI/BoxImages/Character/HighAlchemist_icon.png
+- Assets/Resources/UI/BoxImages/Character/BasicKnight_icon.png
+- Assets/Resources/UI/BoxImages/Character/HighPriest_icon.png
+- Assets/Resources/UI/BoxImages/Character/HighMagicwarrior_icon.png
+- Assets/Resources/UI/BoxImages/Character/MagicCommander_icon.png
+- Assets/Resources/UI/BoxImages/Character/BasicAssassin_icon.png
+- Assets/Resources/UI/BoxImages/Character/HeroAlchemist_icon.png
+- Assets/Resources/UI/BoxImages/Character/HighArcher_icon.png
+Dependencies: []

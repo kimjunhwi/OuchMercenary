@@ -76,7 +76,7 @@ public enum E_EMPLOY_GACHA
 public class EmployPanel : ButtonUIBase
 {
     public E_ACTIVEBUTTON m_eCurActivePanel;
-    public MainSceneManager mainSceneManager;
+    public MainMenuSceneManager mainMenuSceneManager;
     public EmployFinishPanel employFinishPanel;
    
 
@@ -857,7 +857,7 @@ public class EmployPanel : ButtonUIBase
         if (eventData.pointerCurrentRaycast.gameObject.name == "1,2TierEmploySlot_Button")
         {
             //Debug.Log("1~2성 캐릭터가 등장합니다");
-            mainSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_GACHA_1_2TIER, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_1_2TIER].sName + "을 하시겠습니까?");
+            mainMenuSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_GACHA_1_2TIER, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_1_2TIER].sName + "을 하시겠습니까?");
             //EmployCharacter();
 
         }
@@ -876,27 +876,27 @@ public class EmployPanel : ButtonUIBase
         else if (eventData.pointerCurrentRaycast.gameObject.name == "2,4TierMeleeEmploySlot_Button")
         {
             Debug.Log("2~4성 암살자, 전사 캐릭터가 등장합니다");
-            mainSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_MELEE, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_MELEE].sName + "을 하시겠습니까?");
+            mainMenuSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_MELEE, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_MELEE].sName + "을 하시겠습니까?");
 
 
         }
         else if (eventData.pointerCurrentRaycast.gameObject.name == "2,4TierRangeEmploySlot_Button")
         {
             Debug.Log("2~4성 궁수, 마법사 캐릭터가 등장합니다");
-            mainSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_RANGE, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_RANGE].sName + "을 하시겠습니까?");
+            mainMenuSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_RANGE, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_RANGE].sName + "을 하시겠습니까?");
 
 
         }
         else if (eventData.pointerCurrentRaycast.gameObject.name == "2,4TierAssistentEmploySlot_Button")
         {
             Debug.Log("2~4성 , 기사,사제 캐릭터가 등장합니다");
-            mainSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_ASSISTANT, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_ASSISTANT].sName + "을 하시겠습니까?");
+            mainMenuSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_ASSISTANT, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_ASSISTANT].sName + "을 하시겠습니까?");
 
         }
         else if (eventData.pointerCurrentRaycast.gameObject.name == "2,4TierCommenderEmploySlot_Button")
         {
             Debug.Log("2~4성 지휘관 캐릭터가 등장합니다");
-            mainSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_COMMANDER, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_COMMANDER].sName + "을 하시겠습니까?");
+            mainMenuSceneManager.SetCustomWindow(E_CUSTOMWINDOW.E_CUSTOMWINDOW_EMPLOY_2_4TIER_COMMANDER, GameManager.Instance.lDBEmployGacha[(int)E_EMPLOY.E_EMPLOY_2_4TIER_COMMANDER].sName + "을 하시겠습니까?");
 
         }
 

@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 2717512746
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 56646be254bffd4829a00a897447bea7
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 21f0dc8ebad690f009368069428e0a1a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/UI/BoxImages/Equipment/Quality/0.inven_box_quality_C.png
+- Assets/Resources/UI/BoxImages/Equipment/Quality/2.inven_box_quality_A.png
+- Assets/Resources/UI/BoxImages/Equipment/Quality/1.inven_box_quality_B.png
+Dependencies: []

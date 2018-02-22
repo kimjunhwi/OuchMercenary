@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 2049637182
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7dc61e097ec6dbb924e026234f8ec192
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 21f0dc8ebad690f009368069428e0a1a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/UI/BoxImages/Equipment/Glove/BasicLightglove.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/Lightglove.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/HeroHeavyglove.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/Glove.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/HeroGlove.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/Heavyglove.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/BasicHeavyglove.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/BasicGlove.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/HighLightglove.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/HeroLightglove.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/HighHeavyglove.png
+- Assets/Resources/UI/BoxImages/Equipment/Glove/HighGlove.png
+Dependencies: []

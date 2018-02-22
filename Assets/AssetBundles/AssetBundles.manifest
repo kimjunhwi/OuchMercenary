@@ -1,40 +1,57 @@
 ManifestFileVersion: 0
-CRC: 3538778428
+CRC: 3621720350
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: bundle/upbar
+      Name: mainscene/images
       Dependencies: {}
     Info_1:
+      Name: mainscene/employ/images
+      Dependencies: {}
+    Info_2:
       Name: characteranim/archer
       Dependencies:
         Dependency_0: mainscene/images
-    Info_2:
-      Name: characteranim/assassin
-      Dependencies:
-        Dependency_0: mainscene/employ/images
     Info_3:
-      Name: character
-      Dependencies:
-        Dependency_0: characteranim/archer
-        Dependency_1: mainscene/images
-    Info_4:
-      Name: mainscene/images
+      Name: bundle/upbar
       Dependencies: {}
-    Info_5:
-      Name: mainscene/prefabs
-      Dependencies:
-        Dependency_0: bundle/upbar
-        Dependency_1: mainscene/images
-    Info_6:
-      Name: mainscene/slot
-      Dependencies:
-        Dependency_0: mainscene/images
-    Info_7:
+    Info_4:
       Name: mainscene/employ/characters
       Dependencies:
         Dependency_0: mainscene/images
         Dependency_1: mainscene/employ/images
+    Info_5:
+      Name: mainscene/employcharacter
+      Dependencies:
+        Dependency_0: mainscene/images
+        Dependency_1: mainscene/employ/images
+    Info_6:
+      Name: mainscene/prefabs
+      Dependencies:
+        Dependency_0: mainscene/images
+        Dependency_1: bundle/upbar
+    Info_7:
+      Name: mainscene/slot
+      Dependencies:
+        Dependency_0: mainscene/images
     Info_8:
-      Name: mainscene/employ/images
+      Name: character
+      Dependencies:
+        Dependency_0: mainscene/images
+        Dependency_1: characteranim/archer
+    Info_9:
+      Name: characteranim/assassin
+      Dependencies:
+        Dependency_0: mainscene/employ/images
+    Info_10:
+      Name: mainscene/inventory/item/images/weapon
+      Dependencies: {}
+    Info_11:
+      Name: mainscene/inventory/item/images/armor
+      Dependencies: {}
+    Info_12:
+      Name: mainscene/inventory/item/images/glove
+      Dependencies: {}
+    Info_13:
+      Name: mainscene/inventory/item/images/accessory
       Dependencies: {}

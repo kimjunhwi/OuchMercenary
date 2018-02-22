@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: d49a4ba78a8884a659423b0a66667499
-timeCreated: 1518072007
+guid: 6003492ca868f324fbcacb33b12f3041
+timeCreated: 1519201322
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -94,5 +94,5 @@ TextureImporter:
     physicsShape: []
   spritePackingTag: 
   userData: 
-  assetBundleName: 
+  assetBundleName: mercenarymanage/characterbox
   assetBundleVariant: 

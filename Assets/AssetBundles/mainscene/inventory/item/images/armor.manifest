@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 563418316
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2feb41cd10acde9b79c295782a33a9ca
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 21f0dc8ebad690f009368069428e0a1a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/UI/BoxImages/Equipment/Armor/3.armor_plate_2.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/2.armor_leather_1.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/1.armor_leather_1.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/2.armor_fabric_0.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/2.armor_plate_2.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/1.armor_plate_2.png
+- Assets/Resources/UI/BoxImages/Equipment/Armor/1.armor_fabric_0.png
+Dependencies: []

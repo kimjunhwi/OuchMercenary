@@ -17,7 +17,7 @@ public class Upbar : MonoBehaviour
 	public Sprite[] upbarSprites;
 	public Image[] upbarImages;
 
-	public MainSceneManager mainSceneManager;
+	public MainMenuSceneManager mainMenuSceneManager;
 
 	public void SetUpHomeButton(E_SCENE_INDEX _curSceneIndex)
 	{
@@ -34,16 +34,19 @@ public class Upbar : MonoBehaviour
                 GameManager.Instance.LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_NONE, false);
                 break;
             case E_SCENE_INDEX.E_STAGE_HEALING:
-                mainSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, true);
+                mainMenuSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, true);
                 break;
             case E_SCENE_INDEX.E_STAGE_TRAINNIG:
-                mainSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING, true);
+                mainMenuSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING, true);
                 break;
             case E_SCENE_INDEX.E_EMPLOYER:
-                mainSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT, true);
+                mainMenuSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT, true);
+                break;
+            case E_SCENE_INDEX.E_INVENTORY:
+                mainMenuSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_INVEN, true);
                 break;
             case E_SCENE_INDEX.E_MAINSCENE_STAGE:
-                mainSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE, true);
+                mainMenuSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE, true);
                 break;
               
 
@@ -78,16 +81,19 @@ public class Upbar : MonoBehaviour
 			GameManager.Instance.LoadScene (_curSceneIndex, _prevSceneIndex , true);
 			break;
 		case E_SCENE_INDEX.E_STAGE_HEALING:
-			mainSceneManager.ActivePanelBack (E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, true);
+                mainMenuSceneManager.ActivePanelBack (E_ACTIVEBUTTON.E_ACTIVEBUTTON_HEALING, true);
 			break;
 		case E_SCENE_INDEX.E_STAGE_TRAINNIG:
-			mainSceneManager.ActivePanelBack (E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING, true);
+                mainMenuSceneManager.ActivePanelBack (E_ACTIVEBUTTON.E_ACTIVEBUTTON_TRAINNING, true);
 			break;
         case E_SCENE_INDEX.E_EMPLOYER:
-            mainSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT, true);
+                mainMenuSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_EMPLOYMENT, true);
             break;
-        case E_SCENE_INDEX.E_MAINSCENE_STAGE:
-            mainSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE, true);
+            case E_SCENE_INDEX.E_INVENTORY:
+                mainMenuSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_INVEN, true);
+                break;
+            case E_SCENE_INDEX.E_MAINSCENE_STAGE:
+                mainMenuSceneManager.ActivePanelBack(E_ACTIVEBUTTON.E_ACTIVEBUTTON_STAGE, true);
             break;
            
 
@@ -161,6 +167,15 @@ public class Upbar : MonoBehaviour
            stageInfo_Text.text = _stageInfo;
            Back_Button.onClick.AddListener(() => SetBackButtonLoadScene(E_SCENE_INDEX.E_EMPLOYER, ePrev_SceneIndex));
            break;
+
+            case E_SCENE_INDEX.E_INVENTORY:
+
+                //이전 씬의 정보
+                ePrev_SceneIndex = GameManager.Instance.prevSceneIndex;
+                //현재 씬의 정보
+                stageInfo_Text.text = _stageInfo;
+                Back_Button.onClick.AddListener(() => SetBackButtonLoadScene(E_SCENE_INDEX.E_INVENTORY, ePrev_SceneIndex));
+                break;
 
 
             default:

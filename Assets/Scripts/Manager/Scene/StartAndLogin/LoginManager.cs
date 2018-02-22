@@ -31,8 +31,9 @@ using UnityEngine.SocialPlatforms;
 public class LoginManager : MonoBehaviour 
 {
 	public Transform canvas;
+    public LoadAssetBundle loadAssetBundle;
 
-	AsyncOperation ao;
+    AsyncOperation ao;
 
 	public Dataset playerInfo;  			//aws Cognito playerInfo
 
@@ -96,7 +97,8 @@ public class LoginManager : MonoBehaviour
     public List<DBWeaponTicketData_ForGet> lDBWeaponTicket_GetList = new List<DBWeaponTicketData_ForGet>();
     public List<DBEmployGachaData_ForGet> lDBEmployGacha_GetList = new List<DBEmployGachaData_ForGet>();
 
-
+    public List<DBPatchAsset_ForGet> lDBPatchAsset_GetList = new List<DBPatchAsset_ForGet>();
+    public List<DBPatchData_ForGet> lDBPatchData_GetList = new List<DBPatchData_ForGet>();
 
 
 	//DB정보들의 각각의 개수
@@ -106,11 +108,11 @@ public class LoginManager : MonoBehaviour
 	private const int nPassiveSkillCount = 164;
 	private const int nPassiveSkillOptionIndexCount = 240;
 	private const int nBasicSkillCount = 41;
-	private const int nEquipmentWeaponCount = 108;
-	private const int nEquipmentArmorCount = 108;
-	private const int nEquipmentGloveCount = 108;
-	private const int nEquipmentAccessoryCount = 12;
-	private const int nEquipmentRandomOptionCount = 17;
+	private const int nEquipmentWeaponCount = 12;
+	private const int nEquipmentArmorCount = 12;
+	private const int nEquipmentGloveCount = 12;
+	private const int nEquipmentAccessoryCount = 4;
+	private const int nEquipmentRandomOptionCount = 70;
 	private const int nStageDataCount = 1;
 	private const int nCraftMaterialCount = 3;
 	private const int nBreakMaterialCount = 3;
@@ -122,34 +124,37 @@ public class LoginManager : MonoBehaviour
     private const int nEmployGachaCount = 5;
 
     //DB정보 경로
-    private const string sDBBasicCharacterInfoPath = "/BasicCharacter.data";
-	private const string sDBActiveSkillPath = "/ActiveSkill.data";
-	private const string sDBActiveSkilLTypePath = "/ActiveSkilLType.data";
-	private const string sDBPassiveSkillPath = "/PassiveSkill.data";
-	private const string sDBPassiveSkillOptionIndexPath = "/PassiveSkillOptionIndex.data";
-	private const string sDBBasicSkillPath = "/BasicSkill.data";
+    private const string sDBBasicCharacterInfoPath = "/Data/BasicCharacter.data";
+	private const string sDBActiveSkillPath = "/Data/ActiveSkill.data";
+	private const string sDBActiveSkilLTypePath = "/Data/ActiveSkilLType.data";
+	private const string sDBPassiveSkillPath = "/Data/PassiveSkill.data";
+	private const string sDBPassiveSkillOptionIndexPath = "/Data/PassiveSkillOptionIndex.data";
+	private const string sDBBasicSkillPath = "/Data/BasicSkill.data";
 
-	private const string sDBEquipmentWeaponPath = "/EquipmentWeapon.data";
-	private const string sDBEquipmentArmorPath = "/EquipmentArmor.data";
-	private const string sDBEquipmentGlovePath = "/EquipmentGlove.data";
-	private const string sDBEquipmentAccessoryPath = "/EquipmentAccessory.data";
-	private const string sDBEquipmentRandomOptionPath = "/EquipmentRandomOption.data";
+	private const string sDBEquipmentWeaponPath = "/Data/EquipmentWeapon.data";
+	private const string sDBEquipmentArmorPath = "/Data/EquipmentArmor.data";
+	private const string sDBEquipmentGlovePath = "/Data/EquipmentGlove.data";
+	private const string sDBEquipmentAccessoryPath = "/Data/EquipmentAccessory.data";
+	private const string sDBEquipmentRandomOptionPath = "/Data/EquipmentRandomOption.data";
 
-	private const string sDBStageDataPath = "/Stage.data";
-	private const string sDBCraftMaterialPath = "/CraftMaterial.data";
-	private const string sDBBreakMaterialPath = "/BreakMaterial.data";
-	private const string sDBFormationSkillPath = "/FormationSkill.data";
-    private const string sDBMaterialDataPath = "/MaterialData.data";
+	private const string sDBStageDataPath = "/Data/Stage.data";
+	private const string sDBCraftMaterialPath = "/Data/CraftMaterial.data";
+	private const string sDBBreakMaterialPath = "/Data/BreakMaterial.data";
+	private const string sDBFormationSkillPath = "/Data/FormationSkill.data";
+    private const string sDBMaterialDataPath = "/Data/MaterialData.data";
 
-    private const string sDBCalendarPath = "/CalendarData.data"; 
-    private const string sDBCharacterTickectPath = "/CharacterTicket.data";
-    private const string sDBWeaponTicketPath = "/WeaponTicket.data";
-    private const string sDBEmployGachaPath = "/EmployGacha.data";
+    private const string sDBCalendarPath = "/Data/CalendarData.data"; 
+    private const string sDBCharacterTickectPath = "/Data/CharacterTicket.data";
+    private const string sDBWeaponTicketPath = "/Data/WeaponTicket.data";
+    private const string sDBEmployGachaPath = "/Data/EmployGacha.data";
+
+    private string stremaingPath = "";
 
 
 
     //모든 데이터가 로드 됬는지 않됬는지
     bool bIsFinishLoadDate = false;
+  
 
 	//정보 불러올때 띄우는 텍스트
 	public Text loginState_Text;
@@ -201,7 +206,7 @@ public class LoginManager : MonoBehaviour
 
 	private DynamoDBContext _context;
 
-	private DynamoDBContext Context
+	public DynamoDBContext Context
 	{
 		get
 		{
@@ -233,20 +238,26 @@ public class LoginManager : MonoBehaviour
 	// Use this for initialization
 	void Awake () 
 	{
-		PlayerPrefs.DeleteKey ("FirstAppActive");
+        
+
+        PlayerPrefs.DeleteKey ("FirstAppActive");
 		//Login(data sync) -> Version Check(static data download) -> GameStart
-		LoginManager_Init();
+		//LoginManager_Init();
 		//Init SetUpBar
 		GameManager.Instance.InitUpbar ();
-		//Init 용병관리 Instance
-		//GameManager.Instance.InitMercenaryManage();
 
-		totalSlider.maxValue = ntotalBasicDataCount;
-		progress_Text.text = nCurProgressValue + " / " + ntotalBasicDataCount;
+        LoginManager_Init();
+        //Init 용병관리 Instance
+        //GameManager.Instance.InitMercenaryManage();
 
-		#if UNITY_EDITOR
-		//처음 실행과 아닐때의 분기
-		if (PlayerPrefs.HasKey ("FirstAppActive"))
+        //totalSlider.maxValue = ntotalBasicDataCount;
+        //progress_Text.text = nCurProgressValue + " / " + ntotalBasicDataCount;
+        //GameManager.Instance.LoadBundleFromStreamingAssets("character");
+
+#if UNITY_EDITOR
+        stremaingPath = Application.streamingAssetsPath;
+        //처음 실행과 아닐때의 분기
+        if (PlayerPrefs.HasKey ("FirstAppActive"))
 		{
 			//db에서 데이터 읽어오기
 			//다운되어있는  prefab에서 가져오기
@@ -261,12 +272,18 @@ public class LoginManager : MonoBehaviour
 
             //StartCoroutine(DBLoadCharacter ());
             //LoadCharacter(0);
+
+            //데이터 로드 순서 
+            //에셋 -> 기본 데이터 -> 플레이어 데이터 
+            //에셋 데이터 체크 
+            //StartLoadAssetDataSequence();
+
             StartCoroutine(StartLoadBasicDataSequence());
             StartCoroutine(CheckBasicDataLoadEnd());
 
         }
-    #elif UNITY_ANDROID
-
+#elif UNITY_ANDROID
+           stremaingPath =Application.dataPath + "!assets/";
 		if (PlayerPrefs.HasKey ("FirstAppActive"))
 		{
 		//db에서 데이터 읽어오기
@@ -278,11 +295,11 @@ public class LoginManager : MonoBehaviour
 		PlayerPrefs.SetString ("FirstAppActive", "True");
 		//CharacterDBLoadAndPutOperationTest ();
 
-		StartCoroutine(StartLoadBasicDataSequence());
-		StartCoroutine(CheckBasicDataLoadEnd());
-
+		//StartCoroutine(StartLoadBasicDataSequence());
+		//StartCoroutine(CheckBasicDataLoadEnd());
+         // StartLoadAssetDataSequence();
 		}
-      #endif
+#endif
 
     }
 
@@ -299,7 +316,7 @@ public class LoginManager : MonoBehaviour
 
 
 	//Google, FaceBook 등등 로그인시 초기화 할것들
-	void LoginManager_Init()
+	public void LoginManager_Init()
 	{
         //Google로그인 버튼 초기화
 		GoogleLogin_Button.onClick.AddListener (GoogleLogin);
@@ -332,8 +349,6 @@ public class LoginManager : MonoBehaviour
 
 
 		_ddbClient = Client;
-
-
 		_context = Context;
 
         
@@ -515,8 +530,9 @@ public class LoginManager : MonoBehaviour
                     }
 
                 }
-
-
+                //플레이어 데이터 셋팅
+                GameManager.Instance.GetPlayer().Init();
+                //기타 할당
                 StartCoroutine(GameManager.Instance.DataLoad());
            
 
@@ -664,8 +680,161 @@ public class LoginManager : MonoBehaviour
 
 	}
 
-	#region LoadFromAwsDB
-	IEnumerator StartLoadBasicDataSequence()
+    #region LoadFromAWS_S3bucket
+    void StartLoadAssetDataSequence()
+    {
+        StartCoroutine(LoadAssetData());
+    }
+
+    IEnumerator LoadAssetData()
+    {
+        while(true)
+        {
+            if (GameManager.Instance.bIsFinishLoadAssetData == true)
+                break;
+
+            Debug.Log("에셋데이터 다운로드중...");
+            yield return null;
+        }
+
+        //기본데이터 체크
+        StartCoroutine(StartLoadBasicDataSequence());
+        //기본데이터를 다 가져왔는지 체크
+        StartCoroutine(CheckBasicDataLoadEnd());
+    }
+
+    #endregion
+
+    #region LoadFromAwsDBPatch
+    public void StartGetPatchInfo()
+    {
+        StartCoroutine(LoadPatchAsset());
+    }
+    //DB에서 에셋에 대한 패치를 받아옴.
+    IEnumerator LoadPatchAsset()
+    {
+        yield return null;
+        
+        for(int i=0; i < GameManager.Instance.nPatchAssetCount; i++)
+        {
+            DBPatchAsset_ForGet patchAsset = null;
+            //Load Table Info
+            Context.LoadAsync<DBPatchAsset_ForGet>(i, (result) => {
+                if (result.Exception == null)
+                {
+                    patchAsset = result.Result as DBPatchAsset_ForGet;
+                    // Update few properties.
+
+                    Debug.Log("Asset version Name : " + patchAsset.Name);
+                    //TableInfo_Text.text = character.C_JobNames + "\n";
+                    //GetCharacter= character;
+                    lDBPatchAsset_GetList.Add(patchAsset);
+                    //Index++;
+                    patchAsset = null;
+
+                   // curSlider.value++;
+                }
+            });
+        }
+        StartCoroutine(LoadPatchData());
+
+    }
+    //DB에서 데이터에 대한 패치를 받아옴.
+    IEnumerator LoadPatchData()
+    {
+        yield return null;
+
+        while(true)
+        {
+            if (lDBPatchAsset_GetList.Count == GameManager.Instance.nPatchAssetCount)
+            {
+                for(int i=0; i< lDBPatchAsset_GetList.Count; i++)
+                {
+                    DBPatchAsset patchAsset = new DBPatchAsset();
+                    patchAsset.nIndex = lDBPatchAsset_GetList[i].Index;
+                    patchAsset.sName = lDBPatchAsset_GetList[i].Name;
+                    patchAsset.nChanged = lDBPatchAsset_GetList[i].Changed;
+
+                    GameManager.Instance.lDBPatchAsset.Add(patchAsset);
+                }
+
+                GameManager.Instance.lDBPatchAsset.Sort(delegate (DBPatchAsset A, DBPatchAsset B) {
+                    if (A.nIndex > B.nIndex)
+                        return 1;
+                    else if (A.nIndex < B.nIndex)
+                        return -1;
+                    return 0;
+                });
+
+                break;
+            }
+               
+
+            yield return null;
+        }
+
+
+
+        for (int i = 0; i < GameManager.Instance.nPatchDataCount; i++)
+        {
+            DBPatchData_ForGet patchData = null;
+            //Load Table Info
+            Context.LoadAsync<DBPatchData_ForGet>(i, (result) => {
+                if (result.Exception == null)
+                {
+                    patchData = result.Result as DBPatchData_ForGet;
+                    // Update few properties.
+
+                    Debug.Log("Data version Name : " + patchData.Name);
+                    //TableInfo_Text.text = character.C_JobNames + "\n";
+                    //GetCharacter= character;
+                    lDBPatchData_GetList.Add(patchData);
+                    //Index++;
+                    patchData = null;
+
+                }
+            });
+        }
+
+        StartCoroutine(CheckEndLoadDataVersionInfo());
+    }
+
+    IEnumerator CheckEndLoadDataVersionInfo()
+    {
+        while(true)
+        {
+            if (lDBPatchData_GetList.Count == GameManager.Instance.nPatchDataCount)
+            {
+                for (int i = 0; i < lDBPatchData_GetList.Count; i++)
+                {
+                    DBPatchData patchData = new DBPatchData();
+                    patchData.nIndex = lDBPatchData_GetList[i].Index;
+                    patchData.sName = lDBPatchData_GetList[i].Name;
+                    patchData.nChanged = lDBPatchData_GetList[i].Changed;
+
+                    GameManager.Instance.lDBPatchData.Add(patchData);
+                }
+
+                GameManager.Instance.lDBPatchData.Sort(delegate (DBPatchData A, DBPatchData B) {
+                    if (A.nIndex > B.nIndex)
+                        return 1;
+                    else if (A.nIndex < B.nIndex)
+                        return -1;
+                    return 0;
+                });
+
+
+                loadAssetBundle.StartDownLoadAssetData();
+                break;
+            }
+            yield return null;
+        }
+    }
+    #endregion
+
+
+    #region LoadFromAwsDB
+    IEnumerator StartLoadBasicDataSequence()
 	{
 		yield return new WaitForSeconds (0.1f);
 		LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_BASICCHARACTERDATA);
@@ -676,229 +845,243 @@ public class LoginManager : MonoBehaviour
 		curSlider.value = 0;
 		progress_Text.text = totalSlider.value + " / " + ntotalBasicDataCount;
 
-		switch (_state) 
-		{
-		case E_LOAD_STATE.E_LOAD_GET_BASICCHARACTERDATA:
-			curSlider.maxValue = nCharacterCount;
+        switch (_state)
+        {
+            case E_LOAD_STATE.E_LOAD_GET_BASICCHARACTERDATA:
+                curSlider.maxValue = nCharacterCount;
 
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBBasicCharacterInfoPath)) {
-				//다음꺼에 해당되는 걸넘어간다
-				SaveAndLoadBinaryFile (sDBBasicCharacterInfoPath, E_LOAD_STATE.E_LOAD_GET_BASICCHARACTERDATA);
-				LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLDATA);
-				return;
-			}
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nCharacterCount; i++)
-				DBLoadAndPutOperation (_state, i);
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBBasicCharacterInfoPath))
+                {
+                    //다음꺼에 해당되는 걸넘어간다
+                    SaveAndLoadBinaryFile(sDBBasicCharacterInfoPath, E_LOAD_STATE.E_LOAD_GET_BASICCHARACTERDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLDATA);
+                    return;
+                }
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nCharacterCount; i++)
+                    DBLoadAndPutOperation(_state, i);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLDATA:
-			curSlider.maxValue = nActiveSkillCount;
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLDATA:
+                curSlider.maxValue = nActiveSkillCount;
 
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBActiveSkillPath)) {
-				//다음꺼에 해당되는 걸넘어간다
-				SaveAndLoadBinaryFile(sDBActiveSkillPath, E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLDATA);
-				LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLTYPEDATA);
-				return;
-			}
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nActiveSkillCount; i++)
-				DBLoadAndPutOperation (_state, i);
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBActiveSkillPath))
+                {
+                    //다음꺼에 해당되는 걸넘어간다
+                    SaveAndLoadBinaryFile(sDBActiveSkillPath, E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLTYPEDATA);
+                    return;
+                }
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nActiveSkillCount; i++)
+                    DBLoadAndPutOperation(_state, i);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLTYPEDATA:
-			curSlider.maxValue = nActiveSkillTypeCount;
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBActiveSkilLTypePath)) {
-				//해당 데이터 로컬로 로드
-				SaveAndLoadBinaryFile(sDBActiveSkilLTypePath, E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLTYPEDATA);
-				//다음꺼에 해당되는 걸넘어간다
-				LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLDATA);
-				return;
-			}
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLTYPEDATA:
+                curSlider.maxValue = nActiveSkillTypeCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBActiveSkilLTypePath))
+                {
+                    //해당 데이터 로컬로 로드
+                    SaveAndLoadBinaryFile(sDBActiveSkilLTypePath, E_LOAD_STATE.E_LOAD_GET_ACTIVESKILLTYPEDATA);
+                    //다음꺼에 해당되는 걸넘어간다
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLDATA);
+                    return;
+                }
 
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nActiveSkillTypeCount; i++)
-				DBLoadAndPutOperation (_state, i);
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nActiveSkillTypeCount; i++)
+                    DBLoadAndPutOperation(_state, i);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLDATA:
-			curSlider.maxValue = nPassiveSkillCount;
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBPassiveSkillPath)) {
-				//다음꺼에 해당되는 걸넘어간다
-				SaveAndLoadBinaryFile(sDBPassiveSkillPath, E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLDATA);
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLDATA:
+                curSlider.maxValue = nPassiveSkillCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBPassiveSkillPath))
+                {
+                    //다음꺼에 해당되는 걸넘어간다
+                    SaveAndLoadBinaryFile(sDBPassiveSkillPath, E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLDATA);
 
-				LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA);
-				return;
-			}
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nPassiveSkillCount; i++)
-				DBLoadAndPutOperation (_state, i);
-
-
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA:
-			curSlider.maxValue = nPassiveSkillOptionIndexCount;
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBPassiveSkillOptionIndexPath)) {
-				SaveAndLoadBinaryFile(sDBPassiveSkillOptionIndexPath, E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA);
-				LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_BASICSKILLDATA);
-				return;
-			}
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nPassiveSkillOptionIndexCount; i++)
-				DBLoadAndPutOperation (_state, i);
-
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_BASICSKILLDATA:
-			curSlider.maxValue = nBasicSkillCount;
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBBasicSkillPath)) {
-				SaveAndLoadBinaryFile(sDBBasicSkillPath, E_LOAD_STATE.E_LOAD_GET_BASICSKILLDATA);
-				LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_EQUIPMENTWEAPONDATA);
-				return;
-			}
-
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nBasicSkillCount; i++)
-				DBLoadAndPutOperation (_state, i);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA);
+                    return;
+                }
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nPassiveSkillCount; i++)
+                    DBLoadAndPutOperation(_state, i);
 
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTWEAPONDATA:
-			curSlider.maxValue = nEquipmentWeaponCount;
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBEquipmentWeaponPath)) {
-				SaveAndLoadBinaryFile(sDBEquipmentWeaponPath, E_LOAD_STATE.E_LOAD_GET_EQUIPMENTWEAPONDATA);
-				LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_EQUIPMENTARMORDATA);
-				return;
-			}
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA:
+                curSlider.maxValue = nPassiveSkillOptionIndexCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBPassiveSkillOptionIndexPath))
+                {
+                    SaveAndLoadBinaryFile(sDBPassiveSkillOptionIndexPath, E_LOAD_STATE.E_LOAD_GET_PASSIVESKILLOPTIONINDEXDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_BASICSKILLDATA);
+                    return;
+                }
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nPassiveSkillOptionIndexCount; i++)
+                    DBLoadAndPutOperation(_state, i);
 
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nEquipmentWeaponCount; i++)
-				DBLoadAndPutOperation (_state, i);
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_BASICSKILLDATA:
+                curSlider.maxValue = nBasicSkillCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBBasicSkillPath))
+                {
+                    SaveAndLoadBinaryFile(sDBBasicSkillPath, E_LOAD_STATE.E_LOAD_GET_BASICSKILLDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_EQUIPMENTWEAPONDATA);
+                    return;
+                }
+
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nBasicSkillCount; i++)
+                    DBLoadAndPutOperation(_state, i);
 
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTARMORDATA:
-			curSlider.maxValue = nEquipmentArmorCount;
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBEquipmentArmorPath)) {
-				SaveAndLoadBinaryFile(sDBEquipmentArmorPath, E_LOAD_STATE.E_LOAD_GET_EQUIPMENTARMORDATA);
-				LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_EQUIPMENTGLOVEDATA);
-				return;
-			}
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTWEAPONDATA:
+                curSlider.maxValue = nEquipmentWeaponCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBEquipmentWeaponPath))
+                {
+                    SaveAndLoadBinaryFile(sDBEquipmentWeaponPath, E_LOAD_STATE.E_LOAD_GET_EQUIPMENTWEAPONDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_EQUIPMENTARMORDATA);
+                    return;
+                }
+
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nEquipmentWeaponCount; i++)
+                    DBLoadAndPutOperation(_state, i);
 
 
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nEquipmentArmorCount; i++)
-				DBLoadAndPutOperation (_state, i);
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTARMORDATA:
+                curSlider.maxValue = nEquipmentArmorCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBEquipmentArmorPath))
+                {
+                    SaveAndLoadBinaryFile(sDBEquipmentArmorPath, E_LOAD_STATE.E_LOAD_GET_EQUIPMENTARMORDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_EQUIPMENTGLOVEDATA);
+                    return;
+                }
 
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTGLOVEDATA:
-			curSlider.maxValue = nEquipmentGloveCount;
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBEquipmentGlovePath)) {
-				SaveAndLoadBinaryFile(sDBEquipmentGlovePath, E_LOAD_STATE.E_LOAD_GET_EQUIPMENTGLOVEDATA);
-				LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_EQUIPMENTACCESSORYDATA);
-				return;
-			}
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nEquipmentGloveCount; i++)
-				DBLoadAndPutOperation (_state, i);
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nEquipmentArmorCount; i++)
+                    DBLoadAndPutOperation(_state, i);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTACCESSORYDATA:
-			curSlider.maxValue = nEquipmentAccessoryCount;
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBEquipmentAccessoryPath)) {
-				SaveAndLoadBinaryFile(sDBEquipmentAccessoryPath, E_LOAD_STATE.E_LOAD_GET_EQUIPMENTACCESSORYDATA);
-				LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA);
-				return;
-			}
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nEquipmentAccessoryCount; i++)
-				DBLoadAndPutOperation (_state, i);
 
-			break;
-		case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA:
-			curSlider.maxValue = nEquipmentRandomOptionCount;
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBEquipmentRandomOptionPath)) {
-				SaveAndLoadBinaryFile(sDBEquipmentRandomOptionPath, E_LOAD_STATE.E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA);
-				LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_STAGEDATA);
-				return;
-			}
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nEquipmentRandomOptionCount; i++)
-				DBLoadAndPutOperation (_state, i);
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTGLOVEDATA:
+                curSlider.maxValue = nEquipmentGloveCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBEquipmentGlovePath))
+                {
+                    SaveAndLoadBinaryFile(sDBEquipmentGlovePath, E_LOAD_STATE.E_LOAD_GET_EQUIPMENTGLOVEDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_EQUIPMENTACCESSORYDATA);
+                    return;
+                }
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nEquipmentGloveCount; i++)
+                    DBLoadAndPutOperation(_state, i);
 
-			break;
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTACCESSORYDATA:
+                curSlider.maxValue = nEquipmentAccessoryCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBEquipmentAccessoryPath))
+                {
+                    SaveAndLoadBinaryFile(sDBEquipmentAccessoryPath, E_LOAD_STATE.E_LOAD_GET_EQUIPMENTACCESSORYDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA);
+                    return;
+                }
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nEquipmentAccessoryCount; i++)
+                    DBLoadAndPutOperation(_state, i);
 
-		case E_LOAD_STATE.E_LOAD_GET_STAGEDATA:
-			curSlider.maxValue = nStageDataCount;
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBStageDataPath)) {
-				SaveAndLoadBinaryFile(sDBStageDataPath, E_LOAD_STATE.E_LOAD_GET_STAGEDATA);
-				LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA);
-				return;
-			}
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nStageDataCount; i++)
-				DBLoadAndPutOperation (_state, i);
+                break;
+            case E_LOAD_STATE.E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA:
+                curSlider.maxValue = nEquipmentRandomOptionCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBEquipmentRandomOptionPath))
+                {
+                    SaveAndLoadBinaryFile(sDBEquipmentRandomOptionPath, E_LOAD_STATE.E_LOAD_GET_EQUIPMENTRANDOMOPTIONDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_STAGEDATA);
+                    return;
+                }
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nEquipmentRandomOptionCount; i++)
+                    DBLoadAndPutOperation(_state, i);
 
-			break;
+                break;
 
-		case E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA:
-			curSlider.maxValue = nCraftMaterialCount;
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBCraftMaterialPath)) {
-				SaveAndLoadBinaryFile(sDBCraftMaterialPath, E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA);
-				LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA);
-				return;
-			}
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nCraftMaterialCount; i++)
-				DBLoadAndPutOperation (_state, i);
+            case E_LOAD_STATE.E_LOAD_GET_STAGEDATA:
+                curSlider.maxValue = nStageDataCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBStageDataPath))
+                {
+                    SaveAndLoadBinaryFile(sDBStageDataPath, E_LOAD_STATE.E_LOAD_GET_STAGEDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA);
+                    return;
+                }
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nStageDataCount; i++)
+                    DBLoadAndPutOperation(_state, i);
 
-			break;
+                break;
 
-		case E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA:
-			curSlider.maxValue = nBreakMaterialCount;
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBBreakMaterialPath)) {
-				SaveAndLoadBinaryFile (sDBBreakMaterialPath, E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA);
-				LoadBasicDataSequence (E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA);
-				return;
-			}
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nBreakMaterialCount; i++)
-				DBLoadAndPutOperation (_state, i);
-			break;
+            case E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA:
+                curSlider.maxValue = nCraftMaterialCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBCraftMaterialPath))
+                {
+                    SaveAndLoadBinaryFile(sDBCraftMaterialPath, E_LOAD_STATE.E_LOAD_GET_CRAFTMATERIALDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA);
+                    return;
+                }
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nCraftMaterialCount; i++)
+                    DBLoadAndPutOperation(_state, i);
 
-		case E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA:
-			curSlider.maxValue = nFormationSkillCount;
-			//이미 저장된 정보가 있을시 체크 함수로 넘어간다
-			if (File.Exists (Application.persistentDataPath + sDBFormationSkillPath))
-			{
-				SaveAndLoadBinaryFile(sDBFormationSkillPath, E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA);
-                LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_MATERIALDATA);
-                return;
-			}
-			StartCoroutine (isFinishLoadData (_state));
-			for (int i = 0; i < nFormationSkillCount; i++)
-				DBLoadAndPutOperation (_state, i);
+                break;
 
-			break;
+            case E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA:
+                curSlider.maxValue = nBreakMaterialCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBBreakMaterialPath))
+                {
+                    SaveAndLoadBinaryFile(sDBBreakMaterialPath, E_LOAD_STATE.E_LOAD_GET_BREAKMATERIALDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA);
+                    return;
+                }
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nBreakMaterialCount; i++)
+                    DBLoadAndPutOperation(_state, i);
+                break;
+
+            case E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA:
+                curSlider.maxValue = nFormationSkillCount;
+                //이미 저장된 정보가 있을시 체크 함수로 넘어간다
+                if (File.Exists(stremaingPath + sDBFormationSkillPath))
+                {
+                    SaveAndLoadBinaryFile(sDBFormationSkillPath, E_LOAD_STATE.E_LOAD_GET_FORMATIONSKILLDATA);
+                    LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_MATERIALDATA);
+                    return;
+                }
+                StartCoroutine(isFinishLoadData(_state));
+                for (int i = 0; i < nFormationSkillCount; i++)
+                    DBLoadAndPutOperation(_state, i);
+
+                break;
 
             case E_LOAD_STATE.E_LOAD_GET_MATERIALDATA:
                 curSlider.maxValue = nMaterialDataCount;
                 //이미 저장된 정보가 있을시 체크 함수로 넘어간다
-                if (File.Exists(Application.persistentDataPath + sDBMaterialDataPath))
+                if (File.Exists(stremaingPath + sDBMaterialDataPath))
                 {
                     SaveAndLoadBinaryFile(sDBMaterialDataPath, E_LOAD_STATE.E_LOAD_GET_MATERIALDATA);
                     LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_CALENDARDATA);
@@ -914,7 +1097,7 @@ public class LoginManager : MonoBehaviour
             case E_LOAD_STATE.E_LOAD_GET_CALENDARDATA:
                 curSlider.maxValue = nCalendarCount;
                 //이미 저장된 정보가 있을시 체크 함수로 넘어간다
-                if (File.Exists(Application.persistentDataPath + sDBCalendarPath))
+                if (File.Exists(stremaingPath + sDBCalendarPath))
                 {
                     SaveAndLoadBinaryFile(sDBCalendarPath, E_LOAD_STATE.E_LOAD_GET_CALENDARDATA);
                     LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_CHARACTERTICKETDATA);
@@ -930,7 +1113,7 @@ public class LoginManager : MonoBehaviour
             case E_LOAD_STATE.E_LOAD_GET_CHARACTERTICKETDATA:
                 curSlider.maxValue = nCharacterTicketCount;
                 //이미 저장된 정보가 있을시 체크 함수로 넘어간다
-                if (File.Exists(Application.persistentDataPath + sDBCharacterTickectPath))
+                if (File.Exists(stremaingPath + sDBCharacterTickectPath))
                 {
                     SaveAndLoadBinaryFile(sDBCharacterTickectPath, E_LOAD_STATE.E_LOAD_GET_CHARACTERTICKETDATA);
                     LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_WEAPONTICKETDATA);
@@ -946,7 +1129,7 @@ public class LoginManager : MonoBehaviour
             case E_LOAD_STATE.E_LOAD_GET_WEAPONTICKETDATA:
                 curSlider.maxValue = nWeaponTicketCount;
                 //이미 저장된 정보가 있을시 체크 함수로 넘어간다
-                if (File.Exists(Application.persistentDataPath + sDBWeaponTicketPath))
+                if (File.Exists(stremaingPath + sDBWeaponTicketPath))
                 {
                     SaveAndLoadBinaryFile(sDBWeaponTicketPath, E_LOAD_STATE.E_LOAD_GET_WEAPONTICKETDATA);
                     LoadBasicDataSequence(E_LOAD_STATE.E_LOAD_GET_EMPLOYGACHADATA);
@@ -963,7 +1146,7 @@ public class LoginManager : MonoBehaviour
             case E_LOAD_STATE.E_LOAD_GET_EMPLOYGACHADATA:
                 curSlider.maxValue = nEmployGachaCount;
                 //이미 저장된 정보가 있을시 체크 함수로 넘어간다
-                if (File.Exists(Application.persistentDataPath + sDBEmployGachaPath))
+                if (File.Exists(stremaingPath + sDBEmployGachaPath))
                 {
                     SaveAndLoadBinaryFile(sDBEmployGachaPath, E_LOAD_STATE.E_LOAD_GET_EMPLOYGACHADATA);
                     return;
@@ -977,12 +1160,10 @@ public class LoginManager : MonoBehaviour
 
 
             default:
-			break;
+                break;
 
-		}
-
-	}
-
+        }
+    }
 
 	private void DBLoadAndPutOperation(E_LOAD_STATE _state , int _index)
 	{
@@ -2079,14 +2260,17 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
 			weapon.nQulity = lDBEquipmentWeapon_GetList [i].EquipWeapon_Qulity;
 			weapon.sJob = lDBEquipmentWeapon_GetList [i].EquipWeapon_Job;
 			weapon.nEnhanced = lDBEquipmentWeapon_GetList [i].EquipWeapon_Enhance;
-			weapon.sEquipType = lDBEquipmentWeapon_GetList [i].EquipWeapon_EquipType;
+			weapon.sItemType = lDBEquipmentWeapon_GetList [i].EquipWeapon_ItemType;
 			weapon.fPhysical_AttackRating = lDBEquipmentWeapon_GetList [i].EquipWeapon_PhysicalAttackRating;
 			weapon.fMagic_AttackRating = lDBEquipmentWeapon_GetList [i].EquipWeapon_MagicAttackRating;
 			weapon.nRandomOption = lDBEquipmentWeapon_GetList [i].EquipWeapon_RandomOption;
 			weapon.nSellCost = lDBEquipmentWeapon_GetList [i].EquipWeapon_SellCost;
 			weapon.nMakeMaterial = lDBEquipmentWeapon_GetList [i].EquipWeapon_MakeMaterial;
 			weapon.nBreakMaterial = lDBEquipmentWeapon_GetList [i].EquipWeapon_BreakMaterial;
-			GameManager.Instance.lDbWeapon.Add (weapon);
+            weapon.sImage = lDBEquipmentWeapon_GetList[i].EquipWeapon_Image;
+            weapon.nSelected = lDBEquipmentWeapon_GetList[i].EquipWeapon_Selected;
+            weapon.nListIndex = lDBEquipmentWeapon_GetList[i].EquipWeapon_ListIndex;
+            GameManager.Instance.lDbWeapon.Add (weapon);
 
 			weapon = null;
 		}
@@ -2110,16 +2294,18 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
 			armor.nQulity 					= lDBEquipmentArmor_GetList [i].EquipArmor_Qulity;
 			armor.sJob 						= lDBEquipmentArmor_GetList [i].EquipArmor_Job;
 			armor.nEnhanced 				= lDBEquipmentArmor_GetList [i].EquipArmor_Enhance;
-			armor.sEquipType 				= lDBEquipmentArmor_GetList [i].EquipArmor_EquipType;
+			armor.sItemType 				= lDBEquipmentArmor_GetList [i].EquipArmor_ItemType;
 			armor.fPhysical_Defense 		= lDBEquipmentArmor_GetList [i].EquipArmor_PhysicalDefense;
 			armor.fMagic_Defense 			= lDBEquipmentArmor_GetList [i].EquipArmor_MagicDefense;
-			armor.nHp 						= lDBEquipmentArmor_GetList [i].EquipArmor_Hp;
+			armor.sHp 						= lDBEquipmentArmor_GetList [i].EquipArmor_Hp;
 			armor.nRandomOption 			= lDBEquipmentArmor_GetList [i].EquipArmor_RandomOption;
 			armor.nSellCost 				= lDBEquipmentArmor_GetList [i].EquipArmor_SellCost;
 			armor.nMakeMaterial 			= lDBEquipmentArmor_GetList [i].EquipArmor_MakeMaterial;
 			armor.nBreakMaterial 			= lDBEquipmentArmor_GetList [i].EquipArmor_BreakMaterial;
-
-			GameManager.Instance.lDBArmor.Add (armor);
+            armor.sImage                    = lDBEquipmentArmor_GetList[i].EquipArmor_Image;
+            armor.nSelected                 = lDBEquipmentArmor_GetList[i].EquipArmor_Selected;
+            armor.nListIndex = lDBEquipmentArmor_GetList[i].EquipArmor_ListIndex;
+            GameManager.Instance.lDBArmor.Add (armor);
 
 			armor = null;
 		}
@@ -2143,14 +2329,16 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
 			glove.nQulity 					= lDBEquipmentGlove_GetList [i].EquipGlove_Qulity;
 			glove.sJob 						= lDBEquipmentGlove_GetList [i].EquipGlove_Job;
 			glove.nEnhanced 				= lDBEquipmentGlove_GetList [i].EquipGlove_Enhance;
-			glove.sEquipType 				= lDBEquipmentGlove_GetList [i].EquipGlove_EquipType;
+			glove.sItemType 				= lDBEquipmentGlove_GetList [i].EquipGlove_ItemTypee;
 			glove.fPhysical_Defense 		= lDBEquipmentGlove_GetList [i].EquipGlove_PhysicalDefense;
 			glove.fMagic_Defense 			= lDBEquipmentGlove_GetList [i].EquipGlove_MagicDefense;
 			glove.nRandomOption 			= lDBEquipmentGlove_GetList [i].EquipGlove_RandomOption;
 			glove.nSellCost 				= lDBEquipmentGlove_GetList [i].EquipGlove_SellCost;
 			glove.nMakeMaterial 			= lDBEquipmentGlove_GetList [i].EquipGlove_MakeMaterial;
 			glove.nBreakMaterial 			= lDBEquipmentGlove_GetList [i].EquipGlove_BreakMaterial;
-			GameManager.Instance.lDBGlove.Add (glove);
+            glove.sImage                    = lDBEquipmentGlove_GetList[i].EquipGlove_Image;
+            glove.nListIndex                = lDBEquipmentGlove_GetList[i].EquipGlove_ListIndex;
+            GameManager.Instance.lDBGlove.Add (glove);
 
 			glove = null;
 		}
@@ -2173,13 +2361,16 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
 			accessory.nTier 					= lDBEquipmentAccessory_GetList [i].EquipAccessory_Tier;
 			accessory.nQulity 					= lDBEquipmentAccessory_GetList [i].EquipAccessory_Qulity;
 			accessory.sJob 						= lDBEquipmentAccessory_GetList [i].EquipAccessory_Job;
-			accessory.nEnhanced 				= lDBEquipmentAccessory_GetList [i].EquipAccessory_Enhance;
-			accessory.sEquipType 				= lDBEquipmentAccessory_GetList [i].EquipAccessory_EquipType;
+            accessory.sHp                       = lDBEquipmentAccessory_GetList[i].EquipAccessory_Hp;
+            accessory.nEnhanced 				= lDBEquipmentAccessory_GetList [i].EquipAccessory_Enhance;
+			accessory.sItemType 				= lDBEquipmentAccessory_GetList [i].EquipAccessory_ItemType;
 			accessory.nRandomOption 			= lDBEquipmentAccessory_GetList [i].EquipAccessory_RandomOption;
 			accessory.nSellCost 				= lDBEquipmentAccessory_GetList [i].EquipAccessory_SellCost;
 			accessory.nMakeMaterial 			= lDBEquipmentAccessory_GetList [i].EquipAccessory_MakeMaterial;
 			accessory.nBreakMaterial 			= lDBEquipmentAccessory_GetList [i].EquipAccessory_BreakMaterial;
-			GameManager.Instance.lDBAccessory.Add (accessory);
+            accessory.sImage                    = lDBEquipmentAccessory_GetList[i].EquipAccessory_Image;
+            accessory.nListIndex                = lDBEquipmentAccessory_GetList[i].EquipAccessory_ListIndex;
+            GameManager.Instance.lDBAccessory.Add (accessory);
 
 			accessory = null;
 		}
@@ -2195,7 +2386,7 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
 		DBEquipment_RandomOption equipmentRandomOption = new DBEquipment_RandomOption();
 		//용량 설정 (캐릭터의 개수 만큼) 
 		GameManager.Instance.lDBEquipmentRandomOption.Capacity = nEquipmentRandomOptionCount;
-		for (int i = 0; i < nEquipmentAccessoryCount; i++)
+		for (int i = 0; i < nEquipmentRandomOptionCount; i++)
 		{
 			equipmentRandomOption = new DBEquipment_RandomOption ();
 			equipmentRandomOption.nIndex 					= lDBEquipmentRandomOption_GetList [i].Index;
@@ -2352,13 +2543,19 @@ public void InsertInfoToUsingListInGameManager(E_LOAD_STATE _state)
                 DBMaterialData DBMaterialData = new DBMaterialData();
                 //용량 설정 (캐릭터의 개수 만큼) 
                 GameManager.Instance.lDBMaterialData.Capacity = nMaterialDataCount;
-                for (int i = 0; i < nBreakMaterialCount; i++)
+                for (int i = 0; i < nMaterialDataCount; i++)
                 {
                     DBMaterialData = new DBMaterialData();
                     DBMaterialData.nIndex = lDBMaterialData_GetList[i].Index;
                     DBMaterialData.sMaterialName = lDBMaterialData_GetList[i].MaterialName;
                     DBMaterialData.sImagePath = lDBMaterialData_GetList[i].MaterialImagePath;
+                    DBMaterialData.nCount = lDBMaterialData_GetList[i].MaterialCount;
+                  
                     DBMaterialData.sExplanation = lDBMaterialData_GetList[i].MaterialExplanation;
+                    DBMaterialData.nSelected = lDBMaterialData_GetList[i].MaterialSelected;
+                    DBMaterialData.nSellCost = lDBMaterialData_GetList[i].MaterialSellCost;
+                    DBMaterialData.nListIndex = lDBMaterialData_GetList[i].MaterialListIndex;
+                    DBMaterialData.sItemType = lDBMaterialData_GetList[i].MaterialItemType;
                     GameManager.Instance.lDBMaterialData.Add(DBMaterialData);
 
                     DBFormationSkills = null;
@@ -2502,10 +2699,10 @@ public void SaveAndLoadBinaryFile(string _path, E_LOAD_STATE _loadState)
 {
 
 	//저장된 캐릭에 대한 정보가 없다면 바이너리화 하여 저장
-	if (!File.Exists (Application.persistentDataPath +_path))
+	if (!File.Exists (stremaingPath +_path))
 	{
 		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream fileStream = new FileStream (Application.persistentDataPath + _path, FileMode.Create);
+		FileStream fileStream = new FileStream (stremaingPath + _path, FileMode.Create);
 
 		switch (_loadState)
 		{
@@ -2587,7 +2784,7 @@ public void SaveAndLoadBinaryFile(string _path, E_LOAD_STATE _loadState)
 	else
 	{
 		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream fileStream = new FileStream (Application.persistentDataPath + _path, FileMode.Open);
+		FileStream fileStream = new FileStream (stremaingPath + _path, FileMode.Open);
 
 		switch (_loadState)
 		{
@@ -3578,14 +3775,14 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 		[DynamoDBProperty("EquipWeapon_Enhance")]
 		public int EquipWeapon_Enhance { get; set;} 
 
-		[DynamoDBProperty("EquipWeapon_EquipType")]
-		public string EquipWeapon_EquipType { get; set;} 
+		[DynamoDBProperty("EquipWeapon_ItemType")]
+		public string EquipWeapon_ItemType { get; set;} 
 
 		[DynamoDBProperty("EquipWeapon_PhysicalAttackRating")]
-		public float EquipWeapon_PhysicalAttackRating { get; set;} 
+		public string EquipWeapon_PhysicalAttackRating { get; set;} 
 
 		[DynamoDBProperty("EquipWeapon_MagicAttackRating")]
-		public float EquipWeapon_MagicAttackRating { get; set;} 
+		public string EquipWeapon_MagicAttackRating { get; set;} 
 
 		[DynamoDBProperty("EquipWeapon_RandomOption")]
 		public string EquipWeapon_RandomOption { get; set;} 
@@ -3597,8 +3794,17 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 		public int EquipWeapon_MakeMaterial { get; set;} 
 
 		[DynamoDBProperty("EquipWeapon_BreakMaterial")]
-		public int EquipWeapon_BreakMaterial { get; set;} 
-	}
+		public int EquipWeapon_BreakMaterial { get; set;}
+
+        [DynamoDBProperty("EquipWeapon_Image")]
+        public string EquipWeapon_Image { get; set; }
+
+        [DynamoDBProperty("EquipWeapon_Selected")]
+        public int EquipWeapon_Selected { get; set; }
+
+        [DynamoDBProperty("EquipWeapon_ListIndex")]
+        public int EquipWeapon_ListIndex { get; set; }
+    }
 
 	//Equipment_Armor DB용
 	[DynamoDBTable("EquipmentArmorList")]
@@ -3622,17 +3828,17 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 		[DynamoDBProperty("EquipArmor_Enhance")]
 		public int EquipArmor_Enhance { get; set;} 
 
-		[DynamoDBProperty("EquipArmor_EquipType")]
-		public string EquipArmor_EquipType { get; set;} 
+		[DynamoDBProperty("EquipArmor_ItemType")]
+		public string EquipArmor_ItemType { get; set;} 
 
 		[DynamoDBProperty("EquipArmor_PhysicalDefense")]
-		public int EquipArmor_PhysicalDefense{ get; set;} 
+		public string EquipArmor_PhysicalDefense{ get; set;} 
 
 		[DynamoDBProperty("EquipArmor_MagicDefense")]
-		public int EquipArmor_MagicDefense { get; set;} 
+		public string EquipArmor_MagicDefense { get; set;} 
 
 		[DynamoDBProperty("EquipArmor_Hp")]
-		public int EquipArmor_Hp { get; set;} 
+		public string EquipArmor_Hp { get; set;} 
 
 		[DynamoDBProperty("EquipArmor_RandomOption")]
 		public string EquipArmor_RandomOption { get; set;} 
@@ -3644,8 +3850,17 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 		public int EquipArmor_MakeMaterial { get; set;} 
 
 		[DynamoDBProperty("EquipArmor_BreakMaterial")]
-		public int EquipArmor_BreakMaterial { get; set;} 
-	}
+		public int EquipArmor_BreakMaterial { get; set;}
+
+        [DynamoDBProperty("EquipArmor_Image")]
+        public string EquipArmor_Image { get; set; }
+
+        [DynamoDBProperty("EquipArmor_Selected")]
+        public int EquipArmor_Selected { get; set; }
+
+        [DynamoDBProperty("EquipArmor_ListIndex")]
+        public int EquipArmor_ListIndex { get; set; }
+    }
 
 
 	//Equipment_Glove DB용
@@ -3670,14 +3885,14 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 		[DynamoDBProperty("EquipGlove_Enhance")]
 		public int EquipGlove_Enhance { get; set;} 
 
-		[DynamoDBProperty("EquipGlove_EquipType")]
-		public string EquipGlove_EquipType { get; set;} 
+		[DynamoDBProperty("EquipGlove_ItemType")]
+		public string EquipGlove_ItemTypee { get; set;} 
 
 		[DynamoDBProperty("EquipGlove_PhysicalDefense")]
-		public int EquipGlove_PhysicalDefense{ get; set;} 
+		public string EquipGlove_PhysicalDefense{ get; set;} 
 
 		[DynamoDBProperty("EquipGlove_MagicDefense")]
-		public int EquipGlove_MagicDefense { get; set;} 
+		public string EquipGlove_MagicDefense { get; set;} 
 
 		[DynamoDBProperty("EquipGlove_RandomOption")]
 		public string EquipGlove_RandomOption { get; set;} 
@@ -3689,8 +3904,19 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 		public int EquipGlove_MakeMaterial { get; set;} 
 
 		[DynamoDBProperty("EquipGlove_BreakMaterial")]
-		public int EquipGlove_BreakMaterial { get; set;} 
-	}
+		public int EquipGlove_BreakMaterial { get; set;}
+
+
+        [DynamoDBProperty("EquipGlove_Image")]
+        public string EquipGlove_Image { get; set; }
+
+        [DynamoDBProperty("EquipGlove_Selected")]
+        public int EquipGlove_Selected { get; set; }
+
+        [DynamoDBProperty("EquipGlove_ListIndex")]
+        public int EquipGlove_ListIndex { get; set; }
+
+    }
 
 	//Equipment_Accessory DB용
 	[DynamoDBTable("EquipmentAccessoryList")]
@@ -3709,13 +3935,16 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 		public int EquipAccessory_Qulity { get; set;} 
 
 		[DynamoDBProperty("EquipAccessory_Job")]
-		public string EquipAccessory_Job { get; set;} 
+		public string EquipAccessory_Job { get; set;}
 
-		[DynamoDBProperty("EquipAccessory_Enhance")]
+        [DynamoDBProperty("EquipAccessory_Hp")]
+        public string EquipAccessory_Hp { get; set; }
+
+        [DynamoDBProperty("EquipAccessory_Enhance")]
 		public int EquipAccessory_Enhance { get; set;} 
 
-		[DynamoDBProperty("EquipAccessory_EquipType")]
-		public string EquipAccessory_EquipType { get; set;} 
+		[DynamoDBProperty("EquipAccessory_ItemType")]
+		public string EquipAccessory_ItemType { get; set;} 
 
 		[DynamoDBProperty("EquipAccessory_RandomOption")]
 		public string EquipAccessory_RandomOption { get; set;} 
@@ -3727,8 +3956,18 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
 		public int EquipAccessory_MakeMaterial { get; set;} 
 
 		[DynamoDBProperty("EquipAccessory_BreakMaterial")]
-		public int EquipAccessory_BreakMaterial { get; set;} 
-	}
+		public int EquipAccessory_BreakMaterial { get; set;}
+
+
+        [DynamoDBProperty("EquipAccessory_Image")]
+        public string EquipAccessory_Image { get; set; }
+
+        [DynamoDBProperty("EquipAccessory_Selected")]
+        public int EquipAccessory_Selected { get; set; }
+
+        [DynamoDBProperty("EquipAccessory_ListIndex")]
+        public int EquipAccessory_ListIndex { get; set; }
+    }
 
 	//Equipment_RandomOption DB용
 	[DynamoDBTable("EquipmentRandomOptionList")]
@@ -3913,9 +4152,23 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
         [DynamoDBProperty("MaterialImagePath")]
         public string MaterialImagePath { get; set; }
 
+        [DynamoDBProperty("MaterialCount")]
+        public int MaterialCount { get; set; }
+
         [DynamoDBProperty("MaterialExplanation")]
         public string MaterialExplanation { get; set; }
 
+        [DynamoDBProperty("MaterialSelected")]
+        public int MaterialSelected { get; set; }
+
+        [DynamoDBProperty("MaterialSellCost")]
+        public int MaterialSellCost { get; set; }
+
+        [DynamoDBProperty("MaterialListIndex")]
+        public int MaterialListIndex { get; set; }
+
+        [DynamoDBProperty("MaterialItemType")]
+        public string MaterialItemType { get; set; }
     }
 
 
@@ -4051,9 +4304,34 @@ private void ListAdjustSort(E_LOAD_STATE _loadState)
         [DynamoDBProperty("Explanation")]
         public string Explanation { get; set; }
     }
+
+
+    [DynamoDBTable("DBPatchAsset")]
+    public class DBPatchAsset_ForGet
+    {
+        [DynamoDBHashKey]
+        public int Index { get; set; }                              // Hash key.
+
+        [DynamoDBProperty("Name")]
+        public string Name { get; set; }
+
+        [DynamoDBProperty("Changed")]
+        public int Changed { get; set; }
+    }
+
+    [DynamoDBTable("DBPatchData")]
+    public class DBPatchData_ForGet
+    {
+        [DynamoDBHashKey]
+        public int Index { get; set; }                              // Hash key.
+
+        [DynamoDBProperty("Name")]
+        public string Name { get; set; }
+
+        [DynamoDBProperty("Changed")]
+        public int Changed { get; set; }
+    }
+
+
+
 }
-
-
-
-
-

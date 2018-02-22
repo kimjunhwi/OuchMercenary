@@ -10,7 +10,8 @@ public class BuildAssetBundle : MonoBehaviour
 	[MenuItem("Bundles/Build AssetBundles")]
 	static void BuildAllAssetBundles()
 	{
-		BuildPipeline.BuildAssetBundles ("Assets/AssetBundles", BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
-	}
+		BuildPipeline.BuildAssetBundles (Application.streamingAssetsPath + "/AssetBundles", BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
+
+    }
    
 }

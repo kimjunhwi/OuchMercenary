@@ -83,7 +83,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
     public List<DBCharacterTicket> lDBCharacterTicket = new List<DBCharacterTicket>();
     public List<DBWeaponTicket> lDBWeaponTicket = new List<DBWeaponTicket>();
     public List<DBEmployGacha> lDBEmployGacha = new List<DBEmployGacha>();
-
+    //Patch
+    public List<DBPatchAsset> lDBPatchAsset = new List<DBPatchAsset>();
+    public List<DBPatchData> lDBPatchData = new List<DBPatchData>();
 
 
     public List<string> lSceneIndex = new List<string>();
@@ -101,10 +103,22 @@ public class GameManager : GenericMonoSingleton<GameManager>
     public AllPassiveSkillOptionData[] cAllPassiveOption = null;
     public AllActiveSkillType[] cAllActiveType = null;
 
+    //Assetbundle 관련 
     //load한 애셋번들을 가지고 있는다.
+    public bool bIsFinishLoadAssetData = false;
+
     public List<AssetBundle> loadedAssetBundle = new List<AssetBundle>();
     public List<bool> loadAssetIsDone = new List<bool>();
+    //메인씬
+    public List<Sprite> Equipment_WeaponSpriteList = new List<Sprite>();
+    public List<Sprite> Equipment_ArmorSpriteList = new List<Sprite>();
+    public List<Sprite> Equipment_GloveSpriteList = new List<Sprite>();
+    public List<Sprite> Equipment_AccessorySpriteList = new List<Sprite>();
+    public List<Sprite> Equipment_QualitySpriteList = new List<Sprite>();
+    public List<Sprite> Equipment_MaterialSpriteList = new List<Sprite>();
 
+    //용병관리
+    public List<Sprite> MercenaryManage_CharacterBoxImageList = new List<Sprite>();
 
     public List<Sprite> getSpriteArray = new List<Sprite>();
     public bool isSpriteDown;
@@ -120,23 +134,33 @@ public class GameManager : GenericMonoSingleton<GameManager>
     private const int nPlayerTotalCount = 51;
     private const int nEnemyTotalCount = 8;
 
+    //Patch
+    public float nPatchAssetCount = 0;
+    public float nPatchDataCount = 0;
+    public bool bIsPatch = false;                   //현재 패치 상태인지 아닌지.
+    public float fVersionInfo = 0f;
+
     public IEnumerator DataLoad()
     {
+        yield return null;
+
         loginManager = GameObject.Find("LoginManager").GetComponent<LoginManager>();
         prefabHold_Obj = GameObject.Find("PrefabHold");
         employCharacterHold_Obj = GameObject.Find("EmployCharacterHold");
         DontDestroyOnLoad(prefabHold_Obj);
         DontDestroyOnLoad(employCharacterHold_Obj);
+        //불러올 에셋의 수만큼 할당한다.
+        for (int i = 0; i < 11; i++)
+            loadAssetIsDone.Add(true);
         // Unicode Parsing ---------------------------------------------------------
 
-        Load_TableInfo_AllActiveType();
-
+        //Load_TableInfo_AllActiveType();
 
         //패시브 스킬에 관한 정보들을 파싱
-        Load_TableInfo_AllPassive();
+        //Load_TableInfo_AllPassive();
 
         //패시브 스킬등의 옵션등을 위한 파싱
-        Load_TableInfo_AllPassiveOption();
+        // Load_TableInfo_AllPassiveOption();
 
         //CharacterBox Image 
 
@@ -170,14 +194,13 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
 #endif
 
-        m_Player.Init();
+        
 
 
         SortJobIndex();
 
         LoadScene(E_SCENE_INDEX.E_MENU, E_SCENE_INDEX.E_LOGO, false);
 
-        yield break;
     }
 
     public Player GetPlayer() { return m_Player; }
@@ -406,10 +429,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
 		{	
 			upBarHold_obj = GameObject.Find ("UpBarHold");
 			DontDestroyOnLoad (upBarHold_obj);
-			if (System.IO.File.Exists ("Assets/AssetBundles/bundle/upbar"))
+			if (System.IO.File.Exists (Application.streamingAssetsPath + "/bundle/upbar"))
 			{
-
-				StartCoroutine (LoadFromMemoryAsync ("Assets/AssetBundles/bundle/upbar"));
+				StartCoroutine (LoadFromMemoryAsync (Application.streamingAssetsPath + "/bundle/upbar"));
 				//StartCoroutine (LoadSpriteFromAssetBundel ("Assets/AssetBundles/mainsceneicon"));
 
                 //StartCoroutine(LoadAnimationDataFromAssetBundel("Assets/AssetBundles/characteranim/archer"));
@@ -453,9 +475,9 @@ public class GameManager : GenericMonoSingleton<GameManager>
 	}
 
     //해당 씬의 정보와 캔버스에 Upbar를 붙힌.
-    public void SetUpbar(E_SCENE_INDEX _sIndex, Transform _trans, string _str, MainSceneManager _mainScene)
+    public void SetUpbar(E_SCENE_INDEX _sIndex, Transform _trans, string _str, MainMenuSceneManager _mainScene)
     {
-        upBar.mainSceneManager = _mainScene;
+        upBar.mainMenuSceneManager = _mainScene;
         upBar.gameObject.transform.SetParent(_trans, false);
 
         RectTransform upBarRT = upBar.gameObject.GetComponent<RectTransform>();
@@ -471,7 +493,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
         //upbar_Dummy.gameObject.transform.SetParent (_trans, false);
         //upbar_Dummy.GetComponent<Upbar> ().stageInfo_Text.text = _str;
 
-        upBar.gameObject.transform.SetSiblingIndex(_trans.childCount - 2);
+        upBar.gameObject.transform.SetSiblingIndex(_trans.childCount - 3);
 
 
         upBar.UpbarChangeInfo(_sIndex, _str);
@@ -523,48 +545,40 @@ public class GameManager : GenericMonoSingleton<GameManager>
         go.SetActive(false);
         DontDestroyOnLoad(go);
 
-        /*
-		upBar = prefab.GetComponent<Upbar> ();
-		prefab.transform.SetParent (upBarHold_obj.transform);
-		//홈버튼 추가
-		upBar.Home_Button.onClick.AddListener (upBar.SetUpHomeButton);
-
-		prefab.SetActive (false);
-		DontDestroyOnLoad (prefab);
-			
-
-		
-		AssetBundleCreateRequest createRequest = AssetBundle.LoadFromFileAsync(_path);
-
-		var myLoadedAssetBundle = createRequest.assetBundle;
-
-		if (myLoadedAssetBundle == null)
-		{
-			Debug.Log("Failed to load AssetBundle!");
-			yield break;
-		}
-		else
-			Debug.Log("Successed to load AssetBundle!");
-
-		var prefab = myLoadedAssetBundle.LoadAsset<GameObject>("Upbar");
-		//Instantiate(prefab, Vector3.zero, Quaternion.identity);
-
-		upBar = prefab.GetComponent<Upbar> ();
-		prefab.transform.SetParent (upBarHold_obj.transform);
-		//홈버튼 추가
-		upBar.Home_Button.onClick.AddListener (upBar.SetUpHomeButton);
-
-		prefab.SetActive (false);
-		DontDestroyOnLoad (prefab);
-		*/
     }
 
     #endregion
 
     #region LoadAssetBundle
+    public  string GetBundlePathForLoadFromFile(string relativePath)
+    {
+        //var streamingAssetsPath = Application.streamingAssetsPath;
+        var streamingAssetsPath = Application.dataPath + "!assets/";
+
+        //#if UNITY_ANDROID
+        //        var streamingAssetsPath = Application.dataPath + "!assets/";
+        //#elif UNITY_EDITOR
+        //        var streamingAssetsPath = Application.streamingAssetsPath;
+        //#else
+        //        var streamingAssetsPath = Application.streamingAssetsPath;
+        //#endif
+        return Path.Combine(streamingAssetsPath, relativePath);
+    }
+
+    public void LoadBundleFromStreamingAssets(string relativePath)
+    {
+        AssetBundle assetBundle = AssetBundle.LoadFromFile(GetBundlePathForLoadFromFile(relativePath));
+
+        var aseetObject = assetBundle.LoadAllAssets();
+
+        for (int i = 0; i < aseetObject.Length; i++)
+            Debug.Log(aseetObject[i].name);
+    }
+
+
     public IEnumerator LoadAssetBundle(string _path, E_CHECK_ASSETDATA _assetData)
     { 
-        AssetBundle bundle = AssetBundle.LoadFromMemory(File.ReadAllBytes(_path));
+        AssetBundle bundle = AssetBundle.LoadFromFile(_path);
 
         var bundles = bundle.LoadAllAssets();
 
@@ -573,11 +587,11 @@ public class GameManager : GenericMonoSingleton<GameManager>
 
         switch (_assetData)
         {
-            case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABDATA:
+            case E_CHECK_ASSETDATA.PREFABIMAGES:
                 Debug.Log("MainScenePrefabData Load Complete");
                 break;
 
-            case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS:
+            case E_CHECK_ASSETDATA.PREFABS:
 
                 GameObject mainbackground = Instantiate(bundle.LoadAsset<GameObject>("MainBackground"));
                 mainbackground.transform.SetParent(prefabHold_Obj.transform);
@@ -616,9 +630,15 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 mercenarySummonPanel.transform.GetChild(3).gameObject.GetComponent<EmployFinishPanel>().Init();
                 mercenarySummonPanel.GetComponent<EmployPanel>().employFinishPanel = mercenarySummonPanel.transform.GetChild(3).gameObject.GetComponent<EmployFinishPanel>();
 
-
-
-
+                //용병고용
+                GameObject inventoryPanel = Instantiate(bundle.LoadAsset<GameObject>("InventoryPanel"));
+                inventoryPanel.transform.SetParent(prefabHold_Obj.transform);
+                inventoryPanel.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                inventoryPanel.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
+                inventoryPanel.name = "InventoryPanel";
+                inventoryPanel.AddComponent<InventoryPanel>();
+                inventoryPanel.GetComponent<InventoryPanel>().Init();
+                
 
                 GameObject stagePanel = Instantiate(bundle.LoadAsset<GameObject>("StagePanel"));
                 stagePanel.transform.SetParent(prefabHold_Obj.transform);
@@ -681,8 +701,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 Debug.Log("MainScenePrefabs Load Complete");
                 break;
 
-		case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_SLOTS:
-
+            case E_CHECK_ASSETDATA.POST_SLOTS:
                 GameObject postSlot = Instantiate(bundle.LoadAsset<GameObject>("PostSlot"));
                 postSlot.transform.SetParent(prefabHold_Obj.transform);
                 postSlot.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
@@ -708,18 +727,14 @@ public class GameManager : GenericMonoSingleton<GameManager>
                 break;
 
             //용병고용 캐릭터들.
-            case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_EMPLOY_CHARACTERS:
-
-              
+            case E_CHECK_ASSETDATA.EMPLOY_CHARACTERS:
                 GameObject[] employPrefabs = bundle.LoadAllAssets<GameObject>();
                 List<GameObject> employPrefabsList = new List<GameObject>();
                 // int.Parse(employPrefabs[i].name.Substring(0, employPrefabs[i].name.IndexOf("."));
 
                 for (int i = 0; i < bundles.Length; i++)
-                {
                     employPrefabsList.Add(employPrefabs[i]);
-                  
-                }
+    
 
                 employPrefabsList.Sort(delegate (GameObject A, GameObject B)
                 {
@@ -739,82 +754,65 @@ public class GameManager : GenericMonoSingleton<GameManager>
                     employCharacter.AddComponent<UI_CharacterInfo>();
                     employCharacter.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[j];
                 }
+                break;
+               
+            //인벤토리(가방)
+            case E_CHECK_ASSETDATA.INVENTORY_ITEM_WEAPONIMAGES:
+                Sprite[] weaponSprite = bundle.LoadAllAssets<Sprite>();
+
+                for (int i = 0; i < weaponSprite.Length; i++)
+                    Equipment_WeaponSpriteList.Add(weaponSprite[i]);
+
+               
+                break;
+            case E_CHECK_ASSETDATA.INVENTORY_ITEM_ARMORIMAGES:
+                Sprite[] armorSprite = bundle.LoadAllAssets<Sprite>();
+
+                for (int i = 0; i < armorSprite.Length; i++)
+                    Equipment_ArmorSpriteList.Add(armorSprite[i]);
 
 
+                break;
+            case E_CHECK_ASSETDATA.INVENTORY_ITEM_GLOVEIMAGES:
+                Sprite[] gloveSprite = bundle.LoadAllAssets<Sprite>();
 
-                /*
-                GameObject employCharacter_Assasin = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_BasicAssasin"));
-                employCharacter_Assasin.transform.SetParent(employCharacterHold_Obj.transform);
-                employCharacter_Assasin.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
-                employCharacter_Assasin.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-                employCharacter_Assasin.SetActive(false);
-                employCharacter_Assasin.name = "UI_Character_Assasin";
-                employCharacter_Assasin.AddComponent<UI_CharacterInfo>();
-                employCharacter_Assasin.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[0];
+                for (int i = 0; i < gloveSprite.Length; i++)
+                    Equipment_GloveSpriteList.Add(gloveSprite[i]);
 
-                GameObject employCharacter_Warrior = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_BasicWarrior"));
-                employCharacter_Warrior.transform.SetParent(employCharacterHold_Obj.transform);
-                employCharacter_Warrior.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
-                employCharacter_Warrior.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-                employCharacter_Warrior.SetActive(false);
-                employCharacter_Warrior.name = "UI_Character_Warrior";
-                employCharacter_Warrior.AddComponent<UI_CharacterInfo>();
-                employCharacter_Warrior.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[1];
+                break;
+            case E_CHECK_ASSETDATA.INVENTORY_ITEM_ACCESSORYIMAGES:
+                Sprite[] accessorySprite = bundle.LoadAllAssets<Sprite>();
 
-                GameObject employCharacter_Archer = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_BasicArcher"));
-                employCharacter_Archer.transform.SetParent(employCharacterHold_Obj.transform);
-                employCharacter_Archer.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
-                employCharacter_Archer.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-                employCharacter_Archer.SetActive(false);
-                employCharacter_Archer.name = "UI_Character_Archer";
-                employCharacter_Archer.AddComponent<UI_CharacterInfo>();
-                employCharacter_Archer.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[2];
+                for (int i = 0; i < accessorySprite.Length; i++)
+                    Equipment_AccessorySpriteList.Add(accessorySprite[i]);
 
-                GameObject employCharacter_Wizard = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_BasicWizard"));
-                employCharacter_Wizard.transform.SetParent(employCharacterHold_Obj.transform);
-                employCharacter_Wizard.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
-                employCharacter_Wizard.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-                employCharacter_Wizard.SetActive(false);
-                employCharacter_Wizard.name = "UI_Character_Wizard";
-                employCharacter_Wizard.AddComponent<UI_CharacterInfo>();
-                employCharacter_Wizard.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[3];
+                break;
+            case E_CHECK_ASSETDATA.INVENTORY_ITEM_QUALITYIMAGES:
+                Sprite[] qualitySprite = bundle.LoadAllAssets<Sprite>();
 
-                GameObject employCharacter_Knight = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_Knight"));
-                employCharacter_Knight.transform.SetParent(employCharacterHold_Obj.transform);
-                employCharacter_Knight.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
-                employCharacter_Knight.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-                employCharacter_Knight.SetActive(false);
-                employCharacter_Knight.name = "UI_Character_Knight";
-                employCharacter_Knight.AddComponent<UI_CharacterInfo>();
-                employCharacter_Knight.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[4];
+                for (int i = 0; i < qualitySprite.Length; i++)
+                    Equipment_QualitySpriteList.Add(qualitySprite[i]);
 
-                GameObject employCharacter_Priest = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_Priest"));
-                employCharacter_Priest.transform.SetParent(employCharacterHold_Obj.transform);
-                employCharacter_Priest.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
-                employCharacter_Priest.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-                employCharacter_Priest.SetActive(false);
-                employCharacter_Priest.name = "UI_Character_Priest";
-                employCharacter_Priest.AddComponent<UI_CharacterInfo>();
-                employCharacter_Priest.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[5];
-
-                GameObject employCharacter_Commander = Instantiate(bundle.LoadAsset<GameObject>("UI_Character_Commander"));
-                employCharacter_Commander.transform.SetParent(employCharacterHold_Obj.transform);
-                employCharacter_Commander.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
-                employCharacter_Commander.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-                employCharacter_Commander.SetActive(false);
-                employCharacter_Commander.name = "UI_Character_Commander";
-                employCharacter_Commander.AddComponent<UI_CharacterInfo>();
-                employCharacter_Commander.GetComponent<UI_CharacterInfo>().basicCharacter = lDbBasicCharacter[6];
-                */
-                //"."을 기준으로 다시 정렬
-                /*
-                getSpriteArray.Sort(delegate (Sprite A, Sprite B)
+                Equipment_QualitySpriteList.Sort(delegate (Sprite A, Sprite B)
                 {
                     if (int.Parse(A.name.Substring(0, A.name.IndexOf("."))) > int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return 1;
                     else if (int.Parse(A.name.Substring(0, A.name.IndexOf("."))) < int.Parse(B.name.Substring(0, B.name.IndexOf(".")))) return -1;
                     return 0;
                 });
-                */
+
+                break;
+            case E_CHECK_ASSETDATA.INVENTORY_ITEM_MATERIAL:
+                Sprite[] materialSprite = bundle.LoadAllAssets<Sprite>();
+
+                for (int i = 0; i < materialSprite.Length; i++)
+                    Equipment_MaterialSpriteList.Add(materialSprite[i]);
+
+                break;
+            case E_CHECK_ASSETDATA.MERCENARY_CHARACTERBOX_IMAGES:
+                Sprite[] mercenaryCharacterBoxImages = bundle.LoadAllAssets<Sprite>();
+
+                for (int i = 0; i < mercenaryCharacterBoxImages.Length; i++)
+                    MercenaryManage_CharacterBoxImageList.Add(mercenaryCharacterBoxImages[i]);
 
                 break;
             default:
@@ -830,47 +828,121 @@ public class GameManager : GenericMonoSingleton<GameManager>
             switch (_assetData)
             {
                 //메인씬 프리팹 데이터 로드
-                case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABDATA:
+                case E_CHECK_ASSETDATA.PREFABIMAGES:
           
                     if (bundle != null)
                     {
-                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABDATA, true);
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.PREFABIMAGES, true);
                         Debug.Log("MainScenePrefabData Load Complete");
                         break;
                     }
                     break;
                 //메인씬 프리팹 오브젝트 로드
-                case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS:
+                case E_CHECK_ASSETDATA.PREFABS:
                     if (bundle != null)
                     {
-                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS, true);
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.PREFABS, true);
                         Debug.Log("MainScenePrefabs Load Complete");
                         break;
                     }
                     Debug.Log("MainScenePrefabs Load Complete");
                     break;
-                case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_SLOTS:
+                case E_CHECK_ASSETDATA.POST_SLOTS:
                     if (bundle != null)
                     {
-                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS, true);
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.POST_SLOTS, true);
                         Debug.Log("MainSceneSlot Load Complete");
                         break;
                     }
                     Debug.Log("MainSceneSlot Load Complete");
                     break;
 
-                case E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_EMPLOY_CHARACTERS:
+                case E_CHECK_ASSETDATA.EMPLOY_CHARACTERS:
                     if (bundle != null)
                     {
-                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS, true);
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.EMPLOY_CHARACTERS, true);
                         Debug.Log("MainSceneEmployCharacterLoad Complete");
                         break;
                     }
                     Debug.Log("MainSceneEmployCharacterLoad Load Complete");
                     break;
+                case E_CHECK_ASSETDATA.EMPLOY_IMAGES:
+                    if (bundle != null)
+                    {
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.EMPLOY_IMAGES, true);
+                        Debug.Log("MainSceneEmployImageLoad Complete");
+                        break;
+                    }
+                    Debug.Log("MainSceneEmployImageLoad Load Complete");
+                    break;
+                case E_CHECK_ASSETDATA.INVENTORY_ITEM_WEAPONIMAGES:
+                    if (bundle != null)
+                    {
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.INVENTORY_ITEM_WEAPONIMAGES, true);
+                        Debug.Log("MainSceneInventory_ItemWeaponImage Load Complete");
+                        break;
+                    }
+                    Debug.Log("MainSceneInventory_ItemWeaponImage Load Complete");
+                    break;
+
+                case E_CHECK_ASSETDATA.INVENTORY_ITEM_ARMORIMAGES:
+                    if (bundle != null)
+                    {
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.INVENTORY_ITEM_WEAPONIMAGES, true);
+                        Debug.Log("MainSceneInventory_ItemArmorImage Load Complete");
+                        break;
+                    }
+                    Debug.Log("MainSceneInventory_ItemArmorImage Load Complete");
+                    break;
+                case E_CHECK_ASSETDATA.INVENTORY_ITEM_GLOVEIMAGES:
+                    if (bundle != null)
+                    {
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.INVENTORY_ITEM_GLOVEIMAGES, true);
+                        Debug.Log("MainSceneInventory_ItemGloveImage Load Complete");
+                        break;
+                    }
+                    Debug.Log("MainSceneInventory_ItemGloveImage Load Complete");
+                    break;
+                case E_CHECK_ASSETDATA.INVENTORY_ITEM_ACCESSORYIMAGES:
+                    if (bundle != null)
+                    {
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.INVENTORY_ITEM_ACCESSORYIMAGES, true);
+                        Debug.Log("MainSceneInventory_ItemAcessoryImage Load Complete");
+                        break;
+                    }
+                    Debug.Log("MainSceneInventory_ItemAcessoryImage Load Complete");
+                    break;
+                case E_CHECK_ASSETDATA.INVENTORY_ITEM_QUALITYIMAGES:
+                    if (bundle != null)
+                    {
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.INVENTORY_ITEM_QUALITYIMAGES, true);
+                        Debug.Log("MainSceneInventory_ItemQulityImage_Load Complete");
+                        break;
+                    }
+                    Debug.Log("MainSceneInventory_ItemQulityImage_Load Complete");
+                    break;
+                case E_CHECK_ASSETDATA.INVENTORY_ITEM_MATERIAL:
+                    if (bundle != null)
+                    {
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.INVENTORY_ITEM_MATERIAL, true);
+                        Debug.Log("MainSceneInventory_ItemMaterialImage_Load Complete");
+                        break;
+                    }
+                    Debug.Log("MainSceneInventory_ItemQulityImage_Load Complete");
+                    break;
+
+                case E_CHECK_ASSETDATA.MERCENARY_CHARACTERBOX_IMAGES:
+                    if (bundle != null)
+                    {
+                        loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.MERCENARY_CHARACTERBOX_IMAGES, true);
+                        Debug.Log("MercenaryCharacterBoxImage_Load Complete");
+                        break;
+                    }
+                    Debug.Log("MercenaryCharacterBoxImage_Load Complete");
+                    break;
             }
 
-            
+
             yield return null;
         }
 
@@ -963,7 +1035,7 @@ public class GameManager : GenericMonoSingleton<GameManager>
         {
             if (bundle != null)
             {
-                loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABDATA, true);
+                loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.PREFABIMAGES, true);
                 break;
             }
             yield return null;
@@ -1029,16 +1101,12 @@ public class GameManager : GenericMonoSingleton<GameManager>
         {
             if (bundle != null)
             {
-                loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.E_CHECK_ASSETDATA_MAINSCENE_PREFABS, true);
+                loadAssetIsDone.Insert((int)E_CHECK_ASSETDATA.PREFABIMAGES, true);
                 break;
             }
             yield return null;
         }
     }
-
-    #region MainScenePrefabs
-
-    #endregion
 
     public void InitLoadedAssetBundle()
     {

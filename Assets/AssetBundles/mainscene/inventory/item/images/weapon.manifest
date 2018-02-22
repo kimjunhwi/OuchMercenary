@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 2292702803
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d2969bcfd27da1b671c0c26a2084dcd0
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 21f0dc8ebad690f009368069428e0a1a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/3.weapon_sward_2.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/1.weapon_bow_1.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/2.weapon_staff_0.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/3.weapon_staff_0.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/2.weapon_sward_2.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/1.weapon_staff_0.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/1.weapon_sward_2.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/4.weapon_bow_1.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/2.weapon_bow_1.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/4.weapon_sward_2.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/4.weapon_staff_0.png
+- Assets/Resources/UI/BoxImages/Equipment/Weapon/3.weapon_bow_1.png
+Dependencies: []

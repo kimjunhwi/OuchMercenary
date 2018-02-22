@@ -11,7 +11,7 @@ public class MercenarySceneManager : MonoBehaviour
 
 	void Start () 
 	{
-		GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_MERMANAGE, canvas, sInfoText,null);
+		//GameManager.Instance.SetUpbar (ReadOnlys.E_SCENE_INDEX.E_MERMANAGE, canvas, sInfoText,null);
 	}
 
 }

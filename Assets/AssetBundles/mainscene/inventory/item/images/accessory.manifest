@@ -1,0 +1,21 @@
+ManifestFileVersion: 0
+CRC: 915568786
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 78cb644da9c91b9affa88bb9e5e66201
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 21f0dc8ebad690f009368069428e0a1a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/UI/BoxImages/Equipment/Accessory/4.ring.png
+- Assets/Resources/UI/BoxImages/Equipment/Accessory/3.ring.png
+- Assets/Resources/UI/BoxImages/Equipment/Accessory/1.ring.png
+- Assets/Resources/UI/BoxImages/Equipment/Accessory/2.ring.png
+Dependencies: []
